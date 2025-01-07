@@ -1,5 +1,6 @@
 # WE4US
 Alumni-portal-cum-community-page for WE; developed with Phoenix under Asokan
+Tech Stack : Phoenix
 
 [Requirement doc](https://www.overleaf.com/5481764228wkydwgtwzdgw#e6ead6)
 
