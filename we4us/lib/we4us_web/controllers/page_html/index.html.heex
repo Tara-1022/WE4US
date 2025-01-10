@@ -1,0 +1,13 @@
+# lib/we4us_web/controllers/page_html/index.html.heex
+<div class="mx-auto max-w-2xl">
+  <h1 class="text-2xl font-bold mb-4">Lemmy Posts</h1>
+  
+  <%= for post <- @posts do %>
+    <div class="mb-4 p-4 border rounded">
+      <h2 class="text-xl"><%= post["post"]["name"] %></h2>
+      <p class="text-sm text-gray-600">
+        Posted in <%= post["community"]["name"] %>
+      </p>
+    </div>
+  <% end %>
+</div>
