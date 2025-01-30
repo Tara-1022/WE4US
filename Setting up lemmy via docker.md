@@ -40,7 +40,7 @@ sudo chown -R 991:991 volumes/pictrs
 ```
 
 Now, run 
-`docker compose up -d` and access at `http://localhost:10633/` 
+`docker compose up -d` and access at [http://localhost:10633/](http://localhost:10633/)
 
 make sure to run `docker compose down` when you're done.
 ## Set-up
