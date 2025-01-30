@@ -1,0 +1,213 @@
+{
+  "main": {
+    "id": "ce466a0d07180055",
+    "type": "split",
+    "children": [
+      {
+        "id": "791d2dae3d4437ec",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7a3963a46f358878",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Setting up lemmy server from scratch.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Setting up lemmy server from scratch"
+            }
+          },
+          {
+            "id": "d239d02616f7696d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Setting up lemmy via docker.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Setting up lemmy via docker"
+            }
+          },
+          {
+            "id": "462cceab95b83d8b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "API samples.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "API samples"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ea32b9c5dd6b05d2",
+    "type": "split",
+    "children": [
+      {
+        "id": "1cb64052dcebd5ee",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "573b5da0c1591b42",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "c25c6d2ed3f4a5ed",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "5a8b1fcd400c2c76",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "c39d98fc43c05026",
+    "type": "split",
+    "children": [
+      {
+        "id": "2af87dc274887916",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4c5269afc3a55244",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "API samples.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for API samples"
+            }
+          },
+          {
+            "id": "a5bf98a2b8547cd0",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "API samples.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from API samples"
+            }
+          },
+          {
+            "id": "c8deb7dfd8a668b4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "e05f4061e50c377a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "API samples.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of API samples"
+            }
+          },
+          {
+            "id": "9d60d8d79cb183ce",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "462cceab95b83d8b",
+  "lastOpenFiles": [
+    "2025-01-30.md",
+    "API samples.md",
+    "Setting up lemmy via docker.md",
+    "Setting up lemmy server from scratch.md"
+  ]
+}
