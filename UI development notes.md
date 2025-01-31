@@ -1,10 +1,11 @@
 https://join-lemmy.org/apps examples of lemmy apps; good code references
 
-Food for thought: https://standardnotes.com/blog/react-native-is-not-the-future
+Food for thought: https://standardnotes.com/blog/react-native-is-not-the-future, https://www.reddit.com/r/reactjs/comments/ubdbkx/reactjs_vs_react_native_maintain_2_codebases_or_1/
 
-React Native UIs:
-- [AOS](https://github.com/1hitsong/AOS)
-- [Memmy](https://github.com/Memmy-App/memmy )
+React Native UIs (in descending order of maturity):
+- [Voyager](https://github.com/aeharding/voyager) - web + ios + android
+- [Memmy](https://github.com/Memmy-App/memmy ) - ios + android
+- [AOS](https://github.com/1hitsong/AOS) - mobile
   
 API library for JS client: https://github.com/LemmyNet/lemmy-js-client
 
