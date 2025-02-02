@@ -54,7 +54,7 @@ services:
     # entrypoint: /sbin/tini -- /usr/local/bin/pict-rs -p /mnt -m 4 --image-format webp
     environment:
       - PICTRS_OPENTELEMETRY_URL=http://otel:4137
-      - PICTRS__SERVER__API_KEY={{ postgres }}
+      - PICTRS__SERVER__API_KEY=lemmy_pwd
       - RUST_BACKTRACE=full
       - PICTRS__MEDIA__VIDEO__VIDEO_CODEC=vp9
       - PICTRS__MEDIA__ANIMATION__MAX_WIDTH=256
@@ -71,11 +71,11 @@ services:
     hostname: postgres
     environment:
       - POSTGRES_USER=lemmy
-      - postgres={{ postgres }}
+      - POSTGRES_PASSWORD=lemmy_pwd
       - POSTGRES_DB=lemmy
     shm_size: 1g
     volumes:
-      - ./volumes/postgres:/var/lib/postgresql/data:Z
+      - /var/lib/postgresql/data
       - ./customPostgresql.conf:/etc/postgresql.conf
     restart: always
     logging: *default-logging
@@ -83,6 +83,6 @@ services:
   postfix:
     image: mwader/postfix-relay
     environment:
-      - POSTFIX_myhostname={{ domain }}
+      - POSTFIX_myhostname=we4us
     restart: "always"
     logging: *default-logging

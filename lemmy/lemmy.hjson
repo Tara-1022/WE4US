@@ -4,18 +4,18 @@
 
   database: {
     host: postgres
-    password: "{{ postgres }}"
+    password: "lemmy_pwd"
     # Alternative way:
-    #uri: "postgresql://lemmy:{{ postgres }}@postgres/lemmy"
+    #uri: "postgresql://lemmy:lemmy_pwd@postgres/lemmy"
   }
-  hostname: "{{ domain }}"
+  hostname: "we4us"
   pictrs: {
     url: "http://pictrs:8080/"
-    api_key: "{{ postgres }}"
+    api_key: "lemmy_pwd"
   }
   email: {
     smtp_server: "postfix:25"
-    smtp_from_address: "noreply@{{ domain }}"
+    smtp_from_address: "noreply@we4us"
     tls_type: "none"
   }
 }
