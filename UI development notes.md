@@ -1,13 +1,13 @@
 https://join-lemmy.org/apps examples of lemmy apps; good code references
 
-Food for thought: https://standardnotes.com/blog/react-native-is-not-the-future, https://www.reddit.com/r/reactjs/comments/ubdbkx/reactjs_vs_react_native_maintain_2_codebases_or_1/
+Food for thought: https://standardnotes.com/blog/react-native-is-not-the-future, https://www.reddit.com/r/reactjs/comments/ubdbkx/reactjs_vs_react_native_maintain_2_codebases_or_1/, https://bionicjulia.com/blog/moving-from-react-to-react-native
 
 React Native UIs (in descending order of maturity):
 - [Voyager](https://github.com/aeharding/voyager) - web + ios + android
 - [Memmy](https://github.com/Memmy-App/memmy ) - ios + android
 - [AOS](https://github.com/1hitsong/AOS) - mobile
   
-API library for JS client: https://github.com/LemmyNet/lemmy-js-client
+API library for JS client: https://github.com/LemmyNet/lemmy-js-client (Note: since we're using release 0.19 of lemmy, make sure to specify `npm install lemmy-js-client@0.19`)
 
 ### Hiding communities
 As described in the Components design, the Job Board, PG Finder and Meet Up can be thought of as communities with custom UI, hidden from regular searches.
