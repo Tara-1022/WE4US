@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import { PostView } from 'lemmy-js-client';
+import { getPostList } from './components/lib';
+import PostList from './components/PostList';
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const Loader = () => <h3>Loading...</h3>;
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function App() {
+  const [postViews, setPostViews] = useState<PostView[] | null>(null)
+  useEffect(() => {
+    setTimeout(() => { // simulating a delay. TODO: Remove timeout
+      getPostList().then(postList => setPostViews(postList));
+      console.log("Fetched posts")
+    }, 1000)
+  }
+    , [])
+  if (!postViews) {
+    return <Loader />;
+  }
+  else if (postViews.length == 0) {
+    return <h3>No posts to see!</h3>;
+  }
+  else {
+    return (
+      <>
+        <h1>Recent Posts</h1>
+        <PostList postViews={postViews} />
+      </>
+    );
+  }
 }
 
 export default App
