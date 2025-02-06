@@ -20,4 +20,4 @@ As described in the Components design, the Job Board, PG Finder and Meet Up can 
 Looks like Lemmy does not have a built-in way to "hide" a specific community from feeds. It should be easy enough to modify the frontend code to filter out its posts by default.
 
 ### Auth
-admins can configure OID https://github.com/LemmyNet/lemmy/pull/4881; https://github.com/LemmyNet/lemmy/issues/1368, https://github.com/LemmyNet/lemmy/issues/2930
+admins can configure OID https://github.com/LemmyNet/lemmy/pull/4881; https://github.com/LemmyNet/lemmy/issues/1368, https://github.com/LemmyNet/lemmy/issues/2930 via API call. However, it is available only in v4.

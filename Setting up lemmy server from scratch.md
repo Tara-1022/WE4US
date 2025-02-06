@@ -54,7 +54,8 @@ cd lemmy
 Follow the next steps
 
 ```
-git submodule init git submodule update --recursive --remote echo "pub const VERSION: &str = \"$(git describe --tag)\";" > "crates/utils/src/version.rs"
+git submodule init 
+git submodule update --recursive --remote echo "pub const VERSION: &str = \"$(git describe --tag)\";" > "crates/utils/src/version.rs"
 ```
 
 ##### Error 
@@ -108,6 +109,16 @@ sudo cp target/release/lemmy_server /opt/lemmy/lemmy-server/lemmy_server
 
 paste these contents into /opt/lemmy/lemmy-server/lemmy.hjson
 replace db-passwd with whatever you used earlier
+
+>**NOTE**: If you get an error like below, check the [defaults.hjson](https://github.com/LemmyNet/lemmy/blob/main/config/defaults.hjson) for the specific version you're installing.  The newer builds require a connection string instead of database-password.
+```
+ Starting Lemmy v0.20.0-alpha.5
+Feb 06 12:19:55 fyg lemmy_server[635]: thread 'main' panicked at crates/utils/src/settings/mod.rs:22:22:
+Feb 06 12:19:55 fyg lemmy_server[635]: Failed to load settings file, see documentation (https://join-lemmy.org/docs/en/administration/configuration.html).:>
+Feb 06 12:19:55 fyg lemmy_server[635]: note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Feb 06 12:19:55 fyg systemd[1]: lemmy.service: Main process exited, code=exited, status=101/n/a
+Feb 06 12:19:55 fyg systemd[1]: lemmy.service: Failed with result 'exit-code'.
+```
 
 ```
 {
