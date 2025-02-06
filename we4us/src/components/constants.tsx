@@ -1,0 +1,1 @@
+export const INSTANCE_URL = "https://enterprise.lemmy.ml/"
