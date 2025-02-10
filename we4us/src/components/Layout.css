@@ -1,0 +1,52 @@
+/* Layout.css */
+.layout-container {
+    display: flex;
+  }
+  
+  .hamburger-icon {
+    font-size: 30px;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100%;
+    transition: left 0.3s ease;
+    padding-top: 50px;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 10px;
+  }
+  
+  .sidebar a {
+    text-decoration: none;
+    color: white;
+    display: block;
+  }
+  
+  .content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+  }
+  
+  .sidebar.open ~ .content {
+    margin-left: 250px;
+  }
+  
