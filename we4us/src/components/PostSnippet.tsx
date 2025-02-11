@@ -27,6 +27,7 @@ let styles: {[key: string]: React.CSSProperties } = {
 }
 
 export default function PostSnippet({postView}: {postView: PostView}){
+    // A succint display of primary information of the post
     return (
         <Link to={"/post/" + postView.post.id} style={styles.post}>
             <div style={styles.imageContainer}>
