@@ -29,6 +29,7 @@ export default function PostPage(){
                 <h3>{postView.post.name}</h3>
                 <p>{postView.creator.display_name?postView.creator.display_name:postView.creator.name}</p>
                 <p>{postView.community.name}</p>
+                <p>{postView.post.body}</p>
             </div>
         </>
     );
