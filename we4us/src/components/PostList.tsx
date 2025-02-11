@@ -1,17 +1,18 @@
 import PostSnippet from "./PostSnippet";
 import { PostView } from 'lemmy-js-client';
 
-export default function PostList({ postViews }: { postViews: PostView[] }) {
-    let styles = {
-        list: {
-            listStyleType: "none",
-            margin: 0,
-            padding: 0
-        },
-        listItem: {
+let styles = {
+    list: {
+        listStyleType: "none",
+        margin: 0,
+        padding: 0
+    },
+    listItem: {
 
-        }
     }
+}
+
+export default function PostList({ postViews }: { postViews: PostView[] }) {
     const list = postViews.map(
         postView => <li key={postView.post.id} style={styles.listItem}>
                         <PostSnippet postView={postView} />

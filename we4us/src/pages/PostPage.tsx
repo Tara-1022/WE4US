@@ -12,7 +12,7 @@ export default function PostPage(){
         () => {
             getPostById(postId).then(
                 response =>
-                setPostView(response.post_view)
+                setPostView(response? response.post_view : null)
             )
         },
         [postId]

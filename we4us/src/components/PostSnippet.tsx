@@ -2,29 +2,31 @@ import { PostView } from 'lemmy-js-client';
 import default_image from '../assets/default_image.png'
 import { Link } from 'react-router-dom';
 
-export default function PostSnippet({postView}: {postView: PostView}){
-    let styles: {[key: string]: React.CSSProperties } = {
-        post: {
-            display: "flex",
-            flexFlow: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 10
-        },
-        imageContainer: {
-            flex: 1,
-            aspectRatio: "1",
-            overflow: "hidden",
-        },
-        image: {
-            width: "100%",
-            height: "100%",
-            objectFit: "cover"
-        },
-        details: {
-            flex: 4
-        }
+let styles: {[key: string]: React.CSSProperties } = {
+    post: {
+        display: "flex",
+        flexFlow: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2%"
+    },
+    imageContainer: {
+        flex: 1,
+        aspectRatio: "1",
+        overflow: "hidden",
+        margin: "2%"
+    },
+    image: {
+        width: "100%",
+        height: "100%",
+        objectFit: "cover"
+    },
+    details: {
+        flex: 4
     }
+}
+
+export default function PostSnippet({postView}: {postView: PostView}){
     return (
         <Link to={"/post/" + postView.post.id} style={styles.post}>
             <div style={styles.imageContainer}>
