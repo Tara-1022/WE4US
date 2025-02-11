@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { PostView } from 'lemmy-js-client';
 import { getPostList } from '../components/lib';
 import PostList from '../components/PostList';
-import { Loader } from '../components/Loader';
+import { Loader } from 'lucide-react';
 
 const LandingPage: React.FC = () => {
   const [postViews, setPostViews] = useState<PostView[] | null>(null)
