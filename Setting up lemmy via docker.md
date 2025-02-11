@@ -14,16 +14,25 @@ If you're using WSL and the server doesn't seem to work, inspect the logs with
 `docker compose logs -f lemmy` and `docker compose logs -f postgres`
 
 Seeing a database connection error at lemmy, and `error: initdb: error: could not change permissions of directory "/var/lib/postgresql/data": Operation not permitted` at postgres. This could be because you're using WSL.
+[it's a file permission problem due to WSL](https://forums.docker.com/t/postgres-in-wsl-2-with-docker-operation-not-permitted-when-i-share-volumes-enter-windows-folder/92161/10)
 
-Solution is found [here](https://forums.docker.com/t/data-directory-var-lib-postgresql-data-pgdata-has-wrong-ownership/17963/5#:~:text=This%20problem%20is%20still%20present%20in%20beta19.)
+Either
+- create a volume handled by docker. change postgres volume to reflect
+```
+services:
+....
+	postgres:
+	...
+	    volumes:
+	      - postgres-data:/var/lib/postgresql/data:Z
 
-Essentially, in docker-compose.yaml, under `postgres: volumes:`
-the first in the list looks something like
-- `postgres...:/var/lib/postgresql/data:Z`
-remove everything before and after the colon (`:`). i.e, it is now 
-- `/var/lib/postgresql/data`
-
-Don't change anything else. run `docker compose up -d` again and you should see the UI 
+// bottom of the file
+volumes:
+  postgres-data:
+```
+or, 
+- Run all commands from windows
+Run `docker compose up -d` again and you should see the UI 
 
 ## Alternate flow
 
