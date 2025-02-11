@@ -1,0 +1,1 @@
+export const Loader = () => <h3>Loading...</h3>;

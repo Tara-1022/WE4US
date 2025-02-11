@@ -1,0 +1,35 @@
+import { PostView } from 'lemmy-js-client';
+import default_image from '../assets/default_image.png'
+import { useEffect, useState } from 'react';
+import { getPostById } from './lib';
+import { Loader } from './Loader';
+import { useParams } from 'react-router-dom';
+
+export default function PostPage(){
+    const postId = Number(useParams().postId);
+    const [postView, setPostView] = useState<PostView | null>(null);
+    useEffect(
+        () => {
+            getPostById(postId).then(
+                response =>
+                setPostView(response.post_view)
+            )
+        },
+        [postId]
+    )
+    if (!postView) return <Loader />;
+    return (
+        <>
+            <div>
+                <img 
+                src={postView.image_details? postView.image_details.link : default_image} 
+                alt="PostImage" />
+            </div>
+            <div>
+                <h3>{postView.post.name}</h3>
+                <p>{postView.creator.display_name?postView.creator.display_name:postView.creator.name}</p>
+                <p>{postView.community.name}</p>
+            </div>
+        </>
+    );
+}

@@ -1,6 +1,16 @@
 import { LemmyHttp } from "lemmy-js-client";
-import { INSTANCE_URL } from "./constants";
+import { INSTANCE_URL } from "../constants";
 import { PostView } from 'lemmy-js-client';
+
+export async function getPostById(postId: number){
+  // TODO: Use a common client object to reduce waste
+  const client = new LemmyHttp(INSTANCE_URL);
+  return client.getPost(
+    {
+      id: postId
+    }
+  )
+}
 
 export async function getPostList(){
     const client = new LemmyHttp(INSTANCE_URL);
