@@ -1,7 +1,7 @@
 import { PostView } from 'lemmy-js-client';
 import default_image from '../assets/default_image.png'
 import { useEffect, useState } from 'react';
-import { getPostById } from '../components/lib';
+import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 

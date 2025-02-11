@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react'
 import { PostView } from 'lemmy-js-client';
-import { getPostList } from '../components/lib';
+import { getPostList } from '../library/LemmyApi';
 import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
 
