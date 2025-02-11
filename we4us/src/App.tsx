@@ -10,7 +10,7 @@ import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import WhosWhoPage from './pages/WhosWhoPage';
-import PostPage from './components/PostPage';
+import PostPage from './pages/PostPage';
 
 const App: React.FC = () => {
   return (
