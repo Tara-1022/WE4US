@@ -10,6 +10,7 @@ import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import WhosWhoPage from './pages/WhosWhoPage';
+import PostPage from './pages/PostPage';
 
 const App: React.FC = () => {
   return (
@@ -27,11 +28,13 @@ const App: React.FC = () => {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/reaching-out" element={<ReachingOutPage />} />
             <Route path="/whos-who" element={<WhosWhoPage />} />
+            <Route path="/post/:postId" element={<PostPage />} />
           </Routes>
         </main>
       </div>
     </Router>
   );
 };
+
 
 export default App;

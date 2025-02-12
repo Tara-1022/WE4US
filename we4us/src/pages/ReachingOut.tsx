@@ -1,9 +1,32 @@
+import { useEffect, useState } from 'react'
+import { PostView } from 'lemmy-js-client';
+import { getPostList } from '../library/LemmyApi';
+import PostList from '../components/PostList';
+import { Loader } from 'lucide-react';
+
 function ReachingOut() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">ReachingOut</h1>
-    </div>
-  )
+  const [postViews, setPostViews] = useState<PostView[] | null>(null)
+  useEffect(() => {
+    setTimeout(() => { // simulating a delay. TODO: Remove timeout
+      getPostList().then(postList => setPostViews(postList));
+      console.log("Fetched posts")
+    }, 1000)
+  }
+    , [])
+  if (!postViews) {
+    return <Loader />;
+  }
+  else if (postViews.length == 0) {
+    return <h3>No posts to see!</h3>;
+  }
+  else {
+    return (
+      <>
+        <h1>Recent Posts</h1>
+        <PostList postViews={postViews} />
+      </>
+    );
+  }
 }
 
 export default ReachingOut
