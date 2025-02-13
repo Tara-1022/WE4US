@@ -1,7 +1,9 @@
-import { LemmyHttp } from "lemmy-js-client";
 import { INSTANCE_URL } from "../constants";
-import { PostView, GetPostResponse } from 'lemmy-js-client';
+import { LemmyHttp, PostView, GetPostResponse, CommentView, Comment } from 'lemmy-js-client';
 // TODO: improve the error handling
+// TODO: have all functions either return the reponse, or unpack it
+// for consistency. Not a mix of both. Unpacking should preferably be done
+// at the parent component, to ensure all parts of the response are available should we need it
 
 export function getClient(jwt?: string): LemmyHttp{
   // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
@@ -15,6 +17,27 @@ export function getClient(jwt?: string): LemmyHttp{
       : undefined,
   });
 }
+
+export async function getComments(postId: number): Promise<CommentView[]>{
+  // Fetches and returns a list of comments for a post
+  // or an empty list if fetch fails
+  let commentCollection: CommentView[] = [];
+  try{
+      const response = await getClient().getComments(
+        {
+         post_id: postId 
+        }
+      );
+      commentCollection = response.comments.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally{
+      return commentCollection;
+  }
+}
+
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null>{
   // Return PostResponse, or null if fetch fails
@@ -50,4 +73,11 @@ export async function getPostList() :Promise<PostView[]>{
     finally{
         return postCollection;
     }
+}
+
+export function getDepthFromComment(
+  comment?: Comment,
+): number | undefined {
+  const len = comment?.path.split(".").length;
+  return len ? len - 2 : undefined;
 }
