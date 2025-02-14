@@ -1,5 +1,6 @@
 import {CommentView } from 'lemmy-js-client';
 
+// TODO: Add more information to the comment
 export default function Comment({commentView, depth}:{commentView: CommentView, depth:number}){
     let styles ={
         container: {
@@ -12,9 +13,7 @@ export default function Comment({commentView, depth}:{commentView: CommentView, 
     return (
         <div style={styles.container}>
         <p>{commentView.comment.content} <br/>
-        {commentView.creator.display_name? commentView.creator.display_name: commentView.creator.name}
-        <br/>
-        DEPTH: {depth}
+        <b>{commentView.creator.display_name? commentView.creator.display_name: commentView.creator.name}</b>
         </p>
         </div>
     );
