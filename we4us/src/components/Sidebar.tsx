@@ -22,7 +22,8 @@ const Sidebar: React.FC = () => {
       {}
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 z-50 text-white"
+        className={`fixed top-4 left-4 z-50 text-white ${isOpen ? 'hidden' : ''}`}
+
       >
         <Menu size={24} />
       </button>
