@@ -11,28 +11,35 @@ import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import WhosWhoPage from './pages/WhosWhoPage';
 import PostPage from './pages/PostPage';
+import AuthProvider from './auth/AuthProvider';
+import ProtectedRoute from './auth/ProtectedRoute';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div className="relative min-h-screen">
-        <Sidebar />
-        <main className="pt-10 px-4">
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/announcements" element={<AnnouncementPage />} />
-            <Route path="/authorization" element={<AuthorisationPage />} />
-            <Route path="/job-board" element={<JobBoardPage />} />
-            <Route path="/meetup" element={<MeetUpPage />} />
-            <Route path="/pg-finder" element={<PgFinderPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/reaching-out" element={<ReachingOutPage />} />
-            <Route path="/whos-who" element={<WhosWhoPage />} />
-            <Route path="/post/:postId" element={<PostPage />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <AuthProvider >
+      <Router>
+        <div className="relative min-h-screen">
+          <Sidebar />
+          <main className="pt-10 px-4">
+            <Routes>
+            <Route path="/login" element={<LandingPage />} />
+              <Route path="/" element={<ProtectedRoute />} >
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/announcements" element={<AnnouncementPage />} />
+                <Route path="/authorization" element={<AuthorisationPage />} />
+                <Route path="/job-board" element={<JobBoardPage />} />
+                <Route path="/meetup" element={<MeetUpPage />} />
+                <Route path="/pg-finder" element={<PgFinderPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/reaching-out" element={<ReachingOutPage />} />
+                <Route path="/whos-who" element={<WhosWhoPage />} />
+                <Route path="/post/:postId" element={<PostPage />} />
+              </Route>
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 };
 
