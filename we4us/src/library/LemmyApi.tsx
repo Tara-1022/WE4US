@@ -8,11 +8,10 @@ export function getClient(jwt?: string): LemmyHttp{
   // TODO: Use a common client object to reduce waste
   return new LemmyHttp(
     INSTANCE_URL,  {
-    headers: jwt? {
-          Authorization: `Bearer ${jwt}`,
-          ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
-        }
-      : undefined,
+    headers: {
+      ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
+      ...(jwt && { Authorization: `Bearer ${jwt}`})
+    }
   });
 }
 
