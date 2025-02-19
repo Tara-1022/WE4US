@@ -5,6 +5,7 @@ import { PostView, GetPostResponse } from 'lemmy-js-client';
 
 export function getClient(): LemmyHttp{
   // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
+  // Do not set or reset the token in these functions
   // TODO: Use a common client object to reduce waste
   const jwt = localStorage.getItem("token");
   return new LemmyHttp(
@@ -53,6 +54,7 @@ export async function getPostList() :Promise<PostView[]>{
 }
 
 export async function logIn(username: string, password: string){
+  // Log in and return jwt, or null if the login fails
   try{
   const response = await getClient().login(
     {
@@ -68,13 +70,7 @@ catch (error){
 }
 
 export async function logOut(){
+  // Request logout, return status of success
   const response = await getClient().logout();
   return response.success;
-}
-
-export function getDepthFromComment(
-  comment?: Comment,
-): number | undefined {
-  const len = comment?.path.split(".").length;
-  return len ? len - 2 : undefined;
 }
