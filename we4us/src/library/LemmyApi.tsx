@@ -66,3 +66,15 @@ catch (error){
   return null;
 }
 }
+
+export async function logOut(){
+  const response = await getClient().logout();
+  return response.success;
+}
+
+export function getDepthFromComment(
+  comment?: Comment,
+): number | undefined {
+  const len = comment?.path.split(".").length;
+  return len ? len - 2 : undefined;
+}

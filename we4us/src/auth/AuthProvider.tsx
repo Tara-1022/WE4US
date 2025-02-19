@@ -10,7 +10,7 @@ import { createContext, useState, useContext, useMemo, useEffect } from "react";
 
 type contextValueType = {
   token: string | null;
-  setToken: (newToken: string) => void;
+  setToken: (newToken: string | null) => void;
 }
 
 // Note: AuthContext must only be used in components under AuthProvider
