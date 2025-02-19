@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 interface Profile {
   id: string;
   username: string;
-  profileId: string;
+  displayName: string;
   cohort?: string;
 }
 
@@ -13,31 +13,31 @@ const DUMMY_PROFILES: Profile[] = [
   {
     id: '1',
     username: 'techleader',
-    profileId: 'Tara',
+    displayName: 'Tara',
     cohort: 'Cohort 4'
   },
   {
     id: '2',
     username: 'designwizard',
-    profileId: 'Saathwika',
+    displayName: 'Saathwika',
     cohort: 'Cohort 5'
   },
   {
     id: '3',
     username: 'codemaster',
-    profileId: 'Nishita',
+    displayName: 'Nishita',
     cohort: 'Cohort 6'
   },
   {
     id: '4',
     username: 'community_builder',
-    profileId: 'Soumili',
+    displayName: 'Soumili',
     cohort: 'Cohort 5'
   }
 ];
 
 interface WhosWhoPageProps {
-  onProfileSelect?: (profileId: string) => void;
+  onProfileSelect?: (displayName: string) => void;
   baseProfileUrl?: string;
 }
 
@@ -64,11 +64,11 @@ const WhosWhoPage = ({
     fetchProfiles();
   }, []);
 
-  const handleProfileClick = (profileId: string) => {
+  const handleProfileClick = (displayName: string) => {
     if (onProfileSelect) {
-      onProfileSelect(profileId);
+      onProfileSelect(displayName);
     } else {
-      navigate(`${baseProfileUrl}/${profileId}`);
+      navigate(`${baseProfileUrl}/${displayName}`);
     }
   };
 
@@ -96,9 +96,9 @@ const WhosWhoPage = ({
       ) : (
         <div>
           {profiles.map((profile) => (
-            <div key={profile.id} onClick={() => handleProfileClick(profile.profileId)}>
+            <div key={profile.id} onClick={() => handleProfileClick(profile.displayName)}>
               <div>
-                <h2>{profile.profileId}</h2>
+                <h2>{profile.displayName}</h2>
                 <p>@{profile.username}</p>
               </div>
             </div>
