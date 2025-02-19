@@ -39,6 +39,7 @@ const App: React.FC = () => {
                 </Route>
                 {/* TODO: Move these back into the protected route */}
                 <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:displayName" element={<ProfilePage />} /> 
                 <Route path="/whos-who" element={<WhosWhoPage />} />
               </Routes>
             </main>
