@@ -26,6 +26,7 @@ const App: React.FC = () => {
             <Route path="/meetup" element={<MeetUpPage />} />
             <Route path="/pg-finder" element={<PgFinderPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:displayName" element={<ProfilePage />} /> 
             <Route path="/reaching-out" element={<ReachingOutPage />} />
             <Route path="/whos-who" element={<WhosWhoPage />} />
             <Route path="/post/:postId" element={<PostPage />} />
