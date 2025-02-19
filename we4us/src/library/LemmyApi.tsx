@@ -74,10 +74,3 @@ export async function getPostList() :Promise<PostView[]>{
         return postCollection;
     }
 }
-
-export function getDepthFromComment(
-  comment?: Comment,
-): number | undefined {
-  const len = comment?.path.split(".").length;
-  return len ? len - 2 : undefined;
-}
