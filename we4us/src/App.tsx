@@ -13,6 +13,9 @@ import WhosWhoPage from './pages/WhosWhoPage';
 import PostPage from './pages/PostPage';
 import AuthProvider from './auth/AuthProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
+import Modal from "react-modal";
+
+Modal.setAppElement('#root');
 
 const App: React.FC = () => {
   return (
@@ -22,9 +25,8 @@ const App: React.FC = () => {
           <Sidebar />
           <main className="pt-10 px-4">
             <Routes>
-            <Route path="/login" element={<LandingPage />} />
+              <Route path="/" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
-                <Route path="/" element={<LandingPage />} />
                 <Route path="/announcements" element={<AnnouncementPage />} />
                 <Route path="/authorization" element={<AuthorisationPage />} />
                 <Route path="/job-board" element={<JobBoardPage />} />

@@ -5,7 +5,7 @@ export default function ProtectedRoute(){
     const {token} = useAuth();
     if (!token){
         window.alert("You have to log in to view that page!");
-        return <Navigate to="/login" />;
+        return <Navigate to="/" />;
     }
     return <Outlet />;
 }

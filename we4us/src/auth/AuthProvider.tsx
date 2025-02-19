@@ -13,7 +13,7 @@ type contextValueType = {
   setToken: (newToken: string) => void;
 }
 
-// AuthContext must only be used in components under AuthProvider
+// Note: AuthContext must only be used in components under AuthProvider
 const AuthContext = createContext<contextValueType>({
   token: null,
   setToken: () => { }
@@ -40,6 +40,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }),
     [token]
   );
+  
   return (
     <AuthContext.Provider value={contextValue}>
       {children}
