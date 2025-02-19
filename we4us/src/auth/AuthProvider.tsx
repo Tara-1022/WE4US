@@ -19,6 +19,7 @@ const AuthContext = createContext<contextValueType>({
   setToken: () => { }
 });
 
+// Dev note: token must be set/reset ONLY via the provided function
 export const useAuth = () => {
   return useContext(AuthContext);
 };

@@ -15,6 +15,7 @@ import AuthProvider from './auth/AuthProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
 import Modal from "react-modal";
 import LogoutButton from './auth/LogoutButton';
+import LoginModal from './auth/LoginModal';
 
 Modal.setAppElement('#root');
 
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <div className="relative min-h-screen">
           <Sidebar />
           <LogoutButton />
+          <LoginModal />
           <main className="pt-10 px-4">
             <Routes>
               <Route path="/" element={<LandingPage />} />
