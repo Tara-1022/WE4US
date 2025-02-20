@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import CommentsSection from '../components/CommentsSection';
 
 export default function PostPage(){
     const postId = Number(useParams().postId);
@@ -31,6 +32,7 @@ export default function PostPage(){
                 <p>{postView.community.name}</p>
                 <p>{postView.post.body}</p>
             </div>
+            <CommentsSection postId={postView.post.id}/>
         </>
     );
 }

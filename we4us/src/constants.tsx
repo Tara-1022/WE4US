@@ -1,1 +1,1 @@
-export const INSTANCE_URL = "https://enterprise.lemmy.ml/"
+export const INSTANCE_URL = "http://localhost:10633/"
