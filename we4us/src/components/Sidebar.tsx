@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import LogoutButton from '../auth/LogoutButton';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +61,7 @@ const Sidebar: React.FC = () => {
                 ))}
               </ul>
             </nav>
+            <LogoutButton />
           </div>
         </div>
       )}
