@@ -6,8 +6,16 @@ React Native UIs (in descending order of maturity):
 - [Voyager](https://github.com/aeharding/voyager) - web + ios + android
 - [Memmy](https://github.com/Memmy-App/memmy ) - ios + android
 - [AOS](https://github.com/1hitsong/AOS) - mobile
+
+## Lemmy API
   
 API library for JS client: https://github.com/LemmyNet/lemmy-js-client (Note: since we're using release 0.19 of lemmy, make sure to specify `npm install lemmy-js-client@0.19`)
+
+Useful references:
+- list of defined types - most of these directly correspond to input fields for methods https://github.com/LemmyNet/lemmy-js-client/tree/5fa11be3ea8bf9f63f9930a86c74a46c9a863ded/src/types
+- list of methods available - if you know the path for the task you want, but not the client's method, you should be able to match it here. VSCode should be able to help you out too. https://github.com/LemmyNet/lemmy-js-client/blob/9dd092ce3a73922f376922c78134cf5e367f199a/src/http.ts#L963
+- API spec; parameters and paths for http requests. We're using the lemmy js client, but this should make it easier to figure things out: https://mv-gh.github.io/lemmy_openapi_spec/#tag/Site/paths/~1site/get
+
 
 ### Test Backend 
 Either set up your own instance via [[Setting up lemmy via docker]]. Probably needed when testing log-in, post and community creation (logged-in actions)
