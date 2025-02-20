@@ -8,7 +8,6 @@ const Sidebar: React.FC = () => {
   const navItems = [
     { to: '/', label: 'Home' },
     { to: '/announcements', label: 'Announcements' },
-    { to: '/authorization', label: 'Authorization' },
     { to: '/job-board', label: 'Job Board' },
     { to: '/meetup', label: 'Meet Up' },
     { to: '/pg-finder', label: 'PG Finder' },
