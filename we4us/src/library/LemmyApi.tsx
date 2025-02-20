@@ -5,16 +5,17 @@ import { LemmyHttp, PostView, GetPostResponse, CommentView, Comment } from 'lemm
 // for consistency. Not a mix of both. Unpacking should preferably be done
 // at the parent component, to ensure all parts of the response are available should we need it
 
-export function getClient(jwt?: string): LemmyHttp{
+export function getClient(): LemmyHttp{
   // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
+  // Do not set or reset the token in these functions
   // TODO: Use a common client object to reduce waste
+  const jwt = localStorage.getItem("token");
   return new LemmyHttp(
     INSTANCE_URL,  {
-    headers: jwt? {
-          Authorization: `Bearer ${jwt}`,
-          ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
-        }
-      : undefined,
+    headers: {
+      ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
+      ...(jwt && { Authorization: `Bearer ${jwt}`})
+    }
   });
 }
 
@@ -73,4 +74,26 @@ export async function getPostList() :Promise<PostView[]>{
     finally{
         return postCollection;
     }
+}
+
+export async function logIn(username: string, password: string){
+  // Log in and return jwt, or null if the login fails
+  try{
+  const response = await getClient().login(
+    {
+      username_or_email: username,
+      password: password
+    }
+  );
+  return response.jwt;
+}
+catch (error){
+  return null;
+}
+}
+
+export async function logOut(){
+  // Request logout, return status of success
+  const response = await getClient().logout();
+  return response.success;
 }
