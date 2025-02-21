@@ -1,7 +1,7 @@
-defmodule We4UsWeb.ProfileController do
-  use We4UsWeb, :controller
+defmodule We4usWeb.ProfileController do
+  use We4usWeb, :controller
 
-  alias We4Us.Profiles
+  alias We4us.Profiles, as: Profiles
 
   @doc """
   Fetch all profiles from the database and return them as JSON.
@@ -26,6 +26,20 @@ defmodule We4UsWeb.ProfileController do
         send_resp(conn, 404, "Profile not found")
       profile ->
         json(conn, %{profile: profile_json(profile)})
+    end
+  end
+
+  def create(conn, %{"profile" => profile_params}) do
+    case Profiles.create_profile(profile_params) do
+      {:ok, profile} ->
+        conn
+        |> put_status(:created)
+        |> json(%{profile: profile})
+
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{errors: changeset})
     end
   end
 
