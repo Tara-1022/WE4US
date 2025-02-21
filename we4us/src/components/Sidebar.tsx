@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import LogoutButton from '../auth/LogoutButton';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +9,6 @@ const Sidebar: React.FC = () => {
   const navItems = [
     { to: '/', label: 'Home' },
     { to: '/announcements', label: 'Announcements' },
-    { to: '/authorization', label: 'Authorization' },
     { to: '/job-board', label: 'Job Board' },
     { to: '/meetup', label: 'Meet Up' },
     { to: '/pg-finder', label: 'PG Finder' },
@@ -61,6 +61,7 @@ const Sidebar: React.FC = () => {
                 ))}
               </ul>
             </nav>
+            <LogoutButton />
           </div>
         </div>
       )}
