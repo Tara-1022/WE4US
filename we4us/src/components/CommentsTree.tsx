@@ -14,15 +14,15 @@ let styles = {
     }
 }
 
-export default function CommentsTree({commentsTree, postId} :{commentsTree: CommentNodeI[], postId: number}) {
+export default function CommentsTree({commentsTree}:{commentsTree: CommentNodeI[]}) {
     const list = commentsTree.map(
         commentNode =>
         (
             <li key={commentNode.commentView.comment.id} style={styles.listItem}>
                 <Collapsible>
                     <Comment commentView={commentNode.commentView} depth={commentNode.depth} />
-                    <CommentCreator postId={postId} commentId={commentNode.commentView.comment.id}/>
-                    <CommentsTree commentsTree={commentNode.children} postId={postId}/>
+                    <CommentCreator commentId={commentNode.commentView.comment.id} inCommentTree={true}/>
+                    <CommentsTree commentsTree={commentNode.children}/>
                 </Collapsible>
             </li>
         )

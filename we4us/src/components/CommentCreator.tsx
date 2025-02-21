@@ -1,23 +1,39 @@
 import { createComment } from "../library/LemmyApi";
+import { useCommentsContext } from "./CommentsContext";
+import { useState } from "react";
 
-export default function CommentCreator({postId, commentId}:{postId: number, commentId?: number}){
-    function handleCreate(event: React.FormEvent<HTMLFormElement>){
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const {content} = Object.fromEntries(formData);
+export default function CommentCreator({ commentId, inCommentTree }: { commentId?: number, inCommentTree: boolean }) {
+    const { postId, setComments, comments } = useCommentsContext();
+    const [content, setContent] = useState("");
+
+    function handleCreate() {
+        if (content == "") {
+            window.alert("Cannot create empty comment");
+            return;
+        }
         createComment({
-            content: content.toString(),
+            content: content,
             post_id: postId,
-            ...(commentId && {parent_id: commentId})
-        })
+            ...(commentId && { parent_id: commentId })
+        }).then(
+            (commentView) => {
+                setComments([commentView, ...comments]);
+            }
+        );
+        setContent("");   
     }
 
-    return(
-        <form onSubmit={handleCreate}>
-            <textarea name="content" />
-            <br/>
-            <button type="submit">Comment</button>
-            <button type="reset">Cancel</button>
-        </form>
+    function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>){
+        event.preventDefault();
+        setContent(event.target.value);
+    }
+
+    return (
+        <>
+            <textarea name="content" value={content} onChange={handleChange}/>
+            <br />
+            <button onClick={handleCreate}>{inCommentTree ? "Reply" : "Comment"}</button>
+            <button onClick={()=>{setContent("");}}>Cancel</button>
+        </>
     )
 }
