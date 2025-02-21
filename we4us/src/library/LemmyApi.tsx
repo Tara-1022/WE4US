@@ -1,5 +1,5 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, Comment, CreatePost } from 'lemmy-js-client';
+import { LemmyHttp, PostView, GetPostResponse, CommentView, Comment, CreateComment, CreatePost } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -17,6 +17,14 @@ export function getClient(): LemmyHttp{
       ...(jwt && { Authorization: `Bearer ${jwt}`})
     }
   });
+}
+
+// Keep things below ordered alphabetically
+
+export async function createComment(createComment: CreateComment){
+  // Create comment and return resultant commentView
+  const response  = await getClient().createComment(createComment);
+  return response.comment_view;
 }
 
 export async function getComments(postId: number): Promise<CommentView[]>{
