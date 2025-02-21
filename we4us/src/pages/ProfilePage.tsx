@@ -52,7 +52,7 @@ const DUMMY_PROFILES: Profile[] = [
 ];
 
 const ProfilePage = () => {
-  const { displayName } = useParams<{ displayName: string }>();
+  const { id } = useParams<{ id: string }>();
   
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -64,7 +64,7 @@ const ProfilePage = () => {
         setIsLoading(true);
         setError(null);
 
-        const profileData = DUMMY_PROFILES.find(profile => profile.displayName === displayName);
+        const profileData = DUMMY_PROFILES.find(profile => profile.id === id);
         if (!profileData) {
           throw new Error('Profile not found');
         }
@@ -77,10 +77,10 @@ const ProfilePage = () => {
       }
     };
 
-    if (displayName) {
+    if (id) {
       fetchProfile();
     }
-  }, [displayName]);
+  }, [id]);
 
   if (isLoading) {
     return (
