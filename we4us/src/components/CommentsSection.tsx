@@ -1,25 +1,39 @@
 import { CommentView } from 'lemmy-js-client';
 import { getComments } from '../library/LemmyApi';
 import { useEffect, useState } from 'react';
-import buildCommentsTree from '../library/CommentUtils';
+import buildCommentsTree, { CommentNodeI } from '../library/CommentUtils';
 import CommentsTree from './CommentsTree';
 import CommentCreator from './CommentCreator';
+import { CommentsContext, commentsContextValueType } from './CommentsContext';
 
-export default function CommentsSection({postId}: {postId : number}) {
+export default function CommentsSection({ postId }: { postId: number }) {
     const [comments, setComments] = useState<CommentView[]>([]);
+    let commentsTree: CommentNodeI[] = buildCommentsTree(comments);
+    let commentsContextValue: commentsContextValueType = {
+        comments: comments,
+        setComments: setComments,
+        postId: postId
+    };
+    
     useEffect(() => {
         getComments(postId).then(
             comments =>
                 setComments(comments));
+        commentsContextValue = { ...commentsContextValue, postId: postId };
         console.log("Fetched comments");
     },
         [postId]
     );
-    const commentsTree = buildCommentsTree(comments);
+    
+    useEffect(() => {
+        commentsTree = buildCommentsTree(comments);
+        commentsContextValue = { ...commentsContextValue, comments: comments }
+    }, [comments])
+
     return (
-        <>
-            <CommentCreator postId={postId} />
-            <CommentsTree commentsTree={commentsTree} postId={postId} />
-        </>
+        <CommentsContext.Provider value={commentsContextValue}>
+            <CommentCreator inCommentTree={false} />
+            <CommentsTree commentsTree={commentsTree} />
+        </CommentsContext.Provider>
     );
 }
