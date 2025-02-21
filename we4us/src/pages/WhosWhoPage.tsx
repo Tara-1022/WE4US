@@ -37,7 +37,7 @@ const DUMMY_PROFILES: Profile[] = [
 ];
 
 interface WhosWhoPageProps {
-  onProfileSelect?: (displayName: string) => void;
+  onProfileSelect?: (id: string) => void;
   baseProfileUrl?: string;
 }
 
@@ -64,11 +64,11 @@ const WhosWhoPage = ({
     fetchProfiles();
   }, []);
 
-  const handleProfileClick = (displayName: string) => {
+  const handleProfileClick = (id: string) => {
     if (onProfileSelect) {
-      onProfileSelect(displayName);
+      onProfileSelect(id);
     } else {
-      navigate(`${baseProfileUrl}/${displayName}`);
+      navigate(`${baseProfileUrl}/${id}`);
     }
   };
 
@@ -96,7 +96,7 @@ const WhosWhoPage = ({
       ) : (
         <div>
           {profiles.map((profile) => (
-            <div key={profile.id} onClick={() => handleProfileClick(profile.displayName)}>
+            <div key={profile.id} onClick={() => handleProfileClick(profile.id)}>
               <div>
                 <h2>{profile.displayName}</h2>
                 <p>@{profile.username}</p>
