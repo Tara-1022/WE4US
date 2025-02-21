@@ -21,9 +21,12 @@ defmodule We4usWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", We4usWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", We4usWeb do
+    pipe_through :api
+
+    get "/profiles", ProfileController, :index
+    get "/profiles/:id", ProfileController, :show
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:we4us, :dev_routes) do
