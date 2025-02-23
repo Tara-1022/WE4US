@@ -2,6 +2,8 @@ defmodule We4usWeb.ProfileController do
   use We4usWeb, :controller
 
   alias We4us.Profiles, as: Profiles
+  alias We4usWeb.ChangesetJSON
+
 
   @doc """
   Fetch all profiles from the database and return them as JSON.
@@ -39,18 +41,30 @@ defmodule We4usWeb.ProfileController do
     end
   end
 
+  @doc """
+  Create a new profile.
 
-  def create(conn, %{"profile" => profile_params}) do
+  Accepts both wrapped and flat JSON input.
+
+  Endpoint: POST /api/profiles
+  """
+  def create(conn, params) do
+    profile_params =
+      case params do
+        %{"profile" => p} -> p
+        _ -> params
+      end
+
     case Profiles.create_profile(profile_params) do
       {:ok, profile} ->
         conn
         |> put_status(:created)
-        |> json(%{profile: profile})
+        |> json(%{profile: profile_json(profile)})
 
-      {:error, changeset} ->
+      {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> json(%{errors: changeset})
+        |> json(%{errors: ChangesetJSON.errors(changeset)})  # Use JSON helper
     end
   end
 
@@ -66,4 +80,10 @@ defmodule We4usWeb.ProfileController do
       comments: profile.comments
     }
   end
+
+  #Format Ecto changeset errors
+  defp format_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, &ChangesetView.translate_error/1)
+  end
+
 end
