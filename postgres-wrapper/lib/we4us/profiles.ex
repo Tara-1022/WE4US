@@ -26,4 +26,12 @@ defmodule We4us.Profiles do
     |> Profile.changeset(attrs)
     |> Repo.insert()
   end
+
+  #Update a profile
+  def update_profile(%Profile{} = profile, attrs) do
+    profile
+    |> Profile.changeset(attrs)
+    |> Repo.update()
+  end
+
 end

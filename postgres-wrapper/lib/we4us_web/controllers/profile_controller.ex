@@ -68,6 +68,31 @@ defmodule We4usWeb.ProfileController do
     end
   end
 
+  def update(conn, %{"id" => id} = params) do
+    case We4us.Profiles.get_profile(id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Profile not found"})
+
+      profile ->
+        changeset = We4us.Profiles.update_profile(profile, params)
+
+        case changeset do
+          {:ok, updated_profile} ->
+            conn
+            |> put_status(:ok)
+            |> json(%{message: "Profile updated", profile: updated_profile})
+
+          {:error, changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{error: "Update failed", details: changeset.errors})
+        end
+    end
+  end
+
+
   #Helper function to format profile data for JSON responses
   defp profile_json(profile) do
     %{
