@@ -1,0 +1,15 @@
+curl -i -X GET http://localhost:4000/api/profiles
+curl -i -X GET http://localhost:4000/api/profiles/1
+curl -i -X GET http://localhost:4000/api/profiles/9999
+curl -i -X GET http://localhost:4000/api/profiles/abc
+
+curl -X POST http://localhost:4000/api/profiles \
+     -H "Content-Type: application/json" \
+     -d '{"display_name": "New User", "username": "newUser", "cohort": "10"}'
+
+curl -X PUT "http://localhost:4000/api/profiles/1" \
+     -H "Content-Type: application/json" \
+     -d '{"display_name": "Updated User"}'
+
+curl -X DELETE "http://localhost:4000/api/profiles/1"
+
