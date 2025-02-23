@@ -92,6 +92,28 @@ defmodule We4usWeb.ProfileController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    case We4us.Profiles.get_profile(id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Profile not found"})
+
+      profile ->
+        case We4us.Profiles.delete_profile(profile) do
+          {:ok, _} ->
+            conn
+            |> put_status(:no_content)
+            |> json(%{message: "Profile deleted successfully"})
+
+          {:error, _reason} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{error: "Profile deletion failed"})
+        end
+    end
+  end
+
 
   #Helper function to format profile data for JSON responses
   defp profile_json(profile) do
