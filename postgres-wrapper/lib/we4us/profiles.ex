@@ -34,4 +34,9 @@ defmodule We4us.Profiles do
     |> Repo.update()
   end
 
+  #Delete a profile
+  def delete_profile(%Profile{} = profile) do
+    Repo.delete(profile)
+  end
+
 end
