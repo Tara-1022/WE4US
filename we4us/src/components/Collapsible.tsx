@@ -1,18 +1,23 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-export default function Collapsible({children}: {children: React.ReactNode}) {
+export default function Collapsible({ children, CollapsedIcon = ChevronDown, OpenIcon = ChevronUp, initiallyExpanded=true }:
+    { children: React.ReactNode, CollapsedIcon?: React.FC, OpenIcon?: React.FC, initiallyExpanded?: boolean }) {
     let styles = {
-        collapsible:{
+        collapsibleIcon: {
+            cursor:'pointer'
         }
     }
-    const [isExpanded, setExpanded] = useState(true);
-    function toggle(){
+    const [isExpanded, setExpanded] = useState(initiallyExpanded);
+    function toggle() {
         setExpanded(!isExpanded);
     }
     return (
-        <div className="collapsible" style={styles.collapsible}>
-            {isExpanded? <ChevronDown onClick={toggle} /> : <ChevronUp onClick={toggle}/>}
+        <div className="collapsible">
+            <div onClick={toggle} style={styles.collapsibleIcon}>
+                {isExpanded ?
+                    <CollapsedIcon /> : <OpenIcon />}
+            </div>
             {isExpanded && children}
         </div>
     );
