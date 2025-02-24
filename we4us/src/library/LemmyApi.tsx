@@ -1,6 +1,6 @@
 import { LemmyHttp } from "lemmy-js-client";
 import { INSTANCE_URL } from "../constants";
-import { PostView, GetPostResponse } from 'lemmy-js-client';
+import { PostView, GetPostResponse, CreatePost } from 'lemmy-js-client';
 // TODO: improve the error handling
 
 export function getClient(jwt?: string): LemmyHttp{
@@ -15,6 +15,16 @@ export function getClient(jwt?: string): LemmyHttp{
       : undefined,
   });
 }
+
+export async function createPost(createPostData: CreatePost): Promise<PostView> {
+  try {
+    const response = await getClient().createPost(createPostData);
+    return response.post_view;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+} 
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null>{
   // Return PostResponse, or null if fetch fails
