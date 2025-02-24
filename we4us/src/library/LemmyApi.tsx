@@ -30,7 +30,6 @@ export async function getComments(postId: number): Promise<CommentView[]>{
          limit: 50
         }
       );
-      console.log("Response:" , response);
       commentCollection = response.comments.slice();
   }
   catch (error) {
