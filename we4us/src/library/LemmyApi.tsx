@@ -26,9 +26,11 @@ export async function getComments(postId: number): Promise<CommentView[]>{
   try{
       const response = await getClient().getComments(
         {
-         post_id: postId 
+         post_id: postId,
+         limit: 50
         }
       );
+      console.log("Response:" , response);
       commentCollection = response.comments.slice();
   }
   catch (error) {
@@ -63,7 +65,7 @@ export async function getPostList() :Promise<PostView[]>{
         const response = await getClient().getPosts(
           {
             type_: "All",
-            limit: 25
+            limit: 50
           }
         );
         postCollection = response.posts.slice();
