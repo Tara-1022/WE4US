@@ -1,22 +1,31 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment } from 'lemmy-js-client';
+import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
 // at the parent component, to ensure all parts of the response are available should we need it
 
-export function getClient(): LemmyHttp {
-  // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
-  // Do not set or reset the token in these functions
-  // TODO: Use a common client object to reduce waste
-  const jwt = localStorage.getItem("token");
-  return new LemmyHttp(
+let client: LemmyHttp = new LemmyHttp(
+  INSTANCE_URL, {
+  headers: {
+    ["Cache-Control"]: "no-cache"
+  }
+});
+
+export function setClientToken(jwt: string | null) {
+  client = new LemmyHttp(
     INSTANCE_URL, {
     headers: {
       ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
       ...(jwt && { Authorization: `Bearer ${jwt}` })
     }
   });
+}
+
+export function getClient(): LemmyHttp {
+  // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
+  // Do not set or reset the token in these functions
+  return client;
 }
 
 // Keep things below ordered alphabetically
@@ -34,10 +43,10 @@ export async function createComment(createComment: CreateComment) {
 // Purging would remove it completely
 // We will be deleting comments to avoid orphaning replies
 export async function deleteComment(commentId: number) {
-    const response = await getClient().deleteComment({
-      comment_id: commentId, deleted: true
-    });
-    return response.comment_view;
+  const response = await getClient().deleteComment({
+    comment_id: commentId, deleted: true
+  });
+  return response.comment_view;
 }
 
 export async function deletePost(postId: number) {
@@ -106,6 +115,12 @@ export async function getPostList(): Promise<PostView[]> {
     }
 }
 
+export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
+  const response = await getClient().getSite();
+  return response.my_user;
+
+}
+
 export async function logIn(username: string, password: string) {
   // Log in and return jwt, or null if the login fails
   try {
@@ -118,6 +133,7 @@ export async function logIn(username: string, password: string) {
     return response.jwt;
   }
   catch (error) {
+    console.error(error)
     return null;
   }
 }
