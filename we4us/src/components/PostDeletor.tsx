@@ -5,7 +5,7 @@ export default function PostDeletor({ postId }: { postId: number }) {
     const navigator = useNavigate();
 
     function handleDelete() {
-        if (confirm("Do you want to permaently delete this post?")) {
+        if (confirm("Do you want to delete this post?")) {
             deletePost(postId)
                 .then(
                     () => {
