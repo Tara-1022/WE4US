@@ -4,6 +4,11 @@ import { useCommentsContext } from "./CommentsContext";
 
 export default function CommentDeletor({ commentId }: { commentId: number }) {
     const { setComments, comments } = useCommentsContext();
+    let styles = {
+        actionText: {
+            cursor:'pointer'
+        }
+    }
     
     function handleDelete() {
         if (confirm("Do you want to delete this comment?")) {
@@ -24,5 +29,5 @@ export default function CommentDeletor({ commentId }: { commentId: number }) {
         }
     }
 
-    return <button onClick={handleDelete}>Delete</button>
+    return <b onClick={handleDelete} style={styles.actionText}>Delete</b>
 }

@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function PostDeletor({ postId }: { postId: number }) {
     const navigator = useNavigate();
+    let styles = {
+        actionText: {
+            cursor:'pointer'
+        }
+    }
 
     function handleDelete() {
         if (confirm("Do you want to delete this post?")) {
@@ -33,5 +38,5 @@ export default function PostDeletor({ postId }: { postId: number }) {
 
     }
 
-    return <button onClick={handleDelete}>Delete Post</button>
+    return <b onClick={handleDelete} style={styles.actionText}>Delete Post</b>
 }
