@@ -32,7 +32,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
 
     return (
         <CommentsContext.Provider value={commentsContextValue}>
-            <CommentCreator inCommentTree={false} />
+            <CommentCreator actionName={"Comment"} />
             <CommentsTree commentsTree={commentsTree} />
         </CommentsContext.Provider>
     );
