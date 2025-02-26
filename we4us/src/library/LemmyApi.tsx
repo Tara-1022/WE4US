@@ -79,6 +79,17 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
+export async function getCommunityDetails(communityId: number){
+    const response = await getClient().getCommunity({
+      id: communityId
+    });
+    return response.community_view;
+}
+
+export async function getCommunityList(){
+  const response = await getClient().listCommunities();
+  return response.communities;
+}
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {

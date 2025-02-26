@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useMemo, useEffect } from "react";
 import { setClientToken } from "../library/LemmyApi";
 import { getCurrentUserDetails } from "../library/LemmyApi";
 import { useProfileContext } from "../components/ProfileContext";
-
+import { useLemmyInfo } from "../components/LemmyContextProvider";
 
 // Storing jwt in localstorage is our best current option https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 // since making backend changes is not feasible at present
@@ -31,6 +31,7 @@ export const useAuth = () => {
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const { setProfileInfo } = useProfileContext();
+  const {setLemmyInfo} = useLemmyInfo();
 
   function setProfileContext() {
     getCurrentUserDetails().then(
