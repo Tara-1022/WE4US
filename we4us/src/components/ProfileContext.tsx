@@ -16,7 +16,7 @@ export type profileContextType = {
 export const ProfileContext = createContext<profileContextType | undefined>(undefined);
 
 export const useProfileContext = () =>{
-    return useSafeContext<profileContextType>(ProfileContext);
+    return useSafeContext<profileContextType>(ProfileContext, "Profile Context");
 }
 
 export default function ProfileContextProvider({children}:{children: React.ReactNode}){
