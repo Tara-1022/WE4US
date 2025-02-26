@@ -2,7 +2,7 @@ import { PostView } from 'lemmy-js-client';
 import default_image from '../assets/default_image.png'
 import { Link } from 'react-router-dom';
 
-let styles: {[key: string]: React.CSSProperties } = {
+let styles: { [key: string]: React.CSSProperties } = {
     post: {
         display: "flex",
         flexFlow: "row",
@@ -26,21 +26,29 @@ let styles: {[key: string]: React.CSSProperties } = {
     }
 }
 
-export default function PostSnippet({postView}: {postView: PostView}){
+export default function PostSnippet({ postView }: { postView: PostView }) {
     // A succint display of primary information of the post
+
     return (
-        <Link to={"/post/" + postView.post.id} style={styles.post}>
+        <div style={styles.post}>
+            
             <div style={styles.imageContainer}>
-                <img 
-                src={postView.image_details? postView.image_details.link : default_image} 
-                alt="PostImage"
-                style={styles.image} />
+                <img
+                    src={postView.image_details ? postView.image_details.link : default_image}
+                    alt="PostImage"
+                    style={styles.image} />
             </div>
+
             <div style={styles.details}>
-                <h3>{postView.post.name}</h3>
-                <p>{postView.creator.display_name?postView.creator.display_name:postView.creator.name}</p>
-                <p>{postView.community.name}</p>
+                <Link to={"/post/" + postView.post.id}>
+                    <h3>{postView.post.name}</h3>
+                </Link>
+                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
+                <Link to={"/community/" + postView.community.id}>
+                    <p>{postView.community.name}</p>
+                </Link>
             </div>
-        </Link>
+            
+        </div>
     );
 }

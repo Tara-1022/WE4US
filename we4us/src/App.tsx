@@ -24,13 +24,13 @@ const App: React.FC = () => {
   return (
     <LemmyContextProvider>
       <ProfileContextProvider>
-      <AuthProvider >
+        <AuthProvider >
           <Router>
             <div className="relative min-h-screen">
               <Sidebar />
               <main className="pt-10 px-4">
                 <Routes>
-                    <Route path="/login" element={<AuthorisationPage />} />
+                  <Route path="/login" element={<AuthorisationPage />} />
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/" element={<ProtectedRoute />} >
                     <Route path="/announcements" element={<AnnouncementPage />} />
@@ -39,7 +39,7 @@ const App: React.FC = () => {
                     <Route path="/pg-finder" element={<PgFinderPage />} />
                     <Route path="/reaching-out" element={<ReachingOutPage />} />
                     <Route path="/post/:postId" element={<PostPage />} />
-                  <Route path="/community/:communityId" element={<CommunityPage />} />
+                    <Route path="/community/:communityId" element={<CommunityPage />} />
                   </Route>
                   {/* TODO: Move these back into the protected route */}
                   <Route path="/profile/:id" element={<ProfilePage />} /> 
@@ -49,7 +49,7 @@ const App: React.FC = () => {
             </div>
           </Router>
         </AuthProvider>
-        </ProfileContextProvider >
+      </ProfileContextProvider >
     </LemmyContextProvider>
   );
 };
