@@ -131,6 +131,14 @@ export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
 
 }
 
+export async function hidePost(postId:number){
+  const response = await getClient().hidePost({
+    post_ids: [postId],
+    hide: true
+  });
+  return response.success;
+}
+
 export async function logIn(username: string, password: string) {
   // Log in and return jwt, or null if the login fails
   try {
