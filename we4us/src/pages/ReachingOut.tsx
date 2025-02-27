@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { PostView } from 'lemmy-js-client';
 import { getPostList } from '../library/LemmyApi';
 import PostList from '../components/PostList';
-import { Loader } from 'lucide-react';
+import { Loader, Search } from 'lucide-react';
 import PostCreationModal from '../components/PostCreationModal';
+import { Link } from 'react-router-dom';
 
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null);
@@ -24,6 +25,7 @@ function ReachingOut() {
   return (
     <>
       <h1>Recent Posts</h1>
+      <Link to="/search"><Search /></Link>
       <button onClick={() => setShowForm(true)}>Create Post</button>
 
       <PostCreationModal 

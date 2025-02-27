@@ -15,6 +15,7 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
+import SearchPage from './pages/SearchPage';
 
 Modal.setAppElement('#root');
 
@@ -34,11 +35,12 @@ const App: React.FC = () => {
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
+                <Route path="/search" element={<SearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
               </Route>
               {/* TODO: Move these back into the protected route */}
-              <Route path="/profile/:id" element={<ProfilePage />} /> 
+              <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/whos-who" element={<WhosWhoPage />} />
             </Routes>
           </main>
