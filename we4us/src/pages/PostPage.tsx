@@ -5,15 +5,19 @@ import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
+import PostDeletor from '../components/PostDeletor';
+import { useProfileContext } from '../components/ProfileContext';
 
-export default function PostPage(){
+export default function PostPage() {
     const postId = Number(useParams().postId);
     const [postView, setPostView] = useState<PostView | null>(null);
+    const { profileInfo } = useProfileContext();
+
     useEffect(
         () => {
             getPostById(postId).then(
                 response =>
-                setPostView(response? response.post_view : null)
+                    setPostView(response ? response.post_view : null)
             )
         },
         [postId]
@@ -22,17 +26,21 @@ export default function PostPage(){
     return (
         <>
             <div>
-                <img 
-                src={postView.image_details? postView.image_details.link : default_image} 
-                alt="PostImage" />
+                <img
+                    src={postView.image_details ? postView.image_details.link : default_image}
+                    alt="PostImage" />
             </div>
             <div>
                 <h3>{postView.post.name}</h3>
-                <p>{postView.creator.display_name?postView.creator.display_name:postView.creator.name}</p>
+                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
                 <p>{postView.community.name}</p>
                 <p>{postView.post.body}</p>
             </div>
-            <CommentsSection postId={postView.post.id}/>
+
+            {postView.creator.id == profileInfo?.lemmyId &&
+                <PostDeletor postId={postView.post.id} />}
+
+            <CommentsSection postId={postView.post.id} />
         </>
     );
 }

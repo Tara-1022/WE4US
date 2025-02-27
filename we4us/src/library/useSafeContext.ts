@@ -6,8 +6,11 @@
 // inappropriate usage fail fast & loudly
 import { useContext, type Context } from "react";
 
-export function useSafeContext<T>(Context: Context<T | undefined>) {
+export function useSafeContext<T>(Context: Context<T | undefined>, name: string) {
   const context = useContext(Context);
-  if (context === undefined) throw new Error("Context Provider not found");
+  if (context === undefined) throw new Error(
+    "Context for *" + name +
+    "* not found. This error could indicate either 1) an attempt to use *"
+    + name + "* outside a context provider or 2) non-initialisation of required context");
   return context as T;
 }
