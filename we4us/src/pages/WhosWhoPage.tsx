@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchProfiles } from "../api"; 
 
 interface Profile {
   id: number;
@@ -8,11 +9,6 @@ interface Profile {
   cohort?: string;
 }
 
-// interface WhosWhoPageProps {
-//   onProfileSelect?: (id: string) => void;
-//   baseProfileUrl?: string;
-// }
-
 const WhosWhoPage: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,35 +16,22 @@ const WhosWhoPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProfiles = async () => {
+    const getProfiles = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch("http://localhost:4000/api/profiles");
-        if (!response.ok) {
-          throw new Error("Failed to fetch profiles");
-        }
+        const profilesData = await fetchProfiles();
+        setProfiles(profilesData);
 
-        const jsonData = await response.json();
-        
-        // Ensure we extract the profiles correctly from the response
-        const formattedProfiles: Profile[] = jsonData.profiles.map((p: any) => ({
-          id: p.id,
-          username: p.username,
-          displayName: p.display_name, // Fixing snake_case from API
-          cohort: p.cohort,
-        }));
-
-        setProfiles(formattedProfiles);
       } catch (error) {
-        setError("Unable to load profiles. Please try again later.");
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
     }; 
 
-    fetchProfiles();
+    getProfiles();
   }, []);
 
   const handleProfileClick = (id: number) => {

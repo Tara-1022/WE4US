@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { fetchProfileById } from "../api"; 
 
 interface Profile {
   id: string;
@@ -21,28 +22,26 @@ const ProfilePage = () => {
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    const fetchProfile = async () => {
+    const getProfile = async () => {
       try {
         setIsLoading(true);
         setError(null);
     
-        const response = await fetch(`http://localhost:4000/api/profiles/${id}`); //API URL
-        if (!response.ok) {
-          throw new Error('Profile not found');
-        }
-    
-        const profileData: Profile = await response.json();
+        const profileData = await fetchProfileById(Number(id));
         setProfile(profileData);
       } catch (error) {
-        setError('Profile not found or error loading profile.');
+        // setError(error.message);
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("An unknown error occurred.");
+        }
       } finally {
         setIsLoading(false);
       }
     };    
 
-    if (id) {
-      fetchProfile();
-    }
+    getProfile();
   }, [id]);
 
   if (isLoading) {
