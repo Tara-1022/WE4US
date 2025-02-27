@@ -25,7 +25,7 @@ export const fetchProfiles = async () => {
 
 export const fetchProfileById = async (id: number) => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}${id}`);
+    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${id}`);
     if (!response.ok) {
       throw new Error("Failed to fetch profile");
     }

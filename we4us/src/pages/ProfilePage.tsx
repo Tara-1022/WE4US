@@ -5,11 +5,15 @@ import { fetchProfileById } from "../api";
 interface Profile {
   id: string;
   username: string;
-  displayName: string;
+  display_name: string;
   cohort?: string;
-  joinDate: string;
-  posts: number;
-  comments: number;
+  // joinDate: string;
+  // posts: number;
+  // comments: number;
+  current_role?: string;
+  company_or_university?: string;
+  years_of_experience?: number;
+  areas_of_interest?: string[];
 }
 
 
@@ -26,11 +30,15 @@ const ProfilePage = () => {
       try {
         setIsLoading(true);
         setError(null);
-    
-        const profileData = await fetchProfileById(Number(id));
-        setProfile(profileData);
+
+        const response = await fetchProfileById(Number(id));
+
+        if (response && response.profile) {
+          setProfile({ ...response.profile});
+        } else {
+          setError("Profile not found.");
+        }
       } catch (error) {
-        // setError(error.message);
         if (error instanceof Error) {
           setError(error.message);
         } else {
@@ -43,6 +51,7 @@ const ProfilePage = () => {
 
     getProfile();
   }, [id]);
+  
 
   if (isLoading) {
     return (
@@ -63,19 +72,25 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <h1>{profile.displayName}</h1>
-      <p>@{profile.username}</p>
+      <h1>{profile.display_name || "No Display Name"}</h1>
+      <p>@{profile.username || "No Username"}</p>
+
       {profile.cohort && <p>Cohort: {profile.cohort}</p>}
-
-      <div>
-        <h3>Joined</h3>
-        <p>{new Date(profile.joinDate).toDateString()}</p>
-        <h3>Posts</h3>
-        <p>{profile.posts}</p>
-        <h3>Comments</h3>
-        <p>{profile.comments}</p>
-      </div>
-
+      {profile.current_role && <p>Current Role: {profile.current_role}</p>}
+      {profile.company_or_university && <p>Company/University: {profile.company_or_university}</p>}
+      {profile.years_of_experience !== undefined && profile.years_of_experience !== null && (
+        <p>Years of Experience: {profile.years_of_experience}</p>
+      )}
+      {profile.areas_of_interest && profile.areas_of_interest.length > 0 && (
+        <div>
+          <h3>Areas of Interest</h3>
+          <ul>
+            {profile.areas_of_interest.map((area, index) => (
+              <li key={index}>{area}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <button onClick={() => navigate(-1)}>Back</button>
     </div>
   );
