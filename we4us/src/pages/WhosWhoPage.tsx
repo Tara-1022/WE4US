@@ -72,24 +72,47 @@ const WhosWhoPage: React.FC = () => {
     );
   }
 
+  const groupedProfiles: { [key: string]: Profile[] } = {};
+  profiles.forEach((profile) => {
+    const cohortKey = profile.cohort || "Unassigned";
+    if (!groupedProfiles[cohortKey]) {
+      groupedProfiles[cohortKey] = [];
+    }
+    groupedProfiles[cohortKey].push(profile);
+  });
+
+  const sortedCohorts = Object.keys(groupedProfiles)
+    .map((cohort) => (cohort === "Unassigned" ? Infinity : Number(cohort)))
+    .sort((a, b) => a - b)
+    .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
+
   return (
     <div>
       <h1>Who's Who</h1>
-      {profiles.length === 0 ? (
-        <p>No profiles found.</p>
-      ) : (
-        <div>
-          {profiles.map((profile) => (
-            <div key={profile.id} onClick={() => handleProfileClick(profile.id)}>
-              <div>
-                <h2>{profile.displayName}</h2>
+      {sortedCohorts.map((cohort) => (
+        <div key={cohort}>
+          <h2>Cohort {cohort}</h2>
+          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+            {groupedProfiles[cohort].map((profile) => (
+              <div
+                key={profile.id}
+                onClick={() => handleProfileClick(profile.id)}
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  textAlign: "center",
+                  minWidth: "150px",
+                  cursor: "pointer",
+                }}
+              >
+                <h3>{profile.displayName}</h3>
                 <p>@{profile.username}</p>
-                {profile.cohort && <p>Cohort: {profile.cohort}</p>}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      )}
+      ))}
     </div>
   );
 };
