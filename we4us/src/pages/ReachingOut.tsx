@@ -3,7 +3,7 @@ import { PostView } from 'lemmy-js-client';
 import { getPostList } from '../library/LemmyApi';
 import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
-import PostCreationModal from '../components/PostCreationModal';
+import PostCreationModal from '../components/PostCreationModal'; //Component
 
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null);

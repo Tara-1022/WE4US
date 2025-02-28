@@ -1,5 +1,5 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo, Comment, CreatePost } from 'lemmy-js-client';
+import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo, CreatePost } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -80,17 +80,6 @@ export async function getComments(postId: number): Promise<CommentView[]> {
 }
 
 // Creating Post Functionality.
-export async function createPost(createPostData: CreatePost): Promise<PostView> {
-  try {
-    const response = await getClient().createPost(createPostData);
-    return response.post_view;
-  } catch (error) {
-    console.error('Error creating post:', error);
-    throw error;
-  }
-} 
-
-export async function getPostById(postId: number): Promise<GetPostResponse | null>{
 export async function createPost(createPostData: CreatePost): Promise<PostView> {
   try {
     const response = await getClient().createPost(createPostData);
