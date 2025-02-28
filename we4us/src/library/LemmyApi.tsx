@@ -79,6 +79,7 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
+// Creating Post Functionality.
 export async function createPost(createPostData: CreatePost): Promise<PostView> {
   try {
     const response = await getClient().createPost(createPostData);
