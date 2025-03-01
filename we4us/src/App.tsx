@@ -38,7 +38,7 @@ const App: React.FC = () => {
                   <Route path="/post/:postId" element={<PostPage />} />
                 </Route>
                 {/* TODO: Move these back into the protected route */}
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/:id" element={<ProfilePage />} /> 
                 <Route path="/whos-who" element={<WhosWhoPage />} />
               </Routes>
             </main>
