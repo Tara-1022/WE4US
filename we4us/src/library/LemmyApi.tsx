@@ -1,19 +1,16 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo } from 'lemmy-js-client';
+import { LemmyHttp, PostView, GetPostResponse, CommentView, Comment, CreateCommunity } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
 // at the parent component, to ensure all parts of the response are available should we need it
 
-let client: LemmyHttp = new LemmyHttp(
-  INSTANCE_URL, {
-  headers: {
-    ["Cache-Control"]: "no-cache"
-  }
-});
-
-export function setClientToken(jwt: string | null) {
-  client = new LemmyHttp(
+export function getClient(): LemmyHttp {
+  // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
+  // Do not set or reset the token in these functions
+  // TODO: Use a common client object to reduce waste
+  const jwt = localStorage.getItem("token");
+  return new LemmyHttp(
     INSTANCE_URL, {
     headers: {
       ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
@@ -22,54 +19,17 @@ export function setClientToken(jwt: string | null) {
   });
 }
 
-export function getClient(): LemmyHttp {
-  // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
-  // Do not set or reset the token in these functions
-  return client;
-}
-
-// Keep things below ordered alphabetically
-
-export async function createComment(createComment: CreateComment) {
-  // Create comment and return resultant commentView
-  const response = await getClient().createComment(createComment);
-  return response.comment_view;
-}
-
-// https://mv-gh.github.io/lemmy_openapi_spec/#tag/Admin/paths/~1admin~1purge~1comment/post
-// https://github.com/LemmyNet/lemmy/issues/2977
-// Note: 'Delete' simply marks a coment/post as deleted. 
-// It can be retrieved by flipping the 'delete' flag within 30 days
-// Purging would remove it completely
-// We will be deleting comments to avoid orphaning replies
-export async function deleteComment(commentId: number) {
-  const response = await getClient().deleteComment({
-    comment_id: commentId, deleted: true
-  });
-  return response.comment_view;
-}
-
-export async function deletePost(postId: number) {
-  const response = await getClient().deletePost(
-    {
-      post_id: postId, deleted: true
-    }
-  );
-  return response.post_view;
-}
-
 export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
-  try{
-      const response = await getClient().getComments(
-        {
-         post_id: postId,
-         limit: 50
-        }
-      );
-      commentCollection = response.comments.slice();
+  try {
+    const response = await getClient().getComments(
+      {
+        post_id: postId
+      }
+    );
+    commentCollection = response.comments.slice();
   }
   catch (error) {
     console.error(error);
@@ -79,17 +39,6 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
-export async function getCommunityDetails(communityId: number) {
-  const response = await getClient().getCommunity({
-    id: communityId
-  });
-  return response.community_view;
-}
-
-export async function getCommunityList() {
-  const response = await getClient().listCommunities();
-  return response.communities;
-}
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
@@ -106,40 +55,25 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number): Promise<PostView[]> {
+export async function getPostList(): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
-        community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
-}
-
-export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
-  const response = await getClient().getSite();
-  return response.my_user;
-
-}
-
-export async function hidePost(postId: number) {
-  const response = await getClient().hidePost({
-    post_ids: [postId],
-    hide: true
-  });
-  return response.success;
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 25
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
 }
 
 export async function logIn(username: string, password: string) {
@@ -154,7 +88,6 @@ export async function logIn(username: string, password: string) {
     return response.jwt;
   }
   catch (error) {
-    console.error(error)
     return null;
   }
 }
@@ -164,3 +97,23 @@ export async function logOut() {
   const response = await getClient().logout();
   return response.success;
 }
+
+export async function createCommunity(name, title) {
+  // Creates Community and returns community_view or throws an error if it fails 
+  const client = getClient();
+  const communityData: CreateCommunity = {
+    name,
+    title,
+  };
+
+  try {
+    const communityResponse = await client.createCommunity(communityData);
+    console.log("Community created successfully:", communityResponse);
+    return communityResponse.community_view;
+
+  } catch (error) {
+    console.error("Error creating community:", error);
+    throw new Error("Failed to create community");
+  }
+}
+
