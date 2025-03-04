@@ -79,6 +79,18 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
+export async function getCommunityDetails(communityId: number) {
+  const response = await getClient().getCommunity({
+    id: communityId
+  });
+  return response.community_view;
+}
+
+export async function getCommunityList() {
+  const response = await getClient().listCommunities();
+  return response.communities;
+}
+
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {
@@ -94,7 +106,7 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(): Promise<PostView[]> {
+export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
     let postCollection: PostView[] = [];
@@ -102,7 +114,8 @@ export async function getPostList(): Promise<PostView[]> {
         const response = await getClient().getPosts(
           {
             type_: "All",
-            limit: 50
+            limit: 50,
+        community_id: communityId
           }
         );
         postCollection = response.posts.slice();
@@ -121,7 +134,7 @@ export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
 
 }
 
-export async function hidePost(postId:number){
+export async function hidePost(postId: number) {
   const response = await getClient().hidePost({
     post_ids: [postId],
     hide: true
