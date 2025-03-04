@@ -13,7 +13,7 @@ Ensure you have the following installed:
 
 ### 1. Clone the repository
 ```sh
-git clone <repo-url>
+git clone https://github.com/Tara-1022/WE4US.git
 cd postgres-wrapper
 ```
 
