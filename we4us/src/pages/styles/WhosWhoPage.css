@@ -1,0 +1,29 @@
+.whoswho-container {
+    padding: 20px;
+  }
+  
+  .search-input {
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .cohort-section {
+    margin-bottom: 20px;
+  }
+  
+  .profile-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
