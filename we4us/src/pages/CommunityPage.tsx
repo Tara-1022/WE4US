@@ -5,12 +5,13 @@ import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
 import { useLemmyInfo } from "../components/LemmyContextProvider";
 import { getPostList } from "../library/LemmyApi";
+import CommunitySnippet from "../components/CommunitySnippet";
 
 export default function CommunityPage() {
     const communityId = Number(useParams().communityId);
     const { lemmyInfo } = useLemmyInfo();
-    
-    const [postViews, setPostViews] = useState<PostView[] | null>(null); 
+
+    const [postViews, setPostViews] = useState<PostView[] | null>(null);
     const [communityDetails, setCommunityDetails] = useState<CommunityView | undefined>(
         lemmyInfo?.communities.filter(
             (communityView) => { return communityView.community.id == communityId; }
@@ -31,14 +32,17 @@ export default function CommunityPage() {
 
     if (!postViews) return <Loader />;
     else if (!communityDetails) return <h3>Looks like this community doesn't exist!</h3>
-    else if (postViews.length == 0) return <h3>No posts to see!</h3>;
+    else if (postViews.length == 0) {
+        return (<>
+            <CommunitySnippet communityView={communityDetails} />
+            <h3>No posts to see!</h3></>
+        )
+            ;
+    }
     else {
         return (
             <>
-                <h3>{communityDetails?.community.name}</h3>
-                <p>{communityDetails?.community.title}</p>
-                <p>{"This community has " + communityDetails?.counts.posts +
-                    " Posts and " + communityDetails?.counts.comments + " Comments!"}</p>
+                <CommunitySnippet communityView={communityDetails} />
                 <PostList postViews={postViews} />
             </>
         )
