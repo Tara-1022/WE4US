@@ -26,7 +26,6 @@ export default function LemmySearchBar({ handleSearch }:
                 <option value="Comments">Comments</option>
                 <option value="Posts">Posts</option>
                 <option value="Communities">Communities</option>
-                <option value="Users">Users</option>
             </select>
             <label htmlFor="communityId">Within community</label>
             <CommunitySelector name="communityId" />
