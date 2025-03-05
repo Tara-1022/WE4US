@@ -92,7 +92,7 @@ const WhosWhoPage: React.FC = () => {
         {/* Cohort-wise Profile Display */}
         {sortedCohorts.length > 0 ? (
           sortedCohorts.map((cohort) => (
-            <div key={cohort}>
+            <div key={cohort} className='cohort-section'>
               <h2>Cohort {cohort}</h2>
               <div className='profile-list'>
                 {groupedProfiles[cohort].map((profile) => (
