@@ -1,5 +1,16 @@
 import { API_BASE_URL, PROFILES_ENDPOINT } from "./constants";
 
+interface Profile {
+  id: string;
+  username: string;
+  display_name: string;
+  cohort?: string;
+  current_role?: string;
+  company_or_university?: string;
+  years_of_experience?: number;
+  areas_of_interest?: string[];
+}
+
 export const fetchProfiles = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}`);
@@ -35,6 +46,33 @@ export const fetchProfileById = async (id: number) => {
       throw new Error(error.message);
     } else {
       throw new Error("Unknown error occurred.");
+    }
+  }
+};
+
+export const updateProfile = async (id: number, profileData: Profile) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${id}`, {
+      method: 'PUT', // or 'PATCH' depending on your API requirements
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profileData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(
+        errorData?.message || `Failed to update profile. Status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Unknown error occurred while updating profile.");
     }
   }
 };
