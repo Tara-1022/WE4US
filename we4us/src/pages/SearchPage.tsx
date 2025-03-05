@@ -13,6 +13,11 @@ const SearchPage: React.FC = () => {
     const [communityResult, setCommunityResult] = useState<CommunityView[] | null>(null);
     const [commentResult, setCommentResult] = useState<CommentView[] | null>(null);
 
+    const searchDone = (postResult || commentResult || communityResult)
+    const isResultPresent = (postResult && postResult.length > 0)
+        || (commentResult && commentResult.length > 0)
+        || (communityResult && communityResult.length > 0)
+
     function handleSearch(queryParams: Search) {
         console.log("Query: ", queryParams)
         search(queryParams).then(
@@ -49,6 +54,9 @@ const SearchPage: React.FC = () => {
                     <h2>Comments</h2>
                     <CommentList commentViews={commentResult} />
                 </div>)}
+            {searchDone && (
+                !isResultPresent && <h3>No Results Found</h3>
+            )}
         </>
     )
 }
