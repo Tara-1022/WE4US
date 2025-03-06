@@ -3,6 +3,7 @@ import CommentCreator from './CommentCreator';
 import CommentDeletor from './CommentDeletor';
 import CommentSnippet from './CommentSnippet';
 import { useProfileContext } from './ProfileContext';
+import LikeHandler from './LikeHandler';
 
 // TODO: Add more information to the comment
 export default function Comment({ commentView, depth }: { commentView: CommentView, depth: number }) {
@@ -18,6 +19,7 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
     return (
         <div style={styles.container}>
             <CommentSnippet commentView={commentView} />
+            <LikeHandler forPost={false} isInitiallyLiked={commentView.my_vote == 1} id={commentView.comment.id} />
             <CommentCreator commentId={commentView.comment.id} actionName={"Reply"} />
 
             {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
