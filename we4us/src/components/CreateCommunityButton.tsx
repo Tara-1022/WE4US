@@ -1,9 +1,5 @@
 import { useState } from "react";
-<<<<<<< Updated upstream
 import CreateCommunityModal from "../components/CreateCommunityModal";
-=======
-import CreateCommunityForm from "../pages/CreateCommunityForm";
->>>>>>> Stashed changes
 
 const CreateCommunityButton = () => {
     const [showForm, setShowForm] = useState(false);
