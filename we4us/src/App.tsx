@@ -4,7 +4,7 @@ import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
 import AuthorisationPage from './pages/AuthorisationPage';
-import JobBoardPage from './pages/JobBoard';
+import JobBoardPage from './pages/JobBoardPage';
 import MeetUpPage from './pages/MeetUpPage';
 import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';

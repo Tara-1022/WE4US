@@ -62,14 +62,14 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
-  try{
-      const response = await getClient().getComments(
-        {
-         post_id: postId,
-         limit: 50
-        }
-      );
-      commentCollection = response.comments.slice();
+  try {
+    const response = await getClient().getComments(
+      {
+        post_id: postId,
+        limit: 50
+      }
+    );
+    commentCollection = response.comments.slice();
   }
   catch (error) {
     console.error(error);
@@ -109,23 +109,47 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
-        community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_id: communityId,
+        show_nsfw: false
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
+
+export async function getJobPostList(): Promise<PostView[]> {
+  // Fetches and returns a list of recent 25 PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_name: "job_board",
+        show_nsfw: true
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
