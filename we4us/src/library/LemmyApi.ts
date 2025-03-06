@@ -1,5 +1,5 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo } from 'lemmy-js-client';
+import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo, CreateCommunity } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -140,6 +140,25 @@ export async function hidePost(postId: number) {
     hide: true
   });
   return response.success;
+}
+
+export async function createCommunity(name, title) {
+  // Creates Community and returns community_view or throws an error if it fails 
+  const client = getClient();
+  const communityData: CreateCommunity = {
+    name,
+    title,
+  };
+
+  try {
+    const communityResponse = await client.createCommunity(communityData);
+    console.log("Community created successfully:", communityResponse);
+    return communityResponse.community_view;
+
+  } catch (error) {
+    console.error("Error creating community:", error);
+    throw new Error("Failed to create community");
+  }
 }
 
 export async function logIn(username: string, password: string) {
