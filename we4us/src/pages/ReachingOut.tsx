@@ -9,14 +9,6 @@ function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null)
   
   useEffect(() => {
-<<<<<<< HEAD
-    getPostList().then(postList => setPostViews(postList));
-  }, []
-  )
-  
-  if (!postViews) return <Loader />;
-  else if (postViews.length == 0) return <h3>No posts to see!</h3>;
-=======
     setTimeout(() => { // simulating a delay. TODO: Remove timeout
       getPostList().then(postList => setPostViews(postList));
       console.log("Fetched posts")
@@ -34,7 +26,6 @@ function ReachingOut() {
       </>
     )
   }
->>>>>>> 6a996b2 (Moved CreateCommunity Button to ReachingOut.tsx)
   else {
     return (
       <>
