@@ -10,7 +10,6 @@ function ReachingOut() {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    //Removed Timeout since PostList fetches the newest post.
     getPostList().then((postList) => setPostViews(postList));
   }, []);
 
