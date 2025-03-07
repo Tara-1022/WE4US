@@ -12,8 +12,29 @@ export default function CreateCommunityModal({ onCreate, isOpen, onClose }) {
         const name = formData.get("name")?.trim();
         const title = formData.get("title")?.trim();
 
+        const validateTitle = (title) => {
+            const titleRegex = /^[a-z0-9]{3,30}$/;
+            return titleRegex.test(title);
+        };
+
+        const validateName = (name) => {
+            const nameRegex = /^[A-Za-z0-9]{3,500}$/;
+            return nameRegex.test(name);
+        };
+
+
         if (!name || !title) {
             setError("Community name and title are required");
+            return;
+        }
+
+        if (!title || !validateTitle(title)) {
+            setError("Community name must be 3-30 characters long, contain only lowercase letters and numbers and have no spaces or special characters.");
+            return;
+        }
+
+        if (!validateName(name)) {
+            setError("Description must be between 3 and 500 characters and should not have any whitespace or special characters.");
             return;
         }
 
