@@ -46,6 +46,7 @@ export default function CreateCommunityModal({ onCreate, isOpen, onClose }) {
             const data = await createCommunity(name, title);
             onCreate(data);
             event.target.reset();
+            onClose();
         } catch {
             setError("Failed to create community.");
         } finally {
