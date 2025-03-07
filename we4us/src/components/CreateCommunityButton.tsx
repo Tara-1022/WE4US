@@ -1,12 +1,14 @@
 import { useState } from "react";
 import CreateCommunityModal from "../components/CreateCommunityModal";
 
+
 const CreateCommunityButton = () => {
     const [showForm, setShowForm] = useState(false);
 
     const handleCommunityCreate = async (data: any) => {
         console.log("Community created:", data);
         window.alert(`Community "${data.community.title}" created successfully!`);
+        window.location.href = `/community/${data.community.id}`;
     };
 
     return (
