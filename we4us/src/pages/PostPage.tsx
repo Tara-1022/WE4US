@@ -39,8 +39,8 @@ export default function PostPage() {
                 </Link>
                 <p>{postView.post.body}</p>
             </div>
-            
-            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} id={postId}/>
+
+            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
 
             {postView.creator.id == profileInfo?.lemmyId &&
                 <PostDeletor postId={postView.post.id} />}

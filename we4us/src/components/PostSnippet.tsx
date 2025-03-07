@@ -1,6 +1,7 @@
 import { PostView } from 'lemmy-js-client';
 import default_image from '../assets/default_image.png'
 import { Link } from 'react-router-dom';
+import LikeHandler from './LikeHandler';
 
 let styles: { [key: string]: React.CSSProperties } = {
     post: {
@@ -31,7 +32,7 @@ export default function PostSnippet({ postView }: { postView: PostView }) {
 
     return (
         <div style={styles.post}>
-            
+
             <div style={styles.imageContainer}>
                 <img
                     src={postView.image_details ? postView.image_details.link : default_image}
@@ -48,7 +49,9 @@ export default function PostSnippet({ postView }: { postView: PostView }) {
                     <p>{postView.community.name}</p>
                 </Link>
             </div>
-            
+
+            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postView.post.id} />
+
         </div>
     );
 }
