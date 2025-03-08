@@ -7,6 +7,7 @@
 
 **PR considerations**
 - Add links and references when possible for better context
+- If a PR changes after approval, **request another review** so all changes are approved.
 - Keep PRs and commits logically sound and encapsulated.
 	- Follow the Single Responsibility Principle - in  components (one component does one thing, independently), commits (one commit performs one logical change), and PRs (one PR performs one stable change)
 	- Don't make large PRs.
