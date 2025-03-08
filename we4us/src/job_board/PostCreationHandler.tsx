@@ -12,7 +12,9 @@ export type JobPostData = {
 
 export type JobPostBody = {
     body: string,
-    extra_field: string
+    extra_field: string,
+    yes_no: boolean,
+    number_field?: number
 }
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {

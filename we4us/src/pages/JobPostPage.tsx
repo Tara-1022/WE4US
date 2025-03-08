@@ -34,7 +34,10 @@ export default function JobPostPage() {
                 <p>URL: {postView.post.url}</p>
                 <p>Extra Field: {jobDetails.extra_field}</p>
                 <p>Actual Body: {jobDetails.body}</p>
-                This was extracted from body: {postView.post.body}
+                <p>Optional number field: {jobDetails.number_field}</p>
+                Yes_no: {jobDetails.yes_no? "👍": "👎"}
+                
+                <p>This was extracted from body: {postView.post.body}</p>
             </div>
 
             {postView.creator.id == profileInfo?.lemmyId &&
