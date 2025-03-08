@@ -15,6 +15,7 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
+import JobPostPage from './pages/JobPostPage';
 
 Modal.setAppElement('#root');
 
@@ -31,6 +32,7 @@ const App: React.FC = () => {
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
                 <Route path="/job-board" element={<JobBoardPage />} />
+                <Route path="/job-board/:jobId" element={<JobPostPage />} />
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />

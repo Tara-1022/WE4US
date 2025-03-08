@@ -1,6 +1,12 @@
 import { JobPostData } from "./PostCreationHandler";
 import Modal from "react-modal";
 
+let styles={
+    form:{
+        color:"black"
+    }
+}
+
 export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, handleCreation: (data: JobPostData) => void }) {
 
@@ -22,7 +28,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
         <Modal
             isOpen={isOpen}
             contentLabel="Login">
-            <form onSubmit={handleClick}>
+            <form onSubmit={handleClick} style={styles.form}>
                 <label htmlFor="name"> Title </label>
                 <input name="name" required/>
                 <label htmlFor="url"> URL </label>

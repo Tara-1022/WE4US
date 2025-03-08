@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
-import PostList from '../components/PostList';
+import JobPostList from "../job_board/JobPostList";
 import { Loader } from 'lucide-react';
 import { getJobPostList } from "../library/LemmyApi";
 import PostCreationHandler from "../job_board/PostCreationHandler";
@@ -22,7 +22,7 @@ export default function JobBoardPage() {
             <>
                 <h3>Job board</h3>
                 <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
-                <PostList postViews={postViews} />
+                <JobPostList postViews={postViews} />
             </>
         )
     }
