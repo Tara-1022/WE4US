@@ -1,5 +1,5 @@
-import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo } from 'lemmy-js-client';
+import { INSTANCE_URL, JOB_COMMUNITY_ID } from "../constants";
+import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo, CreatePost } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -35,6 +35,16 @@ export async function createComment(createComment: CreateComment) {
   const response = await getClient().createComment(createComment);
   return response.comment_view;
 }
+
+export async function createPost(createPostData: CreatePost): Promise<PostView> {
+  try {
+    const response = await getClient().createPost(createPostData);
+    return response.post_view;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+} 
 
 // https://mv-gh.github.io/lemmy_openapi_spec/#tag/Admin/paths/~1admin~1purge~1comment/post
 // https://github.com/LemmyNet/lemmy/issues/2977
@@ -130,7 +140,7 @@ export async function getPostList(communityId?: number): Promise<PostView[]> {
 }
 
 export async function getJobPostList(): Promise<PostView[]> {
-  // Fetches and returns a list of recent 25 PostViews
+  // Fetches and returns a list of recent PostViews
   // or an empty list if fetch fails
   let postCollection: PostView[] = [];
   try {
@@ -138,7 +148,7 @@ export async function getJobPostList(): Promise<PostView[]> {
       {
         type_: "All",
         limit: 50,
-        community_name: "job_board",
+        community_id: JOB_COMMUNITY_ID,
         show_nsfw: true
       }
     );
