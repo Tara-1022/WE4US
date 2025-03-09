@@ -32,11 +32,9 @@ const ProfilePage = () => {
     
     if (locationState?.message) {
       setSuccessMessage(locationState.message);
-      // Clear the location state to prevent showing the message on refresh
       window.history.replaceState({}, document.title);
     }
-    
-    // Check if we should enter edit mode from navigation state
+  
     if (locationState?.editMode) {
       setIsEditMode(true);
     }
@@ -72,11 +70,9 @@ const ProfilePage = () => {
       const formData = new FormData(event.currentTarget);
       const formEntries = Object.fromEntries(formData);
       
-      // Convert years_of_experience to number if present
       const years = formEntries.years_of_experience ? 
         Number(formEntries.years_of_experience) : undefined;
-      
-      // Convert areas_of_interest to array if present
+    
       const areasString = formEntries.areas_of_interest as string;
       const areas = areasString ? 
         areasString.split(',').map(area => area.trim()).filter(area => area) : 
@@ -122,7 +118,6 @@ const ProfilePage = () => {
     setError(null);
   };
 
-  // Shared loading and error states
   if (isLoading) {
     return (
       <div className="profile-container loading">
@@ -154,7 +149,6 @@ const ProfilePage = () => {
     );
   }
 
-  // Render different content based on mode
   return (
     <div className={`profile-container ${isEditMode ? 'edit-mode' : 'view-mode'}`}>
       <div className="profile-header">
@@ -175,7 +169,6 @@ const ProfilePage = () => {
       )}
 
       {!isEditMode ? (
-        // View Mode
         <div className="profile-content">
           <h1>{profile.display_name}</h1>
           <p className="username">@{profile.username}</p>
@@ -222,7 +215,7 @@ const ProfilePage = () => {
           </div>
         </div>
       ) : (
-        // Edit Mode
+        // This starts the edit Mode
         <div className="edit-profile-container">
           <h1>Edit Profile</h1>
           <form className="edit-profile-form" onSubmit={handleSubmit}>
