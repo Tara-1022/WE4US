@@ -7,7 +7,6 @@ import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
 import PgFinderPage from './pages/PgFinder';
-import ProfilePage from './pages/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage.tsx';
 import ReachingOutPage from './pages/ReachingOut';
 import WhosWhoPage from './pages/WhosWhoPage';
@@ -39,8 +38,8 @@ const App: React.FC = () => {
                   <Route path="/post/:postId" element={<PostPage />} />
                 </Route>
                 {/* TODO: Move these back into the protected route */}
-                <Route path="/profile/:id" element={<ProfilePage />} /> 
-                <Route path="/edit/:id" element={<EditProfilePage />} />
+                
+                <Route path="/profile/:id" element={<EditProfilePage />} />
                 <Route path="/whos-who" element={<WhosWhoPage />} />
               </Routes>
             </main>

@@ -1,6 +1,6 @@
 import { API_BASE_URL, PROFILES_ENDPOINT } from "./constants";
 
-interface Profile {
+export interface Profile {
   id: string;
   username: string;
   display_name: string;
@@ -53,7 +53,7 @@ export const fetchProfileById = async (id: number) => {
 export const updateProfile = async (id: number, profileData: Profile) => {
   try {
     const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${id}`, {
-      method: 'PUT', // or 'PATCH' depending on your API requirements
+      method: 'PUT',  
       headers: {
         'Content-Type': 'application/json',
       },

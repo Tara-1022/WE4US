@@ -7,7 +7,7 @@ interface Profile {
   username: string;
   displayName: string;
   cohort?: string;
-}
+} 
 
 const WhosWhoPage: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -25,7 +25,7 @@ const WhosWhoPage: React.FC = () => {
         setProfiles(profilesData);
 
       } catch (error) {
-        setError(error.message);
+        setError((error as Error).message);
       } finally {
         setIsLoading(false);
       }
