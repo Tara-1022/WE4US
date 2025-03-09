@@ -15,8 +15,6 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
-import LogoutButton from './auth/LogoutButton';
-import LoginModal from './auth/LoginModal';
 
 Modal.setAppElement('#root');
 
@@ -26,8 +24,6 @@ const App: React.FC = () => {
       <Router>
         <div className="relative min-h-screen">
           <Sidebar />
-          <LogoutButton />
-          <LoginModal />
           <main className="pt-10 px-4">
             <Routes>
               <Route path="/login" element={<AuthorisationPage />} />
@@ -42,7 +38,7 @@ const App: React.FC = () => {
                 <Route path="/community/:communityId" element={<CommunityPage />} />
               </Route>
               {/* TODO: Move these back into the protected route */}
-              <Route path="/profile/:id" element={<ProfilePage />} /> 
+              <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/whos-who" element={<WhosWhoPage />} />
             </Routes>
           </main>
