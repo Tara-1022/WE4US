@@ -1,27 +1,40 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { PostView } from 'lemmy-js-client';
 import { getPostList } from '../library/LemmyApi';
 import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
+import PostCreationModal from '../components/PostCreationModal';
 
 function ReachingOut() {
-  const [postViews, setPostViews] = useState<PostView[] | null>(null)
-  
+  const [postViews, setPostViews] = useState<PostView[] | null>(null);
+  const [showForm, setShowForm] = useState(false);
+
   useEffect(() => {
-    getPostList().then(postList => setPostViews(postList));
-  }, []
-  )
-  
-  if (!postViews) return <Loader />;
-  else if (postViews.length == 0) return <h3>No posts to see!</h3>;
-  else {
-    return (
-      <>
-        <h1>Recent Posts</h1>
-        <PostList postViews={postViews} />
-      </>
-    );
+    getPostList().then((postList) => setPostViews(postList));
+  }, []);
+
+  const handlePostCreated = (newPost: PostView) => {
+    setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
+  };
+
+  if (!postViews) {
+    return <Loader />;
   }
+
+  return (
+    <>
+      <h1>Recent Posts</h1>
+      <button onClick={() => setShowForm(true)}>Create Post</button>
+
+      <PostCreationModal 
+        isOpen={showForm} 
+        onClose={() => setShowForm(false)} 
+        onPostCreated={handlePostCreated} 
+      />
+
+      {postViews.length === 0 ? <h3>No posts to see!</h3> : <PostList postViews={postViews} />}
+    </>
+  );
 }
 
-export default ReachingOut
+export default ReachingOut;
