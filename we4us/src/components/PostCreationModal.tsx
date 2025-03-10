@@ -14,21 +14,21 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
+  
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const body = formData.get("body") as string;
-
+  
     try {
       const newPost = {
         name: title,
         community_id: 2, // Default Community ID
         body: body,
       };
-
+  
       const createdPost = await createPost(newPost);
-
-      onPostCreated(createdPost);
+  
+      onPostCreated(createdPost); // Passing the newpost for the parent to handle.
       onClose();
     } catch (error) {
       console.error("Error creating post:", error);
@@ -36,6 +36,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       setLoading(false);
     }
   };
+  
 
   return (
     <Modal

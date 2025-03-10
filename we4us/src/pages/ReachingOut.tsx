@@ -15,7 +15,7 @@ function ReachingOut() {
 
   const handlePostCreated = (newPost: PostView) => {
     setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
-  };
+  };  
 
   if (!postViews) {
     return <Loader />;
