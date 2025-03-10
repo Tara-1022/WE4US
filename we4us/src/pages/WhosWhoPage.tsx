@@ -83,7 +83,7 @@ const WhosWhoPage: React.FC = () => {
         {/* Search Box */}
         <input
           type="text"
-          placeholder="Search by name, company, role..."
+          placeholder="Search by name, company..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className='search-input'
