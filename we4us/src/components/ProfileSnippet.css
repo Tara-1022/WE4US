@@ -1,4 +1,5 @@
 .profile-snippet {
+    display: block;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;
@@ -6,8 +7,10 @@
     min-width: 150px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
-    }
+    text-decoration: none;
+    color: inherit;
+}
     
 .profile-snippet:hover {
     background-color: #969292;
-    }
+}

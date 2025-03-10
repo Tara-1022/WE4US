@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./ProfileSnippet.css";
 
 interface ProfileSnippetProps {
@@ -9,15 +9,13 @@ interface ProfileSnippetProps {
 }
 
 const ProfileSnippet: React.FC<ProfileSnippetProps> = ({ id, displayName, username }) => {
-  const navigate = useNavigate();
-
   return (
-    <div className="profile-snippet" onClick={() => navigate(`/profile/${id}`)}>
+    <Link to={`/profile/${id}`} className="profile-snippet">
       <div>
         <h3>{displayName}</h3>
         <p>@{username}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

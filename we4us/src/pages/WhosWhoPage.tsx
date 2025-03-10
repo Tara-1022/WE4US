@@ -29,7 +29,7 @@ const WhosWhoPage: React.FC = () => {
         setProfiles(profilesData);
 
       } catch (error) {
-        setError("error.message");
+        setError(error instanceof Error ? error.message : "An unknown error occurred.");
       } finally {
         setIsLoading(false);
       }
