@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProfileById } from "../api"; 
+import { fetchProfileById } from "../library/PostgresAPI"; 
+import { Loader } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -54,11 +55,7 @@ const ProfilePage = () => {
   
 
   if (isLoading) {
-    return (
-      <div>
-        <p>Loading profile...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error || !profile) {
@@ -72,8 +69,8 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <h1>{profile.display_name || "No Display Name"}</h1>
-      <p>@{profile.username || "No Username"}</p>
+      <h1>{profile.display_name}</h1>
+      <p>@{profile.username}</p>
 
       {profile.cohort && <p>Cohort: {profile.cohort}</p>}
       {profile.current_role && <p>Current Role: {profile.current_role}</p>}
