@@ -9,13 +9,9 @@ interface Profile {
   username: string;
   displayName: string;
   cohort?: string;
-<<<<<<< HEAD
-} 
-=======
   companyOrUniversity?: string;
   currentRole?: string;
 }
->>>>>>> origin/main
 
 const WhosWhoPage: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -33,11 +29,7 @@ const WhosWhoPage: React.FC = () => {
         setProfiles(profilesData);
 
       } catch (error) {
-<<<<<<< HEAD
         setError((error as Error).message);
-=======
-        setError(error instanceof Error ? error.message : "An unknown error occurred.");
->>>>>>> origin/main
       } finally {
         setIsLoading(false);
       }

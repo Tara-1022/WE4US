@@ -50,7 +50,6 @@ export const fetchProfileById = async (id: number) => {
       throw new Error("Unknown error occurred.");
     }
   }
-<<<<<<< HEAD:we4us/src/api.tsx
 };
 
 export const updateProfile = async (id: number, profileData: Profile) => {
@@ -78,6 +77,4 @@ export const updateProfile = async (id: number, profileData: Profile) => {
       throw new Error("Unknown error occurred while updating profile.");
     }
   }
-=======
->>>>>>> origin/main:we4us/src/library/PostgresAPI.ts
 };

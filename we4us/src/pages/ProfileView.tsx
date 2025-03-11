@@ -1,4 +1,4 @@
-import { Profile } from "../api";
+import { Profile } from "../library/PostgresAPI";
 import './ProfilePage.css';
 
 interface ProfileViewProps {

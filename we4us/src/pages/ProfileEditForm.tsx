@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Profile, updateProfile } from "../api";
+import { Profile, updateProfile } from "../library/PostgresAPI";
 import './EditProfile.css';
 
 interface ProfileEditFormProps {
