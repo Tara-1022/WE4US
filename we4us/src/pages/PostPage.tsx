@@ -3,7 +3,7 @@ import default_image from '../assets/default_image.png'
 import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
@@ -33,7 +33,9 @@ export default function PostPage() {
             <div>
                 <h3>{postView.post.name}</h3>
                 <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                <p>{postView.community.name}</p>
+                <Link to={"/community/" + postView.community.id}>
+                    <p>{postView.community.name}</p>
+                </Link>
                 <p>{postView.post.body}</p>
             </div>
 

@@ -1,6 +1,7 @@
 import { CommentView } from 'lemmy-js-client';
 import CommentCreator from './CommentCreator';
 import CommentDeletor from './CommentDeletor';
+import CommentSnippet from './CommentSnippet';
 import { useProfileContext } from './ProfileContext';
 
 // TODO: Add more information to the comment
@@ -16,9 +17,7 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
 
     return (
         <div style={styles.container}>
-            <p>{commentView.comment.deleted ? "Comment deleted" : commentView.comment.content} <br />
-                <b>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</b>
-            </p>
+            <CommentSnippet commentView={commentView} />
             <CommentCreator commentId={commentView.comment.id} actionName={"Reply"} />
 
             {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&

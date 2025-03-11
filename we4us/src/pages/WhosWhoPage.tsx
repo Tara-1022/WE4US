@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchProfiles } from "../api"; 
+import { fetchProfiles } from "../library/PostgresAPI"; 
+import { Loader } from 'lucide-react';
+import ProfileSnippet from "../components/ProfileSnippet";
+import "./styles/WhosWhoPage.css"
 
 interface Profile {
   id: number;
   username: string;
   displayName: string;
   cohort?: string;
+<<<<<<< HEAD
 } 
+=======
+  companyOrUniversity?: string;
+  currentRole?: string;
+}
+>>>>>>> origin/main
 
 const WhosWhoPage: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getProfiles = async () => {
@@ -25,7 +33,11 @@ const WhosWhoPage: React.FC = () => {
         setProfiles(profilesData);
 
       } catch (error) {
+<<<<<<< HEAD
         setError((error as Error).message);
+=======
+        setError(error instanceof Error ? error.message : "An unknown error occurred.");
+>>>>>>> origin/main
       } finally {
         setIsLoading(false);
       }
@@ -34,17 +46,7 @@ const WhosWhoPage: React.FC = () => {
     getProfiles();
   }, []);
 
-  const handleProfileClick = (id: number) => {
-    navigate(`/profile/${id}`);
-  };
-
-  if (isLoading) {
-    return (
-      <div>
-        <p>Loading profiles...</p>
-      </div>
-    );
-  }
+  if (isLoading) return <Loader />;
 
   if (error) {
     return (
@@ -55,8 +57,21 @@ const WhosWhoPage: React.FC = () => {
     );
   }
 
+  // Filter profiles based on search query
+  const filteredProfiles = profiles.filter((profile) => {
+    const query = searchQuery.toLowerCase().trim();
+    return (
+      profile.displayName.toLowerCase().includes(query) ||
+      profile.username.toLowerCase().includes(query) ||
+      (profile.cohort?.toLowerCase().trim() ?? "").includes(query) ||
+      (profile.companyOrUniversity?.toLowerCase().trim() ?? "").includes(query)
+      // (profile.currentRole?.toLowerCase().trim() ?? "").includes(query)
+    );
+  }); 
+
+  // Group profiles by cohort
   const groupedProfiles: { [key: string]: Profile[] } = {};
-  profiles.forEach((profile) => {
+  filteredProfiles.forEach((profile) => {
     const cohortKey = profile.cohort || "Unassigned";
     if (!groupedProfiles[cohortKey]) {
       groupedProfiles[cohortKey] = [];
@@ -69,36 +84,41 @@ const WhosWhoPage: React.FC = () => {
     .sort((a, b) => a - b)
     .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
 
-  return (
-    <div>
-      <h1>Who's Who</h1>
-      {sortedCohorts.map((cohort) => (
-        <div key={cohort}>
-          <h2>Cohort {cohort}</h2>
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            {groupedProfiles[cohort].map((profile) => (
-              <div
-                key={profile.id}
-                onClick={() => handleProfileClick(profile.id)}
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  textAlign: "center",
-                  minWidth: "150px",
-                  cursor: "pointer",
-                }}
-              >
-                <h3>{profile.displayName}</h3>
-                <p>@{profile.username}</p>
+    return (
+      <div className='whoswho-container'>
+        <h1>Who's Who</h1>
+  
+        {/* Search Box */}
+        <input
+          type="text"
+          placeholder="Search by name, company..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className='search-input'
+        />
+  
+        {/* Cohort-wise Profile Display */}
+        {sortedCohorts.length > 0 ? (
+          sortedCohorts.map((cohort) => (
+            <div key={cohort} className='cohort-section'>
+              <h2>Cohort {cohort}</h2>
+              <div className='profile-list'>
+                {groupedProfiles[cohort].map((profile) => (
+                  <ProfileSnippet
+                    key = {profile.id}
+                    id = {profile.id}
+                    username = {profile.username}
+                    displayName = {profile.displayName}
+                  />
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
+            </div>
+          ))
+        ) : (
+          <p>No profiles found.</p>
+        )}
+      </div>
+    );
+  };  
 
-export default WhosWhoPage;
-
+  export default WhosWhoPage;

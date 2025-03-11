@@ -1,4 +1,4 @@
-import { API_BASE_URL, PROFILES_ENDPOINT } from "./constants";
+import { API_BASE_URL, PROFILES_ENDPOINT } from "../constants";
 
 export interface Profile {
   id: string;
@@ -24,6 +24,8 @@ export const fetchProfiles = async () => {
       username: p.username,
       displayName: p.display_name, 
       cohort: p.cohort,
+      companyOrUniversity: p.company_or_university,
+      currentRole: p.current_role,
     }));
   } catch (error) {
     if (error instanceof Error) {
@@ -48,6 +50,7 @@ export const fetchProfileById = async (id: number) => {
       throw new Error("Unknown error occurred.");
     }
   }
+<<<<<<< HEAD:we4us/src/api.tsx
 };
 
 export const updateProfile = async (id: number, profileData: Profile) => {
@@ -75,4 +78,6 @@ export const updateProfile = async (id: number, profileData: Profile) => {
       throw new Error("Unknown error occurred while updating profile.");
     }
   }
+=======
+>>>>>>> origin/main:we4us/src/library/PostgresAPI.ts
 };

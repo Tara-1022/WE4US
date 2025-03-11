@@ -1,5 +1,8 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo } from 'lemmy-js-client';
+import {
+  LemmyHttp, PostView, GetPostResponse, Search,
+  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost
+} from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -28,6 +31,13 @@ export function getClient(): LemmyHttp {
   return client;
 }
 
+export type SearchParamsType = {
+  query: string;
+  communityId?: number;
+  type?: SearchType;
+  checkOnlyPostTitles?: boolean
+}
+
 // Keep things below ordered alphabetically
 
 export async function createComment(createComment: CreateComment) {
@@ -49,6 +59,16 @@ export async function deleteComment(commentId: number) {
   return response.comment_view;
 }
 
+export async function createPost(createPostData: CreatePost): Promise<PostView> {
+  try {
+    const response = await getClient().createPost(createPostData);
+    return response.post_view;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+} 
+
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
     {
@@ -62,14 +82,14 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
-  try{
-      const response = await getClient().getComments(
-        {
-         post_id: postId,
-         limit: 50
-        }
-      );
-      commentCollection = response.comments.slice();
+  try {
+    const response = await getClient().getComments(
+      {
+        post_id: postId,
+        limit: 50
+      }
+    );
+    commentCollection = response.comments.slice();
   }
   catch (error) {
     console.error(error);
@@ -77,6 +97,18 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   finally {
     return commentCollection;
   }
+}
+
+export async function getCommunityDetails(communityId: number) {
+  const response = await getClient().getCommunity({
+    id: communityId
+  });
+  return response.community_view;
+}
+
+export async function getCommunityList() {
+  const response = await getClient().listCommunities();
+  return response.communities;
 }
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
@@ -94,7 +126,7 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(): Promise<PostView[]> {
+export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
     let postCollection: PostView[] = [];
@@ -102,7 +134,8 @@ export async function getPostList(): Promise<PostView[]> {
         const response = await getClient().getPosts(
           {
             type_: "All",
-            limit: 50
+            limit: 50,
+        community_id: communityId
           }
         );
         postCollection = response.posts.slice();
@@ -121,7 +154,7 @@ export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
 
 }
 
-export async function hidePost(postId:number){
+export async function hidePost(postId: number) {
   const response = await getClient().hidePost({
     post_ids: [postId],
     hide: true
@@ -150,4 +183,10 @@ export async function logOut() {
   // Request logout, return status of success
   const response = await getClient().logout();
   return response.success;
+}
+
+export async function search(query: Search) {
+  const response = getClient().search(query)
+  return response
+
 }
