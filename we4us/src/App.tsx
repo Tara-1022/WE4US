@@ -7,7 +7,7 @@ import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
 import PgFinderPage from './pages/PgFinder';
-import ProfilePage from './pages/ProfilePage.tsx';
+import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import WhosWhoPage from './pages/WhosWhoPage';
 import PostPage from './pages/PostPage';
