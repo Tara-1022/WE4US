@@ -59,15 +59,16 @@ export const fetchProfileByUsername = async (username: string) => {
     return {
       id: profile.id,
       username: profile.username,
-      displayName: profile.display_name,
+      display_name: profile.display_name, 
       cohort: profile.cohort,
-      companyOrUniversity: profile.company_or_university,
-      currentRole: profile.current_role,
-      yearsOfExperience: profile.years_of_experience,
-      areasOfInterest: profile.areas_of_interest || [],
+      company_or_university: profile.company_or_university, 
+      current_role: profile.current_role, 
+      years_of_experience: profile.years_of_experience,
+      areas_of_interest: profile.areas_of_interest || [],
     };
   } catch (error) {
     console.error("Error fetching profile by username:", error);
-    return null; // Return null if an error occurs
+    return null; 
   }
 };
+

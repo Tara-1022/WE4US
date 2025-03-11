@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProfileById } from "../library/PostgresAPI"; 
+import {fetchProfileByUsername } from "../library/PostgresAPI"; 
+import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
 
 interface Profile {
@@ -19,39 +20,43 @@ interface Profile {
 
 
 const ProfilePage = () => {
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
+  const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate();
-
+  const { profileInfo } = useProfileContext();
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
+    if (!username) {
+      setError("Username is required.");
+      setIsLoading(false);
+      return;
+    }
+
     const getProfile = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetchProfileById(Number(id));
+        const response = await fetchProfileByUsername(username);
 
-        if (response && response.profile) {
-          setProfile({ ...response.profile});
-        } else {
+        if (!response) {
           setError("Profile not found.");
+          return;
         }
+
+        setProfile(response);
       } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unknown error occurred.");
-        }
+        setError(error instanceof Error ? error.message : "An unknown error occurred.");
       } finally {
         setIsLoading(false);
       }
     };    
 
     getProfile();
-  }, [id]);
+  }, [username]);
   
 
   if (isLoading) {

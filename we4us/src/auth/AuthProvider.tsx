@@ -42,13 +42,13 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
         setProfileInfo({
           lemmyId: userDetails.id, // Store profile ID
-          displayName: userDetails.displayName,
+          displayName: userDetails.display_name,
           userName: userDetails.username,
           cohort: userDetails.cohort,
-          companyOrUniversity: userDetails.companyOrUniversity,
-          currentRole: userDetails.currentRole,
-          yearsOfExperience: userDetails.yearsOfExperience,
-          areasOfInterest: userDetails.areasOfInterest,
+          companyOrUniversity: userDetails.company_or_university,
+          currentRole: userDetails.current_role,
+          yearsOfExperience: userDetails.years_of_experience,
+          areasOfInterest: userDetails.areas_of_interest,
         });
 
         console.log("User details", userDetails);
@@ -71,8 +71,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     if (token) {
       getCurrentUserDetails().then((userDetails) => {
         if (userDetails) {
-          const username = userDetails.local_user_view.person.name; // Extract username
-          setProfileContext(username); // Pass username to setProfileContext
+          const username = userDetails.local_user_view.person.name; 
+          setProfileContext(username); 
           setLemmyContext();
         }
       });

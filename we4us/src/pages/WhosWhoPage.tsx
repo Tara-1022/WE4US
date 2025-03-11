@@ -97,7 +97,7 @@ const WhosWhoPage: React.FC = () => {
               <div className='profile-list'>
                 {groupedProfiles[cohort].map((profile) => (
                   <ProfileSnippet
-                    key = {profile.id}
+                    key = {profile.username}
                     id = {profile.id}
                     username = {profile.username}
                     displayName = {profile.displayName}

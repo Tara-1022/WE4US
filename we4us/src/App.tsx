@@ -40,7 +40,7 @@ const App: React.FC = () => {
                 <Route path="/community/:communityId" element={<CommunityPage />} />
               </Route>
               {/* TODO: Move these back into the protected route */}
-              <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/profile/:username" element={<ProfilePage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/whos-who" element={<WhosWhoPage />} />
             </Routes>
