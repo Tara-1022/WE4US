@@ -30,30 +30,44 @@ export const useAuth = () => {
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const { setProfileInfo } = useProfileContext();
+  const { setProfileInfo, profileInfo } = useProfileContext();
   const { setLemmyInfo } = useLemmyInfo();
 
-  function setProfileContext(username: string) {
-    fetchProfileByUsername(username).then((userDetails) => {
-        if (!userDetails) {
-          window.alert("Error getting user profile. Please logout and log back in");
-          return;
-        }
-
-        setProfileInfo({
-          lemmyId: userDetails.id, // Store profile ID
-          displayName: userDetails.display_name,
-          userName: userDetails.username,
-          cohort: userDetails.cohort,
-          companyOrUniversity: userDetails.company_or_university,
-          currentRole: userDetails.current_role,
-          yearsOfExperience: userDetails.years_of_experience,
-          areasOfInterest: userDetails.areas_of_interest,
-        });
-
-        console.log("User details", userDetails);
+  function setProfileContext() {
+    getCurrentUserDetails().then(async (userDetails) => {
+      if (!userDetails) {
+        window.alert("Error getting user profile. Please logout and log back in");
+        return;
       }
-    )
+
+      setProfileInfo({
+        lemmyId: userDetails.local_user_view.person.id,
+        displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
+        userName: userDetails.local_user_view.person.name
+      });
+
+      console.log("User details", userDetails);
+
+      // Fetch additional profile details from PostgreSQL
+      try {
+        const postgresProfile = await fetchProfileByUsername(userDetails.local_user_view.person.name);
+        if (postgresProfile) {
+          setProfileInfo({
+            lemmyId: profileInfo?.lemmyId ?? userDetails.local_user_view.person.id, // Ensure lemmyId is always a number
+            displayName: profileInfo?.displayName ?? (userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name),
+            userName: profileInfo?.userName ?? userDetails.local_user_view.person.name,
+            cohort: postgresProfile.cohort,
+            companyOrUniversity: postgresProfile.company_or_university,
+            currentRole: postgresProfile.current_role,
+            yearsOfExperience: postgresProfile.years_of_experience,
+            areasOfInterest: postgresProfile.areas_of_interest,
+          });          
+          
+        }
+      } catch (error) {
+        console.error("Error fetching additional profile details:", error);
+      }
+    });
   }
 
   function setLemmyContext() {
@@ -69,13 +83,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     setClientToken(token);
     if (token) {
-      getCurrentUserDetails().then((userDetails) => {
-        if (userDetails) {
-          const username = userDetails.local_user_view.person.name; 
-          setProfileContext(username); 
-          setLemmyContext();
-        }
-      });
+      setProfileContext();
+      setLemmyContext();
       localStorage.setItem("token", token);
     } else {
       localStorage.removeItem("token");
