@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useMemo, useEffect } from "react";
 import { setClientToken, getCommunityList, getCurrentUserDetails } from "../library/LemmyApi";
+import { fetchProfileByUsername } from "../library/PostgresAPI";
 import { useProfileContext } from "../components/ProfileContext";
 import { useLemmyInfo } from "../components/LemmyContextProvider";
 
@@ -32,18 +33,24 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const { setProfileInfo } = useProfileContext();
   const { setLemmyInfo } = useLemmyInfo();
 
-  function setProfileContext() {
-    getCurrentUserDetails().then(
-      (userDetails) => {
+  function setProfileContext(username: string) {
+    fetchProfileByUsername(username).then((userDetails) => {
         if (!userDetails) {
           window.alert("Error getting user profile. Please logout and log back in");
           return;
         }
+
         setProfileInfo({
-          lemmyId: userDetails.local_user_view.person.id,
-          displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
-          userName: userDetails.local_user_view.person.name
-        })
+          lemmyId: userDetails.id, // Store profile ID
+          displayName: userDetails.displayName,
+          userName: userDetails.username,
+          cohort: userDetails.cohort,
+          companyOrUniversity: userDetails.companyOrUniversity,
+          currentRole: userDetails.currentRole,
+          yearsOfExperience: userDetails.yearsOfExperience,
+          areasOfInterest: userDetails.areasOfInterest,
+        });
+
         console.log("User details", userDetails);
       }
     )
@@ -62,12 +69,19 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     setClientToken(token);
     if (token) {
-      setProfileContext();
-      setLemmyContext();
+      getCurrentUserDetails().then((userDetails) => {
+        if (userDetails) {
+          const username = userDetails.local_user_view.person.name; // Extract username
+          setProfileContext(username); // Pass username to setProfileContext
+          setLemmyContext();
+        }
+      });
       localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
     }
-    else localStorage.removeItem("token");
-  }, [token])
+  }, [token]);
+  
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(

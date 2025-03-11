@@ -6,6 +6,11 @@ export type profileInfoType = {
     lemmyId: number;
     displayName: string;
     userName: string;
+    cohort?: string;
+    companyOrUniversity?: string;
+    currentRole?: string;
+    yearsOfExperience?: number;
+    areasOfInterest?: string[];
 }
 
 export type profileContextType = {
