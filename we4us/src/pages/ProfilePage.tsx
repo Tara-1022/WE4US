@@ -9,9 +9,6 @@ interface Profile {
   username: string;
   display_name: string;
   cohort?: string;
-  // joinDate: string;
-  // posts: number;
-  // comments: number;
   current_role?: string;
   company_or_university?: string;
   years_of_experience?: number;
@@ -20,18 +17,18 @@ interface Profile {
 
 
 const ProfilePage = () => {
-  // const { id } = useParams<{ id: string }>();
-  const { username } = useParams<{ username?: string }>();
+  const { username: paramUsername } = useParams<{ username?: string }>();
   const navigate = useNavigate();
   const { profileInfo } = useProfileContext();
+
+  const username = paramUsername || profileInfo?.userName; 
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!username) {
-      setError("Username is required.");
-      setIsLoading(false);
+      navigate('/login');
       return;
     }
 
@@ -56,7 +53,7 @@ const ProfilePage = () => {
     };    
 
     getProfile();
-  }, [username]);
+  }, [username, navigate]);
   
 
   if (isLoading) {
