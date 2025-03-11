@@ -1,5 +1,8 @@
 import { INSTANCE_URL } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, CommentView, CreateComment, MyUserInfo, CreatePost } from 'lemmy-js-client';
+import {
+  LemmyHttp, PostView, GetPostResponse, Search,
+  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost
+} from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -26,6 +29,13 @@ export function getClient(): LemmyHttp {
   // Adapted from [voyager](https://github.com/aeharding/voyager/blob/1498afe1a1e4b1b63d31035a9f73612b7534f42c/src/services/lemmy.ts#L16)
   // Do not set or reset the token in these functions
   return client;
+}
+
+export type SearchParamsType = {
+  query: string;
+  communityId?: number;
+  type?: SearchType;
+  checkOnlyPostTitles?: boolean
 }
 
 // Keep things below ordered alphabetically
@@ -72,14 +82,14 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
-  try{
-      const response = await getClient().getComments(
-        {
-         post_id: postId,
-         limit: 50
-        }
-      );
-      commentCollection = response.comments.slice();
+  try {
+    const response = await getClient().getComments(
+      {
+        post_id: postId,
+        limit: 50
+      }
+    );
+    commentCollection = response.comments.slice();
   }
   catch (error) {
     console.error(error);
@@ -173,4 +183,10 @@ export async function logOut() {
   // Request logout, return status of success
   const response = await getClient().logout();
   return response.success;
+}
+
+export async function search(query: Search) {
+  const response = getClient().search(query)
+  return response
+
 }
