@@ -41,12 +41,13 @@ async function getPostgresProfile(username: string) {
     };
   } catch (error) {
     console.error("Error fetching postgres profile details:", error);
-    return null; // Return empty object to prevent breaking spread operator
+    window.alert("Unable to fetch Postgres profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
+    throw error;
   }
 }
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem("token") || null);
+  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const { setProfileInfo } = useProfileContext();
   const { setLemmyInfo } = useLemmyInfo();
 
@@ -54,7 +55,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     try {
       const userDetails = await getCurrentUserDetails();
       if (!userDetails) {
-        window.alert("Error getting user profile. Please logout and log back in");
+        window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
         return;
       }
 
