@@ -16,8 +16,7 @@ import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
 import SearchPage from './pages/SearchPage';
-import BackButton from './components/BackButton';
-import HomeButton from './components/HomeButton';
+import { BackButton, HomeButton } from './components/NavButtons';
 
 Modal.setAppElement('#root');
 
