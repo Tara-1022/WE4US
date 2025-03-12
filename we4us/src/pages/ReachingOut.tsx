@@ -9,11 +9,15 @@ function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null)
 
   useEffect(() => {
-    getPostList().then(postList => setPostViews(postList));
-  }, []
-  )
-
-  if (!postViews) return <Loader />;
+    setTimeout(() => { // simulating a delay. TODO: Remove timeout
+      getPostList().then(postList => setPostViews(postList));
+      console.log("Fetched posts")
+    }, 1000)
+  }
+    , [])
+  if (!postViews) {
+    return <Loader />;
+  }
   else if (postViews.length == 0) {
     return (
       <>
