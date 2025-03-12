@@ -16,6 +16,7 @@ import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
 import SearchPage from './pages/SearchPage';
+import { BackButton, HomeButton } from './components/NavButtons';
 
 Modal.setAppElement('#root');
 
@@ -25,6 +26,8 @@ const App: React.FC = () => {
       <Router>
         <div className="relative min-h-screen">
           <Sidebar />
+          <BackButton/>
+          <HomeButton/>
           <main className="pt-10 px-4">
             <Routes>
               <Route path="/login" element={<AuthorisationPage />} />
