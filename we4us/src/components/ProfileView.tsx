@@ -1,5 +1,5 @@
 import { Profile } from "../library/PostgresAPI";
-import './ProfilePage.css';
+import '../styles/ProfilePage.css';
 
 interface ProfileViewProps {
   profile: Profile;

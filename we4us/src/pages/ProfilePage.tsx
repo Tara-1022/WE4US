@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchProfileById, Profile } from "../library/PostgresAPI";
-import ProfileView from "./ProfileView";
-import ProfileEditForm from "./ProfileEditForm";
+import { Loader } from "lucide-react";
+import ProfileView from "../components/ProfileView";
+import ProfileEditForm from "../components/ProfileEditForm";
 
 
 
@@ -44,8 +45,7 @@ const ProfilePage = () => {
   if (isLoading) {
     return (
       <div className="profile-container loading">
-        <div className="loading-spinner"></div>
-        <p>Loading profile...</p>
+        <Loader className="loading-spinner" />
       </div>
     );
   }
