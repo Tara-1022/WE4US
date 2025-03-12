@@ -7,6 +7,7 @@ import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
+import LikeHandler from '../components/LikeHandler';
 
 export default function PostPage() {
     const postId = Number(useParams().postId);
@@ -38,6 +39,8 @@ export default function PostPage() {
                 </Link>
                 <p>{postView.post.body}</p>
             </div>
+
+            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
 
             {postView.creator.id == profileInfo?.lemmyId &&
                 <PostDeletor postId={postView.post.id} />}
