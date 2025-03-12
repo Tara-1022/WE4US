@@ -77,7 +77,7 @@ const ProfilePage = () => {
       {profile.cohort && <p>Cohort: {profile.cohort}</p>}
       {profile.current_role && <p>Current Role: {profile.current_role}</p>}
       {profile.company_or_university && <p>Company/University: {profile.company_or_university}</p>}
-      {profile.years_of_experience !== undefined && profile.years_of_experience !== null && (
+      {profile.years_of_experience !== undefined && profile.years_of_experience !== null && profile.years_of_experience !== 0 && (
         <p>Years of Experience: {profile.years_of_experience}</p>
       )}
       {profile.areas_of_interest && profile.areas_of_interest.length > 0 && (
