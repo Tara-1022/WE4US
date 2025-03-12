@@ -28,56 +28,62 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+async function getPostgresProfile(username: string) {
+  try {
+    const postgresProfile = await fetchProfileByUsername(username);
+    if (!postgresProfile) throw new Error("Postgres Profile empty!");
+    return {
+      cohort: postgresProfile.cohort,
+      companyOrUniversity: postgresProfile.company_or_university,
+      currentRole: postgresProfile.current_role,
+      yearsOfExperience: postgresProfile.years_of_experience,
+      areasOfInterest: postgresProfile.areas_of_interest,
+    };
+  } catch (error) {
+    console.error("Error fetching postgres profile details:", error);
+    return null; // Return empty object to prevent breaking spread operator
+  }
+}
+
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const { setProfileInfo, profileInfo } = useProfileContext();
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem("token") || null);
+  const { setProfileInfo } = useProfileContext();
   const { setLemmyInfo } = useLemmyInfo();
 
-  function setProfileContext() {
-    getCurrentUserDetails().then(async (userDetails) => {
+  async function setProfileContext() {
+    try {
+      const userDetails = await getCurrentUserDetails();
       if (!userDetails) {
         window.alert("Error getting user profile. Please logout and log back in");
         return;
       }
 
-      setProfileInfo({
+      // Store Lemmy profile info separately
+      const lemmyProfileInfo = {
         lemmyId: userDetails.local_user_view.person.id,
         displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
-        userName: userDetails.local_user_view.person.name
-      });
+        userName: userDetails.local_user_view.person.name,
+      };
 
-      console.log("User details", userDetails);
+      setProfileInfo(lemmyProfileInfo);
 
-      // Fetch additional profile details from PostgreSQL
-      try {
-        const postgresProfile = await fetchProfileByUsername(userDetails.local_user_view.person.name);
-        if (postgresProfile) {
-          setProfileInfo({
-            lemmyId: profileInfo?.lemmyId ?? userDetails.local_user_view.person.id, // Ensure lemmyId is always a number
-            displayName: profileInfo?.displayName ?? (userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name),
-            userName: profileInfo?.userName ?? userDetails.local_user_view.person.name,
-            cohort: postgresProfile.cohort,
-            companyOrUniversity: postgresProfile.company_or_university,
-            currentRole: postgresProfile.current_role,
-            yearsOfExperience: postgresProfile.years_of_experience,
-            areasOfInterest: postgresProfile.areas_of_interest,
-          });          
-          
-        }
-      } catch (error) {
+      // Fetch PostgreSQL details
+      const postgresProfile = await getPostgresProfile(lemmyProfileInfo.userName);
+      if (!postgresProfile) return;
+      setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
+
+    }  catch (error) {
         console.error("Error fetching additional profile details:", error);
       }
-    });
   }
 
   function setLemmyContext() {
-    getCommunityList().then(
-      (communityList) => {
-        setLemmyInfo({
-          communities: communityList
-        })
-      }
-    )
+    getCommunityList().then((communityList) => {
+        setLemmyInfo({communities: communityList});
+      })
+      .catch((error) => {
+        console.error("Error fetching community list:", error);
+      });
   }
 
   useEffect(() => {
@@ -94,16 +100,9 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({
-      token,
-      setToken,
-    }),
+    () => ({ token, setToken}),
     [token]
   );
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
