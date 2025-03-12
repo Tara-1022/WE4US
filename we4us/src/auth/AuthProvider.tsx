@@ -55,8 +55,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     try {
       const userDetails = await getCurrentUserDetails();
       if (!userDetails) {
-        window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
-        return;
+        throw new Error("No User details found");
       }
 
       // Store Lemmy profile info separately
@@ -74,7 +73,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
 
     }  catch (error) {
-        console.error("Error fetching additional profile details:", error);
+        console.error("Error fetching profile details:", error);
+        window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
       }
   }
 
@@ -90,7 +90,9 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     setClientToken(token);
     if (token) {
-      setProfileContext();
+      setProfileContext().catch((error) => {
+        console.error(error);
+      });
       setLemmyContext();
       localStorage.setItem("token", token);
     } else {
