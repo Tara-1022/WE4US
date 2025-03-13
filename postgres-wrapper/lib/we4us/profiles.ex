@@ -10,18 +10,21 @@ defmodule We4us.Profiles do
     Repo.all(Profile)
   end
 
-  #Fetch a single profile by id
-  def get_profile!(id) do
-    Repo.get!(Profile, id)
+  #Fetch a single profile by username
+  def get_profile!(username) do
+    Repo.get!(Profile, username)
   end
 
-  def get_profile(id) do
-    Repo.get(Profile, id)
+  def get_profile(username) do
+    Repo.get(Profile, username)
   end
-
 
   #Create a profile
   def create_profile(attrs) do
+    username = String.downcase(attrs["display_name"] |> String.replace(" ", "_"))
+
+    attrs = Map.put(attrs, "username", username)
+
     %Profile{}
     |> Profile.changeset(attrs)
     |> Repo.insert()
