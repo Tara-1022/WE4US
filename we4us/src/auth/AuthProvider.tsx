@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useMemo, useEffect } from "react";
 import { setClientToken, getCommunityList, getCurrentUserDetails } from "../library/LemmyApi";
+import { fetchProfileByUsername } from "../library/PostgresAPI";
 import { useProfileContext } from "../components/ProfileContext";
 import { useLemmyInfo } from "../components/LemmyContextProvider";
 
@@ -27,60 +28,83 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+async function getPostgresProfile(username: string) {
+  try {
+    const postgresProfile = await fetchProfileByUsername(username);
+    if (!postgresProfile) throw new Error("Postgres Profile empty!");
+    return {
+      cohort: postgresProfile.cohort,
+      companyOrUniversity: postgresProfile.company_or_university,
+      currentRole: postgresProfile.current_role,
+      yearsOfExperience: postgresProfile.years_of_experience,
+      areasOfInterest: postgresProfile.areas_of_interest,
+    };
+  } catch (error) {
+    console.error("Error fetching postgres profile details:", error);
+    window.alert("Unable to fetch Postgres profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
+  }
+}
+
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const { setProfileInfo } = useProfileContext();
   const { setLemmyInfo } = useLemmyInfo();
 
-  function setProfileContext() {
-    getCurrentUserDetails().then(
-      (userDetails) => {
-        if (!userDetails) {
-          window.alert("Error getting user profile. Please logout and log back in");
-          return;
-        }
-        setProfileInfo({
-          lemmyId: userDetails.local_user_view.person.id,
-          displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
-          userName: userDetails.local_user_view.person.name
-        })
-        console.log("User details", userDetails);
+  async function setProfileContext() {
+    try {
+      const userDetails = await getCurrentUserDetails();
+      if (!userDetails) {
+        throw new Error("No User details found");
       }
-    )
+
+      // Store Lemmy profile info separately
+      const lemmyProfileInfo = {
+        lemmyId: userDetails.local_user_view.person.id,
+        displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
+        userName: userDetails.local_user_view.person.name,
+      };
+
+      setProfileInfo(lemmyProfileInfo);
+
+      // Fetch PostgreSQL details
+      const postgresProfile = await getPostgresProfile(lemmyProfileInfo.userName);
+      if (!postgresProfile) return;
+      setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
+
+    }  catch (error) {
+        console.error("Error fetching profile details:", error);
+        window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
+      }
   }
 
   function setLemmyContext() {
-    getCommunityList().then(
-      (communityList) => {
-        setLemmyInfo({
-          communities: communityList
-        })
-      }
-    )
+    getCommunityList().then((communityList) => {
+        setLemmyInfo({communities: communityList});
+      })
+      .catch((error) => {
+        console.error("Error fetching community list:", error);
+      });
   }
 
   useEffect(() => {
     setClientToken(token);
     if (token) {
-      setProfileContext();
+      setProfileContext().catch((error) => {
+        console.error(error);
+      });
       setLemmyContext();
       localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
     }
-    else localStorage.removeItem("token");
-  }, [token])
+  }, [token]);
+  
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({
-      token,
-      setToken,
-    }),
+    () => ({ token, setToken}),
     [token]
   );
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }

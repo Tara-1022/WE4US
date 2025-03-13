@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProfileById } from "../library/PostgresAPI"; 
+import {fetchProfileByUsername } from "../library/PostgresAPI"; 
+import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
 
 interface Profile {
@@ -8,9 +9,6 @@ interface Profile {
   username: string;
   display_name: string;
   cohort?: string;
-  // joinDate: string;
-  // posts: number;
-  // comments: number;
   current_role?: string;
   company_or_university?: string;
   years_of_experience?: number;
@@ -19,38 +17,43 @@ interface Profile {
 
 
 const ProfilePage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { username: paramUsername } = useParams<{ username?: string }>();
+  const navigate = useNavigate();
+  const { profileInfo } = useProfileContext();
 
+  const username = paramUsername || profileInfo?.userName; 
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
+    if (!username) {
+      navigate('/login');
+      return;
+    }
+
     const getProfile = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetchProfileById(Number(id));
+        const response = await fetchProfileByUsername(username);
 
-        if (response && response.profile) {
-          setProfile({ ...response.profile});
-        } else {
+        if (!response) {
           setError("Profile not found.");
+          return;
         }
+
+        setProfile(response);
       } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unknown error occurred.");
-        }
+        setError(error instanceof Error ? error.message : "An unknown error occurred.");
       } finally {
         setIsLoading(false);
       }
     };    
 
     getProfile();
-  }, [id]);
+  }, [username, navigate]);
   
 
   if (isLoading) {
@@ -73,7 +76,7 @@ const ProfilePage = () => {
       {profile.cohort && <p>Cohort: {profile.cohort}</p>}
       {profile.current_role && <p>Current Role: {profile.current_role}</p>}
       {profile.company_or_university && <p>Company/University: {profile.company_or_university}</p>}
-      {profile.years_of_experience !== undefined && profile.years_of_experience !== null && (
+      {profile.years_of_experience !== undefined && profile.years_of_experience !== null && profile.years_of_experience !== 0 && (
         <p>Years of Experience: {profile.years_of_experience}</p>
       )}
       {profile.areas_of_interest && profile.areas_of_interest.length > 0 && (

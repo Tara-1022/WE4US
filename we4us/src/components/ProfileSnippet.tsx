@@ -8,9 +8,9 @@ interface ProfileSnippetProps {
   username: string;
 }
 
-const ProfileSnippet: React.FC<ProfileSnippetProps> = ({ id, displayName, username }) => {
+const ProfileSnippet: React.FC<ProfileSnippetProps> = ({ displayName, username }) => {
   return (
-    <Link to={`/profile/${id}`} className="profile-snippet">
+    <Link to={`/profile/${username}`} className="profile-snippet">
       <div>
         <h3>{displayName}</h3>
         <p>@{username}</p>
