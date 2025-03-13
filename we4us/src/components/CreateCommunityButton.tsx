@@ -1,11 +1,6 @@
 import { useState } from "react";
 import CreateCommunityModal from "../components/CreateCommunityModal";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-
-=======
->>>>>>> bcb0140 (Switched to navigate from react-router-dom for consistency)
-
 
 const CreateCommunityButton = () => {
     const [showForm, setShowForm] = useState(false);
