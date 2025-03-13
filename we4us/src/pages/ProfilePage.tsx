@@ -64,7 +64,6 @@ const ProfilePage = () => {
     return (
       <div>
         <p>{error || 'Profile not found'}</p>
-        <button onClick={() => navigate(-1)}>Back to Who's Who</button>
       </div>
     );
   }
@@ -90,7 +89,6 @@ const ProfilePage = () => {
           </ul>
         </div>
       )}
-      <button onClick={() => navigate(-1)}>Back</button>
     </div>
   );
 };
