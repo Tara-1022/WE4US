@@ -41,7 +41,7 @@ async function getPostgresProfile(username: string) {
     };
   } catch (error) {
     console.error("Error fetching postgres profile details:", error);
-    throw error;
+    window.alert("Unable to fetch Postgres profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
   }
 }
 
