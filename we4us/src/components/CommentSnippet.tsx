@@ -1,4 +1,5 @@
 import { CommentView } from "lemmy-js-client";
+import { Link } from "react-router-dom";
 
 let styles = {
     container: {
@@ -11,7 +12,7 @@ export default function CommentSnippet({ commentView }: { commentView: CommentVi
     return (
         <p style={styles.container}>
             {commentView.comment.deleted ? "Comment deleted" : commentView.comment.content} <br />
-            <b>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</b>
+            <Link to={"/profile/" + commentView.creator.name}>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</Link>
         </p>
     )
 }

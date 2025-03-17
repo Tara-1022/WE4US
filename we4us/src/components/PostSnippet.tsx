@@ -44,7 +44,9 @@ export default function PostSnippet({ postView }: { postView: PostView }) {
                 <Link to={"/post/" + postView.post.id}>
                     <h3>{postView.post.name}</h3>
                 </Link>
-                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
+                <Link to={"/profile/" + postView.creator.name}>
+                    {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
+                </Link>
                 <Link to={"/community/" + postView.community.id}>
                     <p>{postView.community.name}</p>
                 </Link>
@@ -52,6 +54,6 @@ export default function PostSnippet({ postView }: { postView: PostView }) {
 
             <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postView.post.id} />
 
-        </div>
+        </div >
     );
 }
