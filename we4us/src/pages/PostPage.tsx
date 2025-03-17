@@ -33,7 +33,9 @@ export default function PostPage() {
             </div>
             <div>
                 <h3>{postView.post.name}</h3>
-                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
+                <Link to={"/profile/" + postView.creator.name}>
+                    {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
+                </Link>
                 <Link to={"/community/" + postView.community.id}>
                     <p>{postView.community.name}</p>
                 </Link>
