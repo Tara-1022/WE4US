@@ -60,13 +60,14 @@ export default function PostPage() {
             }
             <div>
                 <h3>{postView.post.name}</h3>
+                <a href={postView.post.url} target='_blank'>{postView.post.url}</a>
+                <p>{postBody.body}</p>
                 <Link to={"/profile/" + postView.creator.name}>
                     {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
                 </Link>
                 <Link to={"/community/" + postView.community.id}>
                     <p>{postView.community.name}</p>
                 </Link>
-                <p>{postBody.body}</p>
             </div>
 
             <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
