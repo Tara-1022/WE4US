@@ -8,6 +8,8 @@ import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import LikeHandler from '../components/LikeHandler';
+import { getPostBody, PostBodyType } from '../library/PostBodyType';
+import { constructImageUrl } from '../library/LemmyImageHandling';
 
 export default function PostPage() {
     const postId = Number(useParams().postId);
@@ -18,17 +20,21 @@ export default function PostPage() {
         () => {
             getPostById(postId).then(
                 response =>
-                    setPostView(response ? response.post_view : null)
+                    {setPostView(response ? response.post_view : null);
+                        console.log(response)}
             )
         },
         [postId]
     )
     if (!postView) return <Loader />;
+
+    const postBody: PostBodyType = getPostBody(postView)
+
     return (
         <>
             <div>
                 <img
-                    src={postView.image_details ? postView.image_details.link : default_image}
+                    src={postBody.imageData ? constructImageUrl(postBody.imageData) : default_image}
                     alt="PostImage" />
             </div>
             <div>
@@ -39,13 +45,13 @@ export default function PostPage() {
                 <Link to={"/community/" + postView.community.id}>
                     <p>{postView.community.name}</p>
                 </Link>
-                <p>{postView.post.body}</p>
+                <p>{postBody.body}</p>
             </div>
 
             <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
 
             {postView.creator.id == profileInfo?.lemmyId &&
-                <PostDeletor postId={postView.post.id} />}
+                <PostDeletor postId={postView.post.id} imageData={postBody.imageData} />}
 
             <CommentsSection postId={postView.post.id} />
         </>

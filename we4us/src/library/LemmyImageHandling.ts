@@ -1,13 +1,13 @@
 import { LEMMY_IMAGE_URL } from "../constants"
 import { getClient } from "./LemmyApi"
 
-export type imageDetailsType = {
+export type ImageDetailsType = {
   filename: string,
   deleteToken: string
 }
 
 // https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/common/image-upload-form.tsx#L73
-export async function uploadImage(image: File): Promise<imageDetailsType> {
+export async function uploadImage(image: File): Promise<ImageDetailsType> {
   try {
     const response = await getClient().uploadImage({ image: image })
     console.log(response)
@@ -33,7 +33,7 @@ export async function uploadImage(image: File): Promise<imageDetailsType> {
 }
 
 // https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/common/media-uploads.tsx#L80
-export async function deleteImage(image: imageDetailsType) {
+export async function deleteImage(image: ImageDetailsType) {
   const response = await getClient().deleteImage({
     token: image.deleteToken,
     filename: image.filename
@@ -42,6 +42,6 @@ export async function deleteImage(image: imageDetailsType) {
   return response;
 }
 
-export function constructImageUrl(image: imageDetailsType): string {
+export function constructImageUrl(image: ImageDetailsType): string {
   return LEMMY_IMAGE_URL + image.filename;
 }

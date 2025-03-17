@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { imageDetailsType, uploadImage, deleteImage, constructImageUrl } from "../library/LemmyImageHandling";
+import { ImageDetailsType, uploadImage, deleteImage } from "../library/LemmyImageHandling";
 import { createPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
+import { PostBodyType } from "../library/PostBodyType";
 
 interface PostCreationModalProps {
   isOpen: boolean;
@@ -12,7 +13,7 @@ interface PostCreationModalProps {
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
-  const [imageData, setImageData] = useState<imageDetailsType>();
+  const [imageData, setImageData] = useState<ImageDetailsType>();
 
   function deleteUploadedImage() {
     if (imageData) {
@@ -64,11 +65,14 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     // since the field is required, the form will ensure a valid communityId is selected.
 
     try {
+      const postBody: PostBodyType = {
+        body: body.toString(),
+        imageData: imageData
+      }
       createPost({
         name: title.toString(),
         community_id: Number(communityId),
-        body: body.toString(),
-        ...(imageData && { url: constructImageUrl(imageData) })
+        body: JSON.stringify(postBody)
       })
         .then((createdPost) => {
           onPostCreated(createdPost); // Passing the newpost for the parent to handle.
