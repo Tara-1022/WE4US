@@ -230,3 +230,44 @@ export async function undoLikeComment(commentId: number){
   );
   return response.comment_view;
 }
+export async function createMeetupEvent(createPostData: CreatePost): Promise<PostView> {
+    const response = await getClient().createPost({
+      ...createPostData,
+      body: JSON.stringify({ type: "meetup", ...JSON.parse(createPostData.body || "{}") }),
+    });
+    return response.post_view;
+  
+}
+export async function getMeetupEvents(communityId?: number): Promise<PostView[]> {
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit: 50,
+      community_id: communityId
+    });
+    return response.posts.filter(post => {
+        const body = JSON.parse(post.post.body || "{}");
+        return body.type === "meetup"; 
+    });
+  
+}
+export async function updateMeetupEvent(postId: number, updateData: Partial<CreatePost>): Promise<PostView> {
+  
+    const existingPost = await getPostById(postId);
+    if (!existingPost) throw new Error("Meetup event not found.");
+    const updatedBody = JSON.stringify({
+      ...JSON.parse(existingPost.post_view.post.body || "{}"),
+      ...updateData.body && JSON.parse(updateData.body),
+    });
+    const response = await getClient().editPost({
+      post_id: postId,
+      body: updatedBody,
+    });
+    return response.post_view;
+}
+export async function deleteMeetupEvent(postId: number) {
+    const response = await getClient().deletePost({
+      post_id: postId,
+      deleted: true
+    });
+    return response.post_view;
+}
