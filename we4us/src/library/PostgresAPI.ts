@@ -54,7 +54,7 @@ export const fetchProfileById = async (id: number) => {
 
 export const fetchProfileByUsername = async (username: string) => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`);
+    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch profile for username: ${username}`);
@@ -84,7 +84,7 @@ export const fetchProfileByUsername = async (username: string) => {
 };
 export const updateProfile = async (username: string, profileData: Profile) => {
   try {
-    const url = `${API_BASE_URL}${PROFILES_ENDPOINT}/${username}`;
+    const url = `${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${username}`;
 
     const response = await fetch(url, {
       method: 'PUT', 

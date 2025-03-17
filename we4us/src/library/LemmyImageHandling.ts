@@ -10,7 +10,6 @@ export type ImageDetailsType = {
 export async function uploadImage(image: File): Promise<ImageDetailsType> {
   try {
     const response = await getClient().uploadImage({ image: image })
-    console.log(response)
     if (!(response.msg == "ok"))
       throw new Error(response.msg);
 

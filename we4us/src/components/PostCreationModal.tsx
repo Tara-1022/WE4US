@@ -17,7 +17,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
   function deleteUploadedImage() {
     if (imageData) {
-      console.log(imageData)
       deleteImage(imageData).then(() => {
         setImageData(undefined);
         console.log("Deleted")
