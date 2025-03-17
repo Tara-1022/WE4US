@@ -1,4 +1,4 @@
-import { API_BASE_URL, PROFILES_ENDPOINT } from "../constants";
+import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT } from "../constants";
 
 export interface Profile {
   id: string;
@@ -13,7 +13,7 @@ export interface Profile {
 
 export const fetchProfiles = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}`);
+    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}`);
     if (!response.ok) {
       throw new Error("Failed to fetch profiles");
     }
@@ -38,7 +38,7 @@ export const fetchProfiles = async () => {
 
 export const fetchProfileById = async (id: number) => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${id}`);
+    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${id}`);
     if (!response.ok) {
       throw new Error("Failed to fetch profile");
     }
