@@ -47,12 +47,11 @@ export async function createComment(createComment: CreateComment) {
   return response.comment_view;
 }
 
-export async function createCommunity({name, title, description}: {name: string, title: string, description?: string}){
+export async function createCommunity({name, title}: {name: string, title: string}){
   try{
     const response = await getClient().createCommunity({
       name: name,
       title: title,
-      description: description,
       visibility: "LocalOnly" as CommunityVisibility
       // https://github.com/LemmyNet/lemmy-js-client/blob/main/src/types/CommunityVisibility.ts#L6
       // Since it's a private server with federation disabled, the default behaviour 

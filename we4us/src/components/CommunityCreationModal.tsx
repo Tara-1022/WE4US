@@ -10,12 +10,14 @@ interface CommunityCreationModalProps {
 }
 
 function isTitleValid(title: string) {
-    const titleRegex = /^[A-Za-z0-9_]{3,30}$/;
+    const titleRegex = /^[A-Za-z0-9_ !\*&#\.,\?<>;:'"\[\]\{}\|\-_\=\+\\]{3,100}$/;
     return titleRegex.test(title);
 };
 
 function isNameValid(name: string) {
-    const nameRegex = /^[A-Za-z0-9]{3,500}$/;
+    // While the official UI disallows uppercase characters, the backend handles it fine.
+    // Still, let's disallow uppercase just in case
+    const nameRegex = /^[a-z0-9_]{3,500}$/;
     return nameRegex.test(name);
 };
 
@@ -25,12 +27,13 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
 
     function isContentValid(name: string, title: string) {
         // As per https://github.com/LemmyNet/lemmy-js-client/blob/4eda61b6fd2b62d83e22616c14f540e4f57427c2/src/types/CreateCommunity.ts#L8
+        // And specifically https://github.com/LemmyNet/lemmy-ui/blob/release/v0.19/src/shared/components/community/community-form.tsx
         if (!isNameValid(name)) {
-            setError("Community name must be 3-30 characters long, contain only letters and numbers");
+            setError("Community name must be 3-100 characters long, contain underscore, lowercase letters and numbers");
             return false;
         }
         if (!isTitleValid(title)) {
-            setError("Title must be between 3 and 500 characters, only underscore, letters and numbers");
+            setError("Title must be 3-500 characters long. Regular punctuation allowed.");
             return false;
         }
         setError("");
@@ -99,7 +102,7 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
                     <label htmlFor="name">Community Name (must be unique): </label>
                     <input type="text" name="name" required />
                     <br />
-                    <label htmlFor="title">Community Title (the longer display name):  </label>
+                    <label htmlFor="title">Community Title (treat as description):  </label>
                     <input type="text" name="title" required />
                     <br />
                     <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer" }}>
