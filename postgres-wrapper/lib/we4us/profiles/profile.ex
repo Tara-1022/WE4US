@@ -26,6 +26,6 @@ defmodule We4us.Profiles.Profile do
     |> validate_length(:username, min: 3, max: 50)
     |> validate_number(:years_of_experience, greater_than_or_equal_to: 0)
     |> validate_format(:username, ~r/^[a-z0-9_]+$/, message: "must be lowercase, no spaces, and use underscores")
-    |> unique_constraint(:username)
+    |> unique_constraint(:username, message: "Username is already taken")
   end
 end

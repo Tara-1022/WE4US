@@ -21,13 +21,20 @@ defmodule We4us.Profiles do
 
   #Create a profile
   def create_profile(attrs) do
-    username = String.downcase(attrs["display_name"] |> String.replace(" ", "_"))
+    # Ensure username is present
+    case Map.fetch(attrs, "username") do
+      {:ok, username} ->
+        username = String.downcase(username) |> String.replace(" ", "_")  # Enforce format
 
-    attrs = Map.put(attrs, "username", username)
+        attrs = Map.put(attrs, "username", username)
 
-    %Profile{}
-    |> Profile.changeset(attrs)
-    |> Repo.insert()
+        %Profile{}
+        |> Profile.changeset(attrs)
+        |> Repo.insert()
+
+      :error ->
+        {:error, "Username is required"}  # Explicit error if missing
+    end
   end
 
   #Update a profile
