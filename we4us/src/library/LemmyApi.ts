@@ -1,7 +1,8 @@
 import { INSTANCE_URL } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
-  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost
+  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
+  CommunityVisibility, 
 } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
@@ -44,6 +45,25 @@ export async function createComment(createComment: CreateComment) {
   // Create comment and return resultant commentView
   const response = await getClient().createComment(createComment);
   return response.comment_view;
+}
+
+export async function createCommunity({name, title, description}: {name: string, title: string, description?: string}){
+  try{
+    const response = await getClient().createCommunity({
+      name: name,
+      title: title,
+      description: description,
+      visibility: "LocalOnly" as CommunityVisibility
+      // https://github.com/LemmyNet/lemmy-js-client/blob/main/src/types/CommunityVisibility.ts#L6
+      // Since it's a private server with federation disabled, the default behaviour 
+      // is equivalent to LocalOnly. Setting it for clarity anyway.
+    });
+    return response.community_view;
+  }
+  catch (error){
+    console.error("Error creating community:", error);
+    throw new Error("Failed to create community: " + error);
+  }
 }
 
 // https://mv-gh.github.io/lemmy_openapi_spec/#tag/Admin/paths/~1admin~1purge~1comment/post
