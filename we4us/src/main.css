@@ -1,64 +1,248 @@
+/* Base Tailwind imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Color Palette - App-wide Colors
+----------------------------------
+Primary Colors:
+- Primary Purple: #3b2f7f - Used for gradients, borders, and hover states
+- Primary Blue: #3a7ffc - Used for buttons, links, and active states
+- Primary Orange: #f46801 - Used for danger/warning buttons and alerts
+- Primary Teal: #01c4a4 - Used for accents and success states
+
+Background Colors:
+- Dark Background: #1e1e1e - Main background color
+- Card Background: #2a2a2a - Used for cards and elevated surfaces
+- White: #ffffff - Used for text and icons
+- Gray: #a0a0a0 - Used for secondary text
+
+Gradients:
+- Purple to Dark: linear-gradient(to bottom, #3b2f7f, #1e1e1e)
+- Blue to Teal: linear-gradient(to right, #3a7ffc, #01c4a4)
+*/
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root styles */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  color-scheme: dark;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-primary-purple: #3b2f7f;
+  --color-primary-blue: #3a7ffc;
+  --color-primary-orange: #f46801;
+  --color-primary-teal: #01c4a4;
+  --color-dark-bg: #1e1e1e;
+  --color-card-bg: #2a2a2a;
+  --color-white: #ffffff;
+  --color-gray: #a0a0a0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Basic styles */
+body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-white);
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Typography */
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  text-align: center; 
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: -0.025em;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Links */
+a {
+  color: var(--color-primary-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-primary-blue);
+}
+
+/* Button styles */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  background-color: var(--color-primary-blue);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-blue);
+}
+
+.btn-danger {
+  background-color: var(--color-primary-orange);
+  width: 100%;
+  padding: 1rem;
+  font-size:1rem;
+  font-weight: 700;
+}
+
+.btn-danger:hover {
+  background-color: #d55a00;
+}
+
+/* Card styles */
+.card {
+  background-color: var(--color-card-bg);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+/* Sidebar styles */
+.sidebar {
+  background-color: var(--color-dark-bg);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 16rem;
+  transition: transform 0.3s ease;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 30;
+  display: none;
+}
+
+.sidebar-overlay.visible {
+  display: block;
+}
+
+/* Toggle button */
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  background-color: var(--color-primary-blue);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--color-primary-teal);
+}
+
+.sidebar-toggle.sidebar-open {
+  left: 17rem;
+}
+
+/* User profile section */
+.user-profile {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  text-align: center;
+}
+
+.user-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+/* Navigation items */
+.nav-items {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  color: var(--color-white);
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background-color: var(--color-card-bg);
+}
+
+.nav-item.active {
+  background-color: var(--color-card-bg);
+  border-left-color: var(--color-primary-blue);
+}
+
+/* Logout section */
+.logout-section {
+  padding: 1rem;
+  background-color: var(--color-dark-bg);
+}
+
+/* Main content area */
+.main-content {
+  padding: 1rem;
+  margin-left: 0;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-open {
+  margin-left: 16rem;
+}
+
+/* Utility classes */
+.gradient-text {
+  background: linear-gradient(to right, var(--color-primary-blue), var(--color-primary-teal));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
