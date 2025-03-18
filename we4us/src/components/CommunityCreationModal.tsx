@@ -33,7 +33,7 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
             return false;
         }
         if (!isTitleValid(title)) {
-            setError("Title must be 3-500 characters long. Regular punctuation allowed.");
+            setError("Title must be a single line 3-500 characters long. Regular punctuation allowed.");
             return false;
         }
         setError("");
@@ -103,7 +103,7 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
                     <input type="text" name="name" required />
                     <br />
                     <label htmlFor="title">Community Title (treat as description):  </label>
-                    <input type="text" name="title" required />
+                    <textarea name="title" required />
                     <br />
                     <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer" }}>
                         {loading ? "Creating..." : "Create"}
