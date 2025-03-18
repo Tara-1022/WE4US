@@ -9,7 +9,7 @@ export default function CommunitySelector({ name, isRequired = false }: { name: 
     )
     return (
         <select name={name} required={isRequired}>
-            <option value={''} key={undefined}>unselected</option>
+            <option value={''} key={undefined}>No community selected</option>
             {optionsList}
         </select>
     )
