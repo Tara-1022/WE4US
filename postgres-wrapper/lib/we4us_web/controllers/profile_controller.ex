@@ -21,25 +21,38 @@ defmodule We4usWeb.ProfileController do
 
   Endpoint: GET /api/profiles/:id
   """
-
-  def show(conn, %{"id" => id}) do
-    case Integer.parse(id) do
-      {parsed_id, ""} ->  # Ensures `id` is a valid integer
-        case Profiles.get_profile(parsed_id) do
-          nil ->
-            conn
-            |> put_status(:not_found)
-            |> json(%{error: "Profile not found"})
-          profile ->
-            json(conn, %{profile: profile_json(profile)})
-        end
-
-      _ ->  # Handles non-integer IDs
-        conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Invalid ID format"})
-    end
+  # Get profile by username
+def get_by_username(conn, %{"username" => username}) do
+  case Repo.get_by(Profile, username: username) do
+    nil ->
+      conn
+      |> put_status(:not_found)
+      |> json(%{error: "Profile not found"})
+    profile ->
+      render(conn, "show.json", profile: profile)
   end
+end
+
+# Update profile by username
+def update_by_username(conn, %{"username" => username} = params) do
+  case Repo.get_by(Profile, username: username) do
+    nil ->
+      conn
+      |> put_status(:not_found)
+      |> json(%{error: "Profile not found"})
+    profile ->
+      profile_params = Map.drop(params, ["username"])
+      
+      case Profiles.update_profile(profile, profile_params) do
+        {:ok, updated_profile} ->
+          render(conn, "show.json", profile: updated_profile)
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render("error.json", changeset: changeset)
+      end
+  end
+end
 
   @doc """
   Create a new profile.

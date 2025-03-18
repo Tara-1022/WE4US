@@ -1,9 +1,13 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {fetchProfileByUsername } from "../library/PostgresAPI"; 
+import { fetchProfileByUsername } from "../library/PostgresAPI"; 
 import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
+import ProfileEditForm from '../components/EditProfile';
+import ProfileView from '../components/ProfileView';
+import '../styles/ProfilePage.css';
 
+// Interface matching the return type from fetchProfileByUsername
 interface Profile {
   id: string;
   username: string;
@@ -15,18 +19,19 @@ interface Profile {
   areas_of_interest?: string[];
 }
 
-
 const ProfilePage = () => {
   const { username: paramUsername } = useParams<{ username?: string }>();
   const navigate = useNavigate();
   const { profileInfo } = useProfileContext();
 
   const username = paramUsername || profileInfo?.userName; 
-  const [profile, setProfile] = React.useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!username) {
       navigate('/login');
       return;
@@ -55,39 +60,66 @@ const ProfilePage = () => {
     getProfile();
   }, [username, navigate]);
   
+  const handleProfileUpdate = (updatedProfile: Profile) => {
+    setProfile(updatedProfile);
+    setIsEditing(false);
+    setUpdateMessage("Profile updated successfully!");
+    
+    // Clear success message after 3 seconds
+    setTimeout(() => {
+      setUpdateMessage(null);
+    }, 3000);
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <div className="loading">
+        <Loader size={48} className="loading-spinner"/>
+        <p>Loading profile...</p>
+      </div>
+    );
   }
 
   if (error || !profile) {
     return (
-      <div>
+      <div className="error">
         <p>{error || 'Profile not found'}</p>
+        <button className="back-button" onClick={handleBack}>Go Back</button>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>{profile.display_name}</h1>
-      <p>@{profile.username}</p>
-
-      {profile.cohort && <p>Cohort: {profile.cohort}</p>}
-      {profile.current_role && <p>Current Role: {profile.current_role}</p>}
-      {profile.company_or_university && <p>Company/University: {profile.company_or_university}</p>}
-      {profile.years_of_experience !== undefined && profile.years_of_experience !== null && profile.years_of_experience !== 0 && (
-        <p>Years of Experience: {profile.years_of_experience}</p>
-      )}
-      {profile.areas_of_interest && profile.areas_of_interest.length > 0 && (
-        <div>
-          <h3>Areas of Interest</h3>
-          <ul>
-            {profile.areas_of_interest.map((area, index) => (
-              <li key={index}>{area}</li>
-            ))}
-          </ul>
+    <div className="profile-container">
+      <div className="profile-header">
+        <button className="back-button" onClick={handleBack}>← Back</button>
+      </div>
+      
+      {updateMessage && (
+        <div className="success-message">
+          {updateMessage}
         </div>
+      )}
+      
+      {isEditing ? (
+        <ProfileEditForm 
+          profile={profile} 
+          onProfileUpdate={handleProfileUpdate} 
+          onCancel={() => setIsEditing(false)} 
+        />
+      ) : (
+        <ProfileView 
+          profile={profile} 
+          onEdit={handleEditToggle} 
+        />
       )}
     </div>
   );

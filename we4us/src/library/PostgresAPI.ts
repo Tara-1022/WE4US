@@ -1,5 +1,16 @@
 import { API_BASE_URL, PROFILES_ENDPOINT } from "../constants";
 
+export interface Profile {
+  id: string;
+  username: string;
+  display_name: string;
+  cohort?: string;
+  current_role?: string;
+  company_or_university?: string;
+  years_of_experience?: number;
+  areas_of_interest?: string[];
+}
+
 export const fetchProfiles = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}`);
@@ -69,5 +80,96 @@ export const fetchProfileByUsername = async (username: string) => {
   } catch (error) {
     console.error("Error fetching profile by username:", error);
     return null; 
+  }
+};
+// export const updateProfile = async (username : string, profileData:  {
+//   display_name: string;
+//   username: string;
+//   cohort?: string;
+//   current_role?: string;
+//   company_or_university?: string;
+//   years_of_experience?: number;
+//   areas_of_interest?: string[];
+// }) => {
+//   try {
+//     const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${username}`, {
+//       method: 'PUT',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(profileData),
+//     });
+
+//     if (!response.ok) {
+//       const errorData = await response.json();
+//       throw new Error(errorData.message || "Failed to update profile");
+//     }
+
+//     const data = await response.json();
+//     return { 
+//       profile: data.profile, 
+//       message: "Profile updated successfully" 
+//     };
+//   } catch (error) {
+//     console.error("Error updating profile:", error);
+//     return { 
+//       profile: null, 
+//       message: error instanceof Error ? error.message : "Unknown error occurred during update." 
+//     };
+//   }
+// };
+// export const updateProfile = async (username : string, profileData: Profile) => {
+//   try {
+//     const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/by_username/${encodeURIComponent(username)}`, {
+//       method: 'PUT',  
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(profileData),
+//     });
+
+//     if (!response.ok) {
+//       const errorData = await response.json().catch(() => null);
+//       throw new Error(
+//         errorData?.message || `Failed to update profile. Status: ${response.status}`
+//       );
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       throw new Error(error.message);
+//     } else {
+//       throw new Error("Unknown error occurred while updating profile.");
+//     }
+//   }
+// };
+export const updateProfile = async (username: string, profileData: Profile) => {
+  try {
+    const url = `${API_BASE_URL}${PROFILES_ENDPOINT}/by_username/${encodeURIComponent(username)}`;
+    console.log("Updating profile at:", url);
+    console.log("Payload:", JSON.stringify(profileData));
+
+    const response = await fetch(url, {
+      method: 'PUT', 
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(profileData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      console.error("Update failed. Status:", response.status, "Response:", errorData);
+      throw new Error(
+        errorData?.message || `Failed to update profile. Status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw new Error(error instanceof Error ? error.message : "Unknown error occurred while updating profile.");
   }
 };
