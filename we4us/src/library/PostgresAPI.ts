@@ -71,4 +71,3 @@ export const fetchProfileByUsername = async (username: string) => {
     return null; 
   }
 };
-
