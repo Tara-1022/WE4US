@@ -6,6 +6,7 @@ export type profileInfoType = {
     lemmyId: number;
     displayName: string;
     userName: string;
+    isAdmin: boolean;
     cohort?: string;
     companyOrUniversity?: string;
     currentRole?: string;
