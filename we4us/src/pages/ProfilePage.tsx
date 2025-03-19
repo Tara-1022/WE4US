@@ -21,7 +21,7 @@ interface Profile {
 const ProfilePage = () => {
   const { username: paramUsername } = useParams<{ username?: string }>();
   const navigate = useNavigate();
-  const { profileInfo } = useProfileContext();
+  const { profileInfo, setProfileInfo } = useProfileContext();
 
   const username = paramUsername || profileInfo?.userName;
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -60,6 +60,20 @@ const ProfilePage = () => {
 
   const handleProfileUpdate = (updatedProfile: Profile) => {
     setProfile(updatedProfile);
+
+    setProfileInfo(
+      (prevProfileInfo) => {
+        if (prevProfileInfo)
+          return {
+            lemmyId: prevProfileInfo.lemmyId,
+            ...updatedProfile,
+            displayName: updatedProfile.display_name,
+            // username never changes anyway
+            userName: prevProfileInfo.userName
+          }
+        else throw new Error("No profile to update")
+      });
+
     setIsEditing(false);
     window.alert("Profile updated successfully!");
   };

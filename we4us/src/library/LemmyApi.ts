@@ -86,7 +86,7 @@ export async function createPost(createPostData: CreatePost): Promise<PostView> 
     console.error('Error creating post:', error);
     throw error;
   }
-} 
+}
 
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
@@ -133,7 +133,7 @@ export async function getCommunityList() {
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {
-    return getClient().getPost(
+    return await getClient().getPost(
       {
         id: postId
       }
@@ -148,23 +148,23 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
         community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
@@ -181,8 +181,8 @@ export async function hidePost(postId: number) {
   return response.success;
 }
 
-export async function likePost(postId: number){
-  const response = await  getClient().likePost(
+export async function likePost(postId: number) {
+  const response = await getClient().likePost(
     {
       post_id: postId,
       score: 1
@@ -191,8 +191,8 @@ export async function likePost(postId: number){
   return response.post_view;
 }
 
-export async function likeComment(commentId: number){
-  const response = await  getClient().likeComment(
+export async function likeComment(commentId: number) {
+  const response = await getClient().likeComment(
     {
       comment_id: commentId,
       score: 1
@@ -225,13 +225,12 @@ export async function logOut() {
 }
 
 export async function search(query: Search) {
-  const response = getClient().search(query)
-  return response
-
+  const response = await getClient().search(query)
+  return response;
 }
 
-export async function undoLikePost(postId: number){
-  const response = await  getClient().likePost(
+export async function undoLikePost(postId: number) {
+  const response = await getClient().likePost(
     {
       post_id: postId,
       score: 0
@@ -240,12 +239,21 @@ export async function undoLikePost(postId: number){
   return response.post_view;
 }
 
-export async function undoLikeComment(commentId: number){
-  const response = await  getClient().likeComment(
+export async function undoLikeComment(commentId: number) {
+  const response = await getClient().likeComment(
     {
       comment_id: commentId,
       score: 0
     }
   );
   return response.comment_view;
+}
+
+export async function updateDisplayName(displayName: string) {
+  const response = await getClient().saveUserSettings(
+    {
+      display_name: displayName
+    }
+  );
+  return response.success
 }
