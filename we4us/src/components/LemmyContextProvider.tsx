@@ -9,7 +9,7 @@ export type lemmyInfoType = {
 
 export type lemmyContextValueType = {
     lemmyInfo: lemmyInfoType | undefined;
-    setLemmyInfo: (newInfo: lemmyInfoType) => void
+    setLemmyInfo: React.Dispatch<React.SetStateAction<lemmyInfoType | undefined>>
 }
 
 export const LemmyContext = createContext<lemmyContextValueType | undefined>(undefined);
