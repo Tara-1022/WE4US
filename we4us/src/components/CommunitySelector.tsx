@@ -1,6 +1,6 @@
 import { useLemmyInfo } from "./LemmyContextProvider";
 
-export default function CommunitySelector({ name }: { name: string }) {
+export default function CommunitySelector({ name, isRequired = false }: { name: string, isRequired?: boolean }) {
     const communities = useLemmyInfo().lemmyInfo?.communities;
     const optionsList = communities?.map(
         (communityView) => <option value={communityView.community.id} key={communityView.community.id}>
@@ -8,8 +8,8 @@ export default function CommunitySelector({ name }: { name: string }) {
         </option>
     )
     return (
-        <select name={name}>
-            <option value={''} key={undefined}>unselected</option>
+        <select name={name} required={isRequired}>
+            <option value={''} key={undefined}>No community selected</option>
             {optionsList}
         </select>
     )
