@@ -29,6 +29,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   }
 
   function validateDisplayName(displayName: string) {
+    // https://github.com/LemmyNet/lemmy/blob/d993f6cff7804f0b07b5f76c31f4efb29860f7ba/crates/utils/src/utils/validation.rs#L128C8-L128C29
     const displayNameRegex = /^[A-Za-z0-9 _\.,!\?;:\\\- #\$%\^\*&]+$/;
     if (!displayNameRegex.test(displayName)) {
       setError("Display name must not have special characters, invisble whitespaces, or newline");
