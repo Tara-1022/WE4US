@@ -126,27 +126,27 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number): Promise<PostView[]> {
-  // Fetches and returns a list of recent 25 PostViews
-  // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
-        community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+export async function getPostList(
+  communityId?: number, 
+  page: number = 1,
+  limit: number = 10
+): Promise<PostView[]> {
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit,
+      page,
+      community_id: communityId,
+    });
+    postCollection = response.posts.slice();
+  } catch (error) {
+    console.error(error);
+  }
+  return postCollection;
 }
+
+
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
