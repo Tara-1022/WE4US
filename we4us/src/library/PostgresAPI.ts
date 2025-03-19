@@ -82,7 +82,8 @@ export const fetchProfileByUsername = async (username: string) => {
     return null; 
   }
 };
-export const updateProfile = async (username: string, profileData: Profile) => {
+
+export const updateProfile = async (username: string, profileData: any) => {
   try {
     const url = `${API_BASE_URL}${PROFILES_ENDPOINT}/${username}`;
 
@@ -90,22 +91,21 @@ export const updateProfile = async (username: string, profileData: Profile) => {
       method: 'PUT', 
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
       },
       body: JSON.stringify(profileData),
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      console.error("Update failed. Status:", response.status, "Response:", errorData);
-      throw new Error(
-        errorData?.message || `Failed to update profile. Status: ${response.status}`
-      );
+      throw new Error("Failed to update profile");
     }
 
-    return await response.json();
+    const data = await response.json();
+    return { profile: data.profile, message: "Profile updated successfully" };
   } catch (error) {
-    console.error("Error updating profile:", error);
-    throw new Error(error instanceof Error ? error.message : "Unknown error occurred while updating profile.");
+    if (error instanceof Error) {
+      return { profile: null, message: error.message };
+    } else {
+      return { profile: null, message: "Unknown error occurred." };
+    }
   }
 };
