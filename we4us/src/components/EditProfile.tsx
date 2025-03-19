@@ -66,7 +66,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
         cohort: cohort?.toString() || "",
         current_role: current_role?.toString() || "",
         company_or_university: company_or_university?.toString() || "",
-        years_of_experience: years_of_experience ? Number(years_of_experience) : 0,
+        years_of_experience: years_of_experience ? Number(years_of_experience) : null,
         areas_of_interest: areas
       });
 
