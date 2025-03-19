@@ -30,6 +30,7 @@ defmodule We4usWeb.Router do
     post "/profiles", ProfileController, :create
     put "/profiles/:id", ProfileController, :update
     delete "/profiles/:id", ProfileController, :delete
+    put "/profiles", ProfileController, :update_by_query
 
   end
 

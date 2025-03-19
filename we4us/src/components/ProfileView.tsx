@@ -14,7 +14,7 @@ interface Profile {
 
 interface ProfileViewProps {
   profile: Profile;
-  onEdit: () => void;
+  onEdit?: () => void;
 }
 
 const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
@@ -58,13 +58,14 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
       </div>
-      <div className="button-group">
-        <button onClick={onEdit} className="edit-button">
-          Edit Profile
-        </button>
-      </div>
+      {onEdit && (
+        <div className="button-group">
+          <button onClick={onEdit} className="edit-button">
+            Edit Profile
+          </button>
+        </div>
+      )}
     </div>
   );
 };
-
 export default ProfileView;

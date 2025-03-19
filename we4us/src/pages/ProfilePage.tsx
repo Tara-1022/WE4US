@@ -7,7 +7,6 @@ import ProfileEditForm from '../components/EditProfile';
 import ProfileView from '../components/ProfileView';
 import '../styles/ProfilePage.css';
 
-// Interface matching the return type from fetchProfileByUsername
 interface Profile {
   id: string;
   username: string;
@@ -65,7 +64,6 @@ const ProfilePage = () => {
     setIsEditing(false);
     setUpdateMessage("Profile updated successfully!");
     
-    // Clear success message after 3 seconds
     setTimeout(() => {
       setUpdateMessage(null);
     }, 3000);
@@ -73,10 +71,6 @@ const ProfilePage = () => {
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
-  };
-
-  const handleBack = () => {
-    navigate(-1);
   };
 
   if (isLoading) {
@@ -92,17 +86,12 @@ const ProfilePage = () => {
     return (
       <div className="error">
         <p>{error || 'Profile not found'}</p>
-        <button className="back-button" onClick={handleBack}>Go Back</button>
       </div>
     );
   }
 
   return (
     <div className="profile-container">
-      <div className="profile-header">
-        <button className="back-button" onClick={handleBack}>← Back</button>
-      </div>
-      
       {updateMessage && (
         <div className="success-message">
           {updateMessage}
@@ -118,7 +107,7 @@ const ProfilePage = () => {
       ) : (
         <ProfileView 
           profile={profile} 
-          onEdit={handleEditToggle} 
+          onEdit={updateMessage ? undefined : handleEditToggle} 
         />
       )}
     </div>

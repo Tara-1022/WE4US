@@ -13,31 +13,30 @@ interface Profile {
   areas_of_interest?: string[];
 }
 
-// Custom updateProfile function that uses username instead of ID
 const updateProfile = async (username: string, profileData: any) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(profileData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to update profile");
+    try {
+      const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/by_username/${encodeURIComponent(username)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
+      }
+  
+      const data = await response.json();
+      return { profile: data.profile, message: "Profile updated successfully" };
+    } catch (error) {
+      if (error instanceof Error) {
+        return { profile: null, message: error.message };
+      } else {
+        return { profile: null, message: "Unknown error occurred." };
+      }
     }
-
-    const data = await response.json();
-    return { profile: data.profile, message: "Profile updated successfully" };
-  } catch (error) {
-    if (error instanceof Error) {
-      return { profile: null, message: error.message };
-    } else {
-      return { profile: null, message: "Unknown error occurred." };
-    }
-  }
-};
+  };
 
 interface ProfileEditFormProps {
   profile: Profile;
@@ -60,7 +59,6 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     const areas: string[] = areas_of_interest.toString().split(",").map((area: string) => area.trim());
     
     try {
-      // Use username instead of ID for updating profile
       const response = await updateProfile(profile.username, {
         id: profile.id,
         display_name: display_name.toString(),
