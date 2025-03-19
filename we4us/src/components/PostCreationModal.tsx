@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { createPost } from "../library/LemmyApi";
+import CommunitySelector from "./CommunitySelector";
 
 interface PostCreationModalProps {
   isOpen: boolean;
@@ -18,11 +19,13 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const body = formData.get("body") as string;
+    const communityId = formData.get("communityId");
+    // since the field is required, the form will ensure a valid communityId is selected.
   
     try {
       const newPost = {
         name: title,
-        community_id: 2, // Default Community ID
+        community_id: Number(communityId),
         body: body,
       };
   
@@ -60,8 +63,14 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       }}
     >
       <form onSubmit={handleSubmit}>
+        <label htmlFor="title">Post Title: </label>
         <input type="text" name="title" placeholder="Title" required />
+        <br />
+        <label htmlFor="body">Post Body: </label>
         <textarea name="body" placeholder="Body" required />
+        <br />
+        <label htmlFor="communityId">Choose Community: </label>
+        <CommunitySelector name="communityId" isRequired={true}/>
         <div>
           <button type="button" onClick={onClose}>
             Cancel
