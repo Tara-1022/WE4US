@@ -1,8 +1,5 @@
-import { INSTANCE_URL } from "../constants";
-import {
-  LemmyHttp, PostView, GetPostResponse, Search,
-  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost
-} from 'lemmy-js-client';
+import { INSTANCE_URL, MEETUP_COMMUNITY_ID } from "../constants";
+import { LemmyHttp, PostView, GetPostResponse, Search, CommentView, CreateComment, MyUserInfo, SearchType, CreatePost } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -45,7 +42,15 @@ export async function createComment(createComment: CreateComment) {
   const response = await getClient().createComment(createComment);
   return response.comment_view;
 }
-
+export async function createPost(createPostData: CreatePost): Promise<PostView> {
+  try {
+    const response = await getClient().createPost(createPostData);
+    return response.post_view;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+} 
 // https://mv-gh.github.io/lemmy_openapi_spec/#tag/Admin/paths/~1admin~1purge~1comment/post
 // https://github.com/LemmyNet/lemmy/issues/2977
 // Note: 'Delete' simply marks a coment/post as deleted. 
@@ -59,15 +64,15 @@ export async function deleteComment(commentId: number) {
   return response.comment_view;
 }
 
-export async function createPost(createPostData: CreatePost): Promise<PostView> {
-  try {
-    const response = await getClient().createPost(createPostData);
-    return response.post_view;
-  } catch (error) {
-    console.error('Error creating post:', error);
-    throw error;
-  }
-} 
+// export async function createPost(createPostData: CreatePost): Promise<PostView> {
+//   try {
+//     const response = await getClient().createPost(createPostData);
+//     return response.post_view;
+//   } catch (error) {
+//     console.error('Error creating post:', error);
+//     throw error;
+//   }
+// } 
 
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
@@ -129,23 +134,47 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
-        community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_id: communityId,
+        show_nsfw: false
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
+
+export async function getMeetUpPostList(): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_id: MEETUP_COMMUNITY_ID,
+        show_nsfw: true
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
@@ -229,45 +258,4 @@ export async function undoLikeComment(commentId: number){
     }
   );
   return response.comment_view;
-}
-export async function createMeetupEvent(createPostData: CreatePost): Promise<PostView> {
-    const response = await getClient().createPost({
-      ...createPostData,
-      body: JSON.stringify({ type: "meetup", ...JSON.parse(createPostData.body || "{}") }),
-    });
-    return response.post_view;
-  
-}
-export async function getMeetupEvents(communityId?: number): Promise<PostView[]> {
-    const response = await getClient().getPosts({
-      type_: "All",
-      limit: 50,
-      community_id: communityId
-    });
-    return response.posts.filter(post => {
-        const body = JSON.parse(post.post.body || "{}");
-        return body.type === "meetup"; 
-    });
-  
-}
-export async function updateMeetupEvent(postId: number, updateData: Partial<CreatePost>): Promise<PostView> {
-  
-    const existingPost = await getPostById(postId);
-    if (!existingPost) throw new Error("Meetup event not found.");
-    const updatedBody = JSON.stringify({
-      ...JSON.parse(existingPost.post_view.post.body || "{}"),
-      ...updateData.body && JSON.parse(updateData.body),
-    });
-    const response = await getClient().editPost({
-      post_id: postId,
-      body: updatedBody,
-    });
-    return response.post_view;
-}
-export async function deleteMeetupEvent(postId: number) {
-    const response = await getClient().deletePost({
-      post_id: postId,
-      deleted: true
-    });
-    return response.post_view;
 }

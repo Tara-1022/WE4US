@@ -4,8 +4,8 @@ import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
 import AuthorisationPage from './pages/AuthorisationPage';
-import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
+// import MeetUpPage from './pages/MeetUpPage';
 import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
@@ -17,6 +17,10 @@ import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
 import SearchPage from './pages/SearchPage';
 import { BackButton, HomeButton } from './components/NavButtons';
+import MeetUpPost from './pages/MeetUpPostPage';
+import JobBoard from './pages/JobBoard';
+
+
 
 Modal.setAppElement('#root');
 
@@ -34,7 +38,8 @@ const App: React.FC = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
-                <Route path="/job-board" element={<JobBoardPage />} />
+                <Route path="/job-board" element={<JobBoard />} />
+                <Route path="/meet-up/:meetUpId" element={<MeetUpPost />} />
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
