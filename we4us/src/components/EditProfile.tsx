@@ -1,42 +1,7 @@
 import { useState } from "react";
-import { API_BASE_URL, PROFILES_ENDPOINT } from "../constants";
+import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 
-interface Profile {
-  id: string;
-  username: string;
-  display_name: string;
-  cohort?: string;
-  current_role?: string;
-  company_or_university?: string;
-  years_of_experience?: number;
-  areas_of_interest?: string[];
-}
-
-const updateProfile = async (username: string, profileData: any) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/by_username/${encodeURIComponent(username)}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(profileData),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to update profile");
-      }
-  
-      const data = await response.json();
-      return { profile: data.profile, message: "Profile updated successfully" };
-    } catch (error) {
-      if (error instanceof Error) {
-        return { profile: null, message: error.message };
-      } else {
-        return { profile: null, message: "Unknown error occurred." };
-      }
-    }
-  };
 
 interface ProfileEditFormProps {
   profile: Profile;
