@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProfileByUsername, Profile } from "../library/PostgresAPI"; 
+import { fetchProfileByUsername, Profile } from "../library/PostgresAPI";
 import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
 import ProfileEditForm from '../components/EditProfile';
@@ -10,9 +10,9 @@ import '../styles/ProfilePage.css';
 const ProfilePage = () => {
   const { username: paramUsername } = useParams<{ username?: string }>();
   const navigate = useNavigate();
-  const { profileInfo } = useProfileContext();
+  const { profileInfo, setProfileInfo } = useProfileContext();
 
-  const username = paramUsername || profileInfo?.userName; 
+  const username = paramUsername || profileInfo?.userName;
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,13 +42,27 @@ const ProfilePage = () => {
       } finally {
         setIsLoading(false);
       }
-    };    
+    };
 
     getProfile();
   }, [username, navigate]);
-  
+
   const handleProfileUpdate = (updatedProfile: Profile) => {
     setProfile(updatedProfile);
+
+    setProfileInfo(
+      (prevProfileInfo) => {
+        if (prevProfileInfo)
+          return {
+            ...updatedProfile,
+            displayName: updatedProfile.display_name,
+            userName: prevProfileInfo.userName, // username never changes anyway
+            lemmyId: prevProfileInfo.lemmyId,
+            isAdmin: prevProfileInfo.isAdmin
+          }
+        else throw new Error("No profile to update")
+      });
+
     setIsEditing(false);
     window.alert("Profile updated successfully!");
   };
@@ -60,7 +74,7 @@ const ProfilePage = () => {
   if (isLoading) {
     return (
       <div className="loading">
-        <Loader size={48} className="loading-spinner"/>
+        <Loader size={48} className="loading-spinner" />
         <p>Loading profile...</p>
       </div>
     );
@@ -76,7 +90,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-{isEditing && (profileInfo?.userName == profile.username)
+      {isEditing && (profileInfo?.userName == profile.username)
         ? (
           <ProfileEditForm
             profile={profile}
