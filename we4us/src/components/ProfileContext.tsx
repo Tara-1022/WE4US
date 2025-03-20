@@ -28,11 +28,19 @@ export const useProfileContext = () => {
 
 export default function ProfileContextProvider({ children }: { children: React.ReactNode }) {
     const [profileInfo, setProfileInfo] = useState<profileInfoType | undefined>(undefined);
-    
-    
+    // profileInfo is changed twice before we actually want to track it
+    // once, setting it to undefined on start
+    // and second, from undefined to fetched information on login
+    // we don't want to be sending requests to lemmy on each login
+    // TODO: change the condition to <=2
+    // on deployment. Since the 'setting to undefined on start' occurs twice in 
+    // strict dev mode.
+    const [countTriggers, setCountTriggers] = useState<number>(0);
+
     useEffect(
         () => {
-            if (profileInfo) {
+            console.log("Display name is now: ", profileInfo ? profileInfo.displayName : profileInfo);
+            if (profileInfo && countTriggers > 2) {
                 console.log("Triggered. on:", profileInfo);
                 updateDisplayName(profileInfo.displayName)
                     .then(
@@ -48,11 +56,15 @@ export default function ProfileContextProvider({ children }: { children: React.R
                         }
                     )
             }
+            // the context switches from undefined to fetched value on login
+            // there's no need to make an update if it's the first trigger (on login)
+            console.log("Times display name changed: ", countTriggers);
+            setCountTriggers(a => a + 1);
         },
         // this is the only editable information shared with lemmy
         [profileInfo?.displayName]
     )
-    
+
     const contextValue: profileContextType = {
         profileInfo, setProfileInfo
     }
