@@ -7,7 +7,7 @@ export interface Profile {
   cohort?: string;
   current_role?: string;
   company_or_university?: string;
-  years_of_experience?: number;
+  years_of_experience?: number | null;
   areas_of_interest?: string[];
 }
 
@@ -84,7 +84,7 @@ export const fetchProfileByUsername = async (username: string) => {
 };
 export const updateProfile = async (username: string, profileData: Profile) => {
   try {
-    const url = `${API_BASE_URL}${PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`;
+    const url = `${API_BASE_URL}${PROFILES_ENDPOINT}/${username}`;
 
     const response = await fetch(url, {
       method: 'PUT', 
