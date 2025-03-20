@@ -4,6 +4,7 @@
 - Once a component is ready, discuss, then merge branch to main so others can work with it. Aim to merge changes sooner than later.
 - Delete unused branches
 - **Always** refer practices followed, and code structure within the existing codebase before implementation. Keeping things consistent will make the review process easier, and ensure maintainability. Do not copy/paste from genAI or google/stackoverflow without proper context.
+- Add screenshots to PRs so expected functionality is clear to the reviewer. Also ensure the changes have been run & tested after any change/conflict resolution to catch issues early.
 
 **PR considerations**
 - Add links and references when possible for better context

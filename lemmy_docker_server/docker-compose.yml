@@ -4,6 +4,11 @@ x-logging: &default-logging
     max-size: "50m"
     max-file: "4"
 
+# Uncomment this and fix line 83
+# If you're having issues persisting data (especially if on windows/WSL)
+# volumes:
+#   postgres-data:
+
 services:
   proxy:
     image: nginx:1-alpine
@@ -76,6 +81,7 @@ services:
     shm_size: 1g
     volumes:
       - /var/lib/postgresql/data
+      # replace the above line with postgres-data:/var/lib/postgresql/data:Z if needed
       - ./customPostgresql.conf:/etc/postgresql.conf
     restart: always
     logging: *default-logging
