@@ -25,10 +25,10 @@ defmodule We4usWeb.Router do
     pipe_through :api
 
     get "/profiles", ProfileController, :index
-    get "/profiles/:id", ProfileController, :show
+    get "/profiles/:username", ProfileController, :show
     post "/profiles", ProfileController, :create
-    put "/profiles/:id", ProfileController, :update
-    delete "/profiles/:id", ProfileController, :delete
+    put "/profiles/:username", ProfileController, :update
+    delete "/profiles/:username", ProfileController, :delete
 
   end
 

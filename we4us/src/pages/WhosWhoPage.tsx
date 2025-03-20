@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchProfiles } from "../library/PostgresAPI"; 
 import { Loader } from 'lucide-react';
 import ProfileSnippet from "../components/ProfileSnippet";
-import "./styles/WhosWhoPage.css"
+import "../styles/WhosWhoPage.css"
 
 interface Profile {
   id: number;
