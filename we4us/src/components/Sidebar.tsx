@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
+import DuckAvatar from '../assets/profile_duck.png';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const user = {
     name: 'Username', // Replace with actual user data
-    avatar: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'
+    avatar: DuckAvatar
   };
 
   return (
@@ -34,7 +35,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <div className="user-name">{user.name}</div>
           </div>
         </Link>
-
         <nav className="nav-items">
           {navItems.map(({ to, label, icon: Icon }) => (
             <div key={to}>

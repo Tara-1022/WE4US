@@ -108,6 +108,23 @@ a:hover {
 .btn-danger:hover {
   background-color: #d55a00;
 }
+/* Back button */
+.btn-back {
+  position: fixed;
+  top: 1rem;
+  left: 10rem; 
+  z-index: 50;
+  background-color: var(--color-dark-bg);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, left 0.3s ease-in-out;
+  color: var(--color-white);
+  border: none;
+}
 
 /* Card styles */
 .card {
@@ -183,8 +200,9 @@ a:hover {
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
+
 
 .user-info {
   text-align: center;
@@ -245,4 +263,11 @@ a:hover {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+@media (max-width: 600px) {
+  .btn-back {
+    left: auto; 
+    right: 1rem; 
+  }
 }

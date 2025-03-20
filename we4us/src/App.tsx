@@ -17,6 +17,7 @@ import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
 import SearchPage from './pages/SearchPage';
 import { Menu } from 'lucide-react';
+import { BackButton } from './components/NavButtons';
 
 Modal.setAppElement('#root');
 
@@ -29,6 +30,7 @@ const App: React.FC = () => {
   return (
     <AppContextProvider>
       <Router>
+        <BackButton />
         <div className="relative min-h-screen bg-[#1e1e1e]">
           <button 
             onClick={toggleSidebar} 
