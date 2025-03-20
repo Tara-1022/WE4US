@@ -5,7 +5,6 @@ import ProfileSnippet from "../components/ProfileSnippet";
 import "../styles/WhosWhoPage.css"
 
 interface Profile {
-  id: number;
   username: string;
   displayName: string;
   cohort?: string;
@@ -98,7 +97,6 @@ const WhosWhoPage: React.FC = () => {
                 {groupedProfiles[cohort].map((profile) => (
                   <ProfileSnippet
                     key = {profile.username}
-                    id = {profile.id}
                     username = {profile.username}
                     displayName = {profile.displayName}
                   />
