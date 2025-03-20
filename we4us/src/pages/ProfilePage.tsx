@@ -1,22 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProfileByUsername } from "../library/PostgresAPI"; 
+import { fetchProfileByUsername, Profile } from "../library/PostgresAPI"; 
 import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
 import ProfileEditForm from '../components/EditProfile';
 import ProfileView from '../components/ProfileView';
 import '../styles/ProfilePage.css';
-
-interface Profile {
-  id: string;
-  username: string;
-  display_name: string;
-  cohort?: string;
-  current_role?: string;
-  company_or_university?: string;
-  years_of_experience?: number;
-  areas_of_interest?: string[];
-}
 
 const ProfilePage = () => {
   const { username: paramUsername } = useParams<{ username?: string }>();

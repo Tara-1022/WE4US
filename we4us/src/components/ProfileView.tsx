@@ -1,16 +1,5 @@
-
 import '../styles/ProfilePage.css';
-
-interface Profile {
-  id: string;
-  username: string;
-  display_name: string;
-  cohort?: string;
-  current_role?: string;
-  company_or_university?: string;
-  years_of_experience?: number;
-  areas_of_interest?: string[];
-}
+import { Profile } from '../library/PostgresAPI';
 
 interface ProfileViewProps {
   profile: Profile;

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 
-
 interface ProfileEditFormProps {
   profile: Profile;
   onProfileUpdate: (updatedProfile: Profile) => void;
