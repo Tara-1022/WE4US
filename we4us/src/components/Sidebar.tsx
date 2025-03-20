@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
 import DuckAvatar from '../assets/profile_duck.png';
+import { useProfileContext } from './ProfileContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,8 +22,11 @@ const navItems = [
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
+  const {profileInfo} = useProfileContext();
+
   const user = {
-    name: 'Username', // Replace with actual user data
+    name: profileInfo?.displayName,
+    username: profileInfo?.userName,
     avatar: DuckAvatar
   };
 
@@ -33,6 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <img src={user.avatar} alt="Profile" className="user-avatar" />
           <div className="user-info">
             <div className="user-name">{user.name}</div>
+            <div className="user-name">{"@" + user.username}</div>
           </div>
         </Link>
         <nav className="nav-items">
