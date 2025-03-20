@@ -17,7 +17,6 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!username) {
@@ -51,11 +50,7 @@ const ProfilePage = () => {
   const handleProfileUpdate = (updatedProfile: Profile) => {
     setProfile(updatedProfile);
     setIsEditing(false);
-    setUpdateMessage("Profile updated successfully!");
-    
-    setTimeout(() => {
-      setUpdateMessage(null);
-    }, 3000);
+    window.alert("Profile updated successfully!");
   };
 
   const handleEditToggle = () => {
@@ -81,24 +76,20 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-      {updateMessage && (
-        <div className="success-message">
-          {updateMessage}
-        </div>
-      )}
-      
-      {isEditing ? (
-        <ProfileEditForm 
-          profile={profile} 
-          onProfileUpdate={handleProfileUpdate} 
-          onCancel={() => setIsEditing(false)} 
-        />
-      ) : (
-        <ProfileView 
-          profile={profile} 
-          onEdit={updateMessage ? undefined : handleEditToggle} 
-        />
-      )}
+{isEditing && (profileInfo?.userName == profile.username)
+        ? (
+          <ProfileEditForm
+            profile={profile}
+            onProfileUpdate={handleProfileUpdate}
+            onCancel={() => setIsEditing(false)}
+          />)
+        : (
+          <ProfileView
+            profile={profile}
+            onEdit={
+              (profileInfo?.userName == profile.username) ? handleEditToggle : undefined}
+          />)
+      }
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
+import { useProfileContext } from "./ProfileContext";
 
 interface ProfileEditFormProps {
   profile: Profile;
@@ -11,7 +12,21 @@ interface ProfileEditFormProps {
 const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditFormProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { profileInfo } = useProfileContext();
 
+  // They shouldn't reach this view in the first place. Even if, through some
+  // bug, they do see this component, it should not allow edits.
+  if (profileInfo?.userName != profile.username) {
+    return (
+      <>
+        <p>
+          You cannot edit this profile. If you're seeing this page, there's
+          some bug. Please screenshot, document your steps and share with the developers.
+        </p>
+      </>
+    )
+  }
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsProcessing(true);
