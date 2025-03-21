@@ -29,46 +29,46 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                             isAdmin: personDetails.person_view.is_admin,
                             postsCount: personDetails.person_view.counts.post_count,
                             commentsCount: personDetails.person_view.counts.comment_count
-                        })
+                        });
                     }
                 )
         }, [username]
     )
 
     return (
-        <div>
-            <div className="detail-item">
-                <span className="detail-value"><b>{overview?.isAdmin && "Is an Admin!"}</b></span>
+        <>
+            <div className="profile-details" style={{ textAlign: "left" }}>
+                <h3 style={{ color: "#333" }}>
+                    Reaching out Profile:
+                </h3>
+                <div className="detail-item">
+                    <span className="detail-value"><b>{overview?.isAdmin && "Is an Admin!"}</b></span>
+                </div>
+                <div className="detail-item">
+                    <span className="detail-label">Posts: </span>
+                    <span className="detail-value">{overview?.postsCount}</span>
+                </div>
+                <div className="detail-item">
+                    <span className="detail-label">Comments: </span>
+                    <span className="detail-value">{overview?.commentsCount}</span>
+                </div>
             </div>
-            <div className="detail-item">
-                <span className="detail-label">Posts: </span>
-                <span className="detail-value">{overview?.postsCount}</span>
-            </div>
-            <div className="detail-item">
-                <span className="detail-label">Comments: </span>
-                <span className="detail-value">{overview?.commentsCount}</span>
-            </div>
-            {/* <p>
-                {overview?.isAdmin && "Is an Admin!"} <br />
-                {"Posts: " + overview?.postsCount}<br />
-                {"Comments: " + overview?.commentsCount}<br />
-            </p> */}
-            <div style={{ color: "black" }}>
-                <span style={{margin: "0 10px"}}>Posts</span>
-                <button onClick={() => setPostsToggle(!isPostsToggle)} >
-                    {isPostsToggle ?
-                        <ToggleLeft />
-                        :
-                        <ToggleRight />
-                    }
-                </button>
-                <span style={{margin: "0 10px"}}>Comments</span>
-            </div>
-            {isPostsToggle ?
-                <PostList postViews={posts} />
-                :
-                <CommentList commentViews={comments} />}
 
-        </div>
+            <div style={{ color: "black", textAlign: "left" }}>
+                <span style={{ margin: "0 10px" }}>Posts</span>
+                <span onClick={() => setPostsToggle(!isPostsToggle)} >
+                    {isPostsToggle ?
+                        <ToggleLeft color='black' />
+                        :
+                        <ToggleRight color='black' />
+                    }
+                </span>
+                <span style={{ margin: "0 10px" }}>Comments</span>
+                {isPostsToggle ?
+                    <PostList postViews={posts} />
+                    :
+                    <CommentList commentViews={comments} />}
+            </div>
+        </>
     )
 }
