@@ -133,7 +133,7 @@ export async function getCommunityList() {
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {
-    return getClient().getPost(
+    return await getClient().getPost(
       {
         id: postId
       }
@@ -225,7 +225,7 @@ export async function logOut() {
 }
 
 export async function search(query: Search) {
-  const response = getClient().search(query)
+  const response = await getClient().search(query)
   return response
 
 }
@@ -248,4 +248,14 @@ export async function undoLikeComment(commentId: number){
     }
   );
   return response.comment_view;
+}
+
+// Referring https://github.com/LemmyNet/lemmy-js-client/blob/4eda61b6fd2b62d83e22616c14f540e4f57427c2/src/types/SaveUserSettings.ts#L1
+export async function updateDisplayName(displayName: string) {
+  const response = await getClient().saveUserSettings(
+    {
+      display_name: displayName
+    }
+  );
+  return response.success
 }
