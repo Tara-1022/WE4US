@@ -1,4 +1,5 @@
 import '../styles/ProfilePage.css';
+import LemmyPersonDetails from './LemmyPersonDetails';
 import { Profile } from '../library/PostgresAPI';
 
 interface ProfileViewProps {
@@ -54,6 +55,9 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </button>
         </div>
       )}
+      {profile.username &&
+        <LemmyPersonDetails username={profile.username} />
+      }
     </div>
   );
 };
