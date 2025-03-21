@@ -7,7 +7,7 @@ defmodule We4us.Profiles do
 
   #Fetch all profiles
   def list_profiles do
-    Repo.all(Profile)
+    Repo.all(from p in Profile, order_by: [asc: p.username])
   end
 
   #Fetch a single profile by username
