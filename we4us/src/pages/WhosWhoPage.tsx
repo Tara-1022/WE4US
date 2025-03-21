@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProfiles } from "../library/PostgresAPI"; 
+import { fetchProfiles, Profile } from "../library/PostgresAPI"; 
 import { Loader } from 'lucide-react';
 import ProfileSnippet from "../components/ProfileSnippet";
 import "../styles/WhosWhoPage.css"
-
-interface Profile {
-  username: string;
-  displayName: string;
-  cohort?: string;
-  companyOrUniversity?: string;
-  currentRole?: string;
-}
 
 const WhosWhoPage: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -50,13 +42,14 @@ const WhosWhoPage: React.FC = () => {
 
   // Filter profiles based on search query
   const filteredProfiles = profiles.filter((profile) => {
+    console.log(profile)
     const query = searchQuery.toLowerCase().trim();
     return (
-      profile.displayName.toLowerCase().includes(query) ||
+      profile.display_name.toLowerCase().includes(query) ||
       profile.username.toLowerCase().includes(query) ||
       (profile.cohort?.toLowerCase().trim() ?? "").includes(query) ||
-      (profile.companyOrUniversity?.toLowerCase().trim() ?? "").includes(query)
-      // (profile.currentRole?.toLowerCase().trim() ?? "").includes(query)
+      (profile.company_or_university?.toLowerCase().trim() ?? "").includes(query)
+      // (profile.current_role?.toLowerCase().trim() ?? "").includes(query)
     );
   }); 
 
@@ -98,7 +91,7 @@ const WhosWhoPage: React.FC = () => {
                   <ProfileSnippet
                     key = {profile.username}
                     username = {profile.username}
-                    displayName = {profile.displayName}
+                    displayName = {profile.display_name}
                   />
                 ))}
               </div>
