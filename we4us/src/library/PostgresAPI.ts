@@ -30,25 +30,26 @@ export const fetchProfiles = async () => {
 
 export const fetchProfileByUsername = async (username: string) => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`);
+    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${encodeURIComponent(username)}`
+);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch profile for username: ${username}`);
     }
 
     const jsonData = await response.json();
-    const profile = jsonData.profiles.find((p: any) => p.username === username);
 
-    if (!profile) {
+    if (!jsonData.profile) {
       throw new Error(`Profile not found for username: ${username}`);
     }
 
-    return profile as Profile;
+    return jsonData.profile as Profile;
   } catch (error) {
     console.error("Error fetching profile by username:", error);
     return null; 
   }
 };
+
 export const updateProfile = async (username: string, profileData: Profile) => {
   try {
     const url = `${API_BASE_URL}${PROFILES_ENDPOINT}/${username}`;
