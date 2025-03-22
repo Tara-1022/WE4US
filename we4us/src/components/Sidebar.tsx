@@ -7,7 +7,6 @@ import { useProfileContext } from './ProfileContext';
 
 interface SidebarProps {
   isOpen: boolean;
-  onClose: () => void;
 }
 
 const navItems = [
@@ -20,7 +19,7 @@ const navItems = [
   { to: '/pg-finder', label: 'PG Finder', icon: Building2 }
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
   const {profileInfo} = useProfileContext();
 
@@ -33,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   return (
     <>
       <div className={`sidebar ${!isOpen ? 'closed' : ''}`}>
-        <Link to="/profile" className="user-profile" onClick={onClose}>
+        <Link to="/profile" className="user-profile">
           <img src={user.avatar} alt="Profile" className="user-avatar" />
           <div className="user-info">
             <div className="user-name">{user.name}</div>
@@ -46,7 +45,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <Link
                 to={to}
                 className={`nav-item ${location.pathname === to ? 'active' : ''}`}
-                onClick={onClose}
               >
                 <Icon className="w-5 h-5" />
                 <span>{label}</span>
@@ -59,8 +57,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <LogoutButton/>
         </div>
       </div>
-
-      {isOpen && <div className="sidebar-overlay visible" onClick={onClose} />}
     </>
   );
 };

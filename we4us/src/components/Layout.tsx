@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setIsSidebarOpen(false);
+  // const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
     <div>
@@ -22,7 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Menu className="w-6 h-6" />
       </button>
       
-      <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+      <Sidebar isOpen={isSidebarOpen} />
       
       <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         {children}
