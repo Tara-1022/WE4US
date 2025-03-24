@@ -8,6 +8,7 @@ import CommunityCreationModal from '../components/CommunityCreationModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLemmyInfo } from '../components/LemmyContextProvider';
 import { useProfileContext } from '../components/ProfileContext';
+import { DEFAULT_POSTS_PER_PAGE } from '../constants'; // Ensure this is correctly imported
 
 function PostCreationButton({ handlePostCreated }:
   { handlePostCreated: (newPost: PostView) => void }) {
@@ -39,38 +40,34 @@ function CommunityCreationButton({ handleCommunityCreated }:
       />
     </>
   )
-
 }
 
 function ReachingOut() {
-  const [postViews, setPostViews] = useState<PostView[] | null>(null);
+  const [postViews, setPostViews] = useState<PostView[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true); // Track if more posts exist
   const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPostList().then((postList) => setPostViews(postList));
-  }, []);
+    getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then((postList) => {
+      setPostViews(postList);
+      setHasMore(postList.length === DEFAULT_POSTS_PER_PAGE); // If full page loaded, enable Next
+    });
+  }, [page]);
 
   function handlePostCreated(newPost: PostView) {
     setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
-  };
+  }
 
   function handleCommunityCreated(newCommunity: CommunityView) {
-    setLemmyInfo(
-      (prevLemmyInfo) =>
-      (
-        postViews
-          ? {
-            ...prevLemmyInfo,
-            communities: (
-              (prevLemmyInfo && prevLemmyInfo.communities)
-                ? [newCommunity, ...prevLemmyInfo?.communities]
-                : [newCommunity])
-          }
-          : { communities: [newCommunity] }
-      )
-    )
+    setLemmyInfo(prevLemmyInfo => ({
+      ...prevLemmyInfo,
+      communities: prevLemmyInfo?.communities
+        ? [newCommunity, ...prevLemmyInfo.communities]
+        : [newCommunity]
+    }));
     navigate("/community/" + newCommunity.community.id);
   }
 
@@ -83,12 +80,24 @@ function ReachingOut() {
       <h1>Recent Posts</h1>
       <Link to="/search"><Search /></Link>
       <PostCreationButton handlePostCreated={handlePostCreated} />
-      {
-        profileInfo?.isAdmin &&
-        <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />
-      }
+      {profileInfo?.isAdmin && <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />}
 
-      {postViews.length === 0 ? <h3>No posts to see!</h3> : <PostList postViews={postViews} />}
+      {postViews.length === 0 ? (
+        <h3>No posts to see!</h3>
+      ) : (
+        <PostList postViews={postViews} />
+      )}
+
+      {/* Pagination Controls */}
+      <div>
+        <button disabled={page === 1} onClick={() => setPage((prev) => prev - 1)}>
+          Previous
+        </button>
+        <span> Page {page} </span>
+        <button disabled={!hasMore} onClick={() => setPage((prev) => prev + 1)}>
+          Next
+        </button>
+      </div>
     </>
   );
 }

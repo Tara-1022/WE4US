@@ -1,4 +1,4 @@
-import { INSTANCE_URL } from "../constants";
+import { INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -145,27 +145,23 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number): Promise<PostView[]> {
-  // Fetches and returns a list of recent 25 PostViews
-  // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
-        community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
+export async function getPostList(communityId?: number, page: number = 1, limit: number = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  let postCollection: PostView[] = [];
+  try {
+      const response = await getClient().getPosts({
+          type_: "All",
+          sort: "New",
+          limit: limit,
+          page: page,
+          community_id: communityId
+      });
+      postCollection = response.posts.slice();
+  } catch (error) {
       console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+  }
+  return postCollection;
 }
+
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
