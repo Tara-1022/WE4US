@@ -134,7 +134,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           <button type="submit" disabled={loading}>
             {loading ? "Posting..." : "Submit"}
           </button>
-          <button onClick={handleImageDelete}>Remove image</button>
+          <button onClick={handleImageDelete}>Delete image</button>
         </div>
       </form>
     </Modal>
