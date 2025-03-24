@@ -64,16 +64,6 @@ export async function deleteComment(commentId: number) {
   return response.comment_view;
 }
 
-// export async function createPost(createPostData: CreatePost): Promise<PostView> {
-//   try {
-//     const response = await getClient().createPost(createPostData);
-//     return response.post_view;
-//   } catch (error) {
-//     console.error('Error creating post:', error);
-//     throw error;
-//   }
-// } 
-
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
     {

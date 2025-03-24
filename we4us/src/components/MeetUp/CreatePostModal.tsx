@@ -14,6 +14,15 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const { location, datetime, access } = Object.fromEntries(formData);
+
+        const selectedDate = new Date(datetime.toString());
+        const currentDate = new Date();
+
+        if (selectedDate < currentDate) {
+            alert("Please select a future date and time for the Meet Up.");
+            return;
+        }
+
         handleCreation({
             location: location.toString(),
             datetime: datetime.toString(),
