@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Modal from "react-modal";
+import { ImageDetailsType, uploadImage, deleteImage } from "../library/LemmyImageHandling";
 import { createPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
+import { PostBodyType } from "../library/PostBodyType";
 
 interface PostCreationModalProps {
   isOpen: boolean;
@@ -11,40 +13,83 @@ interface PostCreationModalProps {
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
+  const [imageData, setImageData] = useState<ImageDetailsType>();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  function deleteUploadedImage() {
+    if (imageData) {
+      deleteImage(imageData).then(() => {
+        setImageData(undefined);
+        console.log("Deleted")
+      })
+    }
+  }
+
+  function handleCancel() {
+    deleteUploadedImage();
+    onClose();
+  }
+
+  // referring https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/post/post-form.tsx#L247
+  function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    if (!event.target.files || !event.target.files[0]) {
+      console.log("No file")
+      return;
+    }
+    // delete previous image
+    deleteUploadedImage();
+    const file = event.target.files[0];
+    uploadImage(file).then(
+      (imageDetails) => {
+        console.log("Image uploaded:", imageDetails);
+        setImageData(imageDetails);
+      }
+    )
+  }
+
+  function handleImageDelete(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    deleteUploadedImage();
+    window.alert("Image deleted");
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setLoading(true);
-  
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-    const body = formData.get("body") as string;
-    const communityId = formData.get("communityId");
+
+    const formData = new FormData(event.currentTarget);
+    const {
+      title, body, communityId
+    } = Object.fromEntries(formData);
     // since the field is required, the form will ensure a valid communityId is selected.
-  
+
     try {
-      const newPost = {
-        name: title,
+      const postBody: PostBodyType = {
+        body: body.toString(),
+        imageData: imageData
+      }
+      createPost({
+        name: title.toString(),
         community_id: Number(communityId),
-        body: body,
-      };
-  
-      const createdPost = await createPost(newPost);
-  
-      onPostCreated(createdPost); // Passing the newpost for the parent to handle.
-      onClose();
+        body: JSON.stringify(postBody)
+      })
+        .then((createdPost) => {
+          onPostCreated(createdPost); // Passing the newpost for the parent to handle.
+          onClose();
+        })
+
     } catch (error) {
       console.error("Error creating post:", error);
     } finally {
       setLoading(false);
     }
   };
-  
+
 
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={handleCancel}
       contentLabel="Create Post"
       style={{
         overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
@@ -59,6 +104,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           background: "white",
           borderRadius: "8px",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          color: "black"
+          // TODO: Update color from theme, not hardcoded
         },
       }}
     >
@@ -70,13 +117,23 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <textarea name="body" placeholder="Body" required />
         <br />
         <label htmlFor="communityId">Choose Community: </label>
-        <CommunitySelector name="communityId" isRequired={true}/>
+        <CommunitySelector name="communityId" isRequired={true} />
+        <br />
+        <label htmlFor="fileUpload">Upload image/video: </label>
+        <input
+          id="fileUpload"
+          type="file"
+          accept="image/*"
+          name="file"
+          onChange={handleImageUpload}
+        />
         <div>
-          <button type="button" onClick={onClose}>
-            Cancel
-          </button>
           <button type="submit" disabled={loading}>
-            {loading ? "Posting..." : "Submit"}
+            {loading ? "Posting..." : "Post"}
+          </button>
+          <button onClick={handleImageDelete}>Delete image</button>
+          <button type="reset" onClick={handleCancel}>
+            Cancel
           </button>
         </div>
       </form>
