@@ -1,4 +1,4 @@
-import { INSTANCE_URL } from "../constants";
+import { LEMMY_INSTANCE_URL } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -10,7 +10,7 @@ import {
 // at the parent component, to ensure all parts of the response are available should we need it
 
 let client: LemmyHttp = new LemmyHttp(
-  INSTANCE_URL, {
+  LEMMY_INSTANCE_URL, {
   headers: {
     ["Cache-Control"]: "no-cache"
   }
@@ -18,7 +18,7 @@ let client: LemmyHttp = new LemmyHttp(
 
 export function setClientToken(jwt: string | null) {
   client = new LemmyHttp(
-    INSTANCE_URL, {
+    LEMMY_INSTANCE_URL, {
     headers: {
       ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
       ...(jwt && { Authorization: `Bearer ${jwt}` })
@@ -86,7 +86,7 @@ export async function createPost(createPostData: CreatePost): Promise<PostView> 
     console.error('Error creating post:', error);
     throw error;
   }
-} 
+}
 
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
@@ -148,23 +148,23 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
         community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
