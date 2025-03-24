@@ -4,14 +4,6 @@
     overflow-x: hidden;
 }
 
-.search-input {
-    padding: 8px;
-    width: 100%;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
 .post-list {
     display: flex;
     gap: 20px;

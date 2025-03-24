@@ -8,7 +8,6 @@ import "../styles/JobBoardPage.css"
 
 export default function JobBoardPage() {
     const [postViews, setPostViews] = useState<PostView[] | null>(null);
-    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         getJobPostList().then((postViews) => {
@@ -29,22 +28,9 @@ export default function JobBoardPage() {
     return (
         <div className="job-board-container"> 
             <h1>Job Board</h1>
-            
-    
-            {/* Search Box */}
-            <input
-                type="text"
-                placeholder="Search by name, company..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
-            />
-    
-            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
-            <JobPostList postViews={postViews.filter(post => 
-                post.post.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                post.post.body?.toLowerCase().includes(searchQuery.toLowerCase())
-            )} />
+        
+            <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
+                <JobPostList postViews={postViews} />
         </div>
     );
 
