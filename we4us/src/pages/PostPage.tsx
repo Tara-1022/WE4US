@@ -8,7 +8,6 @@ import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import LikeHandler from '../components/LikeHandler';
-import PostEditor from '../components/PostEditor';
 
 export default function PostPage() {
     const postId = Number(useParams().postId);
@@ -89,7 +88,7 @@ export default function PostPage() {
                 <>
                     <br />
                     <b onClick={() => setIsEditing(true)} style={{ cursor: "pointer" }}>
-                        Edit
+                        Edit Post
                     </b>
                     <br />
                 </>
