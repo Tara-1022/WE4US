@@ -97,15 +97,18 @@ export async function deletePost(postId: number) {
   return response.post_view;
 }
 
-export async function getComments(postId: number): Promise<CommentView[]> {
+export async function getComments(postId: number, communityId?: number, page: number = 1, limit: number = DEFAULT_POSTS_PER_PAGE): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
   try {
     const response = await getClient().getComments(
       {
-        post_id: postId,
-        limit: 50
+        type_: "All",
+        sort: "New",
+        limit: limit,
+        page: page,
+        community_id: communityId
       }
     );
     commentCollection = response.comments.slice();

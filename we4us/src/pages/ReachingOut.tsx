@@ -8,7 +8,7 @@ import CommunityCreationModal from '../components/CommunityCreationModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLemmyInfo } from '../components/LemmyContextProvider';
 import { useProfileContext } from '../components/ProfileContext';
-import { DEFAULT_POSTS_PER_PAGE } from '../constants'; // Ensure this is correctly imported
+import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 
 function PostCreationButton({ handlePostCreated }:
   { handlePostCreated: (newPost: PostView) => void }) {
@@ -45,7 +45,7 @@ function CommunityCreationButton({ handleCommunityCreated }:
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true); // Track if more posts exist
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ function ReachingOut() {
   useEffect(() => {
     getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then((postList) => {
       setPostViews(postList);
-      setHasMore(postList.length === DEFAULT_POSTS_PER_PAGE); // If full page loaded, enable Next
+      setHasMore(postList.length === DEFAULT_POSTS_PER_PAGE); 
     });
   }, [page]);
 
