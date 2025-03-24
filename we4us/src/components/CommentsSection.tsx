@@ -14,7 +14,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
         setComments: setComments,
         postId: postId
     };
-    
+
     useEffect(() => {
         getComments(postId).then(
             comments =>
@@ -24,7 +24,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
     },
         [postId]
     );
-    
+
     useEffect(() => {
         commentsTree = buildCommentsTree(comments);
         commentsContextValue = { ...commentsContextValue, comments: comments }

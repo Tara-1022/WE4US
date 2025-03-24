@@ -5,7 +5,7 @@ export default function PostDeletor({ postId }: { postId: number }) {
     const navigator = useNavigate();
     let styles = {
         actionText: {
-            cursor:'pointer'
+            cursor: 'pointer'
         }
     }
 
@@ -20,7 +20,7 @@ export default function PostDeletor({ postId }: { postId: number }) {
                                     window.alert("Post deleted successfully");
                                     navigator("/reaching-out");
                                 }
-                                else{
+                                else {
                                     throw new Error("Post could not be hidden");
                                 }
                             }
