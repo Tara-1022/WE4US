@@ -32,17 +32,23 @@ defmodule We4usWeb.ProfileController do
         _ -> params
       end
 
-    case Profiles.create_profile(profile_params) do
-      {:ok, profile} ->
+      if Profiles.get_profile(profile_params["username"]) do
         conn
-        |> put_status(:created)
-        |> json(%{profile: profile_json(profile)})
+        |> put_status(:conflict)
+        |> json(%{error: "Username already exists"})
+      else
+        case Profiles.create_profile(profile_params) do
+          {:ok, profile} ->
+            conn
+            |> put_status(:created)
+            |> json(%{profile: profile_json(profile)})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{errors: ChangesetJSON.errors(changeset)})
-    end
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{errors: ChangesetJSON.errors(changeset)})
+        end
+      end
   end
 
   @doc "Update a profile by username."
