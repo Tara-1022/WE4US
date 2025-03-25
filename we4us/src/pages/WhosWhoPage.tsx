@@ -42,7 +42,6 @@ const WhosWhoPage: React.FC = () => {
 
   // Filter profiles based on search query
   const filteredProfiles = profiles.filter((profile) => {
-    console.log(profile)
     const query = searchQuery.toLowerCase().trim();
     return (
       profile.display_name.toLowerCase().includes(query) ||
