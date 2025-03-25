@@ -145,22 +145,26 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number, page: number = 1, limit: number = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+export async function getPostList(
+  communityId?: number, 
+  page: number = 1,
+  limit: number = 10
+): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
-      const response = await getClient().getPosts({
-          type_: "All",
-          sort: "New",
-          limit: limit,
-          page: page,
-          community_id: communityId
-      });
-      postCollection = response.posts.slice();
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit,
+      page,
+      community_id: communityId,
+    });
+    postCollection = response.posts.slice();
   } catch (error) {
-      console.error(error);
+    console.error(error);
   }
   return postCollection;
 }
+
 
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
