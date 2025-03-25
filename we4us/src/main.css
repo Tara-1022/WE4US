@@ -196,9 +196,15 @@ a:hover {
   text-align: center;
 }
 
-.user-name {
+.user-display-name {
   font-size: 1.15rem;
   font-weight: 600;
+  color: var(--color-white);
+}
+
+.user-name {
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--color-white);
 }
 

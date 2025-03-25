@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <Link to="/profile" className="user-profile">
           <img src={user.avatar} alt="Profile" className="user-avatar" />
           <div className="user-info">
-            <div className="user-name">{user.name}</div>
+            <div className="user-display-name">{user.name}</div>
             <div className="user-name">{"@" + user.username}</div>
           </div>
         </Link>
