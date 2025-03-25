@@ -18,7 +18,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
                 name: data.title,  
                 community_id: MEETUP_COMMUNITY_ID
             });
-
+    
             handleCreatedPost(newPost);
             setIsOpen(false);
         } catch (error) {

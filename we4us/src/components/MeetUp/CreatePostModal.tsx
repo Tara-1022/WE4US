@@ -48,6 +48,7 @@ export default function CreatePostModal({
     }
 
     return (
+       
         <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
             <form onSubmit={handleClick} style={styles.form}>
                 <label htmlFor="title">Title</label>
@@ -78,5 +79,6 @@ export default function CreatePostModal({
                 <button type="button" onClick={() => setIsOpen(false)}>Cancel</button>
             </form>
         </Modal>
+        
     );
 }
