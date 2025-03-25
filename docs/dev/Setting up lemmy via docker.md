@@ -32,11 +32,11 @@ volumes:
 ```
 or, 
 - Run all commands from windows
-Run `docker compose up -d` again and you should see the UI 
+Run `docker compose up ` again and you should see the UI 
 
 ## Alternate flow
 
-Download the files under `lemmy_docker_server` in this repo.
+Download the files under `lemmy_docker_server` in this repo. If you're cloning the entire repo, copy the files elsewhere, so they're not potentially affected by changes.
 
 *Optionally, optimise the database by*
 - *cd into the directory (where you downloaded the files)*
@@ -52,6 +52,8 @@ Now, run
 `docker compose up -d` and access at [http://localhost:10633/](http://localhost:10633/)
 
 make sure to run `docker compose down` when you're done.
+
+If this results in data loss, try using `docker compose start` and `docker compose stop` instead. These workarounds are fine for development purpose.
 ## Set-up
 set up an admin account (email optional) with
 

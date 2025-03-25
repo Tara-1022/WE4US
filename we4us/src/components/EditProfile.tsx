@@ -1,42 +1,7 @@
 import { useState } from "react";
-import { API_BASE_URL, PROFILES_ENDPOINT } from "../constants";
+import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
-
-interface Profile {
-  id: string;
-  username: string;
-  display_name: string;
-  cohort?: string;
-  current_role?: string;
-  company_or_university?: string;
-  years_of_experience?: number;
-  areas_of_interest?: string[];
-}
-
-const updateProfile = async (username: string, profileData: any) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/by_username/${encodeURIComponent(username)}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(profileData),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to update profile");
-      }
-  
-      const data = await response.json();
-      return { profile: data.profile, message: "Profile updated successfully" };
-    } catch (error) {
-      if (error instanceof Error) {
-        return { profile: null, message: error.message };
-      } else {
-        return { profile: null, message: "Unknown error occurred." };
-      }
-    }
-  };
+import { useProfileContext } from "./ProfileContext";
 
 interface ProfileEditFormProps {
   profile: Profile;
@@ -47,22 +12,51 @@ interface ProfileEditFormProps {
 const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditFormProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { profileInfo } = useProfileContext();
 
+  // They shouldn't reach this view in the first place. Even if, through some
+  // bug, they do see this component, it should not allow edits.
+  if (profileInfo?.userName != profile.username) {
+    return (
+      <>
+        <p>
+          You cannot edit this profile. If you're seeing this page, there's
+          some bug. Please screenshot, document your steps and share with the developers.
+        </p>
+      </>
+    )
+  }
+
+  function validateDisplayName(displayName: string) {
+    // https://github.com/LemmyNet/lemmy/blob/d993f6cff7804f0b07b5f76c31f4efb29860f7ba/crates/utils/src/utils/validation.rs#L128C8-L128C29
+    const displayNameRegex = /^[A-Za-z0-9 _\.,!\?;:\\\-\<\>\(\)\#\$\%\^\*&]+$/;
+    if (!displayNameRegex.test(displayName)) {
+      setError("Display name must not have special characters, invisble whitespaces, or newline");
+      return false;
+    }
+    return true;
+  }
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsProcessing(true);
     setError(null);
     const formData = new FormData(e.currentTarget);
-    const { display_name, username, cohort, current_role, company_or_university, years_of_experience, areas_of_interest }
+    const { display_name, cohort, current_role, company_or_university, years_of_experience, areas_of_interest }
       = Object.fromEntries(formData);
 
     const areas: string[] = areas_of_interest.toString().split(",").map((area: string) => area.trim());
+
+    if (!validateDisplayName(display_name.toString())) {
+      setIsProcessing(false);
+      return;
+    }
     
     try {
       const response = await updateProfile(profile.username, {
         id: profile.id,
+        username: profile.username,
         display_name: display_name.toString(),
-        username: username.toString(),
         cohort: cohort?.toString() || "",
         current_role: current_role?.toString() || "",
         company_or_university: company_or_university?.toString() || "",
@@ -92,15 +86,8 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             type="text"
             name="display_name"
             defaultValue={profile.display_name || ''}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            name="username"
-            defaultValue={profile.username || ''}
+            minLength={3}
+            maxLength={20}
             required
           />
         </div>

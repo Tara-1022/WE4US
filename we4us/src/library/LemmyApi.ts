@@ -1,12 +1,16 @@
-import { INSTANCE_URL, MEETUP_COMMUNITY_ID } from "../constants";
-import { LemmyHttp, PostView, GetPostResponse, Search, CommentView, CreateComment, MyUserInfo, SearchType, CreatePost } from 'lemmy-js-client';
+import { LEMMY_INSTANCE_URL,MEETUP_COMMUNITY_ID } from "../constants";
+import {
+  LemmyHttp, PostView, GetPostResponse, Search,
+  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
+  CommunityVisibility, 
+} from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
 // at the parent component, to ensure all parts of the response are available should we need it
 
 let client: LemmyHttp = new LemmyHttp(
-  INSTANCE_URL, {
+  LEMMY_INSTANCE_URL, {
   headers: {
     ["Cache-Control"]: "no-cache"
   }
@@ -14,7 +18,7 @@ let client: LemmyHttp = new LemmyHttp(
 
 export function setClientToken(jwt: string | null) {
   client = new LemmyHttp(
-    INSTANCE_URL, {
+    LEMMY_INSTANCE_URL, {
     headers: {
       ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
       ...(jwt && { Authorization: `Bearer ${jwt}` })
@@ -42,15 +46,24 @@ export async function createComment(createComment: CreateComment) {
   const response = await getClient().createComment(createComment);
   return response.comment_view;
 }
-export async function createPost(createPostData: CreatePost): Promise<PostView> {
-  try {
-    const response = await getClient().createPost(createPostData);
-    return response.post_view;
-  } catch (error) {
-    console.error('Error creating post:', error);
-    throw error;
+export async function createCommunity({name, title}: {name: string, title: string}){
+  try{
+    const response = await getClient().createCommunity({
+      name: name,
+      title: title,
+      visibility: "LocalOnly" as CommunityVisibility
+      // https://github.com/LemmyNet/lemmy-js-client/blob/main/src/types/CommunityVisibility.ts#L6
+      // Since it's a private server with federation disabled, the default behaviour 
+      // is equivalent to LocalOnly. Setting it for clarity anyway.
+    });
+    return response.community_view;
   }
-} 
+  catch (error){
+    console.error("Error creating community:", error);
+    throw new Error("Failed to create community: " + error);
+  }
+}
+
 // https://mv-gh.github.io/lemmy_openapi_spec/#tag/Admin/paths/~1admin~1purge~1comment/post
 // https://github.com/LemmyNet/lemmy/issues/2977
 // Note: 'Delete' simply marks a coment/post as deleted. 
@@ -62,6 +75,15 @@ export async function deleteComment(commentId: number) {
     comment_id: commentId, deleted: true
   });
   return response.comment_view;
+}
+export async function createPost(createPostData: CreatePost): Promise<PostView> {
+  try {
+    const response = await getClient().createPost(createPostData);
+    return response.post_view;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
 }
 
 export async function deletePost(postId: number) {
@@ -109,7 +131,7 @@ export async function getCommunityList() {
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {
-    return getClient().getPost(
+    return await getClient().getPost(
       {
         id: postId
       }
@@ -130,31 +152,7 @@ export async function getPostList(communityId?: number): Promise<PostView[]> {
       {
         type_: "All",
         limit: 50,
-        community_id: communityId,
-        show_nsfw: false
-      }
-    );
-    postCollection = response.posts.slice();
-  }
-  catch (error) {
-    console.error(error);
-  }
-  finally {
-    return postCollection;
-  }
-}
-
-export async function getMeetUpPostList(): Promise<PostView[]> {
-  // Fetches and returns a list of recent PostViews
-  // or an empty list if fetch fails
-  let postCollection: PostView[] = [];
-  try {
-    const response = await getClient().getPosts(
-      {
-        type_: "All",
-        limit: 50,
-        community_id: MEETUP_COMMUNITY_ID,
-        show_nsfw: true
+        community_id: communityId
       }
     );
     postCollection = response.posts.slice();
@@ -225,7 +223,7 @@ export async function logOut() {
 }
 
 export async function search(query: Search) {
-  const response = getClient().search(query)
+  const response = await getClient().search(query)
   return response
 
 }
@@ -239,7 +237,6 @@ export async function undoLikePost(postId: number){
   );
   return response.post_view;
 }
-
 export async function undoLikeComment(commentId: number){
   const response = await  getClient().likeComment(
     {
@@ -248,4 +245,14 @@ export async function undoLikeComment(commentId: number){
     }
   );
   return response.comment_view;
+}
+
+// Referring https://github.com/LemmyNet/lemmy-js-client/blob/4eda61b6fd2b62d83e22616c14f540e4f57427c2/src/types/SaveUserSettings.ts#L1
+export async function updateDisplayName(displayName: string) {
+  const response = await getClient().saveUserSettings(
+    {
+      display_name: displayName
+    }
+  );
+  return response.success
 }

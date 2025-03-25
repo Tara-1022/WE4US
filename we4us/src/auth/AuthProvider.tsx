@@ -62,6 +62,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         lemmyId: userDetails.local_user_view.person.id,
         displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
         userName: userDetails.local_user_view.person.name,
+        isAdmin: userDetails.local_user_view.local_user.admin
       };
 
       setProfileInfo(lemmyProfileInfo);

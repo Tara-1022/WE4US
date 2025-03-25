@@ -7,24 +7,30 @@ defmodule We4us.Profiles do
 
   #Fetch all profiles
   def list_profiles do
-    Repo.all(Profile)
+    Repo.all(from p in Profile, order_by: [asc: p.username])
   end
 
-  #Fetch a single profile by id
-  def get_profile!(id) do
-    Repo.get!(Profile, id)
+  #Fetch a single profile by username
+  def get_profile!(username) do
+    Repo.get!(Profile, username)
   end
 
-  def get_profile(id) do
-    Repo.get(Profile, id)
+  def get_profile(username) do
+    Repo.get(Profile, username)
   end
-
 
   #Create a profile
   def create_profile(attrs) do
-    %Profile{}
-    |> Profile.changeset(attrs)
-    |> Repo.insert()
+    # Ensure username is present
+    case Map.fetch(attrs, "username") do
+      {:ok, username} ->
+
+        attrs = Map.put(attrs, "username", username)
+
+        %Profile{}
+        |> Profile.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   #Update a profile
