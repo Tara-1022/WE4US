@@ -37,7 +37,8 @@ const App: React.FC = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
-                <Route path="/job-board" element={<JobBoardPage />} />                <Route path="/meet-up/:meetUpId" element={<MeetUpPost />} />
+                <Route path="/job-board" element={<JobBoardPage />} />               
+                <Route path="/meet-up/:meetUpId" element={<MeetUpPost />} />
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />

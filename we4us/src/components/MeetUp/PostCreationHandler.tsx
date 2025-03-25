@@ -5,10 +5,13 @@ import { MEETUP_COMMUNITY_ID } from "../../constants";
 import { PostView } from "lemmy-js-client";
 
 export type MeetUpPostData = {
+    title: string;
     location: string;
+    url?: string; 
     datetime: string;
-    access: string;
+    open_to: string; 
 };
+
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,21 +20,20 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     async function handleCreation(data: MeetUpPostData) {
         console.log(data);
         setErrorMessage(null);
-
         try {
             const newPost = await createPost({
                 body: JSON.stringify(data),
-                name: `Meet-Up at ${data.location}`,
+                name: data.title,  
                 community_id: MEETUP_COMMUNITY_ID
             });
-
+    
             handleCreatedPost(newPost);
             setIsOpen(false);
         } catch (error) {
             console.error("Post creation failed:", error);
             setErrorMessage("Failed to create the post.");
         }
-    }
+    }    
 
     return (
         <>

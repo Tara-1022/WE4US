@@ -4,16 +4,25 @@ import Modal from "react-modal";
 let styles = {
     form: {
         color: "black"
-    }
-};
+    },
+    input: {
+        color: "white", 
+        backgroundColor: "black", 
+        border: "1px solid gray", 
+        padding: "5px", 
+        borderRadius: "5px" 
+        }}
 
-export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
-    { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, handleCreation: (data: MeetUpPostData) => void }) {
 
+export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }: { 
+    isOpen: boolean; 
+    setIsOpen: (isOpen: boolean) => void; 
+    handleCreation: (data: MeetUpPostData) => void; 
+}) {
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const { location, datetime, access } = Object.fromEntries(formData);
+        const { title, location, url, datetime, open_to } = Object.fromEntries(formData);
 
         const selectedDate = new Date(datetime.toString());
         const currentDate = new Date();
@@ -24,27 +33,37 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
         }
 
         handleCreation({
+            title: title.toString(),
             location: location.toString(),
+            url: url?.toString() || "", 
             datetime: datetime.toString(),
-            access: access.toString()
+            open_to: open_to.toString(),
         });
     }
 
     return (
+       
         <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
             <form onSubmit={handleClick} style={styles.form}>
-                <label htmlFor="location">Location (Link if Online)</label>
-                <input name="location" required />
+                <label htmlFor="title">Title</label>
+                <input name="title"   style={styles.input} />
+                <br />
+                <label htmlFor="location">Location</label>
+                <input name="location"   style={styles.input} />
+                <br />
+                <label htmlFor="url">URL (Optional)</label>
+                <input name="url" type="url" style={styles.input} />
                 <br />
                 <label htmlFor="datetime">Time & Date</label>
-                <input name="datetime" type="datetime-local" required />
+                <input name="datetime" type="datetime-local"   style={styles.input} />
                 <br />
-                <label htmlFor="access">Open To? (Access Restrictions)</label>
-                <input name="access" required />
+                <label htmlFor="open_to">Open To</label>
+                <input name="open_to" defaultValue="All"   style={styles.input} />
                 <br />
                 <button type="submit">Create Meet Up Post</button>
                 <button type="button" onClick={() => setIsOpen(false)}>Cancel</button>
             </form>
         </Modal>
+        
     );
 }

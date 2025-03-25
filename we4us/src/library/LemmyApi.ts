@@ -256,3 +256,25 @@ export async function updateDisplayName(displayName: string) {
   );
   return response.success
 }
+export async function getMeetUpPostList(): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_id: MEETUP_COMMUNITY_ID,
+        show_nsfw: true
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
