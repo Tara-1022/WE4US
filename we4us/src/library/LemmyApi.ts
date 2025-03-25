@@ -1,4 +1,4 @@
-import { INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -10,7 +10,7 @@ import {
 // at the parent component, to ensure all parts of the response are available should we need it
 
 let client: LemmyHttp = new LemmyHttp(
-  INSTANCE_URL, {
+  LEMMY_INSTANCE_URL, {
   headers: {
     ["Cache-Control"]: "no-cache"
   }
@@ -18,7 +18,7 @@ let client: LemmyHttp = new LemmyHttp(
 
 export function setClientToken(jwt: string | null) {
   client = new LemmyHttp(
-    INSTANCE_URL, {
+    LEMMY_INSTANCE_URL, {
     headers: {
       ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
       ...(jwt && { Authorization: `Bearer ${jwt}` })
@@ -86,7 +86,7 @@ export async function createPost(createPostData: CreatePost): Promise<PostView> 
     console.error('Error creating post:', error);
     throw error;
   }
-} 
+}
 
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
@@ -97,18 +97,15 @@ export async function deletePost(postId: number) {
   return response.post_view;
 }
 
-export async function getComments(postId: number, communityId?: number, page: number = 1, limit: number = DEFAULT_POSTS_PER_PAGE): Promise<CommentView[]> {
+export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
   try {
     const response = await getClient().getComments(
       {
-        type_: "All",
-        sort: "New",
-        limit: limit,
-        page: page,
-        community_id: communityId
+        post_id: postId,
+        limit: 50
       }
     );
     commentCollection = response.comments.slice();
@@ -136,7 +133,7 @@ export async function getCommunityList() {
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {
-    return getClient().getPost(
+    return await getClient().getPost(
       {
         id: postId
       }
@@ -224,7 +221,7 @@ export async function logOut() {
 }
 
 export async function search(query: Search) {
-  const response = getClient().search(query)
+  const response = await getClient().search(query)
   return response
 
 }
@@ -247,4 +244,14 @@ export async function undoLikeComment(commentId: number){
     }
   );
   return response.comment_view;
+}
+
+// Referring https://github.com/LemmyNet/lemmy-js-client/blob/4eda61b6fd2b62d83e22616c14f540e4f57427c2/src/types/SaveUserSettings.ts#L1
+export async function updateDisplayName(displayName: string) {
+  const response = await getClient().saveUserSettings(
+    {
+      display_name: displayName
+    }
+  );
+  return response.success
 }
