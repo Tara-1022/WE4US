@@ -8,7 +8,9 @@ let styles = {
         padding: 0
     },
     listItem: {
-
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        margin: "1%"
     }
 }
 

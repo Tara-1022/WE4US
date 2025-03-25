@@ -19,7 +19,7 @@ export default function LemmySearchBar({ handleSearch }:
     }
     return (
         <form onSubmit={passParamsOut}>
-            <input name="query" placeholder="Search content" required />
+            <input name="query" placeholder="Search query" />
             <label htmlFor="type">Type</label>
             <select name="type">
                 <option value="All">All</option>

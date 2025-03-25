@@ -1,4 +1,4 @@
-import { INSTANCE_URL } from "../constants";
+import { LEMMY_INSTANCE_URL } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -10,7 +10,7 @@ import {
 // at the parent component, to ensure all parts of the response are available should we need it
 
 let client: LemmyHttp = new LemmyHttp(
-  INSTANCE_URL, {
+  LEMMY_INSTANCE_URL, {
   headers: {
     ["Cache-Control"]: "no-cache"
   }
@@ -18,7 +18,7 @@ let client: LemmyHttp = new LemmyHttp(
 
 export function setClientToken(jwt: string | null) {
   client = new LemmyHttp(
-    INSTANCE_URL, {
+    LEMMY_INSTANCE_URL, {
     headers: {
       ["Cache-Control"]: "no-cache", // otherwise may get back cached site response (despite JWT)
       ...(jwt && { Authorization: `Bearer ${jwt}` })
@@ -86,7 +86,7 @@ export async function createPost(createPostData: CreatePost): Promise<PostView> 
     console.error('Error creating post:', error);
     throw error;
   }
-} 
+}
 
 export async function deletePost(postId: number) {
   const response = await getClient().deletePost(
@@ -133,7 +133,7 @@ export async function getCommunityList() {
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
   // Return PostResponse, or null if fetch fails
   try {
-    return getClient().getPost(
+    return await getClient().getPost(
       {
         id: postId
       }
@@ -148,23 +148,23 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
         community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
@@ -225,7 +225,7 @@ export async function logOut() {
 }
 
 export async function search(query: Search) {
-  const response = getClient().search(query)
+  const response = await getClient().search(query)
   return response
 
 }
@@ -248,4 +248,14 @@ export async function undoLikeComment(commentId: number){
     }
   );
   return response.comment_view;
+}
+
+// Referring https://github.com/LemmyNet/lemmy-js-client/blob/4eda61b6fd2b62d83e22616c14f540e4f57427c2/src/types/SaveUserSettings.ts#L1
+export async function updateDisplayName(displayName: string) {
+  const response = await getClient().saveUserSettings(
+    {
+      display_name: displayName
+    }
+  );
+  return response.success
 }
