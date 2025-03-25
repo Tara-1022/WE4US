@@ -9,35 +9,34 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLemmyInfo } from '../components/LemmyContextProvider';
 import { useProfileContext } from '../components/ProfileContext';
 import { DEFAULT_POSTS_PER_PAGE } from '../constants';
+import PaginationControls from "../components/PaginationControls";
 
 function PostCreationButton({ handlePostCreated }:
-  { handlePostCreated: (newPost: PostView) => void }) {
+   { handlePostCreated: (newPost: PostView) => void }) {
   const [showModal, setShowModal] = useState(false);
-
   return (
     <>
       <button onClick={() => setShowModal(true)}>Create Post</button>
       <PostCreationModal
-        isOpen={showModal}
+       isOpen={showModal}
         onClose={() => setShowModal(false)}
-        onPostCreated={handlePostCreated}
-      />
+         onPostCreated={handlePostCreated}
+          />
     </>
   )
 }
 
 function CommunityCreationButton({ handleCommunityCreated }:
-  { handleCommunityCreated: (newCommunity: CommunityView) => void }) {
+   { handleCommunityCreated: (newCommunity: CommunityView) => void }) {
   const [showModal, setShowModal] = useState(false);
-
   return (
     <>
       <button onClick={() => setShowModal(true)}>Create Community</button>
       <CommunityCreationModal
-        isOpen={showModal}
+       isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCommunityCreated={handleCommunityCreated}
-      />
+         />
     </>
   )
 }
@@ -45,7 +44,7 @@ function CommunityCreationButton({ handleCommunityCreated }:
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(true); 
   const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ function ReachingOut() {
   useEffect(() => {
     getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then((postList) => {
       setPostViews(postList);
-      setHasMore(postList.length === DEFAULT_POSTS_PER_PAGE); 
+      setHasMore(postList.length === DEFAULT_POSTS_PER_PAGE);
     });
   }, [page]);
 
@@ -82,22 +81,15 @@ function ReachingOut() {
       <PostCreationButton handlePostCreated={handlePostCreated} />
       {profileInfo?.isAdmin && <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />}
 
+      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+
       {postViews.length === 0 ? (
         <h3>No posts to see!</h3>
-      ) : (
+        ) : (
         <PostList postViews={postViews} />
-      )}
+        )}
 
-      {/* Pagination Controls */}
-      <div>
-        <button disabled={page === 1} onClick={() => setPage((prev) => prev - 1)}>
-          Previous
-        </button>
-        <span> Page {page} </span>
-        <button disabled={!hasMore} onClick={() => setPage((prev) => prev + 1)}>
-          Next
-        </button>
-      </div>
+      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
     </>
   );
 }
