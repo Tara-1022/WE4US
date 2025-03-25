@@ -44,17 +44,16 @@ function CommunityCreationButton({ handleCommunityCreated }:
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true); 
   const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then((postList) => {
-      setPostViews(postList);
-      setHasMore(postList.length === DEFAULT_POSTS_PER_PAGE);
-    });
+    getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then(setPostViews);
   }, [page]);
+  
+  const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
+  
 
   function handlePostCreated(newPost: PostView) {
     setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
