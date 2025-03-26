@@ -1,7 +1,6 @@
 import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT } from "../constants";
 
 export interface Profile {
-  id: string;
   username: string;
   display_name: string;
   cohort?: string;
@@ -20,7 +19,6 @@ export const fetchProfiles = async () => {
     const jsonData = await response.json();
 
     return jsonData.profiles.map((p: any) => ({
-      id: p.id,
       username: p.username,
       displayName: p.display_name, 
       cohort: p.cohort,
@@ -28,27 +26,8 @@ export const fetchProfiles = async () => {
       currentRole: p.current_role,
     }));
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      throw new Error("Unknown error occurred.");
-    }
-  }
-};
-
-export const fetchProfileById = async (id: number) => {
-  try {
-    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${id}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch profile");
-    }
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      throw new Error("Unknown error occurred.");
-    }
+    console.error("Error fetching profiles:", error);
+    throw new Error(error instanceof Error ? error.message : "Unknown error occurred.");
   }
 };
 
@@ -56,8 +35,12 @@ export const fetchProfileByUsername = async (username: string) => {
   try {
     const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`);
     
+    if (response.status === 404) {
+      return null; // return null for "not found"
+    }
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch profile for username: ${username}`);
+      throw new Error(`Failed to fetch profile for username: ${username}. Status: ${response.status}`);
     }
 
     const jsonData = await response.json();
@@ -68,7 +51,6 @@ export const fetchProfileByUsername = async (username: string) => {
     }
 
     return {
-      id: profile.id,
       username: profile.username,
       display_name: profile.display_name, 
       cohort: profile.cohort,
