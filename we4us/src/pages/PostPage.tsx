@@ -17,15 +17,15 @@ export default function PostPage() {
     const [editedTitle, setEditedTitle] = useState("");
     const [editedBody, setEditedBody] = useState("");
 
-    useEffect(
-        () => {
-            getPostById(postId).then(
-                response =>
-                    setPostView(response ? response.post_view : null)
-            )
-        },
-        [postId]
-    )
+    useEffect(() => {
+        getPostById(postId).then((response) => {
+            if (response) {
+                setPostView(response.post_view);
+                setEditedTitle(response.post_view.post.name);  // Directly set title
+                setEditedBody(response.post_view.post.body || "");  // Directly set body
+            }
+        });
+    }, [postId]);
 
     async function handleSave() {
         if (!postView) return;
@@ -53,13 +53,11 @@ export default function PostPage() {
                         type="text"
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
-                        placeholder={postView.post.name}
                         style={{ width: "100%", fontSize: "1.5em" }}
                     />
                     <textarea
                         value={editedBody}
                         onChange={(e) => setEditedBody(e.target.value)}
-                        placeholder={postView.post.body || "No content"}
                         style={{ width: "100%", minHeight: "100px" }}
                     />
                     <button onClick={handleSave}>Save</button>
