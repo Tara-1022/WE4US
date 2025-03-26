@@ -28,22 +28,6 @@ export const fetchProfiles = async () => {
   }
 };
 
-export const fetchProfileById = async (id: number) => {
-  try {
-    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${id}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch profile");
-    }
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      throw new Error("Unknown error occurred.");
-    }
-  }
-};
-
 export const fetchProfileByUsername = async (username: string) => {
   try {
     const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${encodeURIComponent(username)}`
