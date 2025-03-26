@@ -6,8 +6,8 @@ x-logging: &default-logging
 
 # Uncomment this and fix line 83
 # If you're having issues persisting data (especially if on windows/WSL)
-volumes:
-  postgres-data:
+#volumes:
+  #postgres-data:
 
 services:
   proxy:
@@ -80,7 +80,7 @@ services:
       - POSTGRES_DB=lemmy
     shm_size: 1g
     volumes:
-      - postgres-data:/var/lib/postgresql/data:Z
+      - /var/lib/postgresql/data
       # replace the above line with postgres-data:/var/lib/postgresql/data:Z if needed
       - ./customPostgresql.conf:/etc/postgresql.conf
     restart: always
