@@ -261,20 +261,16 @@ export async function getMeetUpPostList(): Promise<PostView[]> {
   // or an empty list if fetch fails
   let postCollection: PostView[] = [];
   try {
-    const response = await getClient().getPosts(
-      {
-        type_: "All",
-        limit: 50,
-        community_id: MEETUP_COMMUNITY_ID,
-        show_nsfw: true
-      }
-    );
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit: 50,
+      community_id: MEETUP_COMMUNITY_ID,
+      show_nsfw: true,
+      sort: "New", 
+    });
     postCollection = response.posts.slice();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
-  finally {
-    return postCollection;
-  }
+  return postCollection; 
 }

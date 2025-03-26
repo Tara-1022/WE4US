@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
     { to: '/', label: 'Home' },
     { to: '/announcements', label: 'Announcements' },
     { to: '/job-board', label: 'Job Board' },
-    { to: '/meetup', label: 'Meet Up' },
+    { to: '/meet-up', label: 'Meet Up' },
     { to: '/pg-finder', label: 'PG Finder' },
     { to: '/profile', label: 'Profile' },
     { to: '/reaching-out', label: 'Reaching Out' },

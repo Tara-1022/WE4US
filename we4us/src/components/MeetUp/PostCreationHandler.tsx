@@ -4,14 +4,16 @@ import { createPost } from "../../library/LemmyApi";
 import { MEETUP_COMMUNITY_ID } from "../../constants";
 import { PostView } from "lemmy-js-client";
 
-export type MeetUpPostData = {
-    title: string;
+export type MeetUpPostBody = {
     location: string;
-    url?: string; 
     datetime: string;
-    open_to: string; 
+    open_to: string;
 };
 
+export type MeetUpPostData = MeetUpPostBody & {
+    title: string;
+    url?: string;
+};
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +28,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
                 name: data.title,  
                 community_id: MEETUP_COMMUNITY_ID
             });
-    
+
             handleCreatedPost(newPost);
             setIsOpen(false);
         } catch (error) {
