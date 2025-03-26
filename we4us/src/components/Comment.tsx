@@ -7,7 +7,6 @@ import LikeHandler from './LikeHandler';
 import CommentEditor from "./CommentEditor";
 import { useState } from "react";
 
-// TODO: Add more information to the comment
 export default function Comment({ commentView, depth }: { commentView: CommentView, depth: number }) {
     let styles = {
         container: {
@@ -19,6 +18,9 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
     const { profileInfo } = useProfileContext();
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    const isEdited = commentView.comment.updated && commentView.comment.updated !== commentView.comment.published;
+
+
     return (
         <div style={styles.container}>
             {isEditing ? (
@@ -26,6 +28,9 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
             ) : (
                 <>
                     <CommentSnippet commentView={commentView} />
+                    <div>
+                        {isEdited && <span style={styles.editedText}>(edited)</span>}
+                    </div>
                     <LikeHandler forPost={false} isInitiallyLiked={commentView.my_vote == 1} initialLikes={commentView.counts.score} id={commentView.comment.id} />
                     <CommentCreator commentId={commentView.comment.id} actionName={"Reply"} />
 

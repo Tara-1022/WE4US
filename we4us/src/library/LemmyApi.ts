@@ -241,7 +241,7 @@ export async function editComment(commentId: number, content: string) {
   return response.comment_view;
 };
 
-export async function editPost(postId: number, title: string, body?: string, url?: string) {
+export async function editPost(postId: number, title?: string, body?: string, url?: string) {
   const response = await getClient().editPost({
     post_id: postId,
     name: title,
