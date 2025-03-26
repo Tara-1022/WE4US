@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
             <div key={to}>
               <Link
                 to={to}
-                className={`nav-item ${location.pathname === to ? 'active' : ''}`}
+                className={`nav-item ${location.pathname.startsWith(to) ? 'active' : ''}`}
               >
                 <Icon className="w-5 h-5" />
                 <span>{label}</span>
