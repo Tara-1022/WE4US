@@ -16,13 +16,18 @@ export default function PostPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState("");
     const [editedBody, setEditedBody] = useState("");
+    const [isEdited, setIsEdited] = useState(false);
 
     useEffect(() => {
         getPostById(postId).then((response) => {
             if (response) {
                 setPostView(response.post_view);
-                setEditedTitle(response.post_view.post.name);  // Directly set title
-                setEditedBody(response.post_view.post.body || "");  // Directly set body
+                setEditedTitle(response.post_view.post.name);
+                setEditedBody(response.post_view.post.body || "");
+                setIsEdited(response.post_view.post.updated !== null);
+
+                const { published, updated } = response.post_view.post;
+                setIsEdited(updated && updated !== published);
             }
         });
     }, [postId]);
@@ -32,6 +37,7 @@ export default function PostPage() {
         try {
             const updatedPost = await editPost(postView.post.id, editedTitle, editedBody);
             setPostView({ ...postView, post: updatedPost.post });
+            setIsEdited(true);
             setIsEditing(false);
         } catch (error) {
             window.alert("Failed to update post.");
@@ -65,7 +71,7 @@ export default function PostPage() {
                 </>
             ) : (
                 <>
-                    <h3>{postView.post.name}</h3>
+                    <h3>{postView.post.name} {isEdited && <span style={{ fontSize: "0.8em", color: "gray" }}>(edited)</span>}</h3>
                     <Link to={"/profile/" + postView.creator.name}>
                         {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
                     </Link>
