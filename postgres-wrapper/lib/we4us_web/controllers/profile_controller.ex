@@ -18,7 +18,7 @@ defmodule We4usWeb.ProfileController do
       nil ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
+        |> json(%{error: "Profile with username '#{username}' not found"})
       profile ->
         json(conn, %{profile: profile_json(profile)})
     end
@@ -43,12 +43,16 @@ defmodule We4usWeb.ProfileController do
             |> put_status(:created)
             |> json(%{profile: profile_json(profile)})
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{errors: ChangesetJSON.errors(changeset)})
-        end
-      end
+      {:error, :missing_username} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Username is required to create a profile"})
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{errors: ChangesetJSON.errors(changeset)})
+    end
   end
 
   @doc "Update a profile by username."
@@ -57,7 +61,7 @@ defmodule We4usWeb.ProfileController do
       nil ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
+        |> json(%{error: "Profile with username '#{username}' not found"})
 
       profile ->
         case Profiles.update_profile(profile, params) do
@@ -80,7 +84,7 @@ defmodule We4usWeb.ProfileController do
       nil ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
+        |> json(%{error: "Profile with username '#{username}' not found"})
 
       profile ->
         case Profiles.delete_profile(profile) do
@@ -92,7 +96,7 @@ defmodule We4usWeb.ProfileController do
           {:error, _reason} ->
             conn
             |> put_status(:unprocessable_entity)
-            |> json(%{error: "Profile deletion failed"})
+            |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
         end
     end
   end

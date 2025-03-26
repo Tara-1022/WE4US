@@ -13,6 +13,9 @@ defmodule We4us.Profiles do
   #Fetch a single profile by username
   def get_profile!(username) do
     Repo.get!(Profile, username)
+  rescue
+    Ecto.NoResultsError ->
+      nil
   end
 
   def get_profile(username) do
@@ -42,7 +45,10 @@ defmodule We4us.Profiles do
 
   #Delete a profile
   def delete_profile(%Profile{} = profile) do
-    Repo.delete(profile)
+    case Repo.delete(profile) do
+      {:ok, _} -> {:ok, :deleted}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
 end
