@@ -1,9 +1,10 @@
-import { LEMMY_INSTANCE_URL } from "../constants";
+import { LEMMY_INSTANCE_URL, JOB_COMMUNITY_ID } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
   CommunityVisibility, 
 } from 'lemmy-js-client';
+
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -154,7 +155,8 @@ export async function getPostList(communityId?: number): Promise<PostView[]> {
       {
         type_: "All",
         limit: 50,
-        community_id: communityId
+        community_id: communityId,
+        show_nsfw: false
       }
     );
     postCollection = response.posts.slice();
@@ -167,6 +169,28 @@ export async function getPostList(communityId?: number): Promise<PostView[]> {
   }
 }
 
+export async function getJobPostList(): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_id: JOB_COMMUNITY_ID,
+        show_nsfw: true
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
   return response.my_user;
