@@ -24,15 +24,20 @@ defmodule We4us.Profiles do
 
   #Create a profile
   def create_profile(attrs) do
-    # Ensure username is present
     case Map.fetch(attrs, "username") do
       {:ok, username} ->
+        case Repo.get_by(Profile, username: username) do
+          nil ->  #No existing profile, proceed with insertion
+            %Profile{}
+            |> Profile.changeset(attrs)
+            |> Repo.insert()
 
-        attrs = Map.put(attrs, "username", username)
+          _existing_profile ->
+            {:error, :username_taken}
+        end
 
-        %Profile{}
-        |> Profile.changeset(attrs)
-        |> Repo.insert()
+      :error ->
+        {:error, :missing_username}
     end
   end
 

@@ -48,6 +48,11 @@ defmodule We4usWeb.ProfileController do
         |> put_status(:bad_request)
         |> json(%{error: "Username is required to create a profile"})
 
+      {:error, :username_taken} ->
+        conn
+        |> put_status(:conflict)
+        |> json(%{error: "Username already exists. Please choose a different one."})
+
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -93,7 +98,7 @@ defmodule We4usWeb.ProfileController do
             |> put_status(:no_content)
             |> json(%{message: "Profile deleted successfully"})
 
-          {:error, _reason} ->
+          {:error, reason} ->
             conn
             |> put_status(:unprocessable_entity)
             |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
