@@ -14,12 +14,10 @@ export type JobPostBody = {
     company: string,
     role: string,
     location: string,
-    experience?: string,
     open: boolean,
-    referral?: boolean,
     deadline?: string,
     job_link?: string,
-    internship_duration?: string,
+    job_type: "internship" | "job" | "research" | "others"; 
     description: string
 }
 

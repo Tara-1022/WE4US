@@ -14,7 +14,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const { url, company, role, location, experience, description, open, referral, deadline, job_link, internship_duration, name } = Object.fromEntries(formData);
+        const { url, company, role, location, description, open, deadline, job_link, name, job_type } = Object.fromEntries(formData);
 
         handleCreation({
             url: url.toString(),
@@ -23,13 +23,11 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 company: company.toString(),
                 role: role.toString(),
                 location: location.toString(),
-                experience: experience?.toString(),
                 open: open === "on",
-                referral: referral === "on",
                 deadline: deadline?.toString(),
                 job_link: job_link?.toString(),
-                internship_duration: internship_duration?.toString(),
-                description: description.toString()
+                description: description.toString(),
+                job_type: job_type as "internship" | "job" | "research" | "others"
             }
         });
     }
@@ -52,14 +50,8 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <label htmlFor="location">Location</label>
                 <input name="location" required />
                 <br />
-                <label htmlFor="experience">Experience Required</label>
-                <input name="experience" />
-                <br />
                 <label htmlFor="open">Job Open?</label>
                 <input name="open" type="checkbox" />
-                <br />
-                <label htmlFor="referral">Referral Available?</label>
-                <input name="referral" type="checkbox" />
                 <br />
                 <label htmlFor="deadline">Deadline</label>
                 <input name="deadline" type="date" />
@@ -67,8 +59,13 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <label htmlFor="job_link">Job Link</label>
                 <input name="job_link" type="url" />
                 <br />
-                <label htmlFor="internship_duration">Internship Duration(if applicable)</label>
-                <input name="internship_duration" />
+                <label htmlFor="job_type">Type</label>
+                <select name="job_type" required>
+                <option value="internship">Internship</option>
+                <option value="job">Job</option>
+                <option value="research">Research Program</option>
+                <option value="others">Others</option>
+                </select>
                 <br />
                 <label htmlFor="description">Description</label>
                 <textarea name="description" required />
