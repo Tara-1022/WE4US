@@ -11,14 +11,19 @@ function formatTo50(s: string) {
 
 // referring https://github.com/LemmyNet/lemmy-ui/blob/129fb5b2f994e02bfecc36e3f6884bdbf485b87a/src/shared/components/post/post-form.tsx#L681C16-L681C32
 // and https://codesandbox.io/p/sandbox/searchable-dropdown-forked-krtmc5?file=%2Fsrc%2FSearchableDropdown.js%3A7%2C3-7%2C14
+
 export default function CommunitySelector({ name, isRequired = false }:
     { name: string, isRequired?: boolean }) {
+    // Performs interactive community selection
+    // Contains a form input field that returns communityId as a string
+    // or an empty string, if it does not exist
+
     const [communities, setCommunities] = useState<CommunityView[]>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    // Fields that are part of a controlled form should not ever be undefined or null
+    // Fields that are part of a controlled form should never be undefined or null
     // https://reactjs.org/link/controlled-components
     const [searchText, setSearchText] = useState<string>("");
-    const [selectedCommunityId, setSelectedCommunityId] = useState<string>("");
+    const [selectedCommunityId, setSelectedCommunityId] = useState<string>();
 
     useEffect(
         () => {
@@ -68,42 +73,43 @@ export default function CommunitySelector({ name, isRequired = false }:
             </div>
         }
     )
+
     return (
         <div className="dropdown">
-            <div className="control">
+            <div className="control" onClick={() => setIsOpen(!isOpen)}>
                 <input
                     className="search-value"
                     type="text"
                     value={searchText}
                     onChange={handleSearchTextChange}
                     placeholder="Search for a community"
-                    onClick={() => setIsOpen(!isOpen)} />
+                />
                 {/* 
                 We want this to be a completely independent component that the form can treat as a 'community ID selector'.
                 So, we need an input field that returns the expected name in formData.
-                Since we've removed the html <select> (which handles this by default), we're sending the id back through a 
-                hidden input 
+                We're sending the id back through a hidden input 
                 */}
                 <input
                     // Developer note: change type to "text" when debugging
                     type="hidden"
                     name={name}
                     value={selectedCommunityId}
+                    defaultValue={""}
                     required={isRequired}
                     readOnly />
                 <div className={`arrow ${isOpen ? "open" : ""}`}>
                 </div>
-            </div>
-            
-            {/* The list of options that pops up */}
-            <div className={`options ${isOpen ? "open" : ""}`}>
-                <div
-                    onClick={() => handleSelect({})}
-                    className={`option ${selectedCommunityId ? "" : "selected"}`}
-                >
-                    No community selected
+
+                {/* The list of options that pops up */}
+                <div className={`options ${isOpen ? "open" : ""}`}>
+                    <div
+                        onClick={() => handleSelect({})}
+                        className={`option ${selectedCommunityId ? "" : "selected"}`}
+                    >
+                        No community selected
+                    </div>
+                    {optionsList}
                 </div>
-                {optionsList}
             </div>
         </div>
     )
