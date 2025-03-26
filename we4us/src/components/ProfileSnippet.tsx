@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./ProfileSnippet.css";
 
 interface ProfileSnippetProps {
-  id: number;
   displayName: string;
   username: string;
 }
