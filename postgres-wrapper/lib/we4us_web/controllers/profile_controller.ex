@@ -43,21 +43,22 @@ defmodule We4usWeb.ProfileController do
             |> put_status(:created)
             |> json(%{profile: profile_json(profile)})
 
-      {:error, :missing_username} ->
-        conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Username is required to create a profile"})
+          {:error, :missing_username} ->
+            conn
+            |> put_status(:bad_request)
+            |> json(%{error: "Username is required to create a profile"})
 
-      {:error, :username_taken} ->
-        conn
-        |> put_status(:conflict)
-        |> json(%{error: "Username already exists. Please choose a different one."})
+          {:error, :username_taken} ->
+            conn
+            |> put_status(:conflict)
+            |> json(%{error: "Username already exists. Please choose a different one."})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{errors: ChangesetJSON.errors(changeset)})
-    end
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{errors: ChangesetJSON.errors(changeset)})
+        end
+      end
   end
 
   @doc "Update a profile by username."
