@@ -47,12 +47,12 @@ function ReachingOut() {
   const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
-
+  const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
+  
   useEffect(() => {
     getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then(setPostViews);
   }, [page]);
   
-  const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
   
 
   function handlePostCreated(newPost: PostView) {
