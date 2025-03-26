@@ -4,6 +4,7 @@ import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-re
 import LogoutButton from '../auth/LogoutButton';
 import DuckAvatar from '../assets/profile_duck.png';
 import { useProfileContext } from './ProfileContext';
+import '../styles/sidebar.css';
 
 interface SidebarProps {
   isOpen: boolean;
