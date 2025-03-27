@@ -154,8 +154,9 @@ export async function getPostList(
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      limit,
-      page,
+      sort : "New",
+      limit : limit,
+      page : page,
       community_id: communityId,
     });
     postCollection = response.posts.slice();
