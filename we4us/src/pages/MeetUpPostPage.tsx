@@ -8,9 +8,11 @@ import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 
 export type MeetUpPostBody = {
+    title: string;
     location: string;
     datetime: string;
-    access: string;
+    open_to: string;  
+    additional_details?: string;
 };
 
 export default function MeetUpPostPage() {
@@ -26,13 +28,27 @@ export default function MeetUpPostPage() {
         });
     }, [meetUpId]);
 
-    if (!postView) return <Loader />;
+    if (!postView) return <Loader size={32} strokeWidth={2} className="animate-spin" />; 
 
-    let MeetUpDetails: MeetUpPostBody = { location: "Unknown", datetime: "Not Specified", access: "Open to All" };
+    let MeetUpDetails: MeetUpPostBody = { 
+        title: postView.post.name, 
+        location: "Unknown", 
+        datetime: "Not Specified", 
+        open_to: "All", 
+        additional_details: ""
+    };
 
     try {
         if (postView.post.body) {
-            MeetUpDetails = JSON.parse(postView.post.body);
+            const parsedData = JSON.parse(postView.post.body);
+
+            MeetUpDetails = { 
+                title: parsedData.title || postView.post.name, 
+                location: parsedData.location || "Unknown", 
+                datetime: parsedData.datetime || "Not Specified", 
+                open_to: parsedData.open_to?.trim() || "All", 
+                additional_details: parsedData.additional_details?.trim() || ""
+            };
         }
     } catch (error) {
         console.error("Error parsing post body:", error);
@@ -41,11 +57,13 @@ export default function MeetUpPostPage() {
     return (
         <>
             <div>
-                <h3>{postView.post.name}</h3>
-                <p>Organizer: {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
+                <h4>{MeetUpDetails.title}</h4>  
                 <p><strong>Location:</strong> {MeetUpDetails.location}</p>
                 <p><strong>Date & Time:</strong> {MeetUpDetails.datetime}</p>
-                <p><strong>Access:</strong> {MeetUpDetails.access}</p>
+                <p><strong>Open To:</strong> {MeetUpDetails.open_to}</p>
+                {MeetUpDetails.additional_details && (
+                    <p><strong>Additional Details:</strong> {MeetUpDetails.additional_details}</p>
+                )}
             </div>
 
             {postView.creator.id === profileInfo?.lemmyId && (

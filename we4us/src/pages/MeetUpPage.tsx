@@ -17,7 +17,7 @@ export default function MeetUpPage() {
 
     return (
         <>
-            <h3>Meet Up</h3>
+            <h2>Meet Up</h2>
             <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
             <MeetUpPostList postViews={postViews} />
         </>

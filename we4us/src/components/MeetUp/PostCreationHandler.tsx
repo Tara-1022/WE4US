@@ -8,6 +8,7 @@ export type MeetUpPostBody = {
     location: string;
     datetime: string;
     open_to: string;
+    additional_details?: string;  
 };
 
 export type MeetUpPostData = MeetUpPostBody & {
