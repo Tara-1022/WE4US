@@ -24,6 +24,8 @@ export default function CreatePostModal({
     setIsOpen: (isOpen: boolean) => void; 
     handleCreation: (data: MeetUpPostBody) => void; 
 }) {
+    const [openTo, setOpenTo] = useState("All"); 
+
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -48,7 +50,6 @@ export default function CreatePostModal({
     }
 
     return (
-       
         <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
             <form onSubmit={handleClick} style={styles.form}>
                 <label htmlFor="title">Title</label>
@@ -79,6 +80,5 @@ export default function CreatePostModal({
                 <button type="button" onClick={() => setIsOpen(false)}>Cancel</button>
             </form>
         </Modal>
-        
     );
 }
