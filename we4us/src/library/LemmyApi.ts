@@ -151,9 +151,8 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 }
 
 export async function getPostList(
-  communityId?: number, 
-  page: number = 1,
-  limit: number = DEFAULT_POSTS_PER_PAGE
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
+  { communityId?: number; page?: number; limit?: number }
 ): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {

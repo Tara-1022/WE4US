@@ -50,7 +50,7 @@ function ReachingOut() {
   const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
   
   useEffect(() => {
-    getPostList(undefined, page, DEFAULT_POSTS_PER_PAGE).then(setPostViews);
+    getPostList({ page, limit: DEFAULT_POSTS_PER_PAGE }).then(setPostViews);
   }, [page]);
   
   
