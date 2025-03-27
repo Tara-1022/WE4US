@@ -20,6 +20,6 @@ export default function LogoutButton() {
     }
 
     return (
-        <button onClick={handleLogout}>Log out</button>
+        <button className = "btn btn-danger" onClick={handleLogout}>Logout</button>
     )
 }
