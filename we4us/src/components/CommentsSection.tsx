@@ -16,7 +16,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
     };
     
     useEffect(() => {
-        getComments(postId).then(
+        getComments({postId: postId}).then(
             comments =>
                 setComments(comments));
         commentsContextValue = { ...commentsContextValue, postId: postId };

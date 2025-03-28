@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_LIMIT, DEFAULT_POSTS_PER_PAGE, MAX_COMMENTS_DEPTH } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -102,7 +102,8 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
-export async function getComments(postId: number): Promise<CommentView[]> {
+export async function getComments({ postId, parentId, maxDepth = MAX_COMMENTS_DEPTH }:
+   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
@@ -110,7 +111,9 @@ export async function getComments(postId: number): Promise<CommentView[]> {
     const response = await getClient().getComments(
       {
         post_id: postId,
-        limit: 50
+        parent_id: parentId,
+        max_depth: maxDepth,
+        limit: DEFAULT_COMMENTS_LIMIT
       }
     );
     commentCollection = response.comments.slice();
@@ -151,16 +154,16 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 }
 
 export async function getPostList(
-  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
-  { communityId?: number; page?: number; limit?: number }
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }:
+    { communityId?: number; page?: number; limit?: number }
 ): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      sort : "New",
-      limit : limit,
-      page : page,
+      sort: "New",
+      limit: limit,
+      page: page,
       community_id: communityId,
     });
     postCollection = response.posts.slice();
