@@ -16,6 +16,7 @@ import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
 import SearchPage from './pages/SearchPage';
+import Chat from './pages/Chat';
 import { BackButton, HomeButton } from './components/NavButtons';
 
 Modal.setAppElement('#root');
@@ -38,6 +39,7 @@ const App: React.FC = () => {
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
+                <Route path="/chat" element={<Chat/>}/>
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />

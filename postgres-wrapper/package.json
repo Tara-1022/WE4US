@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "phoenix": "^1.7.20"
+  },
+  "devDependencies": {
+    "@types/phoenix": "^1.6.6"
+  }
+}
