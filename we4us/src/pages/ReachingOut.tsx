@@ -5,11 +5,16 @@ import PostList from '../components/PostList';
 import { Loader, Search } from 'lucide-react';
 import PostCreationModal from '../components/PostCreationModal';
 import CommunityCreationModal from '../components/CommunityCreationModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useLemmyInfo } from '../components/LemmyContextProvider';
 import { useProfileContext } from '../components/ProfileContext';
 import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 import PaginationControls from "../components/PaginationControls";
+
+// Helper function to get URL query parameters
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 function PostCreationButton({ handlePostCreated }:
    { handlePostCreated: (newPost: PostView) => void }) {
@@ -42,19 +47,24 @@ function CommunityCreationButton({ handleCommunityCreated }:
 }
 
 function ReachingOut() {
+  const query = useQuery();
+  const pageFromUrl = parseInt(query.get('page') || '1');
   const [postViews, setPostViews] = useState<PostView[]>([]);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(pageFromUrl);
   const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
   const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
+  useEffect(() => {
+    setPage(pageFromUrl);
+  }, [pageFromUrl]);
   
   useEffect(() => {
     getPostList({ page, limit: DEFAULT_POSTS_PER_PAGE }).then(setPostViews);
   }, [page]);
-  
-  
 
+  
+  
   function handlePostCreated(newPost: PostView) {
     setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
   }
@@ -85,7 +95,7 @@ function ReachingOut() {
       {postViews.length === 0 ? (
         <h3>No posts to see!</h3>
         ) : (
-        <PostList postViews={postViews} />
+        <PostList postViews={postViews} page={page} />
         )}
 
       <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />

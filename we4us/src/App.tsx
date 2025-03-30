@@ -52,7 +52,7 @@ const App: React.FC = () => {
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/post/:postId" element={<PostPage />} />
+                <Route path="/:pageNumber/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
               </Route>
               <Route path="/profile/:username" element={<ProfilePage />} />

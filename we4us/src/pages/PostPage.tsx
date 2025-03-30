@@ -30,22 +30,24 @@ export default function PostPage() {
     const postId = Number(useParams().postId);
     const [postView, setPostView] = useState<PostView | null>(null);
     const { profileInfo } = useProfileContext();
-
+    
     useEffect(
         () => {
-            getPostById(postId).then(
-                response => {
-                    setPostView(response ? response.post_view : null);
-                    console.log(response)
-                }
-            )
+            if (postId) {
+                getPostById(Number(postId)).then(
+                    response => {
+                        setPostView(response ? response.post_view : null);
+                        console.log(response)
+                    }
+                )
+            }
         },
         [postId]
     )
     if (!postView) return <Loader />;
-
+    
     const postBody: PostBodyType = getPostBody(postView)
-
+    
     return (
         <>
             {postBody.imageData &&
@@ -70,7 +72,7 @@ export default function PostPage() {
                 <ReactMarkdown>{postBody.body}</ReactMarkdown>
             </div>
 
-            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
+            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={Number(postId)} />
 
             {postView.creator.id == profileInfo?.lemmyId &&
                 <PostDeletor postId={postView.post.id} imageData={postBody.imageData} />}

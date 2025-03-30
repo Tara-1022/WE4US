@@ -29,11 +29,11 @@ let styles: { [key: string]: React.CSSProperties } = {
     }
 }
 
-export default function PostSnippet({ postView }: { postView: PostView }) {
+export default function PostSnippet({ postView, page = 1 }: { postView: PostView, page?: number }) {
     // A succint display of primary information of the post
 
     const postBody: PostBodyType = getPostBody(postView)
-
+    
     return (
         <div style={styles.post}>
 
@@ -45,7 +45,7 @@ export default function PostSnippet({ postView }: { postView: PostView }) {
             </div>
 
             <div style={styles.details}>
-                <Link to={"/post/" + postView.post.id}>
+                <Link to={`/${page}/post/${postView.post.id}`}>
                     <h3>{postView.post.name}</h3>
                 </Link>
                 <Link to={"/profile/" + postView.creator.name}>
