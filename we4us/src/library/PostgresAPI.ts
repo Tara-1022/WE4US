@@ -18,22 +18,20 @@ export const fetchProfiles = async () => {
     }
     const jsonData = await response.json();
 
-    return jsonData.profiles.map((p: any) => ({
-      username: p.username,
-      displayName: p.display_name, 
-      cohort: p.cohort,
-      companyOrUniversity: p.company_or_university,
-      currentRole: p.current_role,
-    }));
+    return jsonData.profiles.map((p: any) => (p as Profile));
   } catch (error) {
-    console.error("Error fetching profiles:", error);
-    throw new Error(error instanceof Error ? error.message : "Unknown error occurred.");
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Unknown error occurred.");
+    }
   }
 };
 
 export const fetchProfileByUsername = async (username: string) => {
   try {
-    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`);
+    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${encodeURIComponent(username)}`
+);
     
     if (response.status === 404) {
       return null; // return null for "not found"
@@ -44,26 +42,18 @@ export const fetchProfileByUsername = async (username: string) => {
     }
 
     const jsonData = await response.json();
-    const profile = jsonData.profiles.find((p: any) => p.username === username);
 
-    if (!profile) {
+    if (!jsonData.profile) {
       throw new Error(`Profile not found for username: ${username}`);
     }
 
-    return {
-      username: profile.username,
-      display_name: profile.display_name, 
-      cohort: profile.cohort,
-      company_or_university: profile.company_or_university, 
-      current_role: profile.current_role, 
-      years_of_experience: profile.years_of_experience,
-      areas_of_interest: profile.areas_of_interest || [],
-    };
+    return jsonData.profile as Profile;
   } catch (error) {
     console.error("Error fetching profile by username:", error);
     return null; 
   }
 };
+
 export const updateProfile = async (username: string, profileData: Profile) => {
   try {
     const url = `${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${username}`;

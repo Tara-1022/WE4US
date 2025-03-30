@@ -1,8 +1,8 @@
-import { LEMMY_INSTANCE_URL } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility, 
+  CommunityVisibility, EditPost
 } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
@@ -47,8 +47,8 @@ export async function createComment(createComment: CreateComment) {
   return response.comment_view;
 }
 
-export async function createCommunity({name, title}: {name: string, title: string}){
-  try{
+export async function createCommunity({ name, title }: { name: string, title: string }) {
+  try {
     const response = await getClient().createCommunity({
       name: name,
       title: title,
@@ -59,7 +59,7 @@ export async function createCommunity({name, title}: {name: string, title: strin
     });
     return response.community_view;
   }
-  catch (error){
+  catch (error) {
     console.error("Error creating community:", error);
     throw new Error("Failed to create community: " + error);
   }
@@ -94,6 +94,11 @@ export async function deletePost(postId: number) {
       post_id: postId, deleted: true
     }
   );
+  return response.post_view;
+}
+
+export async function editPost(newPostDetails: EditPost) {
+  const response = await getClient().editPost(newPostDetails);
   return response.post_view;
 }
 
@@ -145,26 +150,24 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number): Promise<PostView[]> {
-  // Fetches and returns a list of recent 25 PostViews
-  // or an empty list if fetch fails
+export async function getPostList(
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
+  { communityId?: number; page?: number; limit?: number }
+): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
-    const response = await getClient().getPosts(
-      {
-        type_: "All",
-        limit: 50,
-        community_id: communityId
-      }
-    );
+    const response = await getClient().getPosts({
+      type_: "All",
+      sort : "New",
+      limit : limit,
+      page : page,
+      community_id: communityId,
+    });
     postCollection = response.posts.slice();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
-  finally {
-    return postCollection;
-  }
+  return postCollection;
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
@@ -181,8 +184,8 @@ export async function hidePost(postId: number) {
   return response.success;
 }
 
-export async function likePost(postId: number){
-  const response = await  getClient().likePost(
+export async function likePost(postId: number) {
+  const response = await getClient().likePost(
     {
       post_id: postId,
       score: 1
@@ -191,8 +194,8 @@ export async function likePost(postId: number){
   return response.post_view;
 }
 
-export async function likeComment(commentId: number){
-  const response = await  getClient().likeComment(
+export async function likeComment(commentId: number) {
+  const response = await getClient().likeComment(
     {
       comment_id: commentId,
       score: 1
@@ -230,8 +233,8 @@ export async function search(query: Search) {
 
 }
 
-export async function undoLikePost(postId: number){
-  const response = await  getClient().likePost(
+export async function undoLikePost(postId: number) {
+  const response = await getClient().likePost(
     {
       post_id: postId,
       score: 0
@@ -240,8 +243,8 @@ export async function undoLikePost(postId: number){
   return response.post_view;
 }
 
-export async function undoLikeComment(commentId: number){
-  const response = await  getClient().likeComment(
+export async function undoLikeComment(commentId: number) {
+  const response = await getClient().likeComment(
     {
       comment_id: commentId,
       score: 0
