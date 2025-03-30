@@ -16,8 +16,7 @@ export type JobPostBody = {
     location: string,
     open: boolean,
     deadline?: string,
-    job_link?: string,
-    job_type: "internship" | "job" | "research" | "others"; 
+    job_type: "Internship" | "Job" | "Research" | "Other"; 
     description: string
 }
 
@@ -27,7 +26,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     function handleCreation(data: JobPostData) {
         console.log(data);
         createPost({
-            url: data.url,
+            ...(data.url && {url: data.url}),
             body: JSON.stringify(data.body),
             name: data.name.toString(),
             community_id: JOB_COMMUNITY_ID
@@ -36,6 +35,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
         );
         setIsOpen(false);
     }
+
 
     return (
         <>

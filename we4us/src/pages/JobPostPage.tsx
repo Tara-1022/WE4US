@@ -28,12 +28,12 @@ export default function JobPostPage() {
             <div>
                 <h3>{postView.post.name}</h3>
                 <p>Posted by: {postView.creator.display_name || postView.creator.name}</p>
+                <p><strong>Company:</strong> {jobDetails.company}</p>
                 <p><strong>Job Status:</strong> {jobDetails.open ? "Open" : "Closed"}</p>
                 <p><strong>Deadline:</strong> {jobDetails.deadline || "Not specified"}</p>
-                <p><strong>Company:</strong> {jobDetails.company}</p>
                 <p><strong>Role:</strong> {jobDetails.role}</p>
                 <p><strong>Location:</strong> {jobDetails.location}</p>
-                <p><strong>Job Link/ID:</strong> <a href={jobDetails.job_link} target="_blank" rel="noopener noreferrer">{jobDetails.job_link}</a></p>
+                <p><strong>Job Link:</strong> <a href={postView.post.url} target="_blank" rel="noopener noreferrer">{postView.post.url}</a></p>
                 <p><strong>Type:</strong> {jobDetails.job_type}</p>
                 <p><strong>Description:</strong> {jobDetails.description}</p>
             </div>
