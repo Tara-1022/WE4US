@@ -6,7 +6,7 @@ import AnnouncementPage from './pages/AnnouncementPage';
 import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
-import PgFinderPage from './pages/PgFinder';
+import PgFinderPage from './pages/PgFinderPage';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import WhosWhoPage from './pages/WhosWhoPage';
@@ -15,6 +15,7 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
+import PgPostPage from './pages/PgPostPage';
 import SearchPage from './pages/SearchPage';
 import { BackButton, HomeButton } from './components/NavButtons';
 
@@ -37,6 +38,7 @@ const App: React.FC = () => {
                 <Route path="/job-board" element={<JobBoardPage />} />
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
+                <Route path="/pg-finder/:pgId" element={<PgPostPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
