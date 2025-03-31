@@ -6,7 +6,7 @@ import CommentsTree from './CommentsTree';
 import CommentCreator from './CommentCreator';
 import { CommentsContext, commentsContextValueType } from './CommentsContext';
 import { Loader } from 'lucide-react';
-import { DEFAULT_COMMENTS_LIMIT, MAX_COMMENTS_DEPTH } from '../constants';
+import { DEFAULT_COMMENTS_LIMIT, DEFAULT_COMMENTS_DEPTH } from '../constants';
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function CommentsSection({ postId }: { postId: number }) {
@@ -15,7 +15,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
     const [hasMore, setHasMore] = useState<boolean>(true);
     const baseCommentsLoaded = comments
         .filter(
-            (comment) => getDepthFromComment(comment.comment) < MAX_COMMENTS_DEPTH
+            (comment) => getDepthFromComment(comment.comment) < DEFAULT_COMMENTS_DEPTH
         )
 
     let commentsTree: CommentNodeI[] = buildCommentsTree(comments);
@@ -63,7 +63,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
             <CommentCreator actionName={"Comment"} />
             <div style={{ overflow: "auto" }} className='scrollableDiv'>
                 <InfiniteScroll
-                    // since we don't want to count loaded replies here
+                    // since we don't want to count replies here
                     dataLength={baseCommentsLoaded.length}
                     next={getMoreComments}
                     hasMore={hasMore}

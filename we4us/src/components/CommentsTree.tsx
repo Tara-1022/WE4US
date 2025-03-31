@@ -2,7 +2,6 @@ import Comment from './Comment';
 import { CommentNodeI } from '../library/CommentUtils';
 import Collapsible from './Collapsible';
 import { useState } from 'react';
-import { CommentView } from 'lemmy-js-client';
 import { getComments } from '../library/LemmyApi';
 import { useCommentsContext } from './CommentsContext';
 
@@ -29,7 +28,7 @@ function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
         event.preventDefault();
         setViewReplies(!viewReplies);
         if (!isRepliesLoaded) {
-            getComments({ parentId: commentNode.commentView.comment.id }).then(
+            getComments({ parentId: commentNode.commentView.comment.id, maxDepth: 1 }).then(
                 (newComments) => {
                     newComments = newComments.filter(
                         (comment) => comment.comment.id != commentNode.commentView.comment.id
