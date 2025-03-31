@@ -1,9 +1,8 @@
-import { INSTANCE_URL } from "../constants";
+import { INSTANCE_URL , PG_COMMUNITY_ID } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility, 
-} from 'lemmy-js-client';
+  CommunityVisibility, } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -148,23 +147,49 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
-    let postCollection: PostView[] = [];
-    try{
-        const response = await getClient().getPosts(
-          {
-            type_: "All",
-            limit: 50,
-        community_id: communityId
-          }
-        );
-        postCollection = response.posts.slice();
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally{
-        return postCollection;
-    }
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: 50,
+        community_id: communityId,
+        show_nsfw: false
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
+
+export async function getPgPostList(): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        sort : "New",
+        limit: 50,
+        community_id: PG_COMMUNITY_ID,
+        show_nsfw: true
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+  
 }
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {

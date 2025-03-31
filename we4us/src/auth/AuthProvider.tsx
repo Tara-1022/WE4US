@@ -79,13 +79,18 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   }
 
   function setLemmyContext() {
-    getCommunityList().then((communityList) => {
-        setLemmyInfo({communities: communityList});
+    getCommunityList()
+      .then((communityList) => {
+        console.log(communityList);
+        setLemmyInfo({
+          communities: communityList
+        });
       })
       .catch((error) => {
         console.error("Error fetching community list:", error);
       });
-  }
+}
+
 
   useEffect(() => {
     setClientToken(token);
