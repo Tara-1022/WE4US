@@ -9,6 +9,7 @@ import { useProfileContext } from '../components/ProfileContext';
 import LikeHandler from '../components/LikeHandler';
 import { getPostBody, PostBodyType } from '../library/PostBodyType';
 import { constructImageUrl } from '../library/LemmyImageHandling';
+import ReactMarkdown from "react-markdown"
 
 let styles: { [key: string]: React.CSSProperties } = {
     imageContainer: {
@@ -61,13 +62,14 @@ export default function PostPage() {
             <div>
                 <h3>{postView.post.name}</h3>
                 <a href={postView.post.url} target='_blank'>{postView.post.url}</a>
-                <p>{postBody.body}</p>
+                <br/>
                 <Link to={"/profile/" + postView.creator.name}>
                     {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
                 </Link>
                 <Link to={"/community/" + postView.community.id}>
                     <p>{postView.community.name}</p>
                 </Link>
+                <ReactMarkdown>{postBody.body}</ReactMarkdown>
             </div>
 
             <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
