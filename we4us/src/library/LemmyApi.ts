@@ -102,8 +102,8 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
-export async function getComments({ postId, parentId, maxDepth = MAX_COMMENTS_DEPTH }:
-   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
+export async function getComments({ postId, parentId, maxDepth = MAX_COMMENTS_DEPTH, page = 1, limit = DEFAULT_COMMENTS_LIMIT }:
+   { postId?: number, parentId?: number, maxDepth?: number, page?: number, limit?: number}): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
@@ -113,7 +113,8 @@ export async function getComments({ postId, parentId, maxDepth = MAX_COMMENTS_DE
         post_id: postId,
         parent_id: parentId,
         max_depth: maxDepth,
-        limit: DEFAULT_COMMENTS_LIMIT
+        limit: limit,
+        page: page
       }
     );
     commentCollection = response.comments.slice();

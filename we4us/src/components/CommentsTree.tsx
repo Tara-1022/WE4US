@@ -31,6 +31,9 @@ function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
         if (!isRepliesLoaded) {
             getComments({ parentId: commentNode.commentView.comment.id }).then(
                 (newComments) => {
+                    newComments = newComments.filter(
+                        (comment) => comment.comment.id != commentNode.commentView.comment.id
+                    )
                     setComments((prevComments) => [...prevComments, ...newComments]);
                     setRepliesLoaded(true);
                 }
