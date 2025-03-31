@@ -7,3 +7,6 @@ export const POSTGRES_PROFILES_ENDPOINT = "profiles/";
 export const DEFAULT_POSTS_PER_PAGE = 10;
 export const DEFAULT_COMMENTS_PER_PAGE = 10;
 
+export const TOKEN_AGE_MS = 15 * 60 * 1000; // 15 minutes
+export const TOKEN_VALIDITY_MS = 5 * 60 * 1000; // 5 minutes
+

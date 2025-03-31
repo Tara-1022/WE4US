@@ -23,24 +23,41 @@ let styles = {
 // TODO: replace this with Oauth
 // reference: https://github.com/LemmyNet/lemmy-ui/blob/93d6901abb1cf7a4cb365496dd556904d8334231/src/shared/components/home/login.tsx#L42
 export default function LoginModal() {
-    const {token, setToken} = useAuth();
-    const [isOpen, setIsOpen] = useState(token == null);
-    
-    function handleLogin(event: React.FormEvent<HTMLFormElement>){
+    const { setTokenA, setTokenB, setLastUpdateTimestamp, setProfileContext, setLemmyContext } = useAuth();
+    const [isOpen, setIsOpen] = useState(true);
+
+    function handleLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const {username, password} = Object.fromEntries(formData);
-        logIn(username.toString(), password.toString()).then(
-            jwt => {
-                if(jwt){
-                    setToken(jwt);
-                    setIsOpen(false);
-                }
-                else{
-                    window.alert("Log in failed");
-                }
-            }
-        );
+        const { username, password } = Object.fromEntries(formData);
+
+        loginWithTokens(username.toString(), password.toString());
+
+    }
+
+    async function loginWithTokens(username: string, password: string) {
+        const tokenA = logIn(username, password);
+        const tokenB = tokenA.then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+            .then(() => logIn(username, password));
+
+        const [resolvedTokenA, resolvedTokenB] = await Promise.all([tokenA, tokenB]);
+
+        if (resolvedTokenA && resolvedTokenB) {
+            setTokenA(resolvedTokenA);
+            setTokenB(resolvedTokenB);
+            setLastUpdateTimestamp(Date.now());
+            setIsOpen(false);
+
+            localStorage.setItem("tokenA", resolvedTokenA);
+            localStorage.setItem("tokenB", resolvedTokenB);
+            localStorage.setItem("tokenTimestamp", Date.now().toString());
+
+            setProfileContext();
+            setLemmyContext();
+        }
+        else {
+            window.alert("Log in failed");
+        }
     }
 
     return (

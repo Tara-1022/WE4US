@@ -3,6 +3,7 @@ import { setClientToken, getCommunityList, getCurrentUserDetails } from "../libr
 import { fetchProfileByUsername } from "../library/PostgresAPI";
 import { useProfileContext } from "../components/ProfileContext";
 import { useLemmyInfo } from "../components/LemmyContextProvider";
+import { TOKEN_AGE_MS, TOKEN_VALIDITY_MS } from '../constants';
 
 // Storing jwt in localstorage is our best current option https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 // since making backend changes is not feasible at present
@@ -13,14 +14,24 @@ import { useLemmyInfo } from "../components/LemmyContextProvider";
 // TODO: Inspect security considerations & possibly explore setting credentials via cookies
 
 type contextValueType = {
-  token: string | null;
-  setToken: (newToken: string | null) => void;
+  tokenA: string | null;
+  tokenB: string | null;
+  setTokenA: (newToken: string | null) => void;
+  setTokenB: (newToken: string | null) => void;
+  setLastUpdateTimestamp: (timestamp: number) => void;
+  setProfileContext: () => void;
+  setLemmyContext: () => void;
 }
 
 // Note: AuthContext must only be used in components under AuthProvider
 const AuthContext = createContext<contextValueType>({
-  token: null,
-  setToken: () => { }
+  tokenA: null,
+  tokenB: null,
+  setTokenA: () => { },
+  setTokenB: () => { },
+  setLastUpdateTimestamp: () => { },
+  setProfileContext: () => { },
+  setLemmyContext: () => { }
 });
 
 // Dev note: token must be set/reset ONLY via the provided function
@@ -46,7 +57,10 @@ async function getPostgresProfile(username: string) {
 }
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [tokenA, setTokenA] = useState<string | null>(localStorage.getItem("tokenA"));
+  const [tokenB, setTokenB] = useState<string | null>(localStorage.getItem("tokenB"));
+  const [tokenTimestamp, setLastUpdateTimestamp] = useState<number | null>(localStorage.getItem("tokenTimestamp") ? Number(localStorage.getItem("tokenTimestamp")) : null);
+
   const { setProfileInfo } = useProfileContext();
   const { setLemmyInfo } = useLemmyInfo();
 
@@ -72,39 +86,58 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       if (!postgresProfile) return;
       setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
 
-    }  catch (error) {
-        console.error("Error fetching profile details:", error);
-        window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
-      }
+    } catch (error) {
+      console.error("Error fetching profile details:", error);
+      window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
+    }
   }
 
   function setLemmyContext() {
     getCommunityList().then((communityList) => {
-        setLemmyInfo({communities: communityList});
-      })
+      setLemmyInfo({ communities: communityList });
+    })
       .catch((error) => {
         console.error("Error fetching community list:", error);
       });
   }
 
   useEffect(() => {
-    setClientToken(token);
-    if (token) {
-      setProfileContext().catch((error) => {
-        console.error(error);
-      });
-      setLemmyContext();
-      localStorage.setItem("token", token);
-    } else {
-      localStorage.removeItem("token");
+    if (!tokenA || !tokenB || !tokenTimestamp) {
+      return;
     }
-  }, [token]);
-  
+
+    const rotateActiveToken = () => {
+      const now = Date.now();
+      const tokenAge = now - tokenTimestamp;
+
+      //Validate token to be rotated if tokenAge is greater than 15 minutes
+      if (tokenAge > TOKEN_AGE_MS) {
+        const newActiveToken = localStorage.getItem("activeToken") === tokenA ? tokenB : tokenA;
+        if (newActiveToken) {
+          setLastUpdateTimestamp(now);
+          localStorage.setItem("activeToken", newActiveToken);
+          localStorage.setItem("tokenTimestamp", now.toString());
+          setClientToken(newActiveToken);
+
+          localStorage.setItem("token", newActiveToken);
+        } else {
+          console.error("Token rotation failed: newActiveToken is null");
+          window.alert("try logging out and logging back in. If the issue persists, contact the admins.");
+        }
+      }
+    };
+
+    rotateActiveToken();
+    //Check token validity every 5 mins
+    const interval = setInterval(rotateActiveToken, TOKEN_VALIDITY_MS);
+
+    return () => clearInterval(interval);
+  }, [tokenA, tokenB, tokenTimestamp]);
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({ token, setToken}),
-    [token]
+    () => ({ tokenA, tokenB, setTokenA, setTokenB, setLastUpdateTimestamp, setProfileContext, setLemmyContext, }),
+    [tokenA, tokenB, setTokenA, setTokenB, setLastUpdateTimestamp, setProfileContext, setLemmyContext]
   );
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
