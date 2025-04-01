@@ -55,9 +55,6 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
                         </a>
                     </p>
                 )}
-                {parsedBody.additional_details?.trim() && ( 
-                    <p><strong>Additional Details:</strong> {parsedBody.additional_details}</p>
-                )}
             </div>
         </div>
     );
