@@ -1,9 +1,10 @@
 import Comment from './Comment';
 import { CommentNodeI } from '../library/CommentUtils';
 import Collapsible from './Collapsible';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getComments } from '../library/LemmyApi';
 import { useCommentsContext } from './CommentsContext';
+import { DEFAULT_COMMENTS_LIMIT } from '../constants';
 
 let styles = {
     list: {
@@ -14,30 +15,45 @@ let styles = {
     listItem: {
 
     },
-    repliesText: {
+    clickableText: {
         cursor: "pointer"
     }
 }
 
 function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
     const [viewReplies, setViewReplies] = useState<boolean>(false);
-    const [isRepliesLoaded, setRepliesLoaded] = useState<boolean>(false);
+    // Page 0 to indicate replies have not been loaded
+    const [page, setPage] = useState<number>(0);
+    const [hasMore, setHasMore] = useState<boolean>(true);
     const { setComments } = useCommentsContext();
 
-    function handleClick(event: React.MouseEvent<HTMLSpanElement>) {
-        event.preventDefault();
-        setViewReplies(!viewReplies);
-        if (!isRepliesLoaded) {
-            getComments({ parentId: commentNode.commentView.comment.id, maxDepth: 1 }).then(
+    function fetchMore() {
+        if (!hasMore) return;
+
+        getComments({ parentId: commentNode.commentView.comment.id, maxDepth: 1, page: page + 1 })
+            .then(
                 (newComments) => {
                     newComments = newComments.filter(
                         (comment) => comment.comment.id != commentNode.commentView.comment.id
                     )
                     setComments((prevComments) => [...prevComments, ...newComments]);
-                    setRepliesLoaded(true);
+                    setPage(p => p + 1);
+                    if (newComments.length < DEFAULT_COMMENTS_LIMIT) setHasMore(false);
                 }
             )
-        }
+    }
+
+    useEffect(
+        () => {
+            if (viewReplies && (page == 0)) {
+                fetchMore();
+            }
+        }, [viewReplies]
+    )
+
+    function handleMore(event: React.MouseEvent<HTMLSpanElement>) {
+        event.preventDefault();
+        fetchMore();
     }
 
     return (
@@ -45,14 +61,19 @@ function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
             <Comment commentView={commentNode.commentView} depth={commentNode.depth} />
             {commentNode.commentView.counts.child_count > 0 &&
                 <>
-                    <span onClick={handleClick} >
+                    <span onClick={() => setViewReplies(!viewReplies)} style={styles.clickableText}>
                         {viewReplies ? "Hide replies" : "Show Replies"}
                     </span>
-                    {viewReplies && isRepliesLoaded &&
+                    {viewReplies &&
                         <Collapsible>
                             <CommentsTree commentsTree={commentNode.children} />
                         </Collapsible>
                     }
+
+                    {hasMore && viewReplies &&
+                        <span onClick={handleMore} style={styles.clickableText}>
+                            Show more replies
+                        </span>}
                 </>
             }
         </>
