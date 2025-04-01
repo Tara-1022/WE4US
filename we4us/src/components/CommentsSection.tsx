@@ -26,9 +26,11 @@ export default function CommentsSection({ postId }: { postId: number }) {
             (comments) => {
                 setComments(comments);
                 if (comments.length < DEFAULT_COMMENTS_LIMIT) setHasMore(false);
+                console.log("Fetched comments", console.log(comments.map(
+                    (commentview) => commentview.comment.path + " id " + commentview.comment.id
+                )))
             });
         commentsContextValue = { ...commentsContextValue, postId: postId };
-        console.log("Fetched comments");
     },
         [postId]
     );
@@ -51,7 +53,9 @@ export default function CommentsSection({ postId }: { postId: number }) {
             setPage(p => p + 1);
         }
         setIsLoading(false);
-        console.log("Fetched more. comments are now ", comments.length)
+        console.log("Fetched more. comments are now ", comments.length, console.log(newComments.map(
+            (commentview) => commentview.comment.path + " id " + commentview.comment.id
+        )))
     }
 
     return (
