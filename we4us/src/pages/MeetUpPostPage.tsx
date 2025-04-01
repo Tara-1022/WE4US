@@ -7,15 +7,7 @@ import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import ReactMarkdown from 'react-markdown';
-
-export type MeetUpPostBody = {
-    title: string;
-    location: string;
-    datetime: string;
-    open_to: string;
-    url?: string;
-    additional_details?: string;
-};
+import { MeetUpPostBody } from '../components/MeetUp/MeetUpPostTypes';
 
 export default function MeetUpPostPage() {
     const meetUpId = Number(useParams().meetUpId);

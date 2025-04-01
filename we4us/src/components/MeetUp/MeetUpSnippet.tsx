@@ -1,16 +1,9 @@
 import { Link } from "react-router-dom";
 import { PostView } from "lemmy-js-client";
-
-export type MeetUpPostBody = {
-    title: string; 
-    location: string;
-    datetime: string;
-    open_to: string;
-    additional_details?: string;
-};
+import { MeetUpPostBody } from "./MeetUpPostTypes"; 
 
 export default function MeetUpPostSnippet({ postView }: { postView: PostView }) {
-    let parsedBody: MeetUpPostBody & { url?: string } = {
+    let parsedBody: MeetUpPostBody = {
         title: "",
         location: "Unknown",
         datetime: "Not Specified",
@@ -34,15 +27,26 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
             };
         }
     }
-
     return (
         <div>
             <div>
-                <h4>
-                    <Link to={`/meet-up/${postView.post.id}`} style={{ textDecoration: "none", color: "black" }}>
-                        {parsedBody.title}
+                <h3>
+                    <Link
+                        to={`/meet-up/${postView.post.id}`}
+                        style={{
+                            textDecoration: "none",
+                            color: "inherit", 
+                        }}
+                    >
+                        <span
+                            style={{
+                                color: document.body.classList.contains("dark-mode") ? "white" : "black", 
+                            }}
+                        >
+                            {parsedBody.title}
+                        </span>
                     </Link>
-                </h4>
+                </h3>
                 <p><strong>Location:</strong> {parsedBody.location}</p>
                 <p><strong>Time & Date:</strong> {parsedBody.datetime}</p>
                 <p><strong>Open To:</strong> {parsedBody.open_to}</p>

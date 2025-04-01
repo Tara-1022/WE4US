@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MeetUpPostData } from "./PostCreationHandler";
+import { MeetUpPostBody} from "./MeetUpPostTypes";
 import Modal from "react-modal";
 
 let styles = {
@@ -22,7 +22,7 @@ export default function CreatePostModal({
 }: { 
     isOpen: boolean; 
     setIsOpen: (isOpen: boolean) => void; 
-    handleCreation: (data: MeetUpPostData) => void; 
+    handleCreation: (data: MeetUpPostBody) => void; 
 }) {
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
