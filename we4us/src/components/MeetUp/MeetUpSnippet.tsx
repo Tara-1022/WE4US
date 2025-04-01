@@ -27,6 +27,7 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
             };
         }
     }
+
     return (
         <div>
             <div>
@@ -38,11 +39,7 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
                             color: "inherit", 
                         }}
                     >
-                        <span
-                            style={{
-                                color: document.body.classList.contains("dark-mode") ? "white" : "black", 
-                            }}
-                        >
+                        <span style={{ color: "inherit" }}> 
                             {parsedBody.title}
                         </span>
                     </Link>
