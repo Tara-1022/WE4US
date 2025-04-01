@@ -41,7 +41,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
     async function getMoreComments() {
         if (!hasMore) return;
         setIsLoading(true);
-        const newComments = await getComments({ postId: postId, page: page });
+        const newComments = await getComments({ postId: postId, page: page + 1 });
         setComments((comments) => [...comments, ...newComments]);
         if (newComments.length < DEFAULT_COMMENTS_LIMIT) {
             setHasMore(false);
@@ -58,8 +58,9 @@ export default function CommentsSection({ postId }: { postId: number }) {
         <CommentsContext.Provider value={commentsContextValue}>
             <CommentCreator actionName={"Comment"} />
             <CommentsTree commentsTree={commentsTree} />
-            {hasMore &&
-                <button onClick={getMoreComments}>Load more</button>}
+            {hasMore ?
+                <button onClick={getMoreComments}>Load more</button>
+                : <h4>No more comments here!</h4>}
             {loading && <Loader />}
         </CommentsContext.Provider>
     );
