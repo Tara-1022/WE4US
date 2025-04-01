@@ -45,7 +45,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <input name="location" required/>
                 <br />
                 <label htmlFor="mapUrl"> Map URL : </label>
-                <input name="mapUrl" required/>
+                <input name="mapUrl"/>
                 <br />
                 <label>Ratings (1-5):</label>
                 <br />

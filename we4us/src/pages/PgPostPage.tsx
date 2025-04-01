@@ -35,6 +35,14 @@ export default function PgPostPage() {
                 <h3>{postView.post.name}</h3>
                 <p>Location : {postView.post.url || 'N'}</p>
                 <p>Map URL : {postView.post.url || 'N/A'}</p>
+                {postView.post.url && (
+                    <p>
+                        <strong>Map URL:</strong>{" "}
+                        <a href={postView.post.url} target="_blank" rel="noopener noreferrer">
+                            {postView.post.url}
+                        </a>
+                    </p>
+                )}
                 <p>Cost Rating: {formatRating(pgDetails.ratings?.cost)}/5</p>
                 <p>Safety Rating: {formatRating(pgDetails.ratings?.safety)}/5</p>
                 <p>Food Rating: {formatRating(pgDetails.ratings?.food)}/5</p>

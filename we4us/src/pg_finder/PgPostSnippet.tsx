@@ -29,8 +29,6 @@ let styles: { [key: string]: React.CSSProperties } = {
 
 export default function PgPostSnippet({ postView }: { postView: PostView }) {
     // A succint display of primary information of the pg post
-    
-    // Parse the body from JSON string to access our custom fields
     let pgData;
     try {
         pgData = JSON.parse(postView.post.body || "{}");
@@ -44,7 +42,6 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 <Link to={"/pg-finder/" + postView.post.id}>
                     <h3>{postView.post.name}</h3>
                 </Link>
-                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
                 
                 <div style={styles.location}>
                     Location: {pgData.location || "Not specified"}
