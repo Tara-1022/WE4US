@@ -56,6 +56,7 @@ export default function CommentsSection({ postId }: { postId: number }) {
             setHasMore(true);
             setPage(p => p + 1);
         }
+        console.log("Fetched more. comments are now ", baseCommentsLoaded.length)
     }
 
     return (
