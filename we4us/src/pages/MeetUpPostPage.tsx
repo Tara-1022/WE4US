@@ -6,12 +6,14 @@ import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
+import ReactMarkdown from 'react-markdown';
 
 export type MeetUpPostBody = {
     title: string;
     location: string;
     datetime: string;
-    open_to: string;  
+    open_to: string;
+    url?: string;
     additional_details?: string;
 };
 
@@ -28,13 +30,14 @@ export default function MeetUpPostPage() {
         });
     }, [meetUpId]);
 
-    if (!postView) return <Loader size={32} strokeWidth={2} className="animate-spin" />; 
+    if (!postView) return <Loader size={32} strokeWidth={2} className="animate-spin" />;
 
-    let MeetUpDetails: MeetUpPostBody = { 
-        title: postView.post.name, 
-        location: "Unknown", 
-        datetime: "Not Specified", 
-        open_to: "All", 
+    let MeetUpDetails: MeetUpPostBody = {
+        title: postView.post.name,
+        location: "Unknown",
+        datetime: "Not Specified",
+        open_to: "All",
+        url: "",
         additional_details: ""
     };
 
@@ -42,11 +45,12 @@ export default function MeetUpPostPage() {
         if (postView.post.body) {
             const parsedData = JSON.parse(postView.post.body);
 
-            MeetUpDetails = { 
-                title: parsedData.title || postView.post.name, 
-                location: parsedData.location || "Unknown", 
-                datetime: parsedData.datetime || "Not Specified", 
-                open_to: parsedData.open_to?.trim() || "All", 
+            MeetUpDetails = {
+                title: parsedData.title || postView.post.name,
+                location: parsedData.location || "Unknown",
+                datetime: parsedData.datetime || "Not Specified",
+                open_to: parsedData.open_to?.trim() || "All",
+                url: parsedData.url?.trim() || "",
                 additional_details: parsedData.additional_details?.trim() || ""
             };
         }
@@ -57,12 +61,25 @@ export default function MeetUpPostPage() {
     return (
         <>
             <div>
-                <h4>{MeetUpDetails.title}</h4>  
+                <h4>{MeetUpDetails.title}</h4>
                 <p><strong>Location:</strong> {MeetUpDetails.location}</p>
                 <p><strong>Date & Time:</strong> {MeetUpDetails.datetime}</p>
                 <p><strong>Open To:</strong> {MeetUpDetails.open_to}</p>
+
+                {MeetUpDetails.url && (
+                    <p>
+                        <strong>URL:</strong>{" "}
+                        <a href={MeetUpDetails.url} target="_blank" rel="noopener noreferrer">
+                            {MeetUpDetails.url}
+                        </a>
+                    </p>
+                )}
+
                 {MeetUpDetails.additional_details && (
-                    <p><strong>Additional Details:</strong> {MeetUpDetails.additional_details}</p>
+                    <div>
+                        <strong>Additional Details:</strong>
+                        <ReactMarkdown>{MeetUpDetails.additional_details}</ReactMarkdown>
+                    </div>
                 )}
             </div>
 
