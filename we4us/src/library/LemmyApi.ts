@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_POSTS_PER_PAGE, DEFAULT_COMMENTS_LIMIT } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -102,7 +102,10 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
-export async function getComments(postId: number): Promise<CommentView[]> {
+export async function getComments(
+  { postId, parentId, limit = DEFAULT_COMMENTS_LIMIT, page = 1 }:
+   { postId?: number, parentId?: number, limit?: number, page?: number}
+): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
@@ -110,7 +113,9 @@ export async function getComments(postId: number): Promise<CommentView[]> {
     const response = await getClient().getComments(
       {
         post_id: postId,
-        limit: 50
+        parent_id: parentId,
+        page: page,
+        limit: limit
       }
     );
     commentCollection = response.comments.slice();
