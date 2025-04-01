@@ -24,12 +24,10 @@ export default function CreatePostModal({
     setIsOpen: (isOpen: boolean) => void; 
     handleCreation: (data: MeetUpPostData) => void; 
 }) {
-    const [openTo, setOpenTo] = useState("All"); 
-
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const { title, location, url, datetime, additional_details } = Object.fromEntries(formData);
+        const { title, location, url, datetime, open_to, additional_details } = Object.fromEntries(formData);
 
         const selectedDate = new Date(datetime.toString());
         const currentDate = new Date();
@@ -44,7 +42,7 @@ export default function CreatePostModal({
             location: location.toString(),
             url: url?.toString() || "", 
             datetime: datetime.toString(),
-            open_to: openTo, 
+            open_to: open_to?.toString().trim() || "All",
             additional_details: additional_details?.toString() || "",
         });
     }
@@ -69,12 +67,7 @@ export default function CreatePostModal({
                 <br />
 
                 <label htmlFor="open_to">Open To</label>
-                <input 
-                    name="open_to" 
-                    value={openTo} 
-                    onChange={(e) => setOpenTo(e.target.value || "All")} 
-                    style={styles.input} 
-                />
+                <input name="open_to" defaultValue="All" style={styles.input} />
                 <br />
 
                 <label htmlFor="additional_details">Additional Details (Optional)</label>
