@@ -117,10 +117,10 @@ export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENT
         post_id: postId,
         parent_id: parentId,
         max_depth: maxDepth,
-        page: page,sort: "Old"
+        page: page,
+        sort: "Old"
       }
     );
-    console.log("Got ", response.comments.length, " comments")
     commentCollection = response.comments.slice();
   }
   catch (error) {
