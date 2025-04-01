@@ -24,8 +24,6 @@ export default function CreatePostModal({
     setIsOpen: (isOpen: boolean) => void; 
     handleCreation: (data: MeetUpPostBody) => void; 
 }) {
-    const [openTo, setOpenTo] = useState("All"); 
-
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
