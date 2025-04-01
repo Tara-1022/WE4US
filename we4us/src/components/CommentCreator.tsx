@@ -1,7 +1,7 @@
 import { createComment } from "../library/LemmyApi";
 import { useCommentsContext } from "./CommentsContext";
 import { useState } from "react";
-import Collapsible from "./Collapsible";
+import Collapsible from "../library/Collapsible";
 
 export default function CommentCreator({ parentId, actionName = "Comment" }: { parentId?: number, actionName?: string }) {
     const { postId, setComments, comments } = useCommentsContext();
