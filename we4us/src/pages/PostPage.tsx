@@ -61,6 +61,8 @@ export default function PostPage() {
             }
             <div>
                 <h3>{postView.post.name}</h3>
+                <a href={postView.post.url} target='_blank' rel="noopener noreferrer">{postView.post.url}</a>
+                <br/>
                 <Link to={"/profile/" + postView.creator.name}>
                     {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
                 </Link>
