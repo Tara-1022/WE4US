@@ -1,11 +1,30 @@
-import React from 'react';
+import { useState, useEffect } from "react";
+import { PostView } from "lemmy-js-client";
+import PostList from '../components/PostList';
+import { Loader } from 'lucide-react';
+import { getAnnouncementPostList } from "../library/LemmyApi"; 
 
-const AnnouncementPage: React.FC = () => {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Announcements</h1>
-    </div>
-  );
-};
+export default function AnnouncementsPage() {
+  const [postViews, setPostViews] = useState<PostView[] | null>(null);
 
-export default AnnouncementPage;
+  useEffect(() => {
+    const loadPosts = async () => {
+      const posts = await getAnnouncementPostList();
+      setPostViews(posts);
+    };
+    
+    loadPosts();
+  }, []);
+  
+
+  if (!postViews) return <Loader />;
+  else if (postViews.length === 0) return <h3>No announcements to see!</h3>;
+  else {
+      return (
+          <>
+              <h3>Announcements</h3>
+              <PostList postViews={postViews} />
+          </>
+      );
+  }
+}

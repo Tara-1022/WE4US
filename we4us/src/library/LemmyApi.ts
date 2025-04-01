@@ -264,3 +264,27 @@ export async function updateDisplayName(displayName: string) {
   );
   return response.success
 }
+
+export async function getAnnouncementPostList(): Promise<PostView[]> {
+  // Fetches and returns a list of recent announcement PostViews
+  let postCollection: PostView[] = [];
+  try {
+      const response = await getClient().getPosts({
+          type_: "All",
+          limit: DEFAULT_POSTS_PER_PAGE,
+          community_id: await getAnnouncementsCommunityId(),
+          show_nsfw: false,
+      });
+      postCollection = response.posts.slice();
+      console.log(postCollection)
+  } catch (error) {
+      console.error(error);
+  } finally {
+      return postCollection;
+  }
+}
+
+async function getAnnouncementsCommunityId(): Promise<number> {
+  const response = await getClient().getCommunity({ name: "announcements" });
+  return response.community_view.community.id;
+}
