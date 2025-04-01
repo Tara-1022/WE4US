@@ -1,9 +1,25 @@
-function MeetUpPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">MeetupPage</h1>
-    </div>
-  )
-}
+import { useState, useEffect } from "react";
+import { PostView } from "lemmy-js-client";
+import MeetUpPostList from "../components/MeetUp/MeetUpPostList";
+import { Loader } from "lucide-react";
+import { getMeetUpPostList } from "../library/LemmyApi";
+import PostCreationHandler from "../components/MeetUp/PostCreationHandler";
 
-export default MeetUpPage
+export default function MeetUpPage() {
+    const [postViews, setPostViews] = useState<PostView[] | null>(null);
+
+    useEffect(() => {
+        getMeetUpPostList().then(setPostViews);
+    }, []);
+
+    if (!postViews) return <Loader />;
+    if (postViews.length === 0) return <h3>No posts to see!</h3>;
+
+    return (
+        <>
+            <h2>Meet Up</h2>
+            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
+            <MeetUpPostList postViews={postViews} />
+        </>
+    );
+}

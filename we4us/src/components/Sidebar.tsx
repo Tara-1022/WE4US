@@ -10,6 +10,18 @@ interface SidebarProps {
   isOpen: boolean;
 }
 
+<<<<<<< HEAD
+  const navItems = [
+    { to: '/', label: 'Home' },
+    { to: '/announcements', label: 'Announcements' },
+    { to: '/job-board', label: 'Job Board' },
+    { to: '/meet-up', label: 'Meet Up' },
+    { to: '/pg-finder', label: 'PG Finder' },
+    { to: '/profile', label: 'Profile' },
+    { to: '/reaching-out', label: 'Reaching Out' },
+    { to: '/whos-who', label: 'Who\'s Who' }
+  ];
+=======
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
   { to: '/announcements', label: 'Announcements', icon: Bell },
@@ -29,6 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
     username: profileInfo?.userName,
     avatar: DuckAvatar
   };
+>>>>>>> 923972dee53c63de3bb3b1750c437fc8c644a8be
 
   return (
     <>
