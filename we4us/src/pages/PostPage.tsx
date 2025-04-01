@@ -2,82 +2,78 @@ import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
-import ReactMarkdown from 'react-markdown';
-import { MeetUpPostBody } from '../components/MeetUp/MeetUpPostTypes';
+import LikeHandler from '../components/LikeHandler';
+import { getPostBody, PostBodyType } from '../library/PostBodyType';
+import { constructImageUrl } from '../library/LemmyImageHandling';
+import ReactMarkdown from "react-markdown"
 
-export default function MeetUpPostPage() {
-    const meetUpId = Number(useParams().meetUpId);
-    console.log(meetUpId);
-    
+let styles: { [key: string]: React.CSSProperties } = {
+    imageContainer: {
+        width: "50%",
+        maxWidth: "500px",
+        flex: 1,
+        aspectRatio: "1",
+        overflow: "hidden",
+    },
+    image: {
+        width: "100%",
+        height: "100%",
+        objectFit: "cover"
+    },
+}
+
+export default function PostPage() {
+    const postId = Number(useParams().postId);
     const [postView, setPostView] = useState<PostView | null>(null);
     const { profileInfo } = useProfileContext();
 
-    useEffect(() => {
-        getPostById(meetUpId).then(response => {
-            setPostView(response ? response.post_view : null);
-        });
-    }, [meetUpId]);
+    useEffect(
+        () => {
+            getPostById(postId).then(
+                response => {
+                    setPostView(response ? response.post_view : null);
+                    console.log(response)
+                }
+            )
+        },
+        [postId]
+    )
+    if (!postView) return <Loader />;
 
-    if (!postView) return <Loader size={32} strokeWidth={2} className="animate-spin" />;
-
-    let MeetUpDetails: MeetUpPostBody = {
-        title: postView.post.name,
-        location: "Unknown",
-        datetime: "Not Specified",
-        open_to: "All",
-        url: "",
-        additional_details: ""
-    };
-
-    try {
-        if (postView.post.body) {
-            const parsedData = JSON.parse(postView.post.body);
-
-            MeetUpDetails = {
-                title: parsedData.title || postView.post.name,
-                location: parsedData.location || "Unknown",
-                datetime: parsedData.datetime || "Not Specified",
-                open_to: parsedData.open_to?.trim() || "All",
-                url: parsedData.url?.trim() || "",
-                additional_details: parsedData.additional_details?.trim() || ""
-            };
-        }
-    } catch (error) {
-        console.error("Error parsing post body:", error);
-    }
+    const postBody: PostBodyType = getPostBody(postView)
 
     return (
         <>
+            {postBody.imageData &&
+            <div style={styles.imageContainer}>
+                <Link to={constructImageUrl(postBody.imageData)} >
+                    <img
+                        src={constructImageUrl(postBody.imageData)}
+                        alt="PostImage"
+                        style={styles.image}
+                        title='Click to view full image' />
+                </Link>
+                </div>
+            }
             <div>
-                <h3>{MeetUpDetails.title}</h3>
-                <p><strong>Location:</strong> {MeetUpDetails.location}</p>
-                <p><strong>Date & Time:</strong> {MeetUpDetails.datetime}</p>
-                <p><strong>Open To:</strong> {MeetUpDetails.open_to}</p>
-
-                {MeetUpDetails.url && (
-                    <p>
-                        <strong>URL:</strong>{" "}
-                        <a href={MeetUpDetails.url} target="_blank" rel="noopener noreferrer">
-                            {MeetUpDetails.url}
-                        </a>
-                    </p>
-                )}
-
-                {MeetUpDetails.additional_details && (
-                    <div>
-                        <strong>Additional Details:</strong>
-                        <ReactMarkdown>{MeetUpDetails.additional_details}</ReactMarkdown>
-                    </div>
-                )}
+                <h3>{postView.post.name}</h3>
+                <Link to={"/profile/" + postView.creator.name}>
+                    {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
+                </Link>
+                <Link to={"/community/" + postView.community.id}>
+                    <p>{postView.community.name}</p>
+                </Link>
+                <ReactMarkdown>{postBody.body}</ReactMarkdown>
             </div>
 
-            {postView.creator.id === profileInfo?.lemmyId && (
-                <PostDeletor postId={postView.post.id} />
-            )}
+            <LikeHandler forPost={true} isInitiallyLiked={postView.my_vote == 1} initialLikes={postView.counts.score} id={postId} />
+
+            {postView.creator.id == profileInfo?.lemmyId &&
+                <PostDeletor postId={postView.post.id} imageData={postBody.imageData} />}
 
             <CommentsSection postId={postView.post.id} />
         </>

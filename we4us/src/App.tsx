@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
@@ -6,6 +6,7 @@ import AnnouncementPage from './pages/AnnouncementPage';
 import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
+import MeetUpPost from './pages/MeetUpPostPage';
 import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
@@ -16,22 +17,32 @@ import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
 import SearchPage from './pages/SearchPage';
-import { BackButton, HomeButton } from './components/NavButtons';
-import MeetUpPost from './pages/MeetUpPostPage';
-
-
+import { Menu } from 'lucide-react';
+import { BackButton } from './components/NavButtons';
 
 Modal.setAppElement('#root');
 
 const App: React.FC = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
     <AppContextProvider>
       <Router>
-        <div className="relative min-h-screen">
-          <Sidebar />
-          <BackButton/>
-          <HomeButton/>
-          <main className="pt-10 px-4">
+        <BackButton />
+        <div className="relative min-h-screen bg-[#1e1e1e]">
+          <button 
+            onClick={toggleSidebar} 
+            className="sidebar-toggle"
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          
+          <Sidebar isOpen={isSidebarOpen}/>
+          
+          <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Routes>
               <Route path="/login" element={<AuthorisationPage />} />
               <Route path="/" element={<LandingPage />} />
@@ -46,7 +57,6 @@ const App: React.FC = () => {
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
               </Route>
-              {/* TODO: Move these back into the protected route */}
               <Route path="/profile/:username" element={<ProfilePage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/whos-who" element={<WhosWhoPage />} />
@@ -57,6 +67,5 @@ const App: React.FC = () => {
     </AppContextProvider>
   );
 };
-
 
 export default App;
