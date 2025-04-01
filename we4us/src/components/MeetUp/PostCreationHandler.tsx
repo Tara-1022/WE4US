@@ -5,10 +5,6 @@ import { MEETUP_COMMUNITY_ID } from "../../constants";
 import { PostView } from "lemmy-js-client";
 import { MeetUpPostBody } from "./MeetUpPostTypes"; 
 
-
-
-
-
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);

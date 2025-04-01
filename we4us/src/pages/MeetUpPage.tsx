@@ -13,13 +13,16 @@ export default function MeetUpPage() {
     }, []);
 
     if (!postViews) return <Loader />;
-    if (postViews.length === 0) return <h3>No posts to see!</h3>;
 
     return (
         <>
             <h2>Meet Up</h2>
-            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
-            <MeetUpPostList postViews={postViews} />
+            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...(postViews || [])])} />
+            {postViews.length === 0 ? (
+                <h3>No posts to see!</h3>
+            ) : (
+                <MeetUpPostList postViews={postViews} />
+            )}
         </>
     );
 }
