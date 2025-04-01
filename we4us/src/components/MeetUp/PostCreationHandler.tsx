@@ -26,11 +26,11 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
             setErrorMessage("Failed to create the post.");
         }
     }    
-
     return (
         <>
             <button onClick={() => setIsOpen(!isOpen)}>New Post</button>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} 
+
             <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
         </>
     );
