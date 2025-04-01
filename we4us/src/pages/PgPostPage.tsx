@@ -2,7 +2,7 @@ import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams , Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
@@ -33,9 +33,8 @@ export default function PgPostPage() {
         <>
             <div>
                 <h3>{postView.post.name}</h3>
-                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                <p>Location: {postView.post.url || 'N'}</p>
-                <p>It is hereee (maps URL): {postView.post.url || 'N/A'}</p>
+                <p>Location : {postView.post.url || 'N'}</p>
+                <p>Map URL : {postView.post.url || 'N/A'}</p>
                 <p>Cost Rating: {formatRating(pgDetails.ratings?.cost)}/5</p>
                 <p>Safety Rating: {formatRating(pgDetails.ratings?.safety)}/5</p>
                 <p>Food Rating: {formatRating(pgDetails.ratings?.food)}/5</p>
@@ -44,7 +43,9 @@ export default function PgPostPage() {
                 <p>Food Type: {pgDetails.foodType || 'N/A'}</p>
                 <h5>Description (Extra Information:) </h5>
                 <p>{pgDetails.description || 'No description provided'}</p>
-                
+                <Link to={"/profile/" + postView.creator.name}>
+                    <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
+                </Link>                
                 
             </div>
 

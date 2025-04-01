@@ -23,7 +23,7 @@ export type PgPostBody = {
     description: string
 }
 
-export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
+export default function PostCreationHandler({ handleCreatedPost , noPostsView = false }: { handleCreatedPost: (newPost: PostView) => void ,  noPostsView?: boolean }) {
     const [isOpen, setIsOpen] = useState(false);
 
     function handleCreation(data: PgPostData) {
@@ -38,11 +38,27 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
         )
         setIsOpen(false);
     }
+    if (!noPostsView) {
+        return (
+            <>
+                <button onClick={() => { setIsOpen(!isOpen) }}>New Post</button>
+                <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
+            </>
+        )
+    }
 
     return (
-        <>
-            <button onClick={() => { setIsOpen(!isOpen) }}>New Post</button>
+        <div className="empty-posts-container">
+            <div className="empty-posts-message">
+                <h3>No posts available</h3>
+                <button 
+                    onClick={() => { setIsOpen(!isOpen) }}
+                    className="create-first-post-button"
+                >
+                    Create First Post
+                </button>
+            </div>
             <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
-        </>
+        </div>
     )
 }
