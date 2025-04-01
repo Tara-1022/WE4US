@@ -27,6 +27,7 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
             };
         }
     }
+
     return (
         <div>
             <div>
