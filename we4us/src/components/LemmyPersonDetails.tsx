@@ -46,11 +46,11 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                 </div>
                 <div className="detail-item">
                     <span className="detail-label">Posts: </span>
-                    <span className="detail-value">{overview?.postsCount}</span>
+                    <span className="detail-value">{overview?.postsCount || 0}</span>
                 </div>
                 <div className="detail-item">
                     <span className="detail-label">Comments: </span>
-                    <span className="detail-value">{overview?.commentsCount}</span>
+                    <span className="detail-value">{overview?.commentsCount || 0}</span>
                 </div>
             </div>
 
@@ -64,10 +64,12 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                     }
                 </span>
                 <span style={{ margin: "0 10px" }}>Comments</span>
-                {isPostsToggle ?
-                    <PostList postViews={posts} />
-                    :
-                    <CommentList commentViews={comments} />}
+                {
+                    isPostsToggle ?
+                        posts.length > 0 ? <PostList postViews={posts} /> : <><br/><h4>No posts yet!</h4></>
+                        :
+                        comments.length > 0 ? <CommentList commentViews={comments} /> : <><br/><h4>No comments yet!</h4></>
+                }
             </div>
         </>
     )
