@@ -1,8 +1,8 @@
-import { LEMMY_INSTANCE_URL } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility,
+  CommunityVisibility,EditPost
 } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
@@ -97,6 +97,11 @@ export async function deletePost(postId: number) {
   return response.post_view;
 }
 
+export async function editPost(newPostDetails: EditPost) {
+  const response = await getClient().editPost(newPostDetails);
+  return response.post_view;
+}
+
 export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
@@ -153,27 +158,27 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number): Promise<PostView[]> {
-  // Fetches and returns a list of recent 25 PostViews
-  // or an empty list if fetch fails
+export async function getPostList(
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
+  { communityId?: number; page?: number; limit?: number }
+): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
-    const response = await getClient().getPosts(
-      {
-        type_: "All",
-        limit: 50,
-        community_id: communityId
-      }
-    );
+    const response = await getClient().getPosts({
+      type_: "All",
+      sort : "New",
+      limit : limit,
+      page : page,
+      community_id: communityId,
+    });
     postCollection = response.posts.slice();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
-  finally {
-    return postCollection;
-  }
+  return postCollection;
 }
+
+
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
