@@ -25,88 +25,69 @@ defmodule We4usWeb.ProfileController do
   end
 
   @doc "Create a new profile."
-  def create(conn, params) do
-    profile_params =
-      case params do
-        %{"profile" => p} -> p
-        _ -> params
-      end
+  def create(conn, %{"profile" => profile_params}) do
+    case Profiles.create_profile(profile_params) do
+      {:ok, profile} ->
+        conn
+        |> put_status(:created)
+        |> json(%{profile: profile_json(profile)})
 
-      if Profiles.get_profile(profile_params["username"]) do
+      {:error, :missing_username} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Username is required to create a profile"})
+
+      {:error, :username_taken} ->
         conn
         |> put_status(:conflict)
-        |> json(%{error: "Username already exists"})
-      else
-        case Profiles.create_profile(profile_params) do
-          {:ok, profile} ->
-            conn
-            |> put_status(:created)
-            |> json(%{profile: profile_json(profile)})
+        |> json(%{error: "Username already exists. Please choose a different one."})
 
-          {:error, :missing_username} ->
-            conn
-            |> put_status(:bad_request)
-            |> json(%{error: "Username is required to create a profile"})
-
-          {:error, :username_taken} ->
-            conn
-            |> put_status(:conflict)
-            |> json(%{error: "Username already exists. Please choose a different one."})
-
-          {:error, %Ecto.Changeset{} = changeset} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{errors: ChangesetJSON.errors(changeset)})
-        end
-      end
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{errors: ChangesetJSON.errors(changeset)})
+    end
   end
 
   @doc "Update a profile by username."
-  def update(conn, %{"username" => username} = params) do
-    case Profiles.get_profile(username) do
-      nil ->
+  def update(conn, %{"username" => username, "profile" => profile_params}) do
+    case Profiles.update_profile(username, profile_params) do
+      {:ok, updated_profile} ->
+        conn
+        |> put_status(:ok)
+        |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+
+      {:error, :profile_not_found} ->
         conn
         |> put_status(:not_found)
         |> json(%{error: "Profile with username '#{username}' not found"})
 
-      profile ->
-        case Profiles.update_profile(profile, params) do
-          {:ok, updated_profile} ->
-            conn
-            |> put_status(:ok)
-            |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
-
-          {:error, %Ecto.Changeset{} = changeset} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{errors: ChangesetJSON.errors(changeset)})
-        end
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{errors: ChangesetJSON.errors(changeset)})
     end
   end
 
   @doc "Delete a profile by username."
   def delete(conn, %{"username" => username}) do
-    case Profiles.get_profile(username) do
-      nil ->
+    case Profiles.delete_profile(username) do
+      {:ok, :deleted} ->
+        conn
+        |> put_status(:no_content)
+        |> json(%{message: "Profile deleted successfully"})
+
+      {:error, :profile_not_found} ->
         conn
         |> put_status(:not_found)
         |> json(%{error: "Profile with username '#{username}' not found"})
 
-      profile ->
-        case Profiles.delete_profile(profile) do
-          {:ok, _} ->
-            conn
-            |> put_status(:no_content)
-            |> json(%{message: "Profile deleted successfully"})
-
-          {:error, reason} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
-        end
+      {:error, reason} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
     end
   end
-
 
   defp profile_json(profile) do
     %{

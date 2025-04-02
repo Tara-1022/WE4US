@@ -28,6 +28,11 @@ export const fetchProfiles = async () => {
   }
 };
 
+/**
+ * Fetches a profile by username.
+ * @param username - The username of the profile to fetch.
+ * @returns {Profile | null} - Returns the profile object if found, otherwise null.
+ */
 export const fetchProfileByUsername = async (username: string) => {
   try {
     const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${encodeURIComponent(username)}`

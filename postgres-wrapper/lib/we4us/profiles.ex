@@ -42,17 +42,27 @@ defmodule We4us.Profiles do
   end
 
   #Update a profile
-  def update_profile(%Profile{} = profile, attrs) do
-    profile
-    |> Profile.changeset(attrs)
-    |> Repo.update()
+  def update_profile(username, attrs) do
+    case Repo.get(Profile, username) do
+      nil ->
+        {:error, :profile_not_found}
+      profile ->
+        profile
+        |> Profile.changeset(attrs)
+        |> Repo.update()
+    end
   end
 
   #Delete a profile
-  def delete_profile(%Profile{} = profile) do
-    case Repo.delete(profile) do
-      {:ok, _} -> {:ok, :deleted}
-      {:error, reason} -> {:error, reason}
+  def delete_profile(username) do
+    case Repo.get(Profile, username) do
+      nil ->
+        {:error, :profile_not_found}
+      profile ->
+        case Repo.delete(profile) do
+          {:ok, _} -> {:ok, :deleted}
+          {:error, reason} -> {:error, reason}
+        end
     end
   end
 
