@@ -12,6 +12,9 @@ let styles = {
         border: "1px solid #ccc",
         borderRadius: "8px",
         margin: "1%"
+    },
+    postLink: {
+        fontSize: "small"
     }
 }
 
@@ -22,6 +25,9 @@ export default function CommentList({ commentViews }: { commentViews: CommentVie
         .map(
             commentView => <li key={commentView.comment.id} style={styles.listItem}>
                 <CommentSnippet commentView={commentView} />
+                <Link to={"/post/" + commentView.post.id} style={styles.postLink}>
+                    Go to Post
+                </Link>
             </li>
         )
     return <ul style={styles.list}>{list}</ul>;
