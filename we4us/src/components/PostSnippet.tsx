@@ -1,5 +1,5 @@
 import { PostView } from 'lemmy-js-client';
-import default_image from '../assets/default_image.png'
+import default_image from '../assets/default_post_image.png'
 import { Link } from 'react-router-dom';
 import LikeHandler from './LikeHandler';
 import { PostBodyType, getPostBody } from '../library/PostBodyType';
@@ -22,7 +22,8 @@ let styles: { [key: string]: React.CSSProperties } = {
     image: {
         width: "100%",
         height: "100%",
-        objectFit: "cover"
+        objectFit: "cover",
+        borderRadius: "10px"
     },
     details: {
         flex: 4
