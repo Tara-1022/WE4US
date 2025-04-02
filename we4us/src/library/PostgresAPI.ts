@@ -39,7 +39,7 @@ export const fetchProfileByUsername = async (username: string) => {
 );
     
     if (response.status === 404) {
-      return null; // return null for "not found"
+      return null;
     }
 
     if (!response.ok) {
