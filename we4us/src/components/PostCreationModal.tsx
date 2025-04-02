@@ -76,7 +76,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
     const formData = new FormData(event.currentTarget);
     const {
-      title, body, communityId, secondCommunityId
+      title, body, communityId, url, secondCommunityId
     } = Object.fromEntries(formData);
     // since the field is required, the form will ensure a valid communityId is selected.
 
@@ -88,6 +88,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     const newPost = {
       name: title.toString(),
       postBody: postBody,
+      ...(url && { url: url.toString() })
     };
 
     try {
@@ -150,6 +151,9 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <br />
         <label htmlFor="body">Post Body: </label>
         <textarea name="body" placeholder="Body" required />
+        <br />
+        <label htmlFor="url">URL</label>
+        <input type="url" name="url" placeholder="URL" />
         <br />
         <label htmlFor="communityId">Choose Community: </label>
         <CommunitySelector name="communityId" isRequired={true} />
