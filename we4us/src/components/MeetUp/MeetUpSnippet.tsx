@@ -33,7 +33,7 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
             <div>
                 <h3>
                     <Link
-                        to={`/meet-up/${postView.post.id}`}
+                        to={`/meetup/${postView.post.id}`}
                         style={{
                             textDecoration: "none",
                             color: "inherit", 

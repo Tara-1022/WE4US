@@ -4,7 +4,7 @@ import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
-import PostDeletor from '../components/PostDeletor';
+import PostDeletorMeetUp from '../components/MeetUp/PostDeleterMeetUp';
 import { useProfileContext } from '../components/ProfileContext';
 import ReactMarkdown from 'react-markdown';
 import { MeetUpPostBody } from '../components/MeetUp/MeetUpPostTypes';
@@ -76,7 +76,7 @@ export default function MeetUpPostPage() {
             </div>
 
             {postView.creator.id === profileInfo?.lemmyId && (
-                <PostDeletor postId={postView.post.id} />
+                <PostDeletorMeetUp postId={postView.post.id} />
             )}
 
             <CommentsSection postId={postView.post.id} />

@@ -1,54 +1,77 @@
 import { useState } from "react";
-import { MeetUpPostBody} from "./MeetUpPostTypes";
+import { MeetUpPostBody } from "./MeetUpPostTypes";
 import Modal from "react-modal";
 
 let styles = {
-    form: {
-        color: "black"
-    },
+    form: { color: "black" },
     input: {
-        color: "white", 
-        backgroundColor: "black", 
-        border: "1px solid gray", 
-        padding: "5px", 
-        borderRadius: "5px" 
-    }
+        color: "white",
+        backgroundColor: "black",
+        border: "1px solid gray",
+        padding: "5px",
+        borderRadius: "5px",
+    },
 };
 
-export default function CreatePostModal({ 
-    isOpen, 
-    setIsOpen, 
-    handleCreation 
-}: { 
-    isOpen: boolean; 
-    setIsOpen: (isOpen: boolean) => void; 
-    handleCreation: (data: MeetUpPostBody) => void; 
+Modal.setAppElement("#root");
+
+export default function CreatePostModal({
+    isOpen,
+    setIsOpen,
+    handleCreation,
+}: {
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
+    handleCreation: (data: MeetUpPostBody) => Promise<string | null>; 
 }) {
-    function handleClick(event: React.FormEvent<HTMLFormElement>) {
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    async function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const { title, location, url, datetime, open_to, additional_details } = Object.fromEntries(formData);
 
         const selectedDate = new Date(datetime.toString());
         const currentDate = new Date();
-
         if (selectedDate < currentDate) {
-            alert("Please select a future date and time for the Meet Up.");
+            setErrorMessage("Please select a future date and time for the Meet Up.");
             return;
         }
 
-        handleCreation({
+        const error = await handleCreation({
             title: title.toString(),
             location: location.toString(),
-            url: url?.toString() || "", 
+            url: url?.toString() || "",
             datetime: datetime.toString(),
             open_to: open_to?.toString().trim() || "All",
             additional_details: additional_details?.toString() || "",
         });
+
+        setErrorMessage(error);
     }
 
     return (
-        <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
+        <Modal
+            isOpen={isOpen}
+            onRequestClose={() => setIsOpen(false)}
+            contentLabel="Create Meet Up Post"
+            style={{
+                overlay: { zIndex: 10000, backgroundColor: "rgba(0, 0, 0, 0.5)" },
+                content: {
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "50%",
+                    maxWidth: "500px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "10px",
+                },
+            }}
+        >
+            <h2>Create Meet Up Post</h2>
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}  
             <form onSubmit={handleClick} style={styles.form}>
                 <label htmlFor="title">Title</label>
                 <input name="title" required style={styles.input} />
