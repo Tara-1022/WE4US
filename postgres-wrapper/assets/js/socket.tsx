@@ -30,7 +30,7 @@ export async function initializeSocket(username: string): Promise<Channel | null
     socket.connect();
     console.log("Socket connection attempted");
 
-    channel = socket.channel("message:lobby", {});
+    channel = socket.channel("message:naina", {});
     await channel.join()
       .receive("ok", () => {
         console.log("Successfully joined the channel");
