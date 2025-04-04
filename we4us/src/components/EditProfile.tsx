@@ -54,7 +54,6 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     
     try {
       const response = await updateProfile(profile.username, {
-        id: profile.id,
         username: profile.username,
         display_name: display_name.toString(),
         cohort: cohort?.toString() || "",

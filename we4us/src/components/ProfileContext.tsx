@@ -11,7 +11,7 @@ export type profileInfoType = {
     cohort?: string;
     companyOrUniversity?: string;
     currentRole?: string;
-    yearsOfExperience?: number;
+    yearsOfExperience?: number | null;
     areasOfInterest?: string[];
 }
 
