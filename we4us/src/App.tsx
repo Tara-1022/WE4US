@@ -9,6 +9,7 @@ import MeetUpPage from './pages/MeetUpPage';
 import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
+import RedirectPage from './pages/RedirectPage';
 import WhosWhoPage from './pages/WhosWhoPage';
 import PostPage from './pages/PostPage';
 import ProtectedRoute from './auth/ProtectedRoute';
@@ -58,6 +59,7 @@ const App: React.FC = () => {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/whos-who" element={<WhosWhoPage />} />
                 <Route path="/" element={<Navigate to="/home" />} />
+                <Route path="/*" element={<RedirectPage />} />
               </Route>
             </Routes>
           </main>
