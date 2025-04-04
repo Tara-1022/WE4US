@@ -97,6 +97,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       localStorage.setItem("token", token);
     } else {
       localStorage.removeItem("token");
+      setProfileInfo(undefined);
     }
   }, [token]);
   
