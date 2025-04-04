@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_LIMIT, DEFAULT_POSTS_PER_PAGE, DEFAULT_COMMENTS_DEPTH } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_POSTS_PER_PAGE, DEFAULT_COMMENTS_DEPTH } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -102,23 +102,20 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
-export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH, page = 1 }:
-   { postId?: number, parentId?: number, maxDepth?: number, page?: number}): Promise<CommentView[]> {
+export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH }:
+   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
   try {
     // Apparently if max_depth is provided, limit is ignored
     // https://github.com/LemmyNet/lemmy/blob/e7ddb96659e7ceff794f1ba4c2929a7f17dfe73b/crates/db_views/src/comment/comment_view.rs#L277
-    // commenting out limit, since it serves us no purpose at the moment.
+    // It doesn't make sense for us to use limits
     const response = await getClient().getComments(
       {
-        // limit: limit,
         post_id: postId,
         parent_id: parentId,
-        max_depth: maxDepth,
-        page: page,
-        sort: "Old"
+        max_depth: maxDepth
       }
     );
     commentCollection = response.comments.slice();
