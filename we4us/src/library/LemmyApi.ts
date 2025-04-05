@@ -2,7 +2,7 @@ import { LEMMY_INSTANCE_URL, DEFAULT_POSTS_PER_PAGE, DEFAULT_COMMENTS_DEPTH } fr
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility, EditPost
+  CommunityVisibility,EditPost
 } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
@@ -128,16 +128,26 @@ export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENT
   }
 }
 
-export async function getCommunityDetails(communityId: number) {
+export async function getCommunityDetailsFromId(communityId: number) {
   const response = await getClient().getCommunity({
     id: communityId
   });
   return response.community_view;
 }
 
-export async function getCommunityList() {
-  const response = await getClient().listCommunities();
-  return response.communities;
+export async function getCommunityDetailsFromName(name: string) {
+  const response = await getClient().getCommunity({
+    name: name
+  });
+  return response.community_view;
+}
+
+// https://github.com/LemmyNet/lemmy-ui/blob/main/src/shared/components/person/person-details.tsx#L297
+export async function getPersonDetails(username: string) {
+  const response = await getClient().getPersonDetails({
+    username: username
+  });
+  return response;
 }
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
