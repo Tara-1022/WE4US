@@ -170,6 +170,8 @@ export async function getPostList(
   return postCollection;
 }
 
+
+
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
   return response.my_user;
