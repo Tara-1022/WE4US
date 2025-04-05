@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
+import AnnouncementPostPage from './pages/AnnouncementPostPage';
 import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
@@ -47,6 +48,7 @@ const App: React.FC = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
+                <Route path="/announcements/:announcementId" element={<AnnouncementPostPage />} />
                 <Route path="/job-board" element={<JobBoardPage />} />
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
