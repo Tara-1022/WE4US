@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_ID, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -110,7 +110,7 @@ export async function getAnnouncementPostList(limit = DEFAULT_POSTS_PER_PAGE): P
       type_: "All",
       limit: limit,
       sort: "New",
-      community_id: ANNOUNCEMENTS_COMMUNITY_ID,
+      community_name: ANNOUNCEMENTS_COMMUNITY_NAME,
       show_nsfw: true,
     });
     postCollection = response.posts.slice();

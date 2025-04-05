@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { createPost } from "../library/LemmyApi";
-import { ANNOUNCEMENTS_COMMUNITY_ID } from "../constants";
+import { useLemmyInfo } from "../components/LemmyContextProvider";
 
 interface PostCreationModalProps {
     isOpen: boolean;
@@ -11,6 +11,9 @@ interface PostCreationModalProps {
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
     const [loading, setLoading] = useState(false);
+    const {lemmyInfo} = useLemmyInfo();
+
+    if (!lemmyInfo) return <h3>Could not fetch Announcements community!</h3>
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -18,11 +21,18 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
         const formData = new FormData(event.currentTarget);
         const { title, body } = Object.fromEntries(formData);
+        
+        // Adding a check to please TypeScript. Because of other checks,
+        // Lemmy info will always be defined here
+        if (!lemmyInfo) {
+            console.error("Error creating post: Lemmy details not available");
+            return 
+        }
 
         createPost({
             name: title.toString(),
             body: body.toString(),
-            community_id: ANNOUNCEMENTS_COMMUNITY_ID
+            community_id: lemmyInfo.announcements_details.community.id
         })
             .then(
                 (createdPost) => {
