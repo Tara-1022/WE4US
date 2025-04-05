@@ -5,6 +5,8 @@ import { Loader } from 'lucide-react';
 import { getAnnouncementPostList } from "../library/LemmyApi";
 import PostCreationModal from "../announcements/AnnouncementCreationModal";
 import { useProfileContext } from "../components/ProfileContext";
+import { DEFAULT_POSTS_PER_PAGE } from "../constants";
+import PaginationControls from "../components/PaginationControls";
 
 let styles = {
   list: {
@@ -40,16 +42,15 @@ function PostCreationButton({ handlePostCreated }:
 
 export default function AnnouncementsPage() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null);
+  const [page, setPage] = useState<number>(1);
   const { profileInfo } = useProfileContext();
+  const hasMore = postViews?.length === DEFAULT_POSTS_PER_PAGE;
 
   useEffect(() => {
-    const loadPosts = async () => {
-      const posts = await getAnnouncementPostList();
-      setPostViews(posts);
-    };
-
-    loadPosts();
-  }, []);
+    getAnnouncementPostList({ page: page }).then(
+      (posts) => setPostViews(posts)
+    );
+  }, [page]);
 
 
   if (!postViews) return <Loader />;
@@ -66,11 +67,13 @@ export default function AnnouncementsPage() {
           profileInfo?.isAdmin &&
           <PostCreationButton handlePostCreated={(newPost: PostView) => setPostViews([newPost, ...postViews])} />
         }
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
         {postViews.length > 0 ?
           <ul style={styles.list}>{list}</ul>
           :
           <h3 style={styles.text}>No announcements yet!</h3>
         }
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
       </>
     );
   }

@@ -9,7 +9,7 @@ export default function AnnouncementsPreview() {
 
     useEffect(() => {
         const loadPosts = async () => {
-            const posts = await getAnnouncementPostList(5);
+            const posts = await getAnnouncementPostList({limit: 5});
             setPostViews(posts);
         };
 

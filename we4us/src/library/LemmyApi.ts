@@ -2,7 +2,7 @@ import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAG
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility,EditPost
+  CommunityVisibility, EditPost
 } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
@@ -102,16 +102,19 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
-export async function getAnnouncementPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, page = 1 }
+  : { limit?: number, page?: number }
+): Promise<PostView[]> {
   // Fetches and returns a list of recent announcement PostViews
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      limit: limit,
       sort: "New",
       community_name: ANNOUNCEMENTS_COMMUNITY_NAME,
       show_nsfw: true,
+      limit: limit,
+      page: page,
     });
     postCollection = response.posts.slice();
     console.log(postCollection)
