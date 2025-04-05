@@ -123,16 +123,18 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
-export async function getCommunityDetails(communityId: number) {
+export async function getCommunityDetailsFromId(communityId: number) {
   const response = await getClient().getCommunity({
     id: communityId
   });
   return response.community_view;
 }
 
-export async function getCommunityList() {
-  const response = await getClient().listCommunities();
-  return response.communities;
+export async function getCommunityDetailsFromName(name: string) {
+  const response = await getClient().getCommunity({
+    name: name
+  });
+  return response.community_view;
 }
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
