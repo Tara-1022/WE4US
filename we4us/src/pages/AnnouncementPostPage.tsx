@@ -4,8 +4,10 @@ import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
-import ReactMarkdown from "react-markdown"
+import ReactMarkdown from "react-markdown";
+import PostDeletor from '../components/PostDeletor';
 import { Bell } from 'lucide-react';
+import { useProfileContext } from '../components/ProfileContext';
 
 let styles: { [key: string]: React.CSSProperties } = {
     post: {
@@ -20,6 +22,7 @@ let styles: { [key: string]: React.CSSProperties } = {
 export default function AnnouncementPostPage() {
     const announcementId = Number(useParams().announcementId);
     const [postView, setPostView] = useState<PostView | null>(null);
+    const { profileInfo } = useProfileContext();
 
     useEffect(
         () => {
@@ -48,6 +51,8 @@ export default function AnnouncementPostPage() {
                 </Link>
             </div>
 
+            {postView.creator.id == profileInfo?.lemmyId &&
+                <PostDeletor postId={postView.post.id} />}
             <CommentsSection postId={postView.post.id} />
         </>
     );

@@ -182,6 +182,7 @@ export async function getPostList(
       limit: limit,
       page: page,
       community_id: communityId,
+      show_nsfw: false
     });
     postCollection = response.posts.slice();
   } catch (error) {

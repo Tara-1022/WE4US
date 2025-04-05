@@ -39,6 +39,7 @@ export default function AnnouncementPostSnippet({ postView }: { postView: PostVi
                 <Link to={"/announcements/" + postView.post.id}>
                     <h3>{postView.post.name}</h3>
                 </Link>
+                <p>{new Date(postView.post.published).toLocaleString()}</p>
                 <ReactMarkdown>{
                     postView.post.body ?
                         (postView.post.body.length <= 50) ?
