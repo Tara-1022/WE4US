@@ -12,7 +12,6 @@ interface PostCreationModalProps {
   onPostCreated: (newPost: any) => void;
 }
 
-
 function addPostLinkToPostBody(postBody: PostBodyType, postId: number): PostBodyType {
   return {
     ...postBody,
@@ -20,7 +19,6 @@ function addPostLinkToPostBody(postBody: PostBodyType, postId: number): PostBody
   }
     ;
 }
-
 
 function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, toLinkPostId: number) {
   editPost(
@@ -31,11 +29,9 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
   )
 }
 
-
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [imageData, setImageData] = useState<ImageDetailsType>();
-
 
   function deleteUploadedImage() {
     setLoading(true);
@@ -48,12 +44,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     setLoading(false);
   }
 
-
   function handleCancel() {
     deleteUploadedImage();
     onClose();
   }
-
 
   // referring https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/post/post-form.tsx#L247
   function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
@@ -73,13 +67,11 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     )
   }
 
-
   function handleImageDelete(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     deleteUploadedImage();
     window.alert("Image deleted");
   }
-
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -96,7 +88,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       imageData: imageData
     }
 
-
     const newPost = {
       name: title.toString(),
       postBody: postBody,
@@ -109,7 +100,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         body: JSON.stringify(newPost.postBody),
         community_id: Number(communityId)
       });
-
 
       if (secondCommunityId) {
         const secondPost = await createPost({
@@ -124,10 +114,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         updatePostWithLink(firstPost.post.id, newPost.postBody, secondPost.post.id);
       }
 
-
       onPostCreated(firstPost); // Passing the newpost for the parent to handle.
       onClose();
-
 
     } catch (error) {
       console.error("Error creating post:", error);
@@ -136,8 +124,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       setImageData(undefined);
     }
   };
-
-
 
 
   return (
@@ -204,6 +190,5 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     </Modal>
   );
 };
-
 
 export default PostCreationModal;
