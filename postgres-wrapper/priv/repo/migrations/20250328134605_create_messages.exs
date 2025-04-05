@@ -3,10 +3,12 @@ defmodule We4us.Repo.Migrations.CreateMessages do
 
   def change do
     create table(:messages) do
-      add :name, :string
-      add :message, :string
+      add :from_user, :string
+      add :to_user, :string
+      add :body, :string
 
       timestamps(type: :utc_datetime)
     end
   end
+
 end
