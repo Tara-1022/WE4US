@@ -10,6 +10,7 @@ import LikeHandler from '../components/LikeHandler';
 import { getPostBody, PostBodyType } from '../library/PostBodyType';
 import { constructImageUrl } from '../library/LemmyImageHandling';
 import ReactMarkdown from "react-markdown"
+
 let styles: { [key: string]: React.CSSProperties } = {
     imageContainer: {
         width: "50%",
