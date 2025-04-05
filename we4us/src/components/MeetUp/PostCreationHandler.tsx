@@ -7,9 +7,11 @@ import { MeetUpPostBody } from "./MeetUpPostTypes";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null); 
 
-    async function handleCreation(data: MeetUpPostBody): Promise<string | null> {
+    async function handleCreation(data: MeetUpPostBody): Promise<void> {
         console.log(data);
+        setErrorMessage(null); 
         try {
             const newPost = await createPost({
                 body: JSON.stringify(data),
@@ -19,17 +21,21 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
 
             handleCreatedPost(newPost);
             setIsOpen(false);
-            return null; 
         } catch (error) {
             console.error("Post creation failed:", error);
-            return "Failed to create the post. Please try again."; 
+            setErrorMessage("Failed to create the post. Please try again."); 
         }
     }    
 
     return (
         <>
             <button onClick={() => setIsOpen(true)}>New Post</button>
-            <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
+            <CreatePostModal
+                isOpen={isOpen}
+                handleCreation={handleCreation}
+                setIsOpen={setIsOpen}
+                errorMessage={errorMessage} 
+            />
         </>
     );
 }

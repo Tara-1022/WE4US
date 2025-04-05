@@ -80,7 +80,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   function setLemmyContext() {
     getCommunityList().then((communityList) => {
-      console.log(communityList);
         setLemmyInfo({communities: communityList});
       })
       .catch((error) => {

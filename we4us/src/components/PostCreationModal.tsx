@@ -4,13 +4,11 @@ import { ImageDetailsType, uploadImage, deleteImage } from "../library/LemmyImag
 import { createPost, editPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
-
 interface PostCreationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onPostCreated: (newPost: any) => void;
 }
-
 function addPostLinkToPostBody(postBody: PostBodyType, postId: number): PostBodyType {
   return {
     ...postBody,
@@ -18,7 +16,6 @@ function addPostLinkToPostBody(postBody: PostBodyType, postId: number): PostBody
   }
     ;
 }
-
 function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, toLinkPostId: number) {
   editPost(
     {
@@ -27,11 +24,9 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
     }
   )
 }
-
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [imageData, setImageData] = useState<ImageDetailsType>();
-
   function deleteUploadedImage() {
     if (imageData) {
       deleteImage(imageData).then(() => {
@@ -40,12 +35,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       })
     }
   }
-
   function handleCancel() {
     deleteUploadedImage();
     onClose();
   }
-
   // referring https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/post/post-form.tsx#L247
   function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -63,20 +56,18 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       }
     )
   }
-
   function handleImageDelete(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     deleteUploadedImage();
     window.alert("Image deleted");
   }
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
     const {
-      title, body, communityId, url, secondCommunityId
+      title, body, communityId, secondCommunityId
     } = Object.fromEntries(formData);
     // since the field is required, the form will ensure a valid communityId is selected.
 
@@ -84,11 +75,9 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       body: body.toString(),
       imageData: imageData
     }
-
     const newPost = {
       name: title.toString(),
       postBody: postBody,
-      ...(url && { url: url.toString() })
     };
 
     try {
@@ -97,7 +86,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         body: JSON.stringify(newPost.postBody),
         community_id: Number(communityId)
       });
-
       if (secondCommunityId) {
         const secondPost = await createPost({
           ...newPost,
@@ -110,18 +98,14 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         onPostCreated(secondPost);
         updatePostWithLink(firstPost.post.id, newPost.postBody, secondPost.post.id);
       }
-
       onPostCreated(firstPost); // Passing the newpost for the parent to handle.
       onClose();
-
     } catch (error) {
       console.error("Error creating post:", error);
     } finally {
       setLoading(false);
     }
   };
-
-
   return (
     <Modal
       isOpen={isOpen}
@@ -152,9 +136,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <label htmlFor="body">Post Body: </label>
         <textarea name="body" placeholder="Body" required />
         <br />
-        <label htmlFor="url">URL</label>
-        <input type="url" name="url" placeholder="URL" />
-        <br />
         <label htmlFor="communityId">Choose Community: </label>
         <CommunitySelector name="communityId" isRequired={true} />
         <br />
@@ -182,5 +163,4 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     </Modal>
   );
 };
-
 export default PostCreationModal;

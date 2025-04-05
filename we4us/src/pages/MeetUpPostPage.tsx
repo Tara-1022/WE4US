@@ -2,9 +2,9 @@ import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
-import PostDeletorMeetUp from '../components/MeetUp/PostDeleterMeetUp';
+import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import ReactMarkdown from 'react-markdown';
 import { MeetUpPostBody } from '../components/MeetUp/MeetUpPostTypes';
@@ -74,9 +74,15 @@ export default function MeetUpPostPage() {
                     </div>
                 )}
             </div>
+            <p>
+                    <strong>Posted by:</strong>{' '}
+                    <Link to={"/profile/" + postView.creator.name}>
+    {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
+                    </Link>
+                </p>
 
             {postView.creator.id === profileInfo?.lemmyId && (
-                <PostDeletorMeetUp postId={postView.post.id} />
+                <PostDeletor postId={postView.post.id} />
             )}
 
             <CommentsSection postId={postView.post.id} />
