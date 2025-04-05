@@ -40,7 +40,7 @@ defmodule We4usWeb.ProfileController do
       {:error, :username_taken} ->
         conn
         |> put_status(:conflict)
-        |> json(%{error: "Username already exists. Please choose a different one."})
+        |> json(%{error: "Username already exists."})
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
