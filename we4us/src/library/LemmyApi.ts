@@ -2,7 +2,7 @@ import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE }
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility, EditPost
+  CommunityVisibility,EditPost
 } from 'lemmy-js-client';
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
@@ -135,6 +135,14 @@ export async function getCommunityDetailsFromName(name: string) {
     name: name
   });
   return response.community_view;
+}
+
+// https://github.com/LemmyNet/lemmy-ui/blob/main/src/shared/components/person/person-details.tsx#L297
+export async function getPersonDetails(username: string) {
+  const response = await getClient().getPersonDetails({
+    username: username
+  });
+  return response;
 }
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
