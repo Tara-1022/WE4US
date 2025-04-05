@@ -1,0 +1,40 @@
+.announcements-preview-container {
+    width: 30%;
+    min-width: 180px;
+    aspect-ratio: 3/1;
+    overflow-y: scroll;
+    position: absolute;
+    left: 20%;
+    bottom: 20%;
+    border: 1px solid #ccc;
+    border-radius: 8px;    
+    /* https://stackoverflow.com/questions/17333254/scale-the-contents-of-a-div-by-a-percentage#:~:text=You%20can%20simply%20use%20the%20zoom%20property%3A */
+    zoom: 0.75;
+    -moz-transform: scale(0.75);
+}
+
+@media only screen and (max-width: 800px) {
+    .announcements-preview-container {
+      display: none;
+    }
+  }
+
+.announcement-list {
+    list-style-type: "none";
+    margin: 0;
+    padding: 0;
+}
+
+.announcement-snippet {
+    width: 100%;
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+}
+
+.announcement-snippet:hover {
+    background-color: #969292;
+}
