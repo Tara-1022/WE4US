@@ -1,6 +1,5 @@
 import { CommentView } from "lemmy-js-client";
 import CommentSnippet from "./CommentSnippet";
-import { Link } from "react-router-dom";
 
 let styles = {
     list: {
@@ -22,9 +21,7 @@ export default function CommentList({ commentViews }: { commentViews: CommentVie
     const list = commentViews
         .map(
             commentView => <li key={commentView.comment.id} style={styles.listItem}>
-                <Link to={"/post/" + commentView.post.id} style={{ all: "unset" }}>
-                    <CommentSnippet commentView={commentView} />
-                </Link>
+                <CommentSnippet commentView={commentView} />
             </li>
         )
     return <ul style={styles.list}>{list}</ul>;
