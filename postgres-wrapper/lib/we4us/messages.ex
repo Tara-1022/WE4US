@@ -8,4 +8,11 @@ defmodule We4us.Messages do
     |> Message.changeset(attrs)
     |> Repo.insert()
   end
+
+  def get_messages_for_user(to_user) do
+    Message
+    |> where([m], m.to_user == ^to_user)
+    |> order_by([m], desc: m.inserted_at)
+    |> Repo.all()
+  end
 end

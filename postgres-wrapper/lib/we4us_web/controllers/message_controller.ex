@@ -14,4 +14,12 @@ defmodule We4usWeb.MessageController do
         |> json(%{error: "Failed to save message", details: changeset.errors})
     end
   end
+
+  def index(conn, %{"to_user" => to_user}) do
+    messages = Messages.get_messages_for_user(to_user)
+    json(conn, %{data: messages})
+  end
+
+
+
 end

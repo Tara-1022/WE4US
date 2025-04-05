@@ -15,7 +15,11 @@ defmodule We4usWeb.MessageChannel do
   @impl true
   def handle_in("new_message", %{"to" => to_user, "body" => body}, socket) do
     from_user = socket.assigns.user_id
-
+    message_params = %{
+      from_user: from_user,
+      to_user: to_user,
+      message: body
+    }
     # Save message to database
     case We4us.Messages.create_message(%{
       from_user: from_user,

@@ -25,9 +25,15 @@ defmodule We4usWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(%{"user_id" => user_id}, socket, _connect_info) do
-    {:ok, assign(socket, :user_id, user_id)}
+  def connect(params, socket, _connect_info) do
+    case params do
+      %{"token" => token} ->
+        {:ok, assign(socket, :user_id, token)}
+      _ ->
+        :error
+    end
   end
+
 
   # Socket IDs are topics that allow you to identify all sockets for a given user:
   #
