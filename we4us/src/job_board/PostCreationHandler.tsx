@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CreatePostModal from "./JobPostCreationModal";
 import { createPost } from "../library/LemmyApi";
-import { JOB_COMMUNITY_ID } from "../constants";
 import { PostView } from "lemmy-js-client";
+import { useLemmyInfo } from "../components/LemmyContextProvider"
 
 export type JobPostData = {
     url: string,
@@ -23,13 +23,24 @@ export type JobPostBody = {
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
 
+    const {lemmyInfo} = useLemmyInfo();
+
+    if (!lemmyInfo) return <h3>Could not fetch Job Board community!</h3>
+
+
     function handleCreation(data: JobPostData) {
         console.log(data);
+
+        if (!lemmyInfo) {
+            console.error("Error creating post: Lemmy details not available");
+            return 
+        }
+        
         createPost({
             ...(data.url && {url: data.url}),
             body: JSON.stringify(data.body),
             name: data.name.toString(),
-            community_id: JOB_COMMUNITY_ID
+            community_id: lemmyInfo.announcements_details.community.id
         }).then(
             (newPost) => handleCreatedPost(newPost)
         );

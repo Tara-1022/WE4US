@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE, JOB_COMMUNITY_ID } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -182,7 +182,7 @@ export async function getPostList(
   return postCollection;
 }
 
-export async function getJobPostList(): Promise<PostView[]> {
+export async function getJobPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
   // Fetches and returns a list of recent PostViews
   // or an empty list if fetch fails
   let postCollection: PostView[] = [];
@@ -190,8 +190,8 @@ export async function getJobPostList(): Promise<PostView[]> {
     const response = await getClient().getPosts(
       {
         type_: "All",
-        limit: 50,
-        community_id: JOB_COMMUNITY_ID,
+        limit: limit,
+        community_name: JOB_BOARD_COMMUNITY_NAME,
         show_nsfw: true,
         sort: "New"
       }
