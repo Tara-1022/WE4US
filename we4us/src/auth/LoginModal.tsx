@@ -2,61 +2,68 @@ import Modal from "react-modal";
 import { logIn } from "../library/LemmyApi";
 import { useAuth } from "./AuthProvider";
 import { useState } from "react";
+import "../styles/LoginModal.css"; 
 
-let styles = {
-    modal: {
-        overlay: {
-        },
-        content: {
-            color: "black",
-            height: "50%",
-            aspectRatio: "1",
-            alignContent: "center",
-            margin: "auto"
-        }
-    },
-    form: {
-
-    }
-}
-
-// TODO: replace this with Oauth
-// reference: https://github.com/LemmyNet/lemmy-ui/blob/93d6901abb1cf7a4cb365496dd556904d8334231/src/shared/components/home/login.tsx#L42
 export default function LoginModal() {
-    const {token, setToken} = useAuth();
-    const [isOpen, setIsOpen] = useState(token == null);
-    
-    function handleLogin(event: React.FormEvent<HTMLFormElement>){
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const {username, password} = Object.fromEntries(formData);
-        logIn(username.toString(), password.toString()).then(
-            jwt => {
-                if(jwt){
-                    setToken(jwt);
-                    setIsOpen(false);
-                }
-                else{
-                    window.alert("Log in failed");
-                }
-            }
-        );
-    }
+  const { token, setToken } = useAuth();
+  const [isOpen, setIsOpen] = useState(token == null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    return (
-        <Modal
-            isOpen={isOpen}
-            style={styles.modal}
-            contentLabel="Login">
-            <form onSubmit={handleLogin} style={styles.form}>
-                <label htmlFor="username">UserName </label>
-                <input name="username" />
-                <br />
-                <label htmlFor="password">Password </label>
-                <input name="password" type="password" />
-                <br />
-                <button type="submit">Login</button>
-            </form>
-        </Modal>
-    )
+  function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    logIn(username, password).then((jwt) => {
+      if (jwt) {
+        setToken(jwt);
+        setIsOpen(false);
+      } else {
+        window.alert("Log in failed");
+      }
+    });
+  }
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={() => setIsOpen(false)}
+      className="modal-content"
+      overlayClassName="modal-overlay"
+      contentLabel="Login"
+    >
+      <div className="modal-container">
+        <h2 className="modal-heading">Welcome Back</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label htmlFor="username" className="modal-label">
+              Username
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="modal-input"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="modal-label">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="modal-input"
+            />
+          </div>
+          <button type="submit" className="modal-button">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </Modal>
+  );
 }

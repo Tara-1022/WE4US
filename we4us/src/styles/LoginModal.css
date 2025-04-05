@@ -1,0 +1,76 @@
+/* LoginModal.css */
+
+.modal-content {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+  }
+  
+  .modal-container {
+    background-color: var(--color-card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    width: 24rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .modal-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: white;
+  }
+  
+  .modal-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #d1d5db; /* text-gray-300 */
+    margin-bottom: 0.25rem;
+  }
+  
+  .modal-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-dark-bg);
+    color: white;
+    border: 1px solid #4b5563; /* border-gray-600 */
+    outline: none;
+  }
+  
+  .modal-input:focus {
+    border-color: var(--color-primary-blue);
+    box-shadow: 0 0 0 2px var(--color-primary-blue);
+  }
+  
+  .modal-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-image: linear-gradient(
+      to right,
+      var(--color-primary-blue),
+      var(--color-primary-teal)
+    );
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-button:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  
