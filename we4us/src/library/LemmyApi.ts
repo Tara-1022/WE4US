@@ -174,7 +174,8 @@ export async function getJobPostList(): Promise<PostView[]> {
         type_: "All",
         limit: 50,
         community_id: JOB_COMMUNITY_ID,
-        show_nsfw: true
+        show_nsfw: true,
+        sort: "New"
       }
     );
     postCollection = response.posts.slice();

@@ -82,7 +82,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <input name="location" required />
                 <br />
                 <label htmlFor="open">Job Open?</label>
-                <input name="open" type="checkbox" />
+                <input name="open" type="checkbox" defaultChecked={true} />
                 <br />
                 <label htmlFor="deadline">Deadline</label>
                 <input name="deadline" type="date" />

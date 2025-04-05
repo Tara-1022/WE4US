@@ -23,14 +23,13 @@ export default function JobBoardPage() {
         );
     }
 
-    if (postViews.length === 0) return <h3>No posts to see!</h3>;
-
+   
     return (
         <div className="job-board-container"> 
             <h1>Job Board</h1>
         
-            <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
-                <JobPostList postViews={postViews} />
+            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
+            {postViews.length > 0 ? (<JobPostList postViews={postViews} />) : (<h3>No posts to see!</h3>)}
         </div>
     );
 
