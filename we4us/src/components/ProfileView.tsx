@@ -1,4 +1,6 @@
 import '../styles/ProfilePage.css';
+import LemmyPersonDetails from './LemmyPersonDetails';
+import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
 
 interface ProfileViewProps {
@@ -9,6 +11,11 @@ interface ProfileViewProps {
 const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
   return (
     <div className="profile-content">
+      {onEdit && (
+          <button onClick={onEdit} className="edit-button">
+            <Pencil />
+          </button>
+      )}
       <h1>{profile.display_name}</h1>
       <p className="username">@{profile.username}</p>
       <div className="profile-details">
@@ -47,13 +54,9 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
       </div>
-      {onEdit && (
-        <div className="button-group">
-          <button onClick={onEdit} className="edit-button">
-            Edit Profile
-          </button>
-        </div>
-      )}
+      {profile.username &&
+        <LemmyPersonDetails username={profile.username} />
+      }
     </div>
   );
 };
