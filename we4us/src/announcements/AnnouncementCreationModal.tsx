@@ -66,7 +66,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
                 <textarea name="body" placeholder="Body" required />
                 <div>
                     <button type="submit" disabled={loading}>
-                        {loading ? "Posting..." : "Post"}
+                        {loading ? "Creating..." : "Create"}
                     </button>
                     <button type="reset" onClick={() => onClose()}>
                         Cancel

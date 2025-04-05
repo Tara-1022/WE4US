@@ -1,6 +1,7 @@
 import { PostView } from 'lemmy-js-client';
 import { Link } from 'react-router-dom';
 import { Bell } from 'lucide-react';
+import ReactMarkdown from "react-markdown";
 
 let styles: { [key: string]: React.CSSProperties } = {
     post: {
@@ -38,13 +39,13 @@ export default function AnnouncementPostSnippet({ postView }: { postView: PostVi
                 <Link to={"/announcements/" + postView.post.id}>
                     <h3>{postView.post.name}</h3>
                 </Link>
-                <p>{
+                <ReactMarkdown>{
                     postView.post.body ?
                         (postView.post.body.length <= 50) ?
                             postView.post.body
                             : postView.post.body.slice(0, 50 - 2) + ".."
                         : ""
-                }</p>
+                }</ReactMarkdown>
             </div>
         </div>
     );

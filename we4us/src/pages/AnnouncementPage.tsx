@@ -3,7 +3,7 @@ import { PostView } from "lemmy-js-client";
 import AnnouncementPostSnippet from "../announcements/AnnouncementPostSnippet";
 import { Loader } from 'lucide-react';
 import { getAnnouncementPostList } from "../library/LemmyApi";
-import PostCreationModal from "../announcements/PostCreationModal";
+import PostCreationModal from "../announcements/AnnouncementCreationModal";
 import { useProfileContext } from "../components/ProfileContext";
 
 let styles = {
