@@ -3,6 +3,8 @@ import { PostView } from "lemmy-js-client";
 import AnnouncementPostSnippet from "../announcements/AnnouncementPostSnippet";
 import { Loader } from 'lucide-react';
 import { getAnnouncementPostList } from "../library/LemmyApi";
+import PostCreationModal from "../announcements/PostCreationModal";
+import { useProfileContext } from "../components/ProfileContext";
 
 let styles = {
   list: {
@@ -21,8 +23,24 @@ let styles = {
   }
 }
 
+function PostCreationButton({ handlePostCreated }:
+  { handlePostCreated: (newPost: PostView) => void }) {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <>
+      <button onClick={() => setShowModal(true)}>Create Post</button>
+      <PostCreationModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onPostCreated={handlePostCreated}
+      />
+    </>
+  )
+}
+
 export default function AnnouncementsPage() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null);
+  const { profileInfo } = useProfileContext();
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -44,7 +62,10 @@ export default function AnnouncementsPage() {
     return (
       <>
         <h1>Announcements</h1>
-
+        {
+          profileInfo?.isAdmin &&
+          <PostCreationButton handlePostCreated={(newPost: PostView) => setPostViews([newPost, ...postViews])} />
+        }
         {postViews.length > 0 ?
           <ul style={styles.list}>{list}</ul>
           :
