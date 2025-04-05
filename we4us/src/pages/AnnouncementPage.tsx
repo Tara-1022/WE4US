@@ -28,7 +28,7 @@ function PostCreationButton({ handlePostCreated }:
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Create Post</button>
+      <button onClick={() => setShowModal(true)}>New Announcement</button>
       <PostCreationModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
