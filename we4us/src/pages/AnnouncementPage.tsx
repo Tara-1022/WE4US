@@ -1,8 +1,25 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
-import PostList from '../components/PostList';
+import AnnouncementPostSnippet from "../announcements/AnnouncementPostSnippet";
 import { Loader } from 'lucide-react';
-import { getAnnouncementPostList } from "../library/LemmyApi"; 
+import { getAnnouncementPostList } from "../library/LemmyApi";
+
+let styles = {
+  list: {
+    listStyleType: "none",
+    margin: 0,
+    padding: 0
+  },
+  listItem: {
+
+  },
+  text: {
+    marginTop: "5%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+}
 
 export default function AnnouncementsPage() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null);
@@ -12,19 +29,28 @@ export default function AnnouncementsPage() {
       const posts = await getAnnouncementPostList();
       setPostViews(posts);
     };
-    
+
     loadPosts();
   }, []);
-  
+
 
   if (!postViews) return <Loader />;
-  else if (postViews.length === 0) return <h3>No announcements to see!</h3>;
   else {
-      return (
-          <>
-              <h3>Announcements</h3>
-              <PostList postViews={postViews} />
-          </>
-      );
+    const list = postViews.map(
+      postView => <li key={postView.post.id} style={styles.listItem}>
+        <AnnouncementPostSnippet postView={postView} />
+      </li>
+    );
+    return (
+      <>
+        <h1>Announcements</h1>
+
+        {postViews.length > 0 ?
+          <ul style={styles.list}>{list}</ul>
+          :
+          <h3 style={styles.text}>No announcements yet!</h3>
+        }
+      </>
+    );
   }
 }

@@ -7,3 +7,4 @@ export const POSTGRES_PROFILES_ENDPOINT = "profiles/";
 export const DEFAULT_POSTS_PER_PAGE = 10;
 export const DEFAULT_COMMENTS_PER_PAGE = 10;
 
+export const ANNOUNCEMENTS_COMMUNITY_ID = 64;

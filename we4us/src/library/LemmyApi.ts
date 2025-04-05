@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_ID, DEFAULT_POSTS_PER_PAGE } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -102,6 +102,26 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
+export async function getAnnouncementPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent announcement PostViews
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit: limit,
+      sort: "New",
+      community_id: ANNOUNCEMENTS_COMMUNITY_ID,
+      show_nsfw: true,
+    });
+    postCollection = response.posts.slice();
+    console.log(postCollection)
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return postCollection;
+  }
+}
+
 export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
@@ -151,16 +171,16 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 }
 
 export async function getPostList(
-  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
-  { communityId?: number; page?: number; limit?: number }
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }:
+    { communityId?: number; page?: number; limit?: number }
 ): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      sort : "New",
-      limit : limit,
-      page : page,
+      sort: "New",
+      limit: limit,
+      page: page,
       community_id: communityId,
     });
     postCollection = response.posts.slice();
@@ -169,7 +189,6 @@ export async function getPostList(
   }
   return postCollection;
 }
-
 
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
@@ -263,28 +282,4 @@ export async function updateDisplayName(displayName: string) {
     }
   );
   return response.success
-}
-
-export async function getAnnouncementPostList(): Promise<PostView[]> {
-  // Fetches and returns a list of recent announcement PostViews
-  let postCollection: PostView[] = [];
-  try {
-      const response = await getClient().getPosts({
-          type_: "All",
-          limit: DEFAULT_POSTS_PER_PAGE,
-          community_id: await getAnnouncementsCommunityId(),
-          show_nsfw: false,
-      });
-      postCollection = response.posts.slice();
-      console.log(postCollection)
-  } catch (error) {
-      console.error(error);
-  } finally {
-      return postCollection;
-  }
-}
-
-async function getAnnouncementsCommunityId(): Promise<number> {
-  const response = await getClient().getCommunity({ name: "announcements" });
-  return response.community_view.community.id;
 }
