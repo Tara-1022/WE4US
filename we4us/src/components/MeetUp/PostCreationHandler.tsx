@@ -1,31 +1,42 @@
 import { useState } from "react";
 import CreatePostModal from "./CreatePostModal";
 import { createPost } from "../../library/LemmyApi";
-import { MEETUP_COMMUNITY_ID } from "../../constants";
+import { useLemmyInfo } from "../LemmyContextProvider";
 import { PostView } from "lemmy-js-client";
-import { MeetUpPostBody } from "./MeetUpPostTypes"; 
+import { MeetUpPostBody } from "./MeetUpPostTypes";
 
-export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
+export default function PostCreationHandler({
+    handleCreatedPost,
+}: {
+    handleCreatedPost: (newPost: PostView) => void;
+}) {
     const [isOpen, setIsOpen] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null); 
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const { lemmyInfo } = useLemmyInfo();
 
     async function handleCreation(data: MeetUpPostBody): Promise<void> {
         console.log(data);
-        setErrorMessage(null); 
+        setErrorMessage(null);
+
+        if (!lemmyInfo) {
+            setErrorMessage("Could not fetch Meet-Up community!");
+            return;
+        }
+
         try {
             const newPost = await createPost({
                 body: JSON.stringify(data),
-                name: data.title,  
-                community_id: MEETUP_COMMUNITY_ID
+                name: data.title,
+                community_id: lemmyInfo.meet_up_details.community.id || -1,
             });
 
             handleCreatedPost(newPost);
             setIsOpen(false);
         } catch (error) {
             console.error("Post creation failed:", error);
-            setErrorMessage("Failed to create the post. Please try again."); 
+            setErrorMessage("Failed to create the post. Please try again.");
         }
-    }    
+    }
 
     return (
         <>
@@ -34,7 +45,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
                 isOpen={isOpen}
                 handleCreation={handleCreation}
                 setIsOpen={setIsOpen}
-                errorMessage={errorMessage} 
+                errorMessage={errorMessage}
             />
         </>
     );

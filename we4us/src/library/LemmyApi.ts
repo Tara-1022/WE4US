@@ -1,8 +1,8 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEETUP_COMMUNITY_ID } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility, EditPost
+  CommunityVisibility,EditPost
 } from 'lemmy-js-client';
 
 // TODO: improve the error handling
@@ -123,16 +123,26 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
-export async function getCommunityDetails(communityId: number) {
+export async function getCommunityDetailsFromId(communityId: number) {
   const response = await getClient().getCommunity({
     id: communityId
   });
   return response.community_view;
 }
 
-export async function getCommunityList() {
-  const response = await getClient().listCommunities();
-  return response.communities;
+export async function getCommunityDetailsFromName(name: string) {
+  const response = await getClient().getCommunity({
+    name: name
+  });
+  return response.community_view;
+}
+
+// https://github.com/LemmyNet/lemmy-ui/blob/main/src/shared/components/person/person-details.tsx#L297
+export async function getPersonDetails(username: string) {
+  const response = await getClient().getPersonDetails({
+    username: username
+  });
+  return response;
 }
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
@@ -264,21 +274,20 @@ export async function updateDisplayName(displayName: string) {
   );
   return response.success
 }
-export async function getMeetUpPostList(): Promise<PostView[]> {
-  // Fetches and returns a list of recent PostViews
-  // or an empty list if fetch fails
+export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent Meet-Up PostViews
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      limit: 50,
-      community_id: MEETUP_COMMUNITY_ID,
+      limit: limit,
+      sort: "New",
+      community_name: MEET_UP_COMMUNITY_NAME,
       show_nsfw: true,
-      sort: "New", 
     });
     postCollection = response.posts.slice();
   } catch (error) {
-    console.error(error);
+    console.error("Failed to fetch meet-up posts:", error);
   }
-  return postCollection; 
+  return postCollection;
 }

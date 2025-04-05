@@ -10,27 +10,13 @@ import LikeHandler from '../components/LikeHandler';
 import { getPostBody, PostBodyType } from '../library/PostBodyType';
 import { constructImageUrl } from '../library/LemmyImageHandling';
 import ReactMarkdown from "react-markdown"
-
-let styles: { [key: string]: React.CSSProperties } = {
-    imageContainer: {
-        width: "50%",
-        maxWidth: "500px",
-        flex: 1,
-        aspectRatio: "1",
-        overflow: "hidden",
-    },
-    image: {
-        width: "100%",
-        height: "100%",
-        objectFit: "cover"
-    },
-}
+import "../styles/FullImageView.css"
 
 export default function PostPage() {
     const postId = Number(useParams().postId);
     const [postView, setPostView] = useState<PostView | null>(null);
     const { profileInfo } = useProfileContext();
-
+    
     useEffect(
         () => {
             getPostById(postId).then(
@@ -49,12 +35,12 @@ export default function PostPage() {
     return (
         <>
             {postBody.imageData &&
-            <div style={styles.imageContainer}>
+            <div className='imageContainer'>
                 <Link to={constructImageUrl(postBody.imageData)} >
                     <img
                         src={constructImageUrl(postBody.imageData)}
                         alt="PostImage"
-                        style={styles.image}
+                        className='image'
                         title='Click to view full image' />
                 </Link>
                 </div>

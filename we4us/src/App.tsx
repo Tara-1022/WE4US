@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
@@ -10,6 +10,7 @@ import MeetUpPost from './pages/MeetUpPostPage';
 import PgFinderPage from './pages/PgFinder';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
+import RedirectPage from './pages/RedirectPage';
 import WhosWhoPage from './pages/WhosWhoPage';
 import PostPage from './pages/PostPage';
 import ProtectedRoute from './auth/ProtectedRoute';
@@ -28,20 +29,20 @@ const App: React.FC = () => {
       <Router>
         <BackButton />
         <div className="relative min-h-screen bg-[#1e1e1e]">
-          <button 
-            onClick={toggleSidebar} 
+          <button
+            onClick={toggleSidebar}
             className="sidebar-toggle"
             aria-label="Toggle menu"
           >
             <Menu className="w-6 h-6" />
           </button>
-          
-          <Sidebar isOpen={isSidebarOpen}/>
-          
+
+          <Sidebar isOpen={isSidebarOpen} />
+
           <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Routes>
               <Route path="/login" element={<AuthorisationPage />} />
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/home" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
                 <Route path="/job-board" element={<JobBoardPage />} />               
@@ -52,10 +53,12 @@ const App: React.FC = () => {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
+                <Route path="/profile/:username" element={<ProfilePage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/whos-who" element={<WhosWhoPage />} />
+                <Route path="/" element={<Navigate to="/home" />} />
+                <Route path="/*" element={<RedirectPage />} />
               </Route>
-              <Route path="/profile/:username" element={<ProfilePage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/whos-who" element={<WhosWhoPage />} />
             </Routes>
           </main>
         </div>
