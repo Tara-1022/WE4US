@@ -170,6 +170,7 @@ export async function getPostList(
       type_: "All",
       sort : "New",
       limit : limit,
+      show_nsfw: false,
       page : page,
       community_id: communityId,
     });
@@ -283,7 +284,7 @@ export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise
       limit: limit,
       sort: "New",
       community_name: MEET_UP_COMMUNITY_NAME,
-      show_nsfw: false,
+      show_nsfw: true,
     });
     postCollection = response.posts.slice();
   } catch (error) {
