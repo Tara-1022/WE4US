@@ -14,7 +14,7 @@ interface ProfileEditFormProps {
 const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditFormProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { profileInfo } = useProfileContext();
+  const { profileInfo, setProfileInfo } = useProfileContext();
 
   // Add state for image details
   const [imageDetails, setImageDetails] = useState<ProfileImageDetailsType | undefined>({
@@ -79,6 +79,15 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
 
       if (!response.profile) {
         throw new Error(response.message || "Failed to update profile.");
+      }
+
+      // Update the context with the new profile info, including image data
+      if (profileInfo && setProfileInfo) {
+        setProfileInfo({
+          ...profileInfo,
+          imageFilename: response.profile.image_filename,
+          imageDeleteToken: response.profile.image_delete_token
+        });
       }
       
       onProfileUpdate(response.profile);
