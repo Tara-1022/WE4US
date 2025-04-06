@@ -2,6 +2,8 @@ import { useState } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 import { useProfileContext } from "./ProfileContext";
+import ProfileImageUploader from "./ProfileImageUploader";
+import { ProfileImageDetailsType } from "../library/ProfileImageHandling";
 
 interface ProfileEditFormProps {
   profile: Profile;
@@ -13,6 +15,12 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { profileInfo } = useProfileContext();
+
+  // Add state for image details
+  const [imageDetails, setImageDetails] = useState<ProfileImageDetailsType | undefined>({
+    filename: profile.image_filename,
+    deleteToken: profile.image_delete_token
+  } as ProfileImageDetailsType);
 
   // They shouldn't reach this view in the first place. Even if, through some
   // bug, they do see this component, it should not allow edits.
@@ -37,6 +45,10 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     return true;
   }
   
+  const handleImageChange = (newImageDetails: ProfileImageDetailsType | undefined) => {
+    setImageDetails(newImageDetails);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsProcessing(true);
@@ -60,7 +72,9 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
         current_role: current_role?.toString() || "",
         company_or_university: company_or_university?.toString() || "",
         years_of_experience: years_of_experience ? Number(years_of_experience) : null,
-        areas_of_interest: areas
+        areas_of_interest: areas,
+        image_filename: imageDetails?.filename || null,
+        image_delete_token: imageDetails?.deleteToken || null
       });
 
       if (!response.profile) {
@@ -77,8 +91,17 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
 
   return (
     <div className="edit-profile-container">
-      <h1>Edit Profile</h1>
-      <form className="edit-profile-form" onSubmit={handleSubmit}>
+    <h1>Edit Profile</h1>
+    <form className="edit-profile-form" onSubmit={handleSubmit}>
+      {/* Add Profile Image Uploader at the top */}
+      <div className="form-group profile-image-section">
+        <label>Profile Picture:</label>
+        <ProfileImageUploader 
+          currentImage={imageDetails} 
+          onImageChange={handleImageChange} 
+        />
+      </div>
+      
         <div className="form-group">
           <label htmlFor="display_name">Display Name:</label>
           <input
