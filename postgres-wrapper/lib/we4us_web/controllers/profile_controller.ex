@@ -46,64 +46,40 @@ defmodule We4usWeb.ProfileController do
   end
 
   @doc "Update a profile by username."
-  # def update(conn, %{"username" => username} = params) do
-  #   case Profiles.get_profile(username) do
-  #     nil ->
-  #       conn
-  #       |> put_status(:not_found)
-  #       |> json(%{error: "Profile not found"})
+  def update(conn, %{"username" => username, "profile" => profile_params}) do
+    case Profiles.get_profile(username) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Profile not found"})
 
-  #     profile ->
-  #       case Profiles.update_profile(profile, params) do
-  #         {:ok, updated_profile} ->
-  #           conn
-  #           |> put_status(:ok)
-  #           |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+      profile ->
+        # Convert string values to appropriate types and handle image fields
+        processed_params = profile_params
+          |> Map.update("years_of_experience", nil, fn
+            nil -> nil
+            "" -> nil
+            val when is_binary(val) -> String.to_integer(val)
+            val -> val
+          end)
+          |> Map.update("areas_of_interest", [], fn
+            areas when is_list(areas) -> areas
+            _ -> []
+          end)
 
-  #         {:error, %Ecto.Changeset{} = changeset} ->
-  #           conn
-  #           |> put_status(:unprocessable_entity)
-  #           |> json(%{errors: ChangesetJSON.errors(changeset)})
-  #       end
-  #   end
-  # end
+        case Profiles.update_profile(profile, processed_params) do
+          {:ok, updated_profile} ->
+            conn
+            |> put_status(:ok)
+            |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
 
-  @doc "Update a profile by username."
-def update(conn, %{"username" => username, "profile" => profile_params}) do
-  case Profiles.get_profile(username) do
-    nil ->
-      conn
-      |> put_status(:not_found)
-      |> json(%{error: "Profile not found"})
-
-    profile ->
-      # Convert string values to appropriate types and handle image fields
-      processed_params = profile_params
-        |> Map.update("years_of_experience", nil, fn
-          nil -> nil
-          "" -> nil
-          val when is_binary(val) -> String.to_integer(val)
-          val -> val
-        end)
-        |> Map.update("areas_of_interest", [], fn
-          areas when is_list(areas) -> areas
-          _ -> []
-        end)
-
-      case Profiles.update_profile(profile, processed_params) do
-        {:ok, updated_profile} ->
-          conn
-          |> put_status(:ok)
-          |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
-
-        {:error, %Ecto.Changeset{} = changeset} ->
-          conn
-          |> put_status(:unprocessable_entity)
-          |> json(%{errors: ChangesetJSON.errors(changeset)})
-      end
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{errors: ChangesetJSON.errors(changeset)})
+        end
+    end
   end
-end
-
 
   @doc "Delete a profile by username."
   def delete(conn, %{"username" => username}) do
