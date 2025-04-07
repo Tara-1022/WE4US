@@ -44,8 +44,6 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 <Link to={"/pg-finder/" + postView.post.id}>
                     <h3>{postView.post.name}</h3>
                 </Link>
-                <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                
                 <div style={styles.location}>
                     Location: {pgData.location || "Not specified"}
                 </div>
