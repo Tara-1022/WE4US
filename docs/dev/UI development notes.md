@@ -30,7 +30,10 @@ Looks like Lemmy does not have a built-in way to "hide" a specific community fro
 ### OAuth
 admins can configure OID https://github.com/LemmyNet/lemmy/pull/4881; https://github.com/LemmyNet/lemmy/issues/1368, https://github.com/LemmyNet/lemmy/issues/2930 via API call. However, it is available only in v4.
 
-as per [dev's response](https://github.com/LemmyNet/lemmy/issues/2930#issuecomment-2636886975), built server from [specified commit](https://github.com/LemmyNet/lemmy/commit/f7ab9cebd53d9cf57309b6fb6cd5e7773ea7be85)
+as per [dev's response](https://github.com/LemmyNet/lemmy/issues/2930#issuecomment-2636886975), built server from specified [commit](https://github.com/LemmyNet/lemmy/commit/f7ab9cebd53d9cf57309b6fb6cd5e7773ea7be85)/[release](https://github.com/LemmyNet/lemmy/releases/tag/0.20.0-alpha.5)
+
+(Note: we might have to update our front end by checking for any changes. [this](https://github.com/LemmyNet/lemmy/compare/0.19.8...0.20.0-alpha.5) compares v0.19.8 with the indicated release, should give a decent idea)
+
 set up steps for Oauth:
 
 login:

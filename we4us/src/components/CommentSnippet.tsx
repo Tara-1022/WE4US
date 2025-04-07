@@ -11,7 +11,9 @@ let styles = {
 export default function CommentSnippet({ commentView }: { commentView: CommentView }) {
     return (
         <p style={styles.container}>
-            {commentView.comment.deleted ? "Comment deleted" : commentView.comment.content} <br />
+            <Link to={"/post/" + commentView.post.id} style={{ all: "unset" }}>
+                {commentView.comment.deleted ? "Comment deleted" : commentView.comment.content} <br />
+            </Link>
             <Link to={"/profile/" + commentView.creator.name}>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</Link>
         </p>
     )

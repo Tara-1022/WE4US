@@ -1,8 +1,10 @@
 import { createContext, useState, useContext, useMemo, useEffect } from "react";
-import { setClientToken, getCommunityList, getCurrentUserDetails } from "../library/LemmyApi";
+import { setClientToken, getCurrentUserDetails, getCommunityDetailsFromName } from "../library/LemmyApi";
 import { fetchProfileByUsername } from "../library/PostgresAPI";
 import { useProfileContext } from "../components/ProfileContext";
 import { useLemmyInfo } from "../components/LemmyContextProvider";
+import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from "../constants";
+import { CommunityView } from "lemmy-js-client";
 
 // Storing jwt in localstorage is our best current option https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 // since making backend changes is not feasible at present
@@ -72,12 +74,13 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       if (!postgresProfile) return;
       setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
 
-    }  catch (error) {
-        console.error("Error fetching profile details:", error);
-        window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
-      }
+    } catch (error) {
+      console.error("Error fetching profile details:", error);
+      window.alert("Unable to fetch Lemmy profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
+    }
   }
 
+<<<<<<< HEAD
   function setLemmyContext() {
     getCommunityList()
       .then((communityList) => {
@@ -91,6 +94,26 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       });
 }
 
+=======
+  async function setLemmyContext() {
+    try {
+      const job_board_details: CommunityView = await getCommunityDetailsFromName(JOB_BOARD_COMMUNITY_NAME);
+      const meet_up_details: CommunityView = await getCommunityDetailsFromName(MEET_UP_COMMUNITY_NAME);
+      const pg_finder_details: CommunityView = await getCommunityDetailsFromName(PG_FINDER_COMMUNITY_NAME);
+      const announcements_details: CommunityView = await getCommunityDetailsFromName(ANNOUNCEMENTS_COMMUNITY_NAME);
+      setLemmyInfo({
+        job_board_details: job_board_details,
+        meet_up_details: meet_up_details,
+        pg_finder_details: pg_finder_details,
+        announcements_details: announcements_details
+      })
+    }
+    catch (error) {
+      // TODO: More specific errors
+      console.error("Error fetching details:", error);
+    };
+  }
+>>>>>>> main
 
   useEffect(() => {
     setClientToken(token);
@@ -102,13 +125,14 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       localStorage.setItem("token", token);
     } else {
       localStorage.removeItem("token");
+      setProfileInfo(undefined);
     }
   }, [token]);
-  
+
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({ token, setToken}),
+    () => ({ token, setToken }),
     [token]
   );
 
