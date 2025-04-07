@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
-import AnnouncementPostSnippet from "../announcements/AnnouncementPostSnippet";
+import AnnouncementPostSnippet from "../components/Announcements/AnnouncementPostSnippet";
 import { Loader } from 'lucide-react';
 import { getAnnouncementPostList } from "../library/LemmyApi";
-import PostCreationModal from "../announcements/AnnouncementCreationModal";
+import PostCreationModal from "../components/Announcements/AnnouncementCreationModal";
 import { useProfileContext } from "../components/ProfileContext";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import PaginationControls from "../components/PaginationControls";

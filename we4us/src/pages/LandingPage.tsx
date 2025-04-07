@@ -1,6 +1,6 @@
 import React from 'react';
-import AnnouncementsPreview from '../announcements/AnnouncementsPreview';
-import "../announcements/AnnouncementsPreview.css"
+import AnnouncementsPreview from '../components/Announcements/AnnouncementsPreview';
+import "../components/Announcements/AnnouncementsPreview.css"
 const LandingPage: React.FC = () => {
   return (
     <>

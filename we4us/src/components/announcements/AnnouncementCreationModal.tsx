@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { createPost } from "../library/LemmyApi";
-import { useLemmyInfo } from "../components/LemmyContextProvider";
+import { createPost } from "../../library/LemmyApi";
+import { useLemmyInfo } from "../../components/LemmyContextProvider";
 
 interface PostCreationModalProps {
     isOpen: boolean;

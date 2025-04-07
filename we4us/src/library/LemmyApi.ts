@@ -1,9 +1,10 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
   CommunityVisibility, EditPost
 } from 'lemmy-js-client';
+
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -77,7 +78,6 @@ export async function deleteComment(commentId: number) {
   });
   return response.comment_view;
 }
-
 export async function createPost(createPostData: CreatePost): Promise<PostView> {
   try {
     const response = await getClient().createPost(createPostData);
@@ -296,4 +296,21 @@ export async function updateDisplayName(displayName: string) {
     }
   );
   return response.success
+}
+export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent Meet-Up PostViews
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit: limit,
+      sort: "New",
+      community_name: MEET_UP_COMMUNITY_NAME,
+      show_nsfw: true,
+    });
+    postCollection = response.posts.slice();
+  } catch (error) {
+    console.error("Failed to fetch meet-up posts:", error);
+  }
+  return postCollection;
 }
