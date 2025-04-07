@@ -6,12 +6,8 @@ import AnnouncementPage from './pages/AnnouncementPage';
 import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoard';
 import MeetUpPage from './pages/MeetUpPage';
-<<<<<<< HEAD
-import PgFinderPage from './pages/PgFinderPage';
-=======
 import MeetUpPost from './pages/MeetUpPostPage';
-import PgFinderPage from './pages/PgFinder';
->>>>>>> main
+import PgFinderPage from './pages/PgFinderPage';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import RedirectPage from './pages/RedirectPage';
