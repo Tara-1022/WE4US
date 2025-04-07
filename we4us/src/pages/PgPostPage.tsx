@@ -34,6 +34,7 @@ export default function PgPostPage() {
             <div>
                 <h3>{postView.post.name}</h3>
                 <p>Location : {postView.post.url || 'N'}</p>
+                <p>Map URL : {postView.post.url || 'N/A'}</p>
                 {postView.post.url && (
                     <p>
                         <strong>Map URL:</strong>{" "}
