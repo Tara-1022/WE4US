@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-import { INSTANCE_URL , PG_COMMUNITY_ID } from "../constants";
-import {
-  LemmyHttp, PostView, GetPostResponse, Search,
-  CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility, } from 'lemmy-js-client';
-=======
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, PG_COMMUNITY_ID , DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
   CommunityVisibility,EditPost
 } from 'lemmy-js-client';
 
->>>>>>> main
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -168,7 +160,6 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-<<<<<<< HEAD
 export async function getPostList(communityId?: number): Promise<PostView[]> {
   // Fetches and returns a list of recent 25 PostViews
   // or an empty list if fetch fails
@@ -215,27 +206,6 @@ export async function getPgPostList(): Promise<PostView[]> {
     return postCollection;
   }
   
-=======
-export async function getPostList(
-  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
-  { communityId?: number; page?: number; limit?: number }
-): Promise<PostView[]> {
-  let postCollection: PostView[] = [];
-  try {
-    const response = await getClient().getPosts({
-      type_: "All",
-      sort : "New",
-      limit : limit,
-      show_nsfw: false,
-      page : page,
-      community_id: communityId,
-    });
-    postCollection = response.posts.slice();
-  } catch (error) {
-    console.error(error);
-  }
-  return postCollection;
->>>>>>> main
 }
 
 

@@ -80,21 +80,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }
   }
 
-<<<<<<< HEAD
-  function setLemmyContext() {
-    getCommunityList()
-      .then((communityList) => {
-        console.log(communityList);
-        setLemmyInfo({
-          communities: communityList
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching community list:", error);
-      });
-}
-
-=======
   async function setLemmyContext() {
     try {
       const job_board_details: CommunityView = await getCommunityDetailsFromName(JOB_BOARD_COMMUNITY_NAME);
@@ -113,7 +98,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       console.error("Error fetching details:", error);
     };
   }
->>>>>>> main
 
   useEffect(() => {
     setClientToken(token);
