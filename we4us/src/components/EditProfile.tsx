@@ -2,8 +2,8 @@ import { useState } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 import { useProfileContext } from "./ProfileContext";
-import ProfileImageUploader from "./ProfileImageUploader";
-import { ProfileImageDetailsType } from "../library/ProfileImageHandling";
+import ImageUploader from "./ImageUploader";
+import { ImageDetailsType } from "../library/ImageHandling";
 
 interface ProfileEditFormProps {
   profile: Profile;
@@ -17,10 +17,10 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   const { profileInfo, setProfileInfo } = useProfileContext();
 
   // Add state for image details
-  const [imageDetails, setImageDetails] = useState<ProfileImageDetailsType | undefined>({
+  const [imageDetails, setImageDetails] = useState<ImageDetailsType | undefined>({
     filename: profile.image_filename,
     deleteToken: profile.image_delete_token
-  } as ProfileImageDetailsType);
+  } as ImageDetailsType);
 
   // They shouldn't reach this view in the first place. Even if, through some
   // bug, they do see this component, it should not allow edits.
@@ -45,7 +45,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     return true;
   }
   
-  const handleImageChange = (newImageDetails: ProfileImageDetailsType | undefined) => {
+  const handleImageChange = (newImageDetails: ImageDetailsType | undefined) => {
     setImageDetails(newImageDetails);
   };
 
@@ -105,7 +105,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
       {/* Add Profile Image Uploader at the top */}
       <div className="form-group profile-image-section">
         <label>Profile Picture:</label>
-        <ProfileImageUploader 
+        <ImageUploader 
           currentImage={imageDetails} 
           onImageChange={handleImageChange} 
         />

@@ -1,5 +1,5 @@
 import { deletePost, hidePost } from "../library/LemmyApi";
-import { deleteImage, ImageDetailsType } from "../library/LemmyImageHandling";
+import { deleteImage, ImageDetailsType } from "../library/ImageHandling";
 import { useNavigate } from "react-router-dom";
 
 export default function PostDeletor({ postId, imageData }: { postId: number, imageData?: ImageDetailsType }) {

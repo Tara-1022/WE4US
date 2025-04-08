@@ -1,6 +1,6 @@
 import '../styles/ProfilePage.css';
 import { Profile } from '../library/PostgresAPI';
-import { constructProfileImageUrl } from "../library/ProfileImageHandling";
+import { constructImageUrl } from "../library/ImageHandling";
 import profile_duck from "../assets/profile_duck.png";
 
 
@@ -14,7 +14,7 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
     <div className="profile-content">
       <div className="profile-image-container">
         <img
-          src={profile.image_filename ? constructProfileImageUrl(profile.image_filename) : profile_duck}
+          src={profile.image_filename ? constructImageUrl(profile.image_filename) : profile_duck}
           alt={`${profile.display_name}'s profile`}
           className="profile-image"
         />

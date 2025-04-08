@@ -4,7 +4,7 @@ import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-re
 import LogoutButton from '../auth/LogoutButton';
 import DuckAvatar from '../assets/profile_duck.png';
 import { useProfileContext } from './ProfileContext';
-import { LEMMY_IMAGE_URL } from '../constants';
+import { constructImageUrl } from '../library/ImageHandling';
 import '../styles/sidebar.css';
 
 interface SidebarProps {
@@ -27,7 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
 
    // Create a URL for the profile image if available, otherwise use default duck
    const profileImageUrl = profileInfo?.imageFilename 
-   ? `${LEMMY_IMAGE_URL}${profileInfo.imageFilename}` 
+   ? constructImageUrl(profileInfo.imageFilename)
    : DuckAvatar;
 
   const user = {

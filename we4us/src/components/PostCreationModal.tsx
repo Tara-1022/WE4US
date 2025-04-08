@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { ImageDetailsType, uploadImage, deleteImage } from "../library/LemmyImageHandling";
+import { ImageDetailsType } from "../library/ImageHandling";
 import { createPost, editPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
+import ImageUploader from "./ImageUploader";
 
 interface PostCreationModalProps {
   isOpen: boolean;
@@ -30,44 +31,10 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
-  const [imageData, setImageData] = useState<ImageDetailsType>();
-
-  function deleteUploadedImage() {
-    if (imageData) {
-      deleteImage(imageData).then(() => {
-        setImageData(undefined);
-        console.log("Deleted")
-      })
-    }
-  }
+  const [imageData, setImageData] = useState<ImageDetailsType | undefined>(undefined);
 
   function handleCancel() {
-    deleteUploadedImage();
     onClose();
-  }
-
-  // referring https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/post/post-form.tsx#L247
-  function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-    if (!event.target.files || !event.target.files[0]) {
-      console.log("No file")
-      return;
-    }
-    // delete previous image
-    deleteUploadedImage();
-    const file = event.target.files[0];
-    uploadImage(file).then(
-      (imageDetails) => {
-        console.log("Image uploaded:", imageDetails);
-        setImageData(imageDetails);
-      }
-    )
-  }
-
-  function handleImageDelete(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    deleteUploadedImage();
-    window.alert("Image deleted");
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -154,13 +121,11 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <label htmlFor="communityId">Choose Community: </label>
         <CommunitySelector name="communityId" isRequired={true} />
         <br />
-        <label htmlFor="fileUpload">Upload image/video: </label>
-        <input
-          id="fileUpload"
-          type="file"
-          accept="image/*"
-          name="file"
-          onChange={handleImageUpload}
+        <label>Upload image/video: </label>
+        <ImageUploader
+          currentImage={imageData}
+          onImageChange={setImageData}
+          purpose="post"
         />
         <br />
         <label htmlFor="secondCommunityId">Create a copy of this post in: </label>
@@ -169,7 +134,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           <button type="submit" disabled={loading}>
             {loading ? "Posting..." : "Post"}
           </button>
-          <button onClick={handleImageDelete}>Delete image</button>
           <button type="reset" onClick={handleCancel}>
             Cancel
           </button>

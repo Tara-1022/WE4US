@@ -8,7 +8,7 @@ import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import LikeHandler from '../components/LikeHandler';
 import { getPostBody, PostBodyType } from '../library/PostBodyType';
-import { constructImageUrl } from '../library/LemmyImageHandling';
+import { constructImageUrl } from '../library/ImageHandling';
 import ReactMarkdown from "react-markdown"
 
 let styles: { [key: string]: React.CSSProperties } = {
