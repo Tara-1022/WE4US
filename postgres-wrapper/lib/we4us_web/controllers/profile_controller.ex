@@ -64,7 +64,7 @@ defmodule We4usWeb.ProfileController do
           end)
           |> Map.update("areas_of_interest", [], fn
             areas when is_list(areas) -> areas
-            _ -> []
+            _ -> profile.areas_of_interest
           end)
 
         case Profiles.update_profile(profile, processed_params) do
