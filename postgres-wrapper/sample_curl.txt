@@ -6,18 +6,23 @@ curl -i -X GET http://localhost:4000/api/profiles/abc
 curl -X POST http://localhost:4000/api/profiles \
      -H "Content-Type: application/json" \
      -d '{
-     "username": "newUser",
-     "display_name": "New User",
-     "cohort": "4",
-     "current_role": "Data Scientist",
-     "company_or_university": "Meta",
-     "years_of_experience": 5,
-     "areas_of_interest": ["AI", "Big Data"]
+     "profile": {
+       "username": "newUser",
+       "display_name": "New User",
+       "cohort": "4",
+       "current_role": "Data Scientist",
+       "company_or_university": "Meta",
+       "years_of_experience": 5,
+       "areas_of_interest": ["AI", "Big Data"]
+     }
      }'
 
 curl -X PUT "http://localhost:4000/api/profiles/1" \
      -H "Content-Type: application/json" \
-     -d '{"display_name": "Updated User"}'
+     -d '{
+     "profile": {
+       "display_name": "Updated User"
+     }
+     }'
 
 curl -X DELETE "http://localhost:4000/api/profiles/1"
-
