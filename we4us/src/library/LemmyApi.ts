@@ -1,8 +1,8 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
-  CommunityVisibility,EditPost
+  CommunityVisibility, EditPost
 } from 'lemmy-js-client';
 
 // TODO: improve the error handling
@@ -102,6 +102,29 @@ export async function editPost(newPostDetails: EditPost) {
   return response.post_view;
 }
 
+export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, page = 1 }
+  : { limit?: number, page?: number }
+): Promise<PostView[]> {
+  // Fetches and returns a list of recent announcement PostViews
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      sort: "New",
+      community_name: ANNOUNCEMENTS_COMMUNITY_NAME,
+      show_nsfw: true,
+      limit: limit,
+      page: page,
+    });
+    postCollection = response.posts.slice();
+    console.log(postCollection)
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return postCollection;
+  }
+}
+
 export async function getComments(postId: number): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
@@ -161,18 +184,18 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 }
 
 export async function getPostList(
-  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
-  { communityId?: number; page?: number; limit?: number }
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }:
+    { communityId?: number; page?: number; limit?: number }
 ): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      sort : "New",
-      limit : limit,
-      show_nsfw: false,
-      page : page,
+      sort: "New",
+      limit: limit,
+      page: page,
       community_id: communityId,
+      show_nsfw: false
     });
     postCollection = response.posts.slice();
   } catch (error) {
@@ -180,7 +203,6 @@ export async function getPostList(
   }
   return postCollection;
 }
-
 
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
