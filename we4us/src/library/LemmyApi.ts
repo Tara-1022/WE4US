@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, PG_COMMUNITY_ID , DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -160,52 +160,25 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
   }
 }
 
-export async function getPostList(communityId?: number): Promise<PostView[]> {
-  // Fetches and returns a list of recent 25 PostViews
-  // or an empty list if fetch fails
+export async function getPostList(
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
+  { communityId?: number; page?: number; limit?: number }
+): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
-    const response = await getClient().getPosts(
-      {
-        type_: "All",
-        limit: 50,
-        community_id: communityId,
-        show_nsfw: false
-      }
-    );
+    const response = await getClient().getPosts({
+      type_: "All",
+      sort : "New",
+      limit : limit,
+      show_nsfw: false,
+      page : page,
+      community_id: communityId,
+    });
     postCollection = response.posts.slice();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
-  finally {
-    return postCollection;
-  }
-}
-
-export async function getPgPostList(): Promise<PostView[]> {
-  // Fetches and returns a list of recent PostViews
-  // or an empty list if fetch fails
-  let postCollection: PostView[] = [];
-  try {
-    const response = await getClient().getPosts(
-      {
-        type_: "All",
-        sort : "New",
-        limit: 50,
-        community_id: PG_COMMUNITY_ID,
-        show_nsfw: true
-      }
-    );
-    postCollection = response.posts.slice();
-  }
-  catch (error) {
-    console.error(error);
-  }
-  finally {
-    return postCollection;
-  }
-  
+  return postCollection;
 }
 
 
