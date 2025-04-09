@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ImageDetailsType, uploadImage, deleteImage, constructImageUrl } from "../library/ImageHandling";
 import default_avatar from "../assets/profile_duck.png"; 
 import default_post_image from "../assets/default_image.png";
+import { imageStyles } from "../styles/ImageStyles";
 
 interface ImageUploaderProps {
   currentImage?: ImageDetailsType;
@@ -36,15 +37,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       } catch (error) {
         console.error("Error deleting previous image:", error);
         
-        // // Check if it's because the image doesn't exist
-        // if (error instanceof Error && error.message.includes("image does not exist")) {
-        //   console.log("Image already deleted or doesn't exist, proceeding with upload");
-        // } else {
-        //   // Stop the process if deletion fails for other reasons
-        //   setLoading(false);
-        //   window.alert("Failed to remove previous image. Please try again later.");
-        //   return;
-        // }
+        // Check if it's because the image doesn't exist
+        if (error instanceof Error && error.message.includes("image does not exist")) {
+          console.log("Image already deleted or doesn't exist, proceeding with upload");
+        } else {
+          // Stop the process if deletion fails for other reasons
+          setLoading(false);
+          window.alert("Failed to remove previous image. Please try again later.");
+          return;
+        }
       }
     }
 
@@ -82,8 +83,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   const imageStyle = purpose === 'profile' 
-    ? { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" }
-    : { width: "200px", height: "150px", objectFit: "cover" };
+    ? imageStyles.profile 
+    : imageStyles.post;
 
   return (
     <div className={`image-uploader ${purpose}-image-uploader ${className}`}>
