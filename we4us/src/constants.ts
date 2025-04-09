@@ -12,5 +12,3 @@ export const JOB_BOARD_COMMUNITY_NAME = "job_board";
 export const MEET_UP_COMMUNITY_NAME = "meet_up";
 export const PG_FINDER_COMMUNITY_NAME = "pg_finder";
 export const ANNOUNCEMENTS_COMMUNITY_NAME = "announcements";
-
-export const PG_COMMUNITY_ID = 9
