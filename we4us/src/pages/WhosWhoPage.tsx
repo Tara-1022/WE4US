@@ -89,8 +89,7 @@ const WhosWhoPage: React.FC = () => {
                 {groupedProfiles[cohort].map((profile) => (
                   <ProfileSnippet
                     key = {profile.username}
-                    username = {profile.username}
-                    displayName = {profile.display_name}
+                    profile = {profile}
                   />
                 ))}
               </div>
