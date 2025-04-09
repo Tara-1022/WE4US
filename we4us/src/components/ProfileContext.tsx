@@ -13,8 +13,8 @@ export type profileInfoType = {
     currentRole?: string;
     yearsOfExperience?: number | null;
     areasOfInterest?: string[];
-    imageFilename?: string | null;
-    imageDeleteToken?: string | null;
+    image_filename?: string | null;
+    image_delete_token?: string | null;
 }
 
 export type profileContextType = {

@@ -32,13 +32,7 @@ async function getPostgresProfile(username: string) {
   try {
     const postgresProfile = await fetchProfileByUsername(username);
     if (!postgresProfile) throw new Error("Postgres Profile empty!");
-    return {
-      cohort: postgresProfile.cohort,
-      companyOrUniversity: postgresProfile.company_or_university,
-      currentRole: postgresProfile.current_role,
-      yearsOfExperience: postgresProfile.years_of_experience,
-      areasOfInterest: postgresProfile.areas_of_interest,
-    };
+    return postgresProfile;
   } catch (error) {
     console.error("Error fetching postgres profile details:", error);
     window.alert("Unable to fetch Postgres profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");

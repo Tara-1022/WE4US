@@ -26,8 +26,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const {profileInfo} = useProfileContext();
 
    // Create a URL for the profile image if available, otherwise use default duck
-   const profileImageUrl = profileInfo?.imageFilename 
-   ? constructImageUrl(profileInfo.imageFilename)
+   const profileImageUrl = profileInfo?.image_filename 
+   ? constructImageUrl(profileInfo.image_filename)
    : DuckAvatar;
 
   const user = {
