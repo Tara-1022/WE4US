@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE , MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -181,7 +181,29 @@ export async function getPostList(
   return postCollection;
 }
 
-
+export async function getPgPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: limit,
+        community_name: PG_FINDER_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
