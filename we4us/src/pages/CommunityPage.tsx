@@ -18,7 +18,7 @@ export default function CommunityPage() {
             getCommunityDetailsFromId(communityId).then(
                 (communityView) => setCommunityView(communityView)
             )
-            getPostList(communityId).then(
+            getPostList({communityId: communityId}).then(
                 (postViews) => { setPostViews(postViews) }
             )
         }, [communityId]
