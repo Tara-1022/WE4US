@@ -31,8 +31,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
    : DuckAvatar;
 
   const user = {
-    name: profileInfo?.displayName,
-    username: profileInfo?.userName,
+    name: profileInfo?.display_name,
+    username: profileInfo?.username,
     avatar: profileImageUrl
   };
 

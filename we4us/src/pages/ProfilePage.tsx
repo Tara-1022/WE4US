@@ -12,7 +12,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const { profileInfo, setProfileInfo } = useProfileContext();
 
-  const username = paramUsername || profileInfo?.userName;
+  const username = paramUsername || profileInfo?.username;
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +56,7 @@ const ProfilePage = () => {
           return {
             ...updatedProfile,
             displayName: updatedProfile.display_name,
-            userName: prevProfileInfo.userName, // username never changes anyway
+            userName: prevProfileInfo.username, // username never changes anyway
             lemmyId: prevProfileInfo.lemmyId,
             isAdmin: prevProfileInfo.isAdmin
           }
@@ -90,7 +90,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-      {isEditing && (profileInfo?.userName == profile.username)
+      {isEditing && (profileInfo?.username == profile.username)
         ? (
           <ProfileEditForm
             profile={profile}
@@ -101,7 +101,7 @@ const ProfilePage = () => {
           <ProfileView
             profile={profile}
             onEdit={
-              (profileInfo?.userName == profile.username) ? handleEditToggle : undefined}
+              (profileInfo?.username == profile.username) ? handleEditToggle : undefined}
           />)
       }
     </div>

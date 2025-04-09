@@ -24,7 +24,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
 
   // They shouldn't reach this view in the first place. Even if, through some
   // bug, they do see this component, it should not allow edits.
-  if (profileInfo?.userName != profile.username) {
+  if (profileInfo?.username != profile.username) {
     return (
       <>
         <p>

@@ -52,19 +52,22 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       }
 
       // Store Lemmy profile info separately
-      const lemmyProfileInfo = {
-        lemmyId: userDetails.local_user_view.person.id,
-        displayName: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
-        userName: userDetails.local_user_view.person.name,
-        isAdmin: userDetails.local_user_view.local_user.admin
-      };
-
-      setProfileInfo(lemmyProfileInfo);
+      const lemmyId = userDetails.local_user_view.person.id;
+      const username = userDetails.local_user_view.person.name;
+      const display_name = userDetails.local_user_view.person.display_name || username;
+      const isAdmin = userDetails.local_user_view.local_user.admin;
 
       // Fetch PostgreSQL details
-      const postgresProfile = await getPostgresProfile(lemmyProfileInfo.userName);
+      const postgresProfile = await getPostgresProfile(username);
       if (!postgresProfile) return;
-      setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
+
+      setProfileInfo({
+        ...postgresProfile,
+        lemmyId,
+        isAdmin,
+        username,
+        display_name,
+      });
 
     }  catch (error) {
         console.error("Error fetching profile details:", error);
