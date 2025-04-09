@@ -2,11 +2,31 @@ import Modal from "react-modal";
 import { logIn } from "../library/LemmyApi";
 import { useAuth } from "./AuthProvider";
 import { useState } from "react";
-import "../styles/LoginModal.css"; 
+import "../styles/LoginModal.css";
 
-export default function LoginModal() {
-  const { token, setToken } = useAuth();
-  const [isOpen, setIsOpen] = useState(token == null);
+export function LoginButton() {
+  const [showModal, setShowModal] = useState(false);
+  const { isLoggedIn } = useAuth();
+
+  if (isLoggedIn) return <button className="landing-btn"
+    onClick={() => window.alert("Already logged in!")}>
+    Log in
+  </button>
+
+  return (
+    <>
+      <button className="landing-btn" onClick={() => setShowModal(!showModal)}>
+        Log in
+      </button>
+      <LoginModal
+        isOpen={showModal}
+        handleClose={() => setShowModal(false)}
+      />
+    </>
+  );
+}
+export function LoginModal({ isOpen, handleClose }: { isOpen: boolean, handleClose: () => void }) {
+  const { setToken } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +35,6 @@ export default function LoginModal() {
     logIn(username, password).then((jwt) => {
       if (jwt) {
         setToken(jwt);
-        setIsOpen(false);
       } else {
         window.alert("Log in failed");
       }
@@ -25,10 +44,11 @@ export default function LoginModal() {
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={() => setIsOpen(false)}
+      onRequestClose={handleClose}
       className="modal-content"
       overlayClassName="modal-overlay"
       contentLabel="Login"
+      shouldCloseOnOverlayClick={true}
     >
       <div className="modal-container">
         <h2 className="modal-heading">Welcome Back</h2>
@@ -60,7 +80,7 @@ export default function LoginModal() {
             />
           </div>
           <button type="submit" className="modal-button">
-            Sign In
+            Log In
           </button>
         </form>
       </div>

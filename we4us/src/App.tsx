@@ -4,7 +4,6 @@ import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
 import AnnouncementPostPage from './pages/AnnouncementPostPage';
-import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoardPage';
 import MeetUpPage from './pages/MeetUpPage';
 import MeetUpPost from './pages/MeetUpPostPage';
@@ -45,7 +44,6 @@ const App: React.FC = () => {
 
           <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Routes>
-              <Route path="/login" element={<AuthorisationPage />} />
               <Route path="/home" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />

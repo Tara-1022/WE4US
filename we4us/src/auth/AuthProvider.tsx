@@ -17,14 +17,14 @@ import { CommunityView } from "lemmy-js-client";
 type contextValueType = {
   token: string | null;
   setToken: (newToken: string | null) => void;
-  logout: () => void;
+  isLoggedIn: boolean;
 }
 
 // Note: AuthContext must only be used in components under AuthProvider
 const AuthContext = createContext<contextValueType>({
   token: null,
   setToken: () => { },
-  logout: () => { }
+  isLoggedIn: false
 });
 
 // Dev note: token must be set/reset ONLY via the provided function
@@ -51,7 +51,7 @@ async function getPostgresProfile(username: string) {
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const { setLemmyInfo } = useLemmyInfo();
+  const isLoggedIn = token !== null;
   const { setProfileInfo } = useProfileContext();
 
   async function setProfileContext() {
@@ -143,6 +143,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     setClientToken(token);
+    console.log(token, isLoggedIn)
     if (token) {
       const lastLogin = localStorage.getItem("lastLogin") || new Date().toISOString();
       localStorage.setItem("lastLogin", lastLogin);
@@ -159,7 +160,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({ token, setToken, logout }),
+    () => ({ token, setToken, isLoggedIn }),
     [token]
   );
 
