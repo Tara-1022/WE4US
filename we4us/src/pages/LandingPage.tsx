@@ -3,7 +3,7 @@ import { GraduationCap } from 'lucide-react';
 import WE from "../assets/We.png";
 import '../styles/LandingPage.css';
 import MemoriesGallery from '../components/MemoriesGallery';
-import { memories } from '../components/MemoriesData';
+import { memories } from '../assets/memories/MemoriesData';
 import { LoginButton } from '../auth/LoginHandler';
 
 const LandingPage: React.FC = () => {
