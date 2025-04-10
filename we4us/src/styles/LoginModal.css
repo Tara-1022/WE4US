@@ -37,7 +37,7 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: #d1d5db; /* text-gray-300 */
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
   
   .modal-input {
@@ -55,22 +55,16 @@
     box-shadow: 0 0 0 2px var(--color-primary-blue);
   }
   
-  .modal-button {
+  .btn-danger {
+    background-color: var(--color-primary-orange);
     width: 100%;
-    padding: 0.75rem 1rem;
-    background-image: linear-gradient(
-      to right,
-      var(--color-primary-blue),
-      var(--color-primary-teal)
-    );
-    color: white;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    padding: 1rem;
+    font-size:1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
   }
   
-  .modal-button:hover {
-    opacity: 0.9;
-    transform: scale(1.05);
+  .btn-danger:hover {
+    background-color: #d55a00;
   }
-  

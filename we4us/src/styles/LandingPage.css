@@ -31,8 +31,8 @@
 /* Description */
 .landing-desc {
     font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-gray);
+    font-weight: 500;
+    color: white;
     margin: 1.5rem 0;
     line-height: 1.6;
 }

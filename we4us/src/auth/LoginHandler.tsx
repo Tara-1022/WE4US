@@ -79,7 +79,7 @@ export function LoginModal({ isOpen, handleClose }: { isOpen: boolean, handleClo
               className="modal-input"
             />
           </div>
-          <button type="submit" className="modal-button">
+          <button type="submit" className="btn btn-danger">
             Log In
           </button>
         </form>
