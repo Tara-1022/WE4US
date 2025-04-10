@@ -28,14 +28,11 @@ defmodule We4usWeb.MessageChannel do
     }) do
       {:ok, _message} ->
         topic = "message:#{to_user}"
-
         broadcast!(socket, "new_message", %{from: from_user, body: body})
         Phoenix.PubSub.broadcast(We4us.PubSub, topic, %{
           event: "new_message",
           payload: %{from: from_user, body: body}
         })
-
-
         {:noreply, socket}
 
       {:error, changeset} ->
@@ -43,33 +40,32 @@ defmodule We4usWeb.MessageChannel do
     end
   end
 
-  # It is also common to receive messages from the client and
-  # broadcast to everyone in the current topic (message:lobby).
   @impl true
-def handle_in("send_message", %{"to" => to_user, "body" => body}, socket) do
-  topic = "message:#{to_user}"
-  from_user = socket.assigns.user_id
+  def handle_in("send_message", %{"to" => to_user, "body" => body}, socket) do
+    from_user = socket.assigns.user_id
 
-  # 1. Broadcast to the recipient
-  We4usWeb.Endpoint.broadcast(topic, "new_message", %{
-    from: from_user,
-    body: body
-  })
+    # 1. Save to DB first
+    message_params = %{
+      "from_user" => from_user,
+      "to_user" => to_user,
+      "body" => body
+    }
 
-  # 2. Save to DB
-  message_params = %{
-    "from_user" => from_user,
-    "to_user" => to_user,
-    "body" => body
-  }
+    case %We4us.Messages.Message{}
+         |> We4us.Messages.Message.changeset(message_params)
+         |> We4us.Repo.insert() do
+      {:ok, _message} ->
+        topic = "message:#{to_user}"
+        We4usWeb.Endpoint.broadcast(topic, "new_message", %{
+          from: from_user,
+          body: body
+        })
+        {:noreply, socket}
 
-  %We4us.Messages.Message{}
-  |> We4us.Messages.Message.changeset(message_params)
-  |> We4us.Repo.insert()
-
-  {:noreply, socket}
-end
-
+      {:error, _changeset} ->
+        {:reply, {:error, %{reason: "Failed to save message"}}, socket}
+    end
+  end
 
   @impl true
 def handle_info(:after_join, socket) do
@@ -80,7 +76,7 @@ def handle_info(:after_join, socket) do
       message: msg.message,
       inserted_at: msg.inserted_at,
     }) end)
-  {:noreply, socket} # :noreply
+  {:noreply, socket}
 end
 
   # Add authorization logic here as required.

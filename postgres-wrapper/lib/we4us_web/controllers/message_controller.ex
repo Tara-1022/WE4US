@@ -20,6 +20,4 @@ defmodule We4usWeb.MessageController do
     json(conn, %{data: messages})
   end
 
-
-
 end
