@@ -1,12 +1,20 @@
 defmodule We4usWeb.MessageChannel do
   use We4usWeb, :channel
-
+  require Logger
   @impl true
-  def join("message:"  <> user_id, payload, socket) do
+  def join("message:"  <> recipient_id, payload, socket) do
     if authorized?(payload) do
-      {:ok, socket}
+      sender_id = payload["user_id"]
+      socket = assign(socket, :user_id, sender_id)
+
+      messages = case We4us.Messages.get_conversation(sender_id, recipient_id) do
+        {:ok, msgs} -> msgs
+        {:error, _} -> []
+      end
+
+      {:ok, %{messages: format_messages(messages)}, socket}
     else
-      {:error, "Joined Notification:#{user_id}", %{reason: "unauthorized"}}
+      {:error, %{reason: "unauthorized"}}
     end
   end
 
@@ -67,13 +75,25 @@ defmodule We4usWeb.MessageChannel do
     end
   end
 
+  defp format_messages(messages) do
+    Enum.map(messages, fn msg ->
+      %{
+        id: msg.id,
+        from_user: msg.from_user,
+        to_user: msg.to_user,
+        body: msg.body,
+        inserted_at: msg.inserted_at
+      }
+    end)
+  end
+
   @impl true
 def handle_info(:after_join, socket) do
   We4us.Message.get_messages()
   |> Enum.reverse() # revers to display the latest message at the bottom of the page
   |> Enum.each(fn msg -> push(socket, "shout", %{
       name: msg.name,
-      message: msg.message,
+      m: msg.message,
       inserted_at: msg.inserted_at,
     }) end)
   {:noreply, socket}
