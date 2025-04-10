@@ -3,21 +3,18 @@ import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, CommunityView, PostView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
-import { Search as SearchIcon } from 'lucide-react';
-import PaginationControls from '../components/PaginationControls';
+import { Loader, Search as SearchIcon } from 'lucide-react';
 import { DEFAULT_COMMUNITY_LIST_LIMIT } from '../constants';
 import PostSnippet from '../components/PostSnippet';
 import CommentSnippet from '../components/CommentSnippet';
 import CommunitySnippet from '../components/CommunitySnippet';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 let styles = {
   list: {
     listStyleType: "none",
     margin: 0,
     padding: 0
-  },
-  listItem: {
-
   }
 }
 
@@ -55,7 +52,8 @@ const SearchPage: React.FC = () => {
         case "post":
           const post = view.data as PostView;
           return post.post.nsfw != true && post.community.nsfw != true;
-
+        // No need to filter deleted posts since our logic automatically
+        // hides them from search results
       }
     }
   )
@@ -64,43 +62,51 @@ const SearchPage: React.FC = () => {
   const isResultPresent = (result && result.length > 0);
 
   const [page, setPage] = useState(1);
-  const hasMore = (result && (result.length >= DEFAULT_COMMUNITY_LIST_LIMIT)) || false;
+  const [hasMore, setHasMore] = useState(true);
 
   function handleSearch(queryParams: Search) {
     setPage(1);
     setLastQuery(queryParams);
+    // we need to erase previous renders
+    setResult(null);
   }
 
-  useEffect(() => {
-    if (!lastQuery) return;
+  useEffect(
+    () => {
+      if (!lastQuery) return;
 
-    const queryWithPagination = {
-      ...lastQuery,
-      page,
-      limit: DEFAULT_COMMUNITY_LIST_LIMIT,
-    };
+      const queryWithPagination = {
+        ...lastQuery,
+        page,
+        limit: DEFAULT_COMMUNITY_LIST_LIMIT,
+      };
 
-    search(queryWithPagination).then(
-      (response) => {
-        console.log("Response: ", response);
-        // No need to filter posts since our deletion logic automatically
-        // hides them from search results
-        setResult(
-          [...response.posts
-            .map(p => { return { type_: "post", data: p, id: p.post.id } as GenericView }),
-          ...response.communities
-            .map(c => { return { type_: "community", data: c, id: c.community.id } as GenericView }),
-          ...response.comments
-            .map(c => { return { type_: "comment", data: c, id: c.comment.id } as GenericView })
-          ]
-        );
-        // searching among users would be redundant since we already 
-        // search profiles in who's who
-      })
-  }, [lastQuery, page]);
+      search(queryWithPagination).then(
+        (response) => {
+          setResult(
+            [...(result || []),
+            ...response.posts
+              .map(p => { return { type_: "post", data: p, id: p.post.id } as GenericView }),
+            ...response.communities
+              .map(c => { return { type_: "community", data: c, id: c.community.id } as GenericView }),
+            ...response.comments
+              .map(c => { return { type_: "comment", data: c, id: c.comment.id } as GenericView })
+            ]
+          );
+          // searching among users would be redundant since we already 
+          // search profiles in who's who
+          setHasMore(
+            (response.posts.length >= DEFAULT_COMMUNITY_LIST_LIMIT) ||
+            (response.comments.length >= DEFAULT_COMMUNITY_LIST_LIMIT) ||
+            (response.communities.length >= DEFAULT_COMMUNITY_LIST_LIMIT) ||
+            (response.users.length >= DEFAULT_COMMUNITY_LIST_LIMIT)
+            // We have to check users too, since the API returns this.
+          );
+        })
+    }, [lastQuery, page]);
 
   const list = filteredResult?.map(
-    view => <li key={view.type_ + view.id} style={styles.listItem}>
+    view => <li key={view.type_ + view.id}>
       <GenericViewSnippet view={view} />
     </li>
   );
@@ -111,18 +117,23 @@ const SearchPage: React.FC = () => {
       <LemmySearchBar handleSearch={handleSearch} />
 
       {isResultPresent &&
-        <ul style={styles.list}>{list}</ul>
+        <div style={{ overflow: "auto" }} className='scrollableDiv'>
+          <ul style={styles.list}>
+            <InfiniteScroll
+              dataLength={filteredResult?.length || 0}
+              next={() => setPage(page + 1)}
+              hasMore={hasMore}
+              loader={<Loader />}
+              endMessage={<h4 style={{ textAlign: 'center' }}>That's all, folks!</h4>}
+              scrollableTarget="scrollableDiv">
+              {list}
+            </InfiniteScroll>
+          </ul>
+        </div>
       }
 
       {searchDone && !isResultPresent && <h3>No Results Found</h3>}
 
-      {searchDone && isResultPresent && (
-        <PaginationControls
-          page={page}
-          setPage={setPage}
-          hasMore={hasMore}
-        />
-      )}
     </>
   );
 };
