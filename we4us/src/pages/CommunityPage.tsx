@@ -27,7 +27,7 @@ export default function CommunityPage() {
             getPostList({ communityId: communityId, page: page, limit: DEFAULT_POSTS_PER_PAGE }).then(
                 (postViews) => {
                     setPostViews(postViews);
-                    setHasMore(postViews.length === DEFAULT_POSTS_PER_PAGE);
+                    setHasMore(postViews.length >= DEFAULT_POSTS_PER_PAGE);
                 }
             );
         }, [communityId, page]
