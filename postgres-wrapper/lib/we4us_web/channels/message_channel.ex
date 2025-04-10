@@ -55,7 +55,7 @@ defmodule We4usWeb.MessageChannel do
          |> We4us.Messages.Message.changeset(message_params)
          |> We4us.Repo.insert() do
       {:ok, _message} ->
-        topic = "message:#{to_user}"
+        topic = "message:#{from_user}"
         We4usWeb.Endpoint.broadcast(topic, "new_message", %{
           from: from_user,
           body: body
