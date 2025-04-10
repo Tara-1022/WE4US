@@ -21,7 +21,7 @@ export default function CommentList({ commentViews }: { commentViews: CommentVie
     const list = commentViews
         .map(
             commentView => <li key={commentView.comment.id} style={styles.listItem}>
-                <CommentSnippet commentView={commentView} />
+                <CommentSnippet commentView={commentView} withPostLink={true}/>
             </li>
         )
     return <ul style={styles.list}>{list}</ul>;

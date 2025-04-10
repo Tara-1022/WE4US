@@ -3,25 +3,52 @@ import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, CommunityView, PostView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
-import PostList from '../components/PostList';
 import { Search as SearchIcon } from 'lucide-react';
-import CommunityList from '../components/CommunityList';
-import CommentList from '../components/CommentList';
 import PaginationControls from '../components/PaginationControls';
 import { DEFAULT_COMMUNITY_LIST_LIMIT } from '../constants';
+import PostSnippet from '../components/PostSnippet';
+import CommentSnippet from '../components/CommentSnippet';
+import CommunitySnippet from '../components/CommunitySnippet';
+
+let styles = {
+  list: {
+    listStyleType: "none",
+    margin: 0,
+    padding: 0
+  },
+  listItem: {
+
+  }
+}
+
+type GenericView = {
+  type_: "comment" | "community" | "post",
+  data: CommentView | CommunityView | PostView,
+  id: number
+}
+
+function GenericViewSnippet({ view }: { view: GenericView }) {
+  switch (view.type_) {
+    case "comment":
+      return <CommentSnippet commentView={view.data as CommentView} withPostLink={true} />
+    case "community":
+      return <CommunitySnippet communityView={view.data as CommunityView} />
+    case "post":
+      return <PostSnippet postView={view.data as PostView} />
+    default:
+      return <></>
+  }
+}
 
 const SearchPage: React.FC = () => {
-  const [postResult, setPostResult] = useState<PostView[] | null>(null);
-  const [communityResult, setCommunityResult] = useState<CommunityView[] | null>(null);
-  const [commentResult, setCommentResult] = useState<CommentView[] | null>(null);
+  const [result, setResult] = useState<GenericView[] | null>(null);
   const [lastQuery, setLastQuery] = useState<Search | null>(null);
 
-  const [page, setPage] = useState(1);
+  const searchDone = result != null
+  const isResultPresent = (result && result.length > 0);
 
-  const searchDone = (postResult || commentResult || communityResult)
-  const isResultPresent = (postResult && postResult.length > 0)
-    || (commentResult && commentResult.length > 0)
-    || (communityResult && communityResult.length > 0)
+  const [page, setPage] = useState(1);
+  const hasMore = (result?.length === DEFAULT_COMMUNITY_LIST_LIMIT);
 
   function handleSearch(queryParams: Search) {
     setPage(1);
@@ -36,48 +63,44 @@ const SearchPage: React.FC = () => {
       page,
       limit: DEFAULT_COMMUNITY_LIST_LIMIT,
     };
-
+    
     search(queryWithPagination).then(
-        (response) => {
+      (response) => {
         console.log("Response: ", response);
-                // No need to filter posts since our deletion logic automatically
-                // hides them from search results
-      setPostResult(response.posts);
-      setCommunityResult(response.communities);
-      setCommentResult(response.comments
-        ?.filter(c => !c.post.deleted && !c.comment.deleted) ?? []
-                        // searching among users would be redundant since we already 
-                // search profiles in who's who
-      )
-    })
+        // No need to filter posts since our deletion logic automatically
+        // hides them from search results
+        setResult(
+          [...response.posts
+            .filter(p => p.post.nsfw != true)
+            .map(p => { return { type_: "post", data: p, id: p.post.id } as GenericView }),
+          ...response.communities
+            .filter(c => c.community.nsfw != true)
+            .map(c => { return { type_: "community", data: c, id: c.community.id } as GenericView }),
+          ...response.comments
+            .filter(c => !c.post.deleted && !c.comment.deleted && c.post.nsfw != true)
+            .map(c => { return { type_: "comment", data: c, id: c.comment.id } as GenericView })
+          ]
+        );
+        // searching among users would be redundant since we already 
+        // search profiles in who's who
+      })
   }, [lastQuery, page]);
 
-  const hasMore = (
-    (postResult?.length === DEFAULT_COMMUNITY_LIST_LIMIT) ||
-    (communityResult?.length === DEFAULT_COMMUNITY_LIST_LIMIT) ||
-    (commentResult?.length === DEFAULT_COMMUNITY_LIST_LIMIT)
+  const list = result?.map(
+    view => <li key={view.type_ + view.id} style={styles.listItem}>
+      <GenericViewSnippet view={view} />
+    </li>
   );
-  
 
   return (
     <>
       <SearchIcon />
       <LemmySearchBar handleSearch={handleSearch} />
-      {postResult && postResult.length > 0 && (
-        <div>
-          <h2>Posts</h2>
-          <PostList postViews={postResult} />
-        </div>)}
-      {communityResult && communityResult.length > 0 && 
-      (<div>
-          <h2>Communities</h2>
-          <CommunityList communityViews={communityResult} />
-        </div>)}
-      {commentResult && commentResult.length > 0 && 
-      (<div>
-          <h2>Comments</h2>
-          <CommentList commentViews={commentResult} />
-        </div>)}
+
+      {isResultPresent &&
+        <ul style={styles.list}>{list}</ul>
+      }
+
       {searchDone && !isResultPresent && <h3>No Results Found</h3>}
 
       {searchDone && isResultPresent && (
