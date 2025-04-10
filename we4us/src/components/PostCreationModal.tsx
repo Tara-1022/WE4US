@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { ImageDetailsType, uploadImage, deleteImage } from "../library/LemmyImageHandling";
+import { ImageDetailsType, uploadImage, deleteImage, constructImageUrl } from "../library/LemmyImageHandling";
 import { createPost, editPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
+import "../styles/FullImageView.css"
 
 interface PostCreationModalProps {
   isOpen: boolean;
@@ -33,12 +34,14 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
   const [imageData, setImageData] = useState<ImageDetailsType>();
 
   function deleteUploadedImage() {
+    setLoading(true);
     if (imageData) {
       deleteImage(imageData).then(() => {
         setImageData(undefined);
         console.log("Deleted")
       })
     }
+    setLoading(false);
   }
 
   function handleCancel() {
@@ -58,8 +61,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     const file = event.target.files[0];
     uploadImage(file).then(
       (imageDetails) => {
-        console.log("Image uploaded:", imageDetails);
         setImageData(imageDetails);
+        console.log("Image uploaded:", imageDetails);
       }
     )
   }
@@ -118,6 +121,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       console.error("Error creating post:", error);
     } finally {
       setLoading(false);
+      setImageData(undefined);
     }
   };
 
@@ -146,6 +150,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       }}
     >
       <form onSubmit={handleSubmit}>
+        {imageData &&
+          <div className="imageContainer">
+            <img className="image" src={constructImageUrl(imageData)} />
+          </div>}
         <label htmlFor="title">Post Title: </label>
         <input type="text" name="title" placeholder="Title" required />
         <br />
@@ -158,7 +166,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <label htmlFor="communityId">Choose Community: </label>
         <CommunitySelector name="communityId" isRequired={true} />
         <br />
-        <label htmlFor="fileUpload">Upload image/video: </label>
+        <label htmlFor="fileUpload">Upload image: </label>
         <input
           id="fileUpload"
           type="file"

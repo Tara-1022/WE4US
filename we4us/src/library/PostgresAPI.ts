@@ -28,13 +28,22 @@ export const fetchProfiles = async () => {
   }
 };
 
+/**
+ * Fetches a profile by username.
+ * @param username - The username of the profile to fetch.
+ * @returns {Profile | null} - Returns the profile object if found, otherwise null.
+ */
 export const fetchProfileByUsername = async (username: string) => {
   try {
     const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${encodeURIComponent(username)}`
 );
     
+    if (response.status === 404) {
+      return null;
+    }
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch profile for username: ${username}`);
+      throw new Error(`Failed to fetch profile for username: ${username}. Status: ${response.status}`);
     }
 
     const jsonData = await response.json();
@@ -60,7 +69,7 @@ export const updateProfile = async (username: string, profileData: Profile) => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify(profileData),
+      body: JSON.stringify({ profile: profileData }),
     });
 
     if (!response.ok) {
