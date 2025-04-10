@@ -43,12 +43,28 @@ function GenericViewSnippet({ view }: { view: GenericView }) {
 const SearchPage: React.FC = () => {
   const [result, setResult] = useState<GenericView[] | null>(null);
   const [lastQuery, setLastQuery] = useState<Search | null>(null);
+  const filteredResult = result?.filter(
+    (view) => {
+      switch (view.type_) {
+        case "comment":
+          const comment = view.data as CommentView;
+          return !comment.post.deleted && !comment.comment.deleted && comment.post.nsfw != true;
+        case "community":
+          const community = view.data as CommunityView;
+          return community.community.nsfw != true;
+        case "post":
+          const post = view.data as PostView;
+          return post.post.nsfw != true && post.community.nsfw != true;
+
+      }
+    }
+  )
 
   const searchDone = result != null
   const isResultPresent = (result && result.length > 0);
 
   const [page, setPage] = useState(1);
-  const hasMore = (result?.length === DEFAULT_COMMUNITY_LIST_LIMIT);
+  const hasMore = (result && (result.length >= DEFAULT_COMMUNITY_LIST_LIMIT)) || false;
 
   function handleSearch(queryParams: Search) {
     setPage(1);
@@ -63,7 +79,7 @@ const SearchPage: React.FC = () => {
       page,
       limit: DEFAULT_COMMUNITY_LIST_LIMIT,
     };
-    
+
     search(queryWithPagination).then(
       (response) => {
         console.log("Response: ", response);
@@ -71,13 +87,10 @@ const SearchPage: React.FC = () => {
         // hides them from search results
         setResult(
           [...response.posts
-            .filter(p => p.post.nsfw != true)
             .map(p => { return { type_: "post", data: p, id: p.post.id } as GenericView }),
           ...response.communities
-            .filter(c => c.community.nsfw != true)
             .map(c => { return { type_: "community", data: c, id: c.community.id } as GenericView }),
           ...response.comments
-            .filter(c => !c.post.deleted && !c.comment.deleted && c.post.nsfw != true)
             .map(c => { return { type_: "comment", data: c, id: c.comment.id } as GenericView })
           ]
         );
@@ -86,7 +99,7 @@ const SearchPage: React.FC = () => {
       })
   }, [lastQuery, page]);
 
-  const list = result?.map(
+  const list = filteredResult?.map(
     view => <li key={view.type_ + view.id} style={styles.listItem}>
       <GenericViewSnippet view={view} />
     </li>
