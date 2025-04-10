@@ -3,7 +3,8 @@ import { deleteImage, ImageDetailsType } from "../library/LemmyImageHandling";
 import { useNavigate } from "react-router-dom";
 
 export default function PostDeletor({ postId, imageData }: { postId: number, imageData?: ImageDetailsType }) {
-    const navigator = useNavigate();
+    const navigate = useNavigate();
+    
     let styles = {
         actionText: {
             cursor: 'pointer'
@@ -25,7 +26,7 @@ export default function PostDeletor({ postId, imageData }: { postId: number, ima
                             (success) => {
                                 if (success) {
                                     window.alert("Post deleted successfully");
-                                    navigator("/reaching-out");
+                                    navigate(-1);
                                 }
                                 else {
                                     throw new Error("Post could not be hidden");

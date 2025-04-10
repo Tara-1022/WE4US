@@ -3,44 +3,51 @@ import { useState, useEffect } from "react";
 import { CommunityView, PostView } from "lemmy-js-client";
 import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
-import { getCommunityDetailsFromId, getPostList } from "../library/LemmyApi";
+import { useLemmyInfo } from "../components/LemmyContextProvider";
+import { getPostList } from "../library/LemmyApi";
 import CommunitySnippet from "../components/CommunitySnippet";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 
 export default function CommunityPage() {
     const communityId = Number(useParams().communityId);
+    const { lemmyInfo } = useLemmyInfo();
 
     const [postViews, setPostViews] = useState<PostView[] | null>(null);
-    const [communityView, setCommunityView] = useState<CommunityView | null>(null)
-    const [page, setPage] = useState<number>(1)
+    const [communityDetails, setCommunityDetails] = useState<CommunityView | undefined>(
+        lemmyInfo?.communities.filter(
+            (communityView) => { return communityView.community.id == communityId; }
+        )[0]
+    )    const [page, setPage] = useState<number>(1)
     const [hasMore, setHasMore] = useState<boolean>(false)
 
     useEffect(
         () => {
-                getCommunityDetailsFromId(communityId).then(setCommunityView);
-
-                getPostList({ communityId, page, limit: DEFAULT_POSTS_PER_PAGE }).then((posts) => {
-                    setPostViews(posts);
-                    setHasMore(posts.length === DEFAULT_POSTS_PER_PAGE);
-                });
-            }, [communityId, page]
-)
+            setCommunityDetails(
+                lemmyInfo?.communities.filter(
+                    (communityView) => { return communityView.community.id == communityId; }
+                )[0]);
+            getPostList(communityId).then(
+                (postViews) => { setPostViews(postViews) }
+            )
+        }, [communityId, lemmyInfo]
+    )
 
     if (!postViews) return <Loader />;
-    if (!communityView) return <h3>Looks like this community doesn't exist!</h3>
-
-    return (<>
-            <CommunitySnippet communityView={communityView} />
-            {postViews.length === 0 ? (
-                <h3>No posts to see!</h3>
-            ) : (
-                <>
-                    <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-                    <PostList postViews={postViews} />
-                    <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-                </>
-            )}
-        </>
-    )
+    else if (!communityDetails) return <h3>Looks like this community doesn't exist!</h3>
+    else if (postViews.length == 0) {
+        return (<>
+            <CommunitySnippet communityView={communityDetails} />
+            <h3>No posts to see!</h3></>
+        )
+            ;
+    }
+    else {
+        return (
+            <>
+                <CommunitySnippet communityView={communityDetails} />
+                <PostList postViews={postViews} />
+            </>
+        )
+    }
 }
