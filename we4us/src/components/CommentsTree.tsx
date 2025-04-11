@@ -13,9 +13,6 @@ let styles = {
     },
     listItem: {
 
-    },
-    clickableText: {
-        cursor: "pointer"
     }
 }
 
@@ -54,14 +51,14 @@ function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
             <Comment commentView={commentNode.commentView} depth={commentNode.depth} />
             {commentNode.commentView.counts.child_count > 0 &&
                 <>
-                    <span onClick={() => setViewReplies(!viewReplies)} style={styles.clickableText}>
-                        {viewReplies ? "Hide replies" : "Show Replies"}
-                    </span>
-                    {viewReplies &&
-                        <Collapsible>
-                            <CommentsTree commentsTree={commentNode.children} />
-                        </Collapsible>
-                    }
+                    <Collapsible
+                        initiallyExpanded={false}
+                        onToggle={() => setViewReplies(!viewReplies)}
+                        CollapsedIcon={() => <span>Hide Replies</span>}
+                        OpenIcon={() => <span>Show Replies</span>}
+                    >
+                        <CommentsTree commentsTree={commentNode.children} />
+                    </Collapsible>
                 </>
             }
         </>
