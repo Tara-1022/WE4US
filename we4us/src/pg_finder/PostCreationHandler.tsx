@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CreatePostModal from "./PgPostCreationModal";
-import { createPost } from "../library/LemmyApi";
 import { PG_COMMUNITY_ID } from "../constants";
 import { PostView } from "lemmy-js-client";
+import { createPost } from "../library/LemmyApi";
 
 export type PgPostData = {
     name: string,
