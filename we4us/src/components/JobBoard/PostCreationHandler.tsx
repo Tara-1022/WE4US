@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CreatePostModal from "./JobPostCreationModal";
-import { createPost } from "../library/LemmyApi";
+import { createPost } from "../../library/LemmyApi";
 import { PostView } from "lemmy-js-client";
-import { useLemmyInfo } from "../components/LemmyContextProvider"
+import { useLemmyInfo } from "../LemmyContextProvider"
 import { JobPostData } from "./JobTypes";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {

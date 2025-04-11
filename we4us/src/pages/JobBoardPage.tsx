@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
-import JobPostList from "../job_board/JobPostList";
+import JobPostList from "../components/JobBoard/JobPostList";
 import { Loader } from 'lucide-react';
 import { getJobPostList } from "../library/LemmyApi";
-import PostCreationHandler from "../job_board/PostCreationHandler";
+import PostCreationHandler from "../components/JobBoard/PostCreationHandler";
 import "../styles/JobBoardPage.css"
 
 export default function JobBoardPage() {

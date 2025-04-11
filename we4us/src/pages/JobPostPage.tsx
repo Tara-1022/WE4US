@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
-import { JobPostBody } from '../job_board/JobTypes';
+import { JobPostBody } from '../components/JobBoard/JobTypes';
 import ReactMarkDown from "react-markdown";
 
 export default function JobPostPage() {
