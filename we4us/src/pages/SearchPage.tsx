@@ -4,11 +4,11 @@ import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, CommunityView, PostView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
 import { Loader, Search as SearchIcon } from 'lucide-react';
-import { DEFAULT_COMMUNITY_LIST_LIMIT } from '../constants';
 import PostSnippet from '../components/PostSnippet';
 import CommentSnippet from '../components/CommentSnippet';
 import CommunitySnippet from '../components/CommunitySnippet';
 import InfiniteScroll from "react-infinite-scroll-component";
+import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 
 let styles = {
   list: {
@@ -78,7 +78,7 @@ const SearchPage: React.FC = () => {
       const queryWithPagination = {
         ...lastQuery,
         page,
-        limit: DEFAULT_COMMUNITY_LIST_LIMIT,
+        limit: DEFAULT_POSTS_PER_PAGE,
       };
 
       search(queryWithPagination).then(
@@ -96,10 +96,10 @@ const SearchPage: React.FC = () => {
           // searching among users would be redundant since we already 
           // search profiles in who's who
           setHasMore(
-            (response.posts.length >= DEFAULT_COMMUNITY_LIST_LIMIT) ||
-            (response.comments.length >= DEFAULT_COMMUNITY_LIST_LIMIT) ||
-            (response.communities.length >= DEFAULT_COMMUNITY_LIST_LIMIT) ||
-            (response.users.length >= DEFAULT_COMMUNITY_LIST_LIMIT)
+            (response.posts.length >= DEFAULT_POSTS_PER_PAGE) ||
+            (response.comments.length >= DEFAULT_POSTS_PER_PAGE) ||
+            (response.communities.length >= DEFAULT_POSTS_PER_PAGE) ||
+            (response.users.length >= DEFAULT_POSTS_PER_PAGE)
             // We have to check users too, since the API returns this.
           );
         })

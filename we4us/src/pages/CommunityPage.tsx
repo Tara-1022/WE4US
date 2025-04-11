@@ -18,29 +18,38 @@ export default function CommunityPage() {
 
     useEffect(
         () => {
-                getCommunityDetailsFromId(communityId).then(setCommunityView);
+                getCommunityDetailsFromId(
+                    communityId).then(
+                (communityView) => setCommunityView(communityView)
+            );
 
-                getPostList({ communityId, page, limit: DEFAULT_POSTS_PER_PAGE }).then((posts) => {
-                    setPostViews(posts);
-                    setHasMore(posts.length === DEFAULT_POSTS_PER_PAGE);
-                });
-            }, [communityId, page]
-)
+            setPostViews(null);
+            getPostList({ communityId: communityId, page: page, limit: DEFAULT_POSTS_PER_PAGE }).then(
+                (postViews) => {
+                    setPostViews(postViews);
+                    setHasMore(postViews.length >= DEFAULT_POSTS_PER_PAGE);
+                }
+            );
+        }, [communityId, page]
+    );
 
     if (!postViews) return <Loader />;
     if (!communityView) return <h3>Looks like this community doesn't exist!</h3>
-
+    else if (postViews.length == 0) {
     return (<>
             <CommunitySnippet communityView={communityView} />
-            {postViews.length === 0 ? (
-                <h3>No posts to see!</h3>
-            ) : (
-                <>
-                    <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-                    <PostList postViews={postViews} />
-                    <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-                </>
-            )}
-        </>
-    )
+            <h3>No posts to see!</h3></>
+        )
+            ;
+    }
+    else {
+        return (
+            <>
+                <CommunitySnippet communityView={communityView} />
+                <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+                <PostList postViews={postViews} />
+                <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+            </>
+        )
+    }
 }

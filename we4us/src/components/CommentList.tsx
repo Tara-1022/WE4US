@@ -1,5 +1,6 @@
 import { CommentView } from "lemmy-js-client";
 import CommentSnippet from "./CommentSnippet";
+import { Link } from "react-router-dom";
 
 let styles = {
     list: {
@@ -12,6 +13,10 @@ let styles = {
         border: "1px solid #ccc",
         borderRadius: "8px",
         margin: "1%"
+    },
+    postLink: {
+        fontSize: "small",
+        margin: "2%"
     }
 }
 

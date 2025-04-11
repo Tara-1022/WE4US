@@ -45,7 +45,7 @@ function ReachingOut() {
   const [page, setPage] = useState<number>(1);
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
-  const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
+  const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
   
   useEffect(() => {
     getPostList({ page, limit: DEFAULT_POSTS_PER_PAGE }).then(setPostViews);
