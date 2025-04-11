@@ -38,27 +38,30 @@ export default function PostCreationHandler({ handleCreatedPost , noPostsView = 
         )
         setIsOpen(false);
     }
-    if (!noPostsView) {
-        return (
-            <>
-                <button onClick={() => { setIsOpen(!isOpen) }}>New Post</button>
-                <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
-            </>
-        )
-    }
 
     return (
-        <div className="empty-posts-container">
-            <div className="empty-posts-message">
-                <h3>No posts available</h3>
-                <button 
-                    onClick={() => { setIsOpen(!isOpen) }}
-                    className="create-first-post-button"
-                >
-                    Create First Post
-                </button>
-            </div>
-            <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
-        </div>
-    )
+        <>
+            {noPostsView ? (
+                <div className="empty-posts-container">
+                    <div className="empty-posts-message">
+                        <h3>No posts available</h3>
+                        <button
+                            onClick={() => setIsOpen(true)}
+                            className="create-first-post-button"
+                        >
+                            Create First Post
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <button onClick={() => setIsOpen(true)}>New Post</button>
+            )}
+
+            <CreatePostModal
+                isOpen={isOpen}
+                handleCreation={handleCreation}
+                setIsOpen={setIsOpen}
+            />
+        </>
+    );
 }
