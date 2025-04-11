@@ -28,11 +28,13 @@ export default function PostCreationHandler({ handleCreatedPost , noPostsView = 
 
     function handleCreation(data: PgPostData) {
         console.log(data)
+        const { mapUrl, ...cleanedBody } = data.body;
+
         createPost({
-            body: JSON.stringify(data.body),
+            body: JSON.stringify(cleanedBody),
             name: data.name.toString(),
             community_id: PG_COMMUNITY_ID,
-            url: data.body.mapUrl
+            url: mapUrl
         }).then(
             (newPost) => handleCreatedPost(newPost)
         )
