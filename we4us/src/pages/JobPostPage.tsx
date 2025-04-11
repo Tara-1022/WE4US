@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
-import { JobPostBody } from '../job_board/PostCreationHandler';
+import { JobPostBody } from '../job_board/JobTypes';
+import ReactMarkDown from "react-markdown";
 
 export default function JobPostPage() {
     const jobId = Number(useParams().jobId);
@@ -20,7 +21,7 @@ export default function JobPostPage() {
     }, [jobId]);
 
     if (!postView) return <Loader />;
-    
+
     let jobDetails: JobPostBody = JSON.parse(postView.post.body || "{}");
 
     return (
@@ -35,7 +36,7 @@ export default function JobPostPage() {
                 <p><strong>Location:</strong> {jobDetails.location}</p>
                 <p><strong>Job Link:</strong> <a href={postView.post.url} target="_blank" rel="noopener noreferrer">{postView.post.url}</a></p>
                 <p><strong>Type:</strong> {jobDetails.job_type}</p>
-                <p><strong>Description:</strong> {jobDetails.description}</p>
+                <p><strong>Description:</strong> <ReactMarkDown>{jobDetails.description}</ReactMarkDown></p>
             </div>
 
             {postView.creator.id === profileInfo?.lemmyId && (
