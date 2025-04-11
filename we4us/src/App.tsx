@@ -16,12 +16,16 @@ import WhosWhoPage from './pages/WhosWhoPage';
 import PostPage from './pages/PostPage';
 import ProtectedRoute from './auth/ProtectedRoute';
 import CommunityPage from './pages/CommunityPage';
-import Modal from "react-modal";
+import ReachingOutSearchPage from './pages/ReachingOutSearchPage';
+import SpecialisedSearchPage from './pages/SpecialisedSearchPage';
 import AppContextProvider from './AppContextProvider';
-import SearchPage from './pages/SearchPage';
+import Modal from "react-modal";
 import { Menu } from 'lucide-react';
 import { BackButton } from './components/NavButtons';
+import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from './constants';
+
 Modal.setAppElement('#root');
+
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -44,23 +48,34 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/login" element={<AuthorisationPage />} />
               <Route path="/home" element={<LandingPage />} />
+              <Route path="/" element={<Navigate to="/home" />} />
+
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
                 <Route path="/announcements/:announcementId" element={<AnnouncementPostPage />} />
-                <Route path="/job-board" element={<JobBoardPage />} />               
-                <Route path="/meetup/:meetUpId" element={<MeetUpPost />} />
+                <Route path="/announcements/search" element={<SpecialisedSearchPage community={ANNOUNCEMENTS_COMMUNITY_NAME} />} />
+
+                <Route path="/job-board" element={<JobBoardPage />} />
+                <Route path="/job-board/search" element={<SpecialisedSearchPage community={JOB_BOARD_COMMUNITY_NAME} />} />
+
                 <Route path="/meetup" element={<MeetUpPage />} />
+                <Route path="/meetup/:meetUpId" element={<MeetUpPost />} />
+                <Route path="/meetup/search" element={<SpecialisedSearchPage community={MEET_UP_COMMUNITY_NAME} />} />
+
                 <Route path="/pg-finder" element={<PgFinderPage />} />
+                <Route path="/pg-finder/search" element={<SpecialisedSearchPage community={PG_FINDER_COMMUNITY_NAME} />} />
+
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
-                <Route path="/search" element={<SearchPage />} />
+                <Route path="/search" element={<ReachingOutSearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
+
+                <Route path="/whos-who" element={<WhosWhoPage />} />
                 <Route path="/profile/:username" element={<ProfilePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/whos-who" element={<WhosWhoPage />} />
-                <Route path="/" element={<Navigate to="/home" />} />
-                <Route path="/*" element={<RedirectPage />} />
+
               </Route>
+              <Route path="/*" element={<RedirectPage />} />
             </Routes>
           </main>
         </div>
