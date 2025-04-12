@@ -2,14 +2,22 @@ defmodule We4usWeb.MessageChannel do
   use We4usWeb, :channel
   require Logger
   @impl true
-  def join("message:"  <> recipient_id, payload, socket) do
+  def join("message:" <> recipient_id, payload, socket) do
     if authorized?(payload) do
       sender_id = payload["user_id"]
       socket = assign(socket, :user_id, sender_id)
 
+      # Log the join attempt for debugging
+      Logger.debug("User #{sender_id} joining channel for #{recipient_id}")
+
+      # Get conversation with consistent field names
       messages = case We4us.Messages.get_conversation(sender_id, recipient_id) do
-        {:ok, msgs} -> msgs
-        {:error, _} -> []
+        {:ok, msgs} ->
+          Logger.debug("Found #{length(msgs)} messages")
+          msgs
+        {:error, err} ->
+          Logger.error("Error fetching messages: #{inspect(err)}")
+          []
       end
 
       {:ok, %{messages: format_messages(messages)}, socket}
