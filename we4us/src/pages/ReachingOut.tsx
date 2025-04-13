@@ -6,7 +6,6 @@ import { Loader, Search } from 'lucide-react';
 import PostCreationModal from '../components/PostCreationModal';
 import CommunityCreationModal from '../components/CommunityCreationModal';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLemmyInfo } from '../components/LemmyContextProvider';
 import { useProfileContext } from '../components/ProfileContext';
 import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 import PaginationControls from "../components/PaginationControls";
@@ -44,10 +43,9 @@ function CommunityCreationButton({ handleCommunityCreated }:
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { setLemmyInfo } = useLemmyInfo();
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
-  const hasMore = postViews.length === DEFAULT_POSTS_PER_PAGE;
+  const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
   
   useEffect(() => {
     getPostList({ page, limit: DEFAULT_POSTS_PER_PAGE }).then(setPostViews);
@@ -60,12 +58,6 @@ function ReachingOut() {
   }
 
   function handleCommunityCreated(newCommunity: CommunityView) {
-    setLemmyInfo(prevLemmyInfo => ({
-      ...prevLemmyInfo,
-      communities: prevLemmyInfo?.communities
-        ? [newCommunity, ...prevLemmyInfo.communities]
-        : [newCommunity]
-    }));
     navigate("/community/" + newCommunity.community.id);
   }
 

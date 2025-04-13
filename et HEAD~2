@@ -1,0 +1,1212 @@
+[33mcommit 062dbc04a19736781996a93399dc974eb87580c2[m[33m ([m[1;36mHEAD -> [m[1;32mlogout-timer[m[33m, [m[1;31morigin/logout-timer[m[33m)[m
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 15:46:36 2025 +0530
+
+    Elaborate warning msg
+
+[33mcommit 8046d36fca35775d811e48f4a93749fa22e924cc[m
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 15:44:23 2025 +0530
+
+    Remove isFirstWarningDisplayed variable as no longer necessary
+
+[33mcommit 263a3f7be18008ab93b7a8012b45c0a72a8e79b4[m
+Merge: d1ef8a9 5abbc88
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 15:28:14 2025 +0530
+
+    logout user if last login info not found
+
+[33mcommit d1ef8a926366feac8043e6d9f5d701e33b7f4382[m
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 15:25:01 2025 +0530
+
+    Log out user if last login details not found
+
+[33mcommit d8873444ff5885851ebff778dcd5aff129bba7be[m
+Merge: 04ef2ba 722ae17
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 15:21:08 2025 +0530
+
+    Merge remote-tracking branch 'origin' into logout-timer
+
+[33mcommit 722ae1715af9246aec16333ff6ad434254a75fa3[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Apr 9 14:53:55 2025 +0530
+
+    Fix issue cause by git missing the case sensitive dir name change
+
+[33mcommit 04ef2ba48aa12c60d7464bb9ec753e9fdcd68cb2[m
+Merge: fb34149 a722d36
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 14:20:41 2025 +0530
+
+    Merged main and logout-timer
+
+[33mcommit 5abbc88ef74387700c344470988de4402d79ac7a[m
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 12:08:02 2025 +0530
+
+    Logout user if last login details not found
+
+[33mcommit 93c963dfdb4523924ec7a4fd2ad2d701539426ab[m
+Merge: fb34149 a722d36
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Wed Apr 9 11:49:12 2025 +0530
+
+    Resolved merge conflict with origin/main
+
+[33mcommit a722d36e969fa5ddfcb4208b574484dd2fa688c5[m
+Author: Maanasa Ganesh <124514254+nasacode1@users.noreply.github.com>
+Date:   Tue Apr 8 18:31:44 2025 +0530
+
+    Set up announcements page (#81)
+    
+    * Set up announcements page
+    
+    * Update to get announcements displayed
+    
+    * Add styled full view page
+    
+    * Add announcement creation for admins
+    
+    * Cleanup & enable markdown in preview, too
+    
+    * Add preview of 5 recent announcements to the landing page
+    
+    * Cleanup:
+    - Add timestamp to announcement snippet
+    - Add post deletor
+    - ensure it's hidden from reaching out
+    
+    * Minor update: fix button text
+    
+    * Switch from using community ID as constant to having community name as constant
+    
+    * Add pagination
+    
+    * Move folder into 'components'
+    
+    ---------
+    
+    Co-authored-by: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+
+[33mcommit 4ef2f703d3718c7fe96a04a5f9b3d940ab23898e[m
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Tue Apr 8 14:09:30 2025 +0530
+
+    Improve failure responses (#74)
+    
+    Added checks for duplicate usernames, handled profile fetching/deletion failures, and improved error reporting for missing usernames and constraint violations.
+
+[33mcommit fb34149990b222e3d19b3fcb2c2221a2fb2efec0[m
+Merge: 6882d43 33b6656
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Mon Apr 7 23:48:01 2025 +0530
+
+    Resolve bugs from merging branches
+
+[33mcommit 6882d43589d1ea6f60611d4b27dda41d969c26cb[m[33m ([m[1;32mtemp-branch[m[33m)[m
+Author: Maanasa <maanasarare@gmail.com>
+Date:   Sun Apr 6 23:03:17 2025 +0530
+
+    Set a timer for logging user out
+
+[33mcommit 33b6656941c30ee1099c7bb22777df3e068653a6[m
+Author: Khushi S <168214110+Khushi-S-29@users.noreply.github.com>
+Date:   Sat Apr 5 21:59:11 2025 +0530
+
+    Meet up (#73)
+    
+    Implemented Meet-Up section to allow users to create and view posts with location, time, and access details for planned events.
+
+[33mcommit baf019ee8b0139ac98a92af8a93c40677c1e5da9[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Apr 5 19:22:41 2025 +0530
+
+    Add preview of the image during post creation (#84)
+
+[33mcommit 8cdc59a0f378dea6dc52ebf60cfb1d800f61041e[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Apr 5 19:22:26 2025 +0530
+
+    Cleanup sidebar (#85)
+    
+    * Remove "undefined" text from sidebar if not logged in
+    
+    * Ensure profile info is erased if the person is logged out.
+    
+    * Enable proper highlighting for all paths i a specific set. Automatically redirect from / to /home.
+    
+    * Add a redirect page to display on all other routes
+
+[33mcommit 96e2e34d2dee70ab4818f1ca0cd8ef050682167d[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Apr 5 19:20:08 2025 +0530
+
+    List user posts on profile (#62)
+    
+    * Add person details to profile
+    
+    * Update UI to look better. This needs to be fixed later.
+    
+    * Add text to indicate no posts/no comments. Add 0 as a fallback value
+    
+    * Better error handling - log error & display error message
+
+[33mcommit 92ec8e33e983c928ed1cb870087214c383f57f5c[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Apr 5 19:16:10 2025 +0530
+
+    Update Lemmy context: remove community list, add special communities (#75)
+    
+    * Remove community list from lemmy context, fetch and set the special communities instead
+    
+    * Update the community selector to make the options dynamically fetched and searchable
+    
+    * Cleanup: fix issue on search results page + improve CSS of CommunitySelector
+    
+    * Update communitySelector to act like a single, regular 'required' form field. The parent won't have to worry about states or checks
+
+[33mcommit 096c453e5b02937aa2def8a6a786524fe92592aa[m[33m ([m[1;32mjwt[m[33m, [m[1;32mhandleLogout[m[33m)[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Apr 4 20:45:50 2025 +0530
+
+    Add release and comparison link for 0.20.0-alpha.5 from our current version (0.19.8) of lemmy (#86)
+    
+    Add release and comparison link for 0.20.0-alpha.5 from ours (0.19.8)
+
+[33mcommit 93f971820be8016d04f9350d7be1f3fedf03bb09[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Apr 2 20:22:50 2025 +0530
+
+    Update default post image (#65)
+    
+    * Update default post image as per our poll.
+    
+    * change to a yellow version of image
+    
+    * Update to image as per poll
+
+[33mcommit ff386133b4bbd6d1ca22e32e14540b92dc67db64[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Apr 1 16:10:52 2025 +0530
+
+    Add url to post (#64)
+    
+    * Add url to creation & display
+    
+    * Add "rel="noopener noreferrer"" as a security practice (https://elementor.com/blog/noopener-noreferrer/)
+
+[33mcommit 923972dee53c63de3bb3b1750c437fc8c644a8be[m[33m ([m[1;32msearch-user-post[m[33m)[m
+Author: Dhenuvakonda Saathwika <118562491+saathwikad@users.noreply.github.com>
+Date:   Thu Mar 27 20:36:15 2025 +0530
+
+    Added Pagination For Posts. (#68)
+    
+    * Added Pagination For Posts
+    
+    * Added Comments Fetch
+    
+    * Resolved conflicts and removed comments pagination
+    
+    * Added Pagination Component and updated the controls in the beginning and ending of the page.
+    
+    * Added derived state by removing usestate and making hasMore as a constant.
+    
+    * Resolved code issues due to merge.
+    
+    * Cleanup
+    
+    * Added object destructuring for better readability.
+
+[33mcommit 45830849b68fadf19cce6c142164fd3f3d4c2fd5[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Mar 27 20:12:14 2025 +0530
+
+    Multi community post (#69)
+    
+    Update functionality for automatic post duplication - adjust for recent merge conflicts
+
+[33mcommit 6c3ff071f40c7ad4b17728eac1f6577bdd157e51[m
+Author: Kajal Jotwani <130732790+kajal-jotwani@users.noreply.github.com>
+Date:   Wed Mar 26 22:03:03 2025 +0530
+
+    Created sidebar component and updated appwide css (#53)
+    
+    * Created sidebar component and updated appwide css
+    
+    * Updated the avatar and added the back button
+    
+    * Update to display logged-in user's details
+    
+    * updated the sidebar component
+    
+    * Add different CSS for display name & username
+    
+    * Refactor: Moved sidebar styles to seperate CSS file
+    
+    * Fix: updated sidebar to highlight subroutes as well
+    
+    * reverted sidebar routes change
+    
+    * removed Layout component
+    
+    ---------
+    
+    Co-authored-by: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+
+[33mcommit e03c6bdb7540a0435e5028cfa284aa8812ecf037[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 26 17:52:50 2025 +0530
+
+    Cleanup (#61)
+    
+    * Remove instances of id in profile API calls
+    
+    * Remove all instances of id
+    
+    * Update WhosWho page & postgresAPI to remove redundancy.
+    
+    * Fetch single profile directly instead of a list and then filtering.
+    
+    * Cleanup a merge conflict
+    
+    * Update type of 'yearsOfExperience' in ProfileContext to match that in PostgresAPI
+    
+    * remove "fetchProfileById" as it is no longer relevant
+    
+    ---------
+    
+    Co-authored-by: Nishita <nishitapravin2@gmail.com>
+
+[33mcommit adfcd7c5fb2fa6101d284ea5a92a4edc19a08fbd[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Mon Mar 24 20:50:48 2025 +0530
+
+    Incorporate image handling within posts (#49)
+    
+    * Add functions for upload, delete image. As well as image details type  - we will need this to ensure images are deleted.Add relevant handling logic to function calls.Also update constants.tsx names to be a bit more specific.
+    
+    * Incorporate image details into post body. The 'lemmy way' to do it is to insert the image url alone. But this makes it difficult to ensure image deletion with post deletion + doesn't allow us to insert both a url and an image.
+    
+    * Cleanup: remove unecessary logs. extend the change in constants name to the newer occurences
+    
+    * Cleanup: Rename button
+    
+    * Remove default image in full post view. Add CSS so post image is more handlable
+    
+    * Rename button from "Submit" to "Post", rearrange buttons
+
+[33mcommit 5a13d2289cc1e6b1db80d42b2feb8e2272cf38f5[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Mar 21 21:21:47 2025 +0530
+
+    Trigger display name change in lemmy if one happens in profile (#60)
+    
+    * Cleanup codebase to use only one 'Profile' interface
+    
+    * Disable profile edits by the wrong user with proper, repeated checks.
+    Having a state just to show update message seemed redundant, so replaced that to reduce bulk.
+    
+    * Trigger update in lemmy when display name is changed, so that it changes everywhere (eg, in posts)
+    
+    * Add state to keep track of the number of times a change in display name is triggered, so we don't have unecessary requests being made.
+    
+    * Disable username edits and add display name regex.
+
+[33mcommit f167ac31d2126ab9566a754f7d464e7dfc6d7961[m
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Fri Mar 21 20:09:36 2025 +0530
+
+    Preserve profile order after update by sorting by username (#63)
+
+[33mcommit db147c61449c562e563f5606a2b5edeeef5f9745[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Mar 11 11:28:01 2025 +0530
+
+    There is no actual need for a separate community list. Simple enabled query-less searches; now, on selecting the 'Communities' drop down, all communities will be pulled up
+
+[33mcommit dbe07f7c43586e1986a0ebf248fe43de3608739a[m
+Author: naina <naina@DESKTOP-7K75SQ7.lan>
+Date:   Thu Mar 20 04:53:26 2025 -0400
+
+    Added private messaging doc
+
+[33mcommit f7b34826ea0223e3dc0be2db105611c8cce99f0f[m
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Thu Mar 20 17:51:58 2025 +0530
+
+    Change Primary Key to 'username' in Profiles (#48)
+    
+    * Refactor: Change primary key of profiles from id to username
+    
+    * Ensure API accepts username and that username is unique and validates fomrat
+
+[33mcommit f1ececc98a687d6b2d333c5c7e83109c3fb15f27[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Mar 20 14:08:46 2025 +0530
+
+    Update docs (#55)
+    
+    * Update docs: provide fix for data retention issues more directly. Remove autogenerated content and make steps for running the UI clear.
+    
+    * Add a couple of lines to Contribution.md
+
+[33mcommit 74616462f0b3099d46f603d5fcc9ef557b096a19[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 19 18:51:23 2025 +0530
+
+    Add support for Create community (#52)
+    
+    * Add community creation modal + get it to make sense with post creation modal. Also update contexts to make it easy to figure out if the current user is an admin or not.
+    
+    * Update regex. Title can, in fact, have spaces, and almost all characters, and name can have lowercase letters, numbers and underscore.
+    Restricting title to regularly used punctuation and some special characters.
+    We will be treating it as community description.
+    Remove unecessary description field from LemmyAPI in this case
+    
+    * Cleanup: update community selector to make more sense. Turn input box into text area so there's more visual space to type
+
+[33mcommit 6f62cf544677cc869fd5c44b829aefc58965199c[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 19 11:14:54 2025 +0530
+
+    Add community selector, improve form layout (#47)
+    
+    * Add community selector, improve form layout
+    
+    * Update 'unselected' to 'No community selected'
+
+[33mcommit 1245cc352a09f919a44c15671788f267cd65001c[m
+Author: ChinnmayieN <chinnmayie.nagam@gmail.com>
+Date:   Wed Mar 19 11:14:17 2025 +0530
+
+    Add edit profile functionality (#54)
+    
+    * no changes
+    
+    * profile page , edit page and view page all are ready
+    
+    * successfully conected to db
+    
+    * years of experience changed
+
+[33mcommit b500487f14e0d3c83c10ce5ae0e16803a04edd93[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Mon Mar 17 15:25:42 2025 +0530
+
+    Link to profile page of a user wherever they appear
+
+[33mcommit 903b612435aa6e4c9ae17c2cd35198d3ca2f1e30[m
+Merge: f068f9c 8e3f0e1
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Thu Mar 13 15:17:26 2025 +0530
+
+    Update Profile Navigation & Context Management (#46)
+
+[33mcommit 8e3f0e1efadbd328856516da9911b1cc016f3588[m
+Merge: a45367a f068f9c
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Thu Mar 13 15:10:47 2025 +0530
+
+    Merge branch 'main' into profile-context
+
+[33mcommit a45367af9731e04a9d565a52ae6ca80b33a20e68[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Thu Mar 13 15:05:03 2025 +0530
+
+    Cleanup
+
+[33mcommit 0c1efbf79ad9a275dda66de55d38ee649e223578[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Thu Mar 13 14:52:54 2025 +0530
+
+    Cleanup
+
+[33mcommit d7a091af1152d58438b4cc6f623f60d3622aa81b[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Wed Mar 12 19:14:10 2025 +0530
+
+    Cleanup
+
+[33mcommit f068f9c8f2273effc8a5f9ac42766d23dbbc3c45[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 12 17:44:58 2025 +0530
+
+    Improve navigation (#37)
+    
+    * Make global Back and Home buttons to handle navigation. Earlier, it was available only on who's who and profile page
+    
+    * Cleanup: Move navbuttons into dedicated file. Also, update BackButton so the user doesn't exit the website.
+
+[33mcommit 3a04d0efdd87f42aa1ab705ac80eb4754260eae4[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Wed Mar 12 17:26:01 2025 +0530
+
+    Cleanup
+
+[33mcommit c4afe4789b93192309adc64ad252bdf846acbc4d[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Wed Mar 12 15:08:07 2025 +0530
+
+    cleanup
+
+[33mcommit ce5374d6aed2429ba407eb91de1a222f7ca9ac35[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Wed Mar 12 15:05:18 2025 +0530
+
+    Refactor profile fetching
+
+[33mcommit dfcf0272b7a79236b55ca798d63a6743e293aaa8[m
+Merge: 215a31d 474f739
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 12 12:37:58 2025 +0530
+
+    Add 'upvote/like' functionality (#36)
+
+[33mcommit bc5c90ff1386d6817a35d3f68ad8283f5b59c640[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Tue Mar 11 21:52:00 2025 +0530
+
+    Preserve lemmy id
+
+[33mcommit eeb50e853472b42388fb7e98115c71aa382c5ec8[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Tue Mar 11 19:08:14 2025 +0530
+
+    Display logged-in user's details at /profile
+
+[33mcommit 76c0adbae57e7a105f8c65555e51f08886cf36d3[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Tue Mar 11 18:59:26 2025 +0530
+
+    Redirect profile card click to profiles/<username>
+
+[33mcommit 0a93f47f670a9ebd836335a5b4f7f78ca4af574f[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Tue Mar 11 18:18:29 2025 +0530
+
+    Pull profile info into profileContext
+
+[33mcommit 474f739b81b7bc0dd8c2685379225f9b9f4b7823[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Mar 7 11:16:37 2025 +0530
+
+    Display number of likes in relevant places
+
+[33mcommit 0d206f152a5a4077b66d459c56fe12bf6677c9ab[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Mar 6 22:35:58 2025 +0530
+
+    Add 'like' functionality to posts and comments
+
+[33mcommit 215a31d4bf877a8481ee501a83346de7480fb725[m
+Merge: 2297e29 9d06258
+Author: Dhenuvakonda Saathwika <118562491+saathwikad@users.noreply.github.com>
+Date:   Tue Mar 11 11:08:39 2025 +0530
+
+    Merge pull request #32 from Tara-1022/Search_
+    
+    Search
+
+[33mcommit 9d06258c99053dbf5cd9d41c3d92dab701ea3725[m[33m ([m[1;31morigin/Search_[m[33m)[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 5 14:48:09 2025 +0530
+
+    Display relevant message when search has no results. Make use of derived states (https://medium.com/comsystoreply/totally-in-sync-using-derived-state-in-react-applications-98cbd5acaa91)
+
+[33mcommit 294692c60050791ee37ff4127bbff0a816b1935f[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 5 14:30:51 2025 +0530
+
+    Add CommentList to SRP, update Comment to reuse CommentSnippet component
+
+[33mcommit f8a7380772a13e3b05d38cd2b830185b219bd270[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Mar 5 13:38:41 2025 +0530
+
+    Extend SRP to render Community snippets as well. Refactor CommunityPage for better component reuse
+
+[33mcommit 4d108346820e7115fd01a79a9a486b54202d677b[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 27 15:37:49 2025 +0530
+
+    Set up a search bar + page, fetch search result. Display posts fetched
+
+[33mcommit 2297e29df550a9cf459e8cd8355b14387458df54[m
+Merge: 87a4a9e d36b2a4
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Mon Mar 10 19:15:08 2025 +0530
+
+    Merge pull request #43 from Tara-1022/NewPostsCreation
+    
+    Added Post Creation Functionality.
+
+[33mcommit 87a4a9e16460015bab6ef085414aa55fc80b85af[m
+Merge: 77129bb ba1b6cd
+Author: Kajal Jotwani <130732790+kajal-jotwani@users.noreply.github.com>
+Date:   Mon Mar 10 18:21:32 2025 +0530
+
+    Merge pull request #39 from kajal-jotwani/kajal
+    
+    #5 Resolved the bug for inconsistent formating of screen
+
+[33mcommit 77129bb6ae72540f74a3c3a70e9dd0cec21b80ae[m
+Merge: a6a0af6 1e252bf
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Mon Mar 10 17:50:08 2025 +0530
+
+    cleanup
+
+[33mcommit a6a0af6be1b16cd50883987e8d7c38f4e615d79e[m
+Merge: 536cdc7 d61b893
+Author: Dhenuvakonda Saathwika <118562491+saathwikad@users.noreply.github.com>
+Date:   Mon Mar 10 17:45:30 2025 +0530
+
+    Merge pull request #41 from Tara-1022/Documentation
+    
+    Add contribution guidelines
+
+[33mcommit 1e252bf5c8783c6c4f871676c94d89904150a9b4[m
+Author: Nishita <nishitapravin2@gmail.com>
+Date:   Mon Mar 10 17:41:28 2025 +0530
+
+    cleanup
+
+[33mcommit d36b2a40b2503b6a0d14b796a0b063002cf6ada1[m
+Author: Dhenuvakonda Saathwika <dsaathwika15@gmail.com>
+Date:   Mon Mar 10 17:38:42 2025 +0530
+
+    Updated the PostCreationModal
+
+[33mcommit 3abd240c976d5666f1cb139d7c6370abb343037a[m
+Author: Dhenuvakonda Saathwika <dsaathwika15@gmail.com>
+Date:   Mon Mar 10 17:30:48 2025 +0530
+
+    Added Post Creation Functionality
+
+[33mcommit ba1b6cdae69233ad207acc3231b25b8ef2bccc92[m
+Author: kajal-jotwani <kajaljotwani06@gmail.com>
+Date:   Mon Mar 10 10:40:55 2025 +0530
+
+    alligned the headings to the center
+
+[33mcommit e780f1ed43845f695e712016aee38d1784edda7f[m
+Author: kajal-jotwani <kajaljotwani06@gmail.com>
+Date:   Fri Mar 7 17:51:39 2025 +0530
+
+    removed comments
+
+[33mcommit 13e3374eeec16579a91d1882e9812055696f4621[m
+Author: kajal-jotwani <kajaljotwani06@gmail.com>
+Date:   Fri Mar 7 17:47:39 2025 +0530
+
+    Resolved the bug for inconsistent formating of screen
+
+[33mcommit 536cdc7b7cc4b9cc932e795492f98e2409b7861b[m
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Mon Mar 10 16:44:23 2025 +0530
+
+    Add Search Box + Cleanup (#31)
+    
+    * Add search box and cleanup
+    
+    * Add sideway scroll feature
+
+[33mcommit d61b8936b10d90e0836ef463f34fabce35b8fd85[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Mar 8 21:18:01 2025 +0530
+
+    Update Contribution.md
+
+[33mcommit 9f7c41c1db06b939992a4a8d02d251ec82f9ef3d[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Mar 8 21:08:28 2025 +0530
+
+    - Add contribution guidelines for reference.
+    - Move API samples file into the dev docs.
+
+[33mcommit 33429103f5a13ded1ec89c118e53dac6fa8c879d[m
+Merge: e6ab790 8283af9
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Mar 4 15:11:38 2025 +0530
+
+    Merge pull request #22 from Tara-1022/Cleanup
+    
+    Convert library files from tsx to ts. This makes sure we don't create…
+
+[33mcommit 8283af9b5092124cbd6c0c40ededbe4d24cbc27b[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 13:11:52 2025 +0530
+
+    Convert library files from tsx to ts. This makes sure we don't create components here, and keeps separation of concerns clear
+
+[33mcommit e6ab790f436fdc6e78b340f3e3faa6e736a231ec[m
+Merge: 29bfcd9 f512300
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Mar 4 11:31:34 2025 +0530
+
+    Merge pull request #26 from Tara-1022/CommunityPage
+    
+    Set Up Community page
+
+[33mcommit f512300df22ef39fb61bedb62bb5915ad805f1e3[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 16:37:21 2025 +0530
+
+    Cleanup: Simplify appwide contexts into an umbrella component
+
+[33mcommit 44c6627c175eb65131c832f132b3b4b4b24fd943[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 16:32:24 2025 +0530
+
+    Implement and link to Community Page
+
+[33mcommit cfac68ce3b190f97c209391e6a631737d5d598b1[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 15:39:42 2025 +0530
+
+    Add LemmyContext to store regularly used information. Create basic CommunityPage.
+    
+    LemmyContext will be useful in reducing API calls for 'global' information, here, the list of available communities
+
+[33mcommit 29bfcd92053afbc8b0bc381a575fe88abb44da09[m
+Author: nishitaKatepallewar <nishitapravin2@gmail.com>
+Date:   Sat Mar 1 18:46:45 2025 +0530
+
+    Whos Who UI + Database Connection (#13)
+    
+    * Establish routes to profile page via profile id
+    
+    * Initialize Phoenix backend with Postgres database
+    
+    * Add ProfileController for API endpoints
+    
+    * Add API routes for handling profiles
+    
+    * Add sample_curl.txt for API testing.
+    
+    * Group profiles and sort based on cohort
+    
+    * Extract API URLs and fetch logic into api.tsx
+    
+    * Updated profile UI: Replaced old fields (posts, comments, joinDate) with current_role, company, experience, interests
+
+[33mcommit 224c322ea3fbed21598f25f92e542c1d1d6d433d[m
+Merge: 208a29e f1eb06d
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 27 14:05:29 2025 +0530
+
+    Merge pull request #21 from Tara-1022/Delete
+    
+    Implement deletors for Post and Comment
+
+[33mcommit 208a29e0badc1107197027d238f9deb8caf6dc63[m
+Merge: afbfb1b 567d918
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 19:06:25 2025 +0530
+
+    Merge pull request #24 from Tara-1022/Documentation
+    
+    Cleanup Documentation
+
+[33mcommit afbfb1b3344f44886ce6413ed793db53bd1785a2[m
+Merge: 3b81421 fd586b9
+Author: Dhenuvakonda Saathwika <118562491+saathwikad@users.noreply.github.com>
+Date:   Wed Feb 26 18:25:55 2025 +0530
+
+    Merge pull request #27 from Tara-1022/CommentIssue
+    
+    Fix code issue; some changes of a previous merge did not persist
+
+[33mcommit fd586b9ca907a544930f407e04d962a12d2bc1a5[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 18:22:07 2025 +0530
+
+    Fix code issue; some changes of a previous merge did not persist
+
+[33mcommit f1eb06de1abceb5122e0afa4af0325a1994cdd03[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 12:32:15 2025 +0530
+
+    Change bulky buttons into clickable text
+
+[33mcommit 4b81add695e33edf8a76776f27a7c6f0406b48b7[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 12:19:07 2025 +0530
+
+    Update useSafeContext to provide more informative messages
+
+[33mcommit 2e0eec9743f5c6401420093898484a80efc62efa[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 12:10:09 2025 +0530
+
+    Hide deleted posts from all list views (unless the request explicitly sets show_hidden to true). Not sure why lemmy behaves like this, but deleted posts are not hidden by default, simply marked 'deleted'.
+
+[33mcommit 3920495ef6ae4ce12fae5afc506b3997d7d0e8c2[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 25 21:35:52 2025 +0530
+
+    Show delete action only to the creator of the post/comment
+
+[33mcommit 75c51404169ec684aed07ea301798406ad4cce50[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 25 21:23:14 2025 +0530
+
+    Create ProfileContext to store relevant user info. Enable synced changes by having a singleton client. Ensure client header is updated whenever the token is.
+
+[33mcommit 8a4ac444f5c3146ec900ab8b6e3be821e56d4e2b[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 25 14:22:38 2025 +0530
+
+    Implement Deletors for post & comment
+
+[33mcommit 3b81421f8ac871906a3756d6d4ca921e165b8a70[m
+Merge: 52edf02 f9adb04
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 17:21:21 2025 +0530
+
+    Merge pull request #14 from Tara-1022/Comments
+    
+    Add 'Create Comment' functionality
+
+[33mcommit 567d91836dc56383368fe106ca99f1475a198976[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 26 13:24:27 2025 +0530
+
+    Store backups of the design docs since they are not currently subject to change, and may not be perpetually available in Google Drive. Remove unused doc link from README.
+
+[33mcommit 52edf02c652e66aaa7f0f4adab4b871d148f1921[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Mon Feb 24 17:51:07 2025 +0530
+
+    Increase amount of posts and comments fetched (#16)
+    
+    * Increase amount of posts and comments fetched to the maximum possible
+
+[33mcommit f9adb04c87578b0ef0ab24db97a38e8f9cef76b1[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Mon Feb 24 14:18:05 2025 +0530
+
+    Make the CommentCreator collapsible, so it is only rendered as required. To achieve this, the Collapsible component has been generalised.
+
+[33mcommit 14ee8810c9c322b5106fdcf76a34ea3283bf3d49[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 21 19:31:22 2025 +0530
+
+    Render the created comment. Avoid prop drilling by moving required inforation into CommentsContext
+
+[33mcommit 6772dd186c6dfeab0a476b8fa0871792d4ccf1f6[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 21 15:54:02 2025 +0530
+
+    Add functional CommentCreator component to respective locations
+
+[33mcommit 509acd447dd4c8d20f7fd66019782e6f8f6564fb[m
+Merge: dfa8ef4 4cb39ee
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 21 19:56:13 2025 +0530
+
+    Merge pull request #12 from Tara-1022/Cleanup
+    
+    Fix Login, Logout
+
+[33mcommit 4cb39eede247ee1473e6e487e64dd194922d4543[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 20 19:12:26 2025 +0530
+
+    Move logout button into sidebar for cleaner UI
+
+[33mcommit 18d3f549c6c7ca9e8283759cb58c33cdff51867e[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 20 19:06:59 2025 +0530
+
+    Move LoginModal to a dedicated route. Enable Who'sWho devs to see their pages without lemmy. Since LoginModal was in App.tsx, it was applied on all pages. Remove it from the sidebar
+
+[33mcommit dfa8ef4d3c9fb62928d6c6a37e9940ed009da49b[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 20 18:24:26 2025 +0530
+
+    Add references to help with lemmy client
+    
+    Link all references we find useful in figuring out what functions do what. seeing as an official docmentation is not available right now.
+
+[33mcommit 695f9019b87fdcef6695ada1309cf7750e8a6435[m
+Merge: 4df31f6 3415c88
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 20 18:06:56 2025 +0530
+
+    Merge pull request #8 from Tara-1022/Auth_2
+    
+    Add basic authentication functionality
+
+[33mcommit 4df31f6c45e83fadccedbd3b474f74e76cd8f669[m
+Merge: be27678 b3a37ad
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 20 17:56:44 2025 +0530
+
+    Merge pull request #6 from Tara-1022/Comments
+    
+    Fetch and render comments
+
+[33mcommit 3415c8806524d657c5956ccb6a949563db4baff3[m
+Merge: c1af842 ac67bfb
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 19 16:55:05 2025 +0530
+
+    Merge branch 'Auth_2' of https://github.com/Tara-1022/WE4US into Auth_2
+
+[33mcommit c1af842e86026a46ba33a45f8eb3a9e3ed187a70[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 19 16:50:58 2025 +0530
+
+    Cleanup: minor fixes, have LoginModal across app, rather than just on the home page
+
+[33mcommit ac67bfb7a464639281f6359a952763b5d4ebb546[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 19 16:50:58 2025 +0530
+
+    Cleanup: minor fixes, have LoginModal across app, rather than just on the home page
+
+[33mcommit ca020a371602a7065102f651c70f84376374f5aa[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 19 13:49:53 2025 +0530
+
+    Add logout button. Ensures that the jwt is invalidated and cannot be used again
+
+[33mcommit ff27c0eedff056359bb39b69f76efba34078bcdc[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 19 13:31:43 2025 +0530
+
+    Implement login modal that updates auth token. Ensure client with auth header is created when logged in
+
+[33mcommit 699d37889da9181da845bbba4ff63535effb759b[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 18 16:37:02 2025 +0530
+
+    Create AuthContext and components to enforce rerouting unauthenticated persons to home
+
+[33mcommit cfb37e7dcd76860ec0a8230b23da6bdd3ca55f16[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 18 12:49:05 2025 +0530
+
+    Fix issue causing requests without jwt to have no header
+
+[33mcommit b3a37adb2f7fac01f456ef1a433d71fcaf31b7bd[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Wed Feb 19 13:57:31 2025 +0530
+
+    Cleanup
+
+[33mcommit be276787bbb70dcac422f878882be2ab39790cdc[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 14 20:56:08 2025 +0530
+
+    Update OIDC set-up findings
+
+[33mcommit 01f7b5b23bed0bcb3ee01d9799aa2015d5c4f8ec[m
+Merge: bda8d44 14c8792
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 14 20:48:28 2025 +0530
+
+    Merge branch 'Comments' of https://github.com/Tara-1022/WE4US into Comments
+
+[33mcommit bda8d4442b68cf3c670fd7ae9ec472ffbdb9fbee[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 14 15:43:27 2025 +0530
+
+    Add collapse functionality
+
+[33mcommit 14c8792d296c7959a7c4a1a88d7dfca3ebd743c0[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 14 15:43:27 2025 +0530
+
+    Add collapse functionality
+
+[33mcommit aa992db179ca6bf220e28f39e723373c750c16d4[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Fri Feb 14 12:14:23 2025 +0530
+
+    Set up comment tree to organise comments
+
+[33mcommit f19c28163080c83fcb43dfce25c0a0ae894e763d[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Feb 13 17:45:32 2025 +0530
+
+    Fetch and render basic comment info
+
+[33mcommit 7a0765d052e57300ab148595f9a5abef7d4149f8[m
+Merge: 95a9206 ee247ff
+Author: Dhenuvakonda Saathwika <118562491+saathwikad@users.noreply.github.com>
+Date:   Wed Feb 12 20:26:07 2025 +0530
+
+    Merge pull request #4 from Tara-1022/landing_page
+    
+    Components + API code for Posts
+
+[33mcommit 95a9206cc564bf74df07098a75f8f4cb31ff294b[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 21:35:03 2025 +0530
+
+    Update notes based on solution
+    
+    Issue in persisting info to docker was caused by WSL + file permission problems. The previous fix just resulted in no data being persisted, making testing difficult.
+
+[33mcommit ee247ff77a0aa1897cb0c220413d33e28be93d9c[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 18:49:53 2025 +0530
+
+    Display post body
+
+[33mcommit b8d0b042dd4bd8efdf458e3f5c1224d192bc6c8c[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 18:47:03 2025 +0530
+
+    Move feed to the appropriate page
+
+[33mcommit 5e2fb9b328da40d9be8f5a3ceb08b952d5ad3e4a[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 13:55:58 2025 +0530
+
+    Cleanup
+
+[33mcommit 287bbd611bb953444e0ccfe8a8bf9131f4f43675[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 13:54:43 2025 +0530
+
+    Cleanup
+
+[33mcommit b61d90991dc9dc6d2e8daa01821d7528b704493f[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 13:52:43 2025 +0530
+
+    Cleanup
+
+[33mcommit 45fde50d0dd076e76c0983e3bb65c49fa946f2b5[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 13:35:09 2025 +0530
+
+    Cleanup
+
+[33mcommit 0ebc1827b91ce40f9a57f583111a8492a44308e5[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 13:13:22 2025 +0530
+
+    Move PostPage to Pages folder
+
+[33mcommit fa3b7281bc43667ae0a906e3dba19a99867c0609[m
+Merge: 9c38dae 49d46b9
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 13:01:15 2025 +0530
+
+    Merge branch 'landing_page' of https://github.com/Tara-1022/WE4US into landing_page
+
+[33mcommit 9c38dae463b705357be1be3ac5ab6e309c288aa7[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 12:58:09 2025 +0530
+
+    Replace loader with one from lucide-react library
+
+[33mcommit 2c2dbf2ad68599cba5df0f3d03ddd232810e1ad4[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 12:53:58 2025 +0530
+
+    Add basic route logic for post page
+
+[33mcommit c060dd339aad0b08e02795bdb5409c00c98a8600[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 20:29:06 2025 +0530
+
+    Rename 'Post' to 'PostSnippet' to better reflect intent. Improve styling.
+
+[33mcommit 82ab2e65a130b07b09e944904dc27e56ddf56745[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 18:37:59 2025 +0530
+
+    Follow up on previous commit
+
+[33mcommit 43fe000b6a91f10f24b50d52d875e890e471be3d[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 18:36:54 2025 +0530
+
+    Set up barebones landing page
+
+[33mcommit 011345e585af055a4dec352a8541fcb2595443fb[m
+Merge: 14f982d a4b8df0
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 11 11:57:27 2025 +0530
+
+    Merge pull request #3 from Tara-1022/reactsetup
+    
+    Added Pages and Routed from Home
+
+[33mcommit a4b8df018489e8f703e3fd8784e249ecba0f3c01[m
+Author: saathwika_d <dsaathwika15@gmail.com>
+Date:   Mon Feb 10 23:46:52 2025 +0530
+
+    Added Pages and Routed from Home
+
+[33mcommit 49d46b9827ac8a96e3d3383578bee479871cbcad[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 20:29:06 2025 +0530
+
+    Rename 'Post' to 'PostSnippet' to better reflect intent. Improve styling.
+
+[33mcommit 814badd782c7d9b242fbc0c8eab3169aecd08b5b[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 18:37:59 2025 +0530
+
+    Follow up on previous commit
+
+[33mcommit e835a2ffd2f40dcf3a3ed76ff2486ed4ef5bf051[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 18:36:54 2025 +0530
+
+    Set up barebones landing page
+
+[33mcommit 14f982dc36d88e69d765a7817d652cb1862519ea[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Feb 6 15:15:25 2025 +0530
+
+    Update notes
+
+[33mcommit 118d6c0b6f8f38f1a38c99b4943e7ac58cfb9b42[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Wed Feb 5 19:09:10 2025 +0530
+
+    Update UI dev notes
+
+[33mcommit 27ab90e5cbc0d9b850c3d8dbc6e46a1014bca1b2[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Wed Feb 5 15:15:23 2025 +0530
+
+    remove irrelevant .obsidian files
+
+[33mcommit 4250576a10a9662a2976cd76821c95ed8251eead[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Wed Feb 5 15:14:17 2025 +0530
+
+    Add .gitignore
+
+[33mcommit 117e65f607bb627c379b2c7f0538bf7881dc76cc[m
+Merge: df7a7f2 511d4ea
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Tue Feb 4 23:02:51 2025 +0530
+
+    Merge pull request #2 from Tara-1022/reactsetup
+    
+    Added React Setup
+
+[33mcommit 511d4ea2f2a97e9d5ecb6d7adc5dd3a9051a6994[m
+Author: saathwika_d <dsaathwika15@gmail.com>
+Date:   Tue Feb 4 22:59:25 2025 +0530
+
+    Added React Setup
+
+[33mcommit df7a7f29e8dd70a4a2493c76bf6c1b68901016f3[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Sun Feb 2 14:37:19 2025 +0530
+
+    update ui notes
+
+[33mcommit 7d8fb5e8b4b11aab53e4ea22a2440d394431fa02[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Fri Jan 31 13:46:52 2025 +0530
+
+    update notes
+
+[33mcommit 119268363b7ac2120b92ed7072919d7847580233[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Fri Jan 31 12:14:35 2025 +0530
+
+    Add notes
+
+[33mcommit 0db1b7546c97a9f7bb6e640a922bfd8f5e43fda3[m
+Merge: 28d4649 e5d0edb
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Jan 30 21:22:16 2025 +0530
+
+    Merge remote-tracking branch 'origin/main'
+
+[33mcommit 28d464950bc8574483eb94a1fb0accfa6249f13e[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Jan 30 21:21:57 2025 +0530
+
+    Add UI dev notes
+
+[33mcommit e5d0edb84242d7dc6377407c72b0c3c5086d74e0[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Jan 30 19:47:30 2025 +0530
+
+    Update README.md
+
+[33mcommit 905dc5c639e93dabe6377d503d0cf41f17c008bd[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Jan 30 19:46:59 2025 +0530
+
+    Add docker files
+
+[33mcommit 9deff9f543cc3eafe3ce80724c71fb44e4a0c97c[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Jan 30 19:44:19 2025 +0530
+
+    Formatting change
+
+[33mcommit 71ec206be24e2c0d7ba715b8c1318664fb6b2955[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Jan 30 19:39:07 2025 +0530
+
+    vault backup: 2025-01-30 19:39:07
+
+[33mcommit 5cb70a9d205ee2f6c28edeb1949594c7a9c71226[m
+Author: Tara Lukose <taraann@karunya.edu.in>
+Date:   Thu Jan 30 19:39:03 2025 +0530
+
+    Add guides
+
+[33mcommit 7b149cea6bcf07196241396c934d7d939976c4e1[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Jan 23 13:47:46 2025 +0530
+
+    Update README.md
+
+[33mcommit cb54d4185f482e006ea0cbf53eeed4fa685f5876[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Jan 23 13:01:19 2025 +0530
+
+    Update README.md
+
+[33mcommit cca8238afa1a4e2da8233e09a67693664ab177f0[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Jan 23 13:01:09 2025 +0530
+
+    Update README.md
+
+[33mcommit aa3090d9f024aa179c5d4b90df9771d7bf26bd30[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Thu Jan 2 18:41:43 2025 +0530
+
+    Update README.md
+    
+    update requirements doc link
+
+[33mcommit 13d7b751161168533f976e9a5b5375954f49f713[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Dec 28 15:36:14 2024 +0530
+
+    Update README.md
+
+[33mcommit 5612738647a234a813988ff15008562c874253b6[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Dec 28 15:35:24 2024 +0530
+
+    Add files via upload
+    
+    initial requirement doc
+
+[33mcommit 0302db8b8835bef6b572c7a6160b782bf9313c0d[m
+Author: Tara Lukose <100012608+Tara-1022@users.noreply.github.com>
+Date:   Sat Dec 28 15:34:24 2024 +0530
+
+    Initial commit
