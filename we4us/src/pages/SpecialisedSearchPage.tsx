@@ -6,6 +6,8 @@ import { search } from '../library/LemmyApi';
 import { Loader, Search as SearchIcon } from 'lucide-react';
 import AnnouncementPostSnippet from '../components/Announcements/AnnouncementPostSnippet';
 import MeetUpPostSnippet from '../components/MeetUp/MeetUpSnippet';
+import PgPostSnippet from '../components/PgFinder/PgPostSnippet';
+import JobPostSnippet from '../components/JobBoard/JobPostSnippet';
 import CommentSnippet from '../components/CommentSnippet';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from '../constants';
@@ -36,6 +38,10 @@ function GenericViewSnippet({ view, community }: { view: GenericView, community:
           return <AnnouncementPostSnippet postView={postView} />
         case MEET_UP_COMMUNITY_NAME:
           return <MeetUpPostSnippet postView={postView} />
+        case PG_FINDER_COMMUNITY_NAME:
+          return <PgPostSnippet postView={postView} />
+        case JOB_BOARD_COMMUNITY_NAME:
+          return <JobPostSnippet postView={postView} />
         default:
           return <></>
       }
@@ -65,7 +71,7 @@ const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) =
           const comment = view.data as CommentView;
           return !comment.post.deleted && !comment.comment.deleted;
         case "post":
-          return view.data as PostView;
+          return true;
         // No need to filter deleted posts since our logic automatically
         // hides them from search results
       }
@@ -114,6 +120,7 @@ const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) =
             (response.users.length >= DEFAULT_POSTS_PER_PAGE)
             // We have to check communities and users too, since the API returns this.
           );
+          console.log(filteredResult)
         })
     }, [lastQuery, page]);
 

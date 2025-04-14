@@ -56,10 +56,13 @@ const App: React.FC = () => {
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
                 <Route path="/announcements/:announcementId" element={<AnnouncementPostPage />} />
+                <Route path="/announcements/search" element={<SpecialisedSearchPage community={ANNOUNCEMENTS_COMMUNITY_NAME} />} />
+
                 <Route path="/job-board" element={<JobBoardPage />} />   
                 <Route path="/job-board/:jobId" element={<JobPostPage/>}/>   
                 <Route path="/job-board/search" element={<SpecialisedSearchPage community={JOB_BOARD_COMMUNITY_NAME} />} />
 
+                <Route path="/meetup/" element={<MeetUpPage />} />
                 <Route path="/meetup/:meetUpId" element={<MeetUpPost />} />
                 <Route path="/meetup/search" element={<SpecialisedSearchPage community={MEET_UP_COMMUNITY_NAME} />} />
 
@@ -73,8 +76,8 @@ const App: React.FC = () => {
                 <Route path="/community/:communityId" element={<CommunityPage />} />
 
                 <Route path="/whos-who" element={<WhosWhoPage />} />
-                <Route path="/profile/:username" element={<ProfilePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/:username" element={<ProfilePage />} />
 
               </Route>
               <Route path="/*" element={<RedirectPage />} />
