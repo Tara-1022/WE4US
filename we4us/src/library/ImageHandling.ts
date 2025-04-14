@@ -53,6 +53,15 @@ export async function deleteImage(image: ImageDetailsType) {
   return response;
 }
 
-export function constructImageUrl(filename: string): string {
-  return LEMMY_IMAGE_URL + filename;
+export function constructImageUrl(input: ImageDetailsType | string): string {
+  if (typeof input === 'object' && input.filename) {
+    return LEMMY_IMAGE_URL + input.filename;
+  }
+  
+  if (typeof input === 'string') {
+    return LEMMY_IMAGE_URL + input;
+  }
+
+  console.error("Invalid input to constructImageUrl:", input);
+  throw new Error("Input must be ImageDetailsType or string");
 }
