@@ -31,9 +31,9 @@ export default function CommentCreator({ commentId, actionName = "Comment" }: { 
 
     function CollapsedIcon(){
         return (
-            <>
-            {actionName}
-            </>
+            <b>
+            Cancel
+            </b>
         )
     }
     function OpenIcon(){
