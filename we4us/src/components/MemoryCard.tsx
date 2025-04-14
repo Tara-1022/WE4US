@@ -1,13 +1,18 @@
 import React from 'react';
 import '../styles/MemoryCard.css';
 
-interface MemoryCardProps {
+interface Memory {
   imageUrl: string;
   title: string;
   description: string;
 }
 
-const MemoryCard: React.FC<MemoryCardProps> = ({ imageUrl, title, description }) => {
+interface MemoryCardProps {
+  memory: Memory;
+}
+
+const MemoryCard: React.FC<MemoryCardProps> = ({ memory }) => {
+  const { imageUrl, title, description } = memory;
   return (
     <div className="memory-card">
       <div className="memory-card-inner">

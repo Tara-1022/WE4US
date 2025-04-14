@@ -20,9 +20,7 @@ const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ memories }) => {
         {memories.map((memory, index) => (
           <MemoryCard
             key={index}
-            imageUrl={memory.imageUrl}
-            title={memory.title}
-            description={memory.description}
+            memory={memory}
           />
         ))}
       </div>
