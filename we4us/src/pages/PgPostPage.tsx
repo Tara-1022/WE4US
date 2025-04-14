@@ -7,6 +7,7 @@ import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import { PgPostBody } from '../components/PgFinder/PostCreationHandler';
+import ReactMarkdown from "react-markdown"
 
 export default function PgPostPage() {
     const pgId = Number(useParams().pgId);
@@ -49,7 +50,7 @@ export default function PgPostPage() {
                 <p>AC Available: {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
                 <p>Food Type: {pgDetails.foodType || 'N/A'}</p>
                 <h5>Description (Extra Information:) </h5>
-                <p>{pgDetails.description || 'No description provided'}</p>
+                <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
                 <Link to={"/profile/" + postView.creator.name}>
                     <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
                 </Link>

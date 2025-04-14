@@ -15,7 +15,7 @@ export default function PgFinderPage() {
                 (postViews) => { setPostViews(postViews) }
             )
         }, [])
-  
+
 
     if (!postViews) return <Loader />;
     else if (postViews.length == 0) return <h3>No posts to see!</h3>;
@@ -24,7 +24,11 @@ export default function PgFinderPage() {
             <>
                 <h3>PG FINDER</h3>
                 <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
-                <PgPostList postViews={postViews} />
+                {postViews.length > 0 ?
+                    <PgPostList postViews={postViews} />
+                    :
+                    <h3>No PGs yet!</h3>
+                }
             </>
         )
     }
