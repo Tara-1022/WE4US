@@ -15,7 +15,6 @@ export type JobPostBody = {
     company: string,
     role: string,
     location: string,
-    open: boolean,
     deadline?: string,
     job_type: JobType; 
     description: string

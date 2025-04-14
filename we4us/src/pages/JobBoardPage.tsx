@@ -26,11 +26,17 @@ export default function JobBoardPage() {
    
     return (
         <div className="job-board-container"> 
+          <div className="job-board-header">
             <h1>Job Board</h1>
-        
             <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
-            {postViews.length > 0 ? (<JobPostList postViews={postViews} />) : (<h3>No jobs right now!</h3>)}
+          </div>
+      
+          {postViews.length > 0 ? (
+            <JobPostList postViews={postViews} />
+          ) : (
+            <h3>No jobs right now!</h3>
+          )}
         </div>
-    );
-
+      );
+      
 }

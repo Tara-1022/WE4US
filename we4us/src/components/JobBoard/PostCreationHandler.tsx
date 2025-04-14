@@ -7,34 +7,43 @@ import { JobPostData } from "./JobTypes";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const {lemmyInfo} = useLemmyInfo();
 
-    if (!lemmyInfo) return <h3>Could not fetch Job Board community!</h3>
-
-    function handleCreation(data: JobPostData) {
+    async function handleCreation(data: JobPostData): Promise<void> {
         console.log(data);
+        setErrorMessage(null);
+
 
         if (!lemmyInfo) {
-            console.error("Error creating post: Lemmy details not available");
+            setErrorMessage("Could not fetch Job Board community!");
             return 
         }
         
-        createPost({
-            ...(data.url && {url: data.url}),
-            body: JSON.stringify(data.body),
-            name: data.name.toString(),
-            community_id: lemmyInfo.job_board_details.community.id
-        }).then(
-            (newPost) => handleCreatedPost(newPost)
-        );
-        setIsOpen(false);
+        try {
+            const newPost = await createPost({
+                body: JSON.stringify(data),
+                name: data.name,
+                community_id: lemmyInfo.job_board_details.community.id || -1,
+            });
+
+            handleCreatedPost(newPost);
+            setIsOpen(false);
+        } catch (error) {
+            console.error("Post creation failed:", error);
+            setErrorMessage("Failed to create the post. Please try again.");
+        }
     }
-
-
-    return (
-        <>
-            <button onClick={() => setIsOpen(!isOpen)}>New Post</button>
-            <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
-        </>
-    );
-}
+   return (
+           <>
+               <button onClick={() => setIsOpen(true)}>New Post</button>
+               <CreatePostModal
+                   isOpen={isOpen}
+                   handleCreation={handleCreation}
+                   setIsOpen={setIsOpen}
+                   errorMessage={errorMessage}
+               />
+           </>
+       );
+   }
+   

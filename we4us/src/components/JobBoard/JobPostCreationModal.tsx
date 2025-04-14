@@ -8,8 +8,8 @@ let styles = {
     }
 };
 
-export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
-    { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, handleCreation: (data: JobPostData) => void }) {
+export default function CreatePostModal({ isOpen, setIsOpen, handleCreation, errorMessage }:
+    { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, handleCreation: (data: JobPostData) => void, errorMessage?: string | null;}) {
 
     function isDateInFuture(dateString: string): boolean {
         if (!dateString) return true;
@@ -48,7 +48,6 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                     company: company.toString(),
                     role: role.toString(),
                     location: location.toString(),
-                    open: true,
                     deadline: deadline?.toString(),
                     description: description.toString(),
                     job_type: job_type as JobType
@@ -63,6 +62,14 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     return (
         <Modal isOpen={isOpen} contentLabel="Create Job Post">
             <form onSubmit={handleClick} style={styles.form}>
+            <h2>Create Job Board Post</h2>
+                
+            {errorMessage && (
+                    <p style={{ color: "red", fontWeight: "bold" }}>
+                        {errorMessage}
+                    </p>
+                )}
+                
                 <label htmlFor="name">Title</label>
                 <input name="name" placeholder="Optional"/>
                 <br />

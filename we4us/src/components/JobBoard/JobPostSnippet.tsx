@@ -1,23 +1,12 @@
 import { PostView } from 'lemmy-js-client';
 import { Link } from 'react-router-dom';
-
-let styles: { [key: string]: React.CSSProperties } = {
-    post: {
-        display: "flex",
-        flexFlow: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2%"
-    },
-    details: {
-        flex: 4
-    }
-}
+import { JobPostBody } from './JobTypes';
+import "../../styles/JobBoardPage.css";
 
 export default function JobPostSnippet({ postView }: { postView: PostView }) {
-    // A succint display of primary information of the job post
-    let postBody = {};
-
+    // Parse the post body
+    let postBody: Partial<JobPostBody> = {};
+    
     try {
         postBody = postView.post.body ? JSON.parse(postView.post.body) : {};
     } catch (error) {
@@ -25,19 +14,50 @@ export default function JobPostSnippet({ postView }: { postView: PostView }) {
     }
 
     return (
-        <div style={styles.post}>
-
-            <div style={styles.details}>
-                <Link to={"/job-board/" + postView.post.id}>
-                    <h3>{postView.post.name}</h3>
+        <div className="job-post-item">
+            <div className="job-header">
+                <h3 className="job-title">
+                    {postView.post.name}
+                </h3>
+                <Link 
+                    to={`/job-board/${postView.post.id}`} 
+                    className="apply-now-button"
+                >
+                    Apply Now
                 </Link>
-                <p><strong>Posted by: </strong>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                <p><strong>Company:</strong> {postBody.company || "N/A"}</p>
-                <p><strong>Job Status:</strong> {postBody.open ? "Open" : "Closed"}</p>
-                <p><strong>Type:</strong> {postBody.job_type || "Not specified"}</p>
-                <p><strong>Role:</strong> {postBody.role || "Not mentioned"}</p>
             </div>
-
+            
+            <div className="job-details">
+                <div className="job-details-row">
+                    <div className="job-detail-item">
+                        <span className="job-detail-label">Posted by:</span>
+                        <strong className="job-detail-value">
+                            {postView.creator.display_name || postView.creator.name}
+                        </strong>
+                    </div>
+                    
+                    <div className="job-detail-item">
+                        <span className="job-detail-label">Company:</span>
+                        <strong className="job-detail-value">
+                            {postBody.company || "Not specified"}
+                        </strong>
+                    </div>
+                    
+                    <div className="job-detail-item">
+                        <span className="job-detail-label">Type:</span>
+                        <strong className="job-detail-value">
+                            {postBody.job_type || "Not specified"}
+                        </strong>
+                    </div>
+                    
+                    <div className="job-detail-item">
+                        <span className="job-detail-label">Role:</span>
+                        <strong className="job-detail-value">
+                            {postBody.role || "Not mentioned"}
+                        </strong>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
