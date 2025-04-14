@@ -4,7 +4,7 @@ import PgPostList from "../components/PgFinder/PgPostList";
 import { Loader } from 'lucide-react';
 import { getPgPostList } from "../library/LemmyApi";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
-import "../styles/PgPost.css"
+import "../components/PgFinder/PgFinderPage.css";
 
 export default function PgFinderPage() {
     const [postViews, setPostViews] = useState<PostView[] | null>(null);
@@ -22,7 +22,7 @@ export default function PgFinderPage() {
     else {
         return (
             <>
-                <h3>PG FINDER</h3>
+                <h3 style={{textAlign: "center"}}>PG FINDER</h3>
                 <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
                 {postViews.length > 0 ?
                     <PgPostList postViews={postViews} />
