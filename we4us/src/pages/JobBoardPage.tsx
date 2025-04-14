@@ -29,7 +29,7 @@ export default function JobBoardPage() {
             <h1>Job Board</h1>
         
             <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
-            {postViews.length > 0 ? (<JobPostList postViews={postViews} />) : (<h3>No posts to see!</h3>)}
+            {postViews.length > 0 ? (<JobPostList postViews={postViews} />) : (<h3>No jobs right now!</h3>)}
         </div>
     );
 
