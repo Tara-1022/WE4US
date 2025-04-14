@@ -80,7 +80,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <label htmlFor="description"> Additional Information: </label>
                 <textarea name="description" rows={4} cols={50}></textarea>
                 <br />
-                <button type="submit">Create PG Post</button>
+                <button type="submit">Add New PG</button>
                 <button type="reset" onClick={() => setIsOpen(false)}>Cancel</button>
             </form>
         </Modal>

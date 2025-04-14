@@ -49,7 +49,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
 
     return (
         <>
-            <button onClick={() => setIsOpen(true)}>New Post</button>
+            <button onClick={() => setIsOpen(true)}>New PG</button>
             <CreatePostModal
                 isOpen={isOpen}
                 handleCreation={handleCreation}
