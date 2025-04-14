@@ -5,8 +5,10 @@ import '../styles/LandingPage.css';
 import MemoriesGallery from '../components/MemoriesGallery';
 import { memories } from '../assets/memories/MemoriesData';
 import { LoginButton } from '../auth/LoginHandler';
+import { useAuth } from '../auth/AuthProvider';
 
 const LandingPage: React.FC = () => {
+  const { isLoggedIn } = useAuth();
 
   return (
     <>
@@ -21,7 +23,7 @@ const LandingPage: React.FC = () => {
               Hello Duckie! Welcome to WE4US, a vibrant community of smart women engineers shaping
               the future of technology.
             </p>
-            <LoginButton />
+            {!isLoggedIn && <LoginButton />}
           </div>
         </div>
         <div className="landing-right">
