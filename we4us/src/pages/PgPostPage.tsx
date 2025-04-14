@@ -6,7 +6,7 @@ import { useParams , Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
-import { PgPostBody } from '../pg_finder/PostCreationHandler';
+import { PgPostBody } from '../components/PgFinder/PostCreationHandler';
 
 export default function PgPostPage() {
     const pgId = Number(useParams().pgId);

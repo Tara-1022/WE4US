@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
-import PgPostList from "../pg_finder/PgPostList";
+import PgPostList from "../components/PgFinder/PgPostList";
 import { Loader } from 'lucide-react';
 import { getPgPostList } from "../library/LemmyApi";
-import PostCreationHandler from "../pg_finder/PostCreationHandler";
+import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
 import "../styles/PgPost.css"
 
 export default function PgFinderPage() {
