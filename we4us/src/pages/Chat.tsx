@@ -27,8 +27,8 @@ export async function initializeSocket(sender: string, recipient: string): Promi
     socket = new Socket("ws://localhost:4000/socket", { params: { token: sender } });
     socket.connect();
     console.log("Socket connection attempted");
-
-    const topic = `message:${recipient}`;
+    const users = [sender, recipient].sort();
+    const topic = `message:${users.join("_")}`;
     channel = socket.channel(topic, { user_id: sender });
     
     const joinResponse = await new Promise<{messages: Message[]}>((resolve, reject) => {
@@ -52,20 +52,20 @@ export async function initializeSocket(sender: string, recipient: string): Promi
   }
 }
 
-export async function sendMessage(message: string, recipient: string): Promise<void> {
+export async function sendMessage(message: string, recipient: string): Promise<Message | null> {
   if (!socketInitialized || !channel) {
     console.error("Socket is not initialized. Call initializeSocket first.");
-    return;
+    return null;
   }
   
   if (!message || !recipient) {
     console.error("Message or recipient is missing.");
-    return;
+    return null;
   }
 
   try {
     console.log("Sending message:", message);
-    await new Promise((resolve, reject) => {
+    const response = await new Promise<Message>((resolve, reject) => {
       channel!
         .push("send_message", { body: message, to: recipient })
         .receive("ok", (response) => {
@@ -77,8 +77,11 @@ export async function sendMessage(message: string, recipient: string): Promise<v
           reject(error);
         });
     });
+    
+    return response; // Return the message object
   } catch (error) {
     console.error("Error sending message:", error);
+    return null;
   }
 }
 
@@ -96,6 +99,7 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   useEffect(() => {
+    
     const initialize = async () => {
       if (!profileInfo?.userName || !to_user) {
         console.error("Profile info is not available. Cannot initialize socket.");
@@ -141,9 +145,22 @@ const Chat: React.FC = () => {
     if (!isSocketInitialized || !to_user || !message.trim()) {
       return;
     }
-
+  
     try {
-      await sendMessage(message, to_user);
+      const messageText = message;
+      
+      await sendMessage(messageText, to_user);
+      
+      const newMessage: Message = {
+        id: `local-${Date.now()}`, 
+        from_user: currentUser || '',
+        to_user: to_user,
+        body: messageText,
+        inserted_at: new Date().toISOString()
+      };
+      
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+      
       setMessage('');
     } catch (error) {
       console.error("Error sending message:", error);
