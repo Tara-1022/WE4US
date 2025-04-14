@@ -1,8 +1,5 @@
 /* Base Tailwind imports */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import "tailwindcss";
 /* Color Palette - App-wide Colors
 ----------------------------------
 Primary Colors:

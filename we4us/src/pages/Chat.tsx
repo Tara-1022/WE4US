@@ -179,52 +179,61 @@ const Chat: React.FC = () => {
   
   const currentUser = profileInfo?.userName;
 
-  return (
 
-      <div className="flex flex-col h-screen text-blue-900 bg-gray-100">
-        <div className="chat-header">
-          <h2 className="text-blue-900">Chat with {to_user}</h2>
+    return (
+      <div className="flex flex-col">
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-4 shadow-md flex justify-center">
+          <h2 className="text-xl font-bold text-white">Chat with {to_user}</h2>
         </div>
-    
-        <div className="messages-container" >
+        
+        <div className="flex-1 p-4 overflow-y-auto">
           {messages.map((msg, index) => {
             const isOwnMessage = msg.from_user === currentUser;
             return (
               <div 
                 key={msg.id || index} 
-                className={`message ${isOwnMessage ? 'own-message' : 'other-message'}`}
-                style={{ borderRadius: '100px', backgroundColor:'black', padding: '10px', margin:'10px', width: 'fit-content',}}
+                className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-6`}
               >
-                {/* Add the sender name above the message */}
-                <div className="message-sender" style={{ fontWeight: 'bold', display:'flex', color: isOwnMessage ? 'cyan' : 'green' , alignSelf: isOwnMessage ? 'flex-end' : 'flex-start'}}>
-                  {isOwnMessage ? 'You' : msg.from_user}
-                </div>
-                <div className="message-content">
-                  <p>{msg.body}</p>
-                  <small className="message-time">
-                    {new Date(msg.inserted_at).toLocaleTimeString()}
-                  </small>
+                <div className="flex flex-col max-w-[70%]">
+                  <div className={`text-sm font-bold mb-1 ${isOwnMessage ? 'text-cyan-500 text-right' : 'text-green-500'}`}>
+                    {isOwnMessage ? 'You' : msg.from_user}
+                  </div>
+                  
+                  {/* Added px-4 py-3 classes for horizontal and vertical padding */}
+                  <div className="rounded-2xl bg-black px-4 py-3">
+                    <p className="text-white">{msg.body}</p>
+                    <small className="block text-right text-gray-400 text-xs mt-2">
+                      {new Date(msg.inserted_at).toLocaleTimeString()}
+                    </small>
+                  </div>
                 </div>
               </div>
             );
           })}
           <div ref={messagesEndRef} />
         </div>
-    
-        <div className="message-input">
+        
+        <div className="p-4 border-gray-200 flex gap-2">
           <input
             type="text"
             value={message}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
+            className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button onClick={handleSendMessage} disabled={!message.trim()}>
+          <button 
+            onClick={handleSendMessage} 
+            disabled={!message.trim()}
+            className={`rounded-full px-5 py-2 font-medium ${!message.trim() ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+          >
             Send
           </button>
         </div>
       </div>
     );
+
+
 
 };
 
