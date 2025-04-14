@@ -33,7 +33,7 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
     try {
         pgData = JSON.parse(postView.post.body || "{}");
     } catch (e) {
-        pgData = { location: "Unknown", ratings: { cost: null , safety: null , food: null , cleanliness: null } };
+        pgData = { location: "Unknown", ratings: { cost: null, safety: null, food: null, cleanliness: null } };
     }
 
     return (
@@ -42,11 +42,11 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 <Link to={"/pg-finder/" + postView.post.id}>
                     <h3>{postView.post.name}</h3>
                 </Link>
-                
+
                 <div style={styles.location}>
                     Location: {pgData.location || "Not specified"}
                 </div>
-                
+
                 <div style={styles.ratings}>
                     <span style={styles.ratingItem}>Cost: {pgData.ratings?.cost || "N/A"}</span>
                     <span style={styles.ratingItem}>Safety: {pgData.ratings?.safety || "N/A"}</span>

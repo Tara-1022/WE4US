@@ -2,7 +2,7 @@ import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
-import { useParams , Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
@@ -24,8 +24,8 @@ export default function PgPostPage() {
     )
     if (!postView) return <Loader />;
     let pgDetails: PgPostBody = JSON.parse(postView.post.body || "{}");
-     const formatRating = (rating: number | undefined) => {
-        if (rating === undefined) return 'N/A';
+    const formatRating = (rating: number | null) => {
+        if (rating === null) return 'N/A';
         return rating === 0 ? '0' : rating;
     }
 
@@ -52,8 +52,8 @@ export default function PgPostPage() {
                 <p>{pgDetails.description || 'No description provided'}</p>
                 <Link to={"/profile/" + postView.creator.name}>
                     <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                </Link>                
-                
+                </Link>
+
             </div>
 
             {postView.creator.id == profileInfo?.lemmyId &&

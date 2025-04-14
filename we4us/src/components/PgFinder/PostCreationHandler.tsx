@@ -6,12 +6,12 @@ import { useLemmyInfo } from "../LemmyContextProvider";
 
 export type PgPostData = {
     name: string,
-    body: PgPostBody
+    body: PgPostBody,
+    url: string
 }
 
 export type PgPostBody = {
     location: string,
-    mapUrl: string,
     ratings: {
         cost: number | null,
         safety: number | null,
@@ -29,7 +29,6 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
 
     function handleCreation(data: PgPostData) {
         console.log(data)
-        const { mapUrl, ...cleanedBody } = data.body;
 
         if (!lemmyInfo) {
             window.alert("Cannot create post; Community not found!")
@@ -38,10 +37,10 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
         }
 
         createPost({
-            body: JSON.stringify(cleanedBody),
+            body: JSON.stringify(data.body),
             name: data.name.toString(),
-            community_id: lemmyInfo.pg_finder_details.community.id,
-            url: mapUrl
+            url: data.url,
+            community_id: lemmyInfo.pg_finder_details.community.id
         }).then(
             (newPost) => handleCreatedPost(newPost)
         )

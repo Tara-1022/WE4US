@@ -17,9 +17,9 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
 
         handleCreation({
             name: (entries.name || '').toString(),
+            url: entries.mapUrl.toString(),
             body: {
                 location: (entries.location || '').toString(),
-                mapUrl: (entries.mapUrl || '').toString(),
                 ratings: {
                     cost: Number(entries.costRating || null),
                     safety: Number(entries.safetyRating || null),
@@ -41,7 +41,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <label htmlFor="name"> Name of the PG: </label>
                 <input name="name" required />
                 <br />
-                <label htmlFor="location">Location of the PG: </label>
+                <label htmlFor="location">Location: </label>
                 <input name="location" required />
                 <br />
                 <label htmlFor="mapUrl"> Map URL : </label>
@@ -77,7 +77,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                     <option value="both">Both</option>
                 </select>
                 <br />
-                <label htmlFor="description">Description (Extra Information): </label>
+                <label htmlFor="description"> Additional Information: </label>
                 <textarea name="description" rows={4} cols={50}></textarea>
                 <br />
                 <button type="submit">Create PG Post</button>
