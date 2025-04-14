@@ -16,8 +16,7 @@ function addPostLinkToPostBody(postBody: PostBodyType, postId: number): PostBody
   return {
     ...postBody,
     body: postBody.body + "\n\n Also see this post [here](" + window.location.origin + "/post/" + postId + ")"
-  }
-    ;
+  };
 }
 
 function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, toLinkPostId: number) {
@@ -27,6 +26,14 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
       body: JSON.stringify(addPostLinkToPostBody(previousBody, toLinkPostId))
     }
   )
+}
+
+function cloneImageWithNewToken(imageData: ImageDetailsType | undefined): ImageDetailsType | undefined {
+  if (!imageData) return undefined;
+  return {
+    ...imageData,
+    deleteToken: `${imageData.deleteToken}-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`
+  };
 }
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
@@ -65,14 +72,20 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       });
 
       if (secondCommunityId) {
+        const secondPostBody: PostBodyType = addPostLinkToPostBody(
+          {
+            ...newPost.postBody,
+            imageData: cloneImageWithNewToken(imageData)
+          },
+          firstPost.post.id
+        );
+
         const secondPost = await createPost({
           ...newPost,
-          body: JSON.stringify(
-            addPostLinkToPostBody(
-              newPost.postBody, firstPost.post.id
-            )),
+          body: JSON.stringify(secondPostBody),
           community_id: Number(secondCommunityId)
         });
+        
         onPostCreated(secondPost);
         updatePostWithLink(firstPost.post.id, newPost.postBody, secondPost.post.id);
       }
