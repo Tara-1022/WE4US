@@ -21,7 +21,7 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
         <div style={styles.container}>
             <CommentSnippet commentView={commentView} />
             <LikeHandler forPost={false} isInitiallyLiked={commentView.my_vote == 1} initialLikes={commentView.counts.score} id={commentView.comment.id} />
-            <CommentCreator commentId={commentView.comment.id} actionName={"Reply"} />
+            <CommentCreator parentId={commentView.comment.id} actionName={"Reply"} />
             <CommentEditor commentId={commentView.comment.id} initialText={commentView.comment.content} />
             {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
                 <CommentDeletor commentId={commentView.comment.id} />}
