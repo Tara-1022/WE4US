@@ -1,6 +1,6 @@
 import MeetUpPostSnippet from "./MeetUpSnippet";
 import { PostView } from "lemmy-js-client";
-import './MeetUpPostList.css'; // 👈 import CSS
+import './MeetUpPostList.css'; 
 
 export default function MeetUpPostList({ postViews }: { postViews: PostView[] }) {
     return (

@@ -1,0 +1,49 @@
+import { PostView } from 'lemmy-js-client';
+import { useEffect, useState } from 'react';
+import { getPostById } from '../library/LemmyApi';
+import { Loader } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import CommentsSection from '../components/CommentsSection';
+import PostDeletor from '../components/PostDeletor';
+import { useProfileContext } from '../components/ProfileContext';
+import { JobPostBody } from '../components/JobBoard/JobTypes';
+import ReactMarkDown from "react-markdown";
+
+export default function JobPostPage() {
+    const jobId = Number(useParams().jobId);
+    const [postView, setPostView] = useState<PostView | null>(null);
+    const { profileInfo } = useProfileContext();
+
+    useEffect(() => {
+        getPostById(jobId).then(response =>
+            setPostView(response ? response.post_view : null)
+        );
+    }, [jobId]);
+
+    if (!postView) return <Loader />;
+
+    let jobDetails: JobPostBody = JSON.parse(postView.post.body || "{}");
+
+    return (
+        <>
+            <div>
+                <h3>{postView.post.name}</h3>
+                <p>Posted by: {postView.creator.display_name || postView.creator.name}</p>
+                <p><strong>Company:</strong> {jobDetails.company}</p>
+                <p><strong>Job Status:</strong> {jobDetails.open ? "Open" : "Closed"}</p>
+                <p><strong>Deadline:</strong> {jobDetails.deadline || "Not specified"}</p>
+                <p><strong>Role:</strong> {jobDetails.role}</p>
+                <p><strong>Location:</strong> {jobDetails.location}</p>
+                <p><strong>Job Link:</strong> <a href={postView.post.url} target="_blank" rel="noopener noreferrer">{postView.post.url}</a></p>
+                <p><strong>Type:</strong> {jobDetails.job_type}</p>
+                <p><strong>Description:</strong> <ReactMarkDown>{jobDetails.description}</ReactMarkDown></p>
+            </div>
+
+            {postView.creator.id === profileInfo?.lemmyId && (
+                <PostDeletor postId={postView.post.id} />
+            )}
+
+            <CommentsSection postId={postView.post.id} />
+        </>
+    );
+}

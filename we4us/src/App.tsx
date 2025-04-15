@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
+import AnnouncementPostPage from './pages/AnnouncementPostPage';
 import AuthorisationPage from './pages/AuthorisationPage';
-import JobBoardPage from './pages/JobBoard';
+import JobBoardPage from './pages/JobBoardPage';
 import MeetUpPage from './pages/MeetUpPage';
 import MeetUpPost from './pages/MeetUpPostPage';
-import PgFinderPage from './pages/PgFinder';
+import PgFinderPage from './pages/PgFinderPage';
 import ProfilePage from './pages/ProfilePage';
 import ReachingOutPage from './pages/ReachingOut';
 import RedirectPage from './pages/RedirectPage';
@@ -17,7 +18,10 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import CommunityPage from './pages/CommunityPage';
 import Modal from "react-modal";
 import AppContextProvider from './AppContextProvider';
+import PgPostPage from './pages/PgPostPage';
 import SearchPage from './pages/SearchPage';
+import JobPostPage from './pages/JobPostPage';
+
 import { Menu } from 'lucide-react';
 import { BackButton } from './components/NavButtons';
 Modal.setAppElement('#root');
@@ -45,10 +49,13 @@ const App: React.FC = () => {
               <Route path="/home" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
-                <Route path="/job-board" element={<JobBoardPage />} />               
+                <Route path="/announcements/:announcementId" element={<AnnouncementPostPage />} />
+                <Route path="/job-board" element={<JobBoardPage />} />   
+                <Route path="/job-board/:jobId" element={<JobPostPage/>}/>            
                 <Route path="/meetup/:meetUpId" element={<MeetUpPost />} />
                 <Route path="/meetup" element={<MeetUpPage />} />
                 <Route path="/pg-finder" element={<PgFinderPage />} />
+                <Route path="/pg-finder/:pgId" element={<PgPostPage />} />
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />

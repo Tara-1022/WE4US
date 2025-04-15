@@ -1,5 +1,6 @@
 import { CommentView } from "lemmy-js-client";
 import CommentSnippet from "./CommentSnippet";
+import { Link } from "react-router-dom";
 
 let styles = {
     list: {
@@ -12,6 +13,10 @@ let styles = {
         border: "1px solid #ccc",
         borderRadius: "8px",
         margin: "1%"
+    },
+    postLink: {
+        fontSize: "small",
+        margin: "2%"
     }
 }
 
@@ -21,7 +26,7 @@ export default function CommentList({ commentViews }: { commentViews: CommentVie
     const list = commentViews
         .map(
             commentView => <li key={commentView.comment.id} style={styles.listItem}>
-                <CommentSnippet commentView={commentView} />
+                <CommentSnippet commentView={commentView} withPostLink={true}/>
             </li>
         )
     return <ul style={styles.list}>{list}</ul>;

@@ -66,4 +66,3 @@ const buttonStyle: React.CSSProperties = {
     transition: "background-color 0.2s ease",
     marginBottom: "10px",
 };
-

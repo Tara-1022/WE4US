@@ -8,7 +8,7 @@ import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import ReactMarkdown from 'react-markdown';
 import { MeetUpPostBody } from '../components/MeetUp/MeetUpPostTypes';
-import './MeetUpPostPage.css'; // 👈 Import the CSS
+import './MeetUpPostPage.css';
 
 export default function MeetUpPostPage() {
     const meetUpId = Number(useParams().meetUpId);

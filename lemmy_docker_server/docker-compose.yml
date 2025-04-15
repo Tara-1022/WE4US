@@ -6,8 +6,8 @@ x-logging: &default-logging
 
 # Uncomment this and fix line 83
 # If you're having issues persisting data (especially if on windows/WSL)
-# volumes:
-#   postgres-data:
+#volumes:
+  #postgres-data:
 
 services:
   proxy:

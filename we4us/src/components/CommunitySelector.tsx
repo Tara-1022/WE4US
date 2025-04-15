@@ -34,7 +34,9 @@ export default function CommunitySelector({ name, isRequired = false }:
                 limit: DEFAULT_COMMUNITY_LIST_LIMIT,
                 sort: "Active"
             }).then(
-                (response) => setCommunities(response.communities)
+                (response) => setCommunities(response.communities
+                    .filter(c => c.community.nsfw != true)
+                )
             )
         }
         , [searchText]
@@ -96,7 +98,7 @@ export default function CommunitySelector({ name, isRequired = false }:
                         type="hidden"
                         name={name}
                         value={selectedCommunityId}
-                        required = {isRequired}
+                        required={isRequired}
                     />
                     :
                     // If we want to make use of the form's normal 'required' check, 
@@ -105,9 +107,9 @@ export default function CommunitySelector({ name, isRequired = false }:
                     <input
                         type="text"
                         name={name}
-                        required = {isRequired}
+                        required={isRequired}
                         value=""
-                        onChange={() => {}}
+                        onChange={() => { }}
                         style={{ position: "absolute", width: 0, height: 0, opacity: 0 }}
                     />
                 }
