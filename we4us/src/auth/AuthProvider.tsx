@@ -126,7 +126,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       window.alert("You have been logged out for security purposes. Kindly log in again");
     }
     if (timeDiff >= SESSION_DURATION) {
-      if (warningCount <= MAX_WARNINGS) {
+      //User is given 3 warnings to perform logout
+      if (warningCount < MAX_WARNINGS) {
         warningCount += 1;
         localStorage.setItem("warningCount", warningCount.toString());
         window.alert("Kindly logout and re-login for your account security purposes. If not, force logout will be performed.");
