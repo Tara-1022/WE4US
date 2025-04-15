@@ -1,0 +1,20 @@
+.meetup-post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+  
+  .meetup-post-list-item {
+    background-color: #1f1f1f;
+    border: 1px solid #2c2c2c;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .meetup-post-list-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+  

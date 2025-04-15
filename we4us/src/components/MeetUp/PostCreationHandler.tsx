@@ -40,7 +40,9 @@ export default function PostCreationHandler({
 
     return (
         <>
-            <button onClick={() => setIsOpen(true)}>New Post</button>
+            <button onClick={() => setIsOpen(true)} style={buttonStyle}>
+                + New Meet-Up
+            </button>
             <CreatePostModal
                 isOpen={isOpen}
                 handleCreation={handleCreation}
@@ -50,3 +52,18 @@ export default function PostCreationHandler({
         </>
     );
 }
+
+const buttonStyle: React.CSSProperties = {
+    padding: "10px 16px",
+    backgroundColor: "#f4f4f4",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    fontSize: "1em",
+    cursor: "pointer",
+    color: "#333",
+    fontWeight: 500,
+    boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+    transition: "background-color 0.2s ease",
+    marginBottom: "10px",
+};
+

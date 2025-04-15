@@ -1,22 +1,15 @@
 import MeetUpPostSnippet from "./MeetUpSnippet";
 import { PostView } from "lemmy-js-client";
-
-let styles = {
-    list: {
-        listStyleType: "none",
-        margin: 0,
-        padding: 0
-    }
-};
+import './MeetUpPostList.css'; // 👈 import CSS
 
 export default function MeetUpPostList({ postViews }: { postViews: PostView[] }) {
     return (
-        <ul style={styles.list}>
+        <div className="meetup-post-list">
             {postViews.map(postView => (
-                <li key={postView.post.id}>
+                <div key={postView.post.id} className="meetup-post-list-item">
                     <MeetUpPostSnippet postView={postView} />
-                </li>
+                </div>
             ))}
-        </ul>
+        </div>
     );
 }

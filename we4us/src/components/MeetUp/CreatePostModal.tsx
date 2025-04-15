@@ -1,92 +1,76 @@
-import { useState } from "react";
 import { MeetUpPostBody } from "./MeetUpPostTypes";
 import Modal from "react-modal";
-
-let styles = {
-    form: {
-        color: "black"
-    },
-    input: {
-        color: "white",
-        backgroundColor: "black",
-        border: "1px solid gray",
-        padding: "5px",
-        borderRadius: "5px"
-    }
-};
+import './CreatePostModal.css';
 
 export default function CreatePostModal({
-    isOpen,
-    setIsOpen,
-    handleCreation,
-    errorMessage
+  isOpen,
+  setIsOpen,
+  handleCreation,
+  errorMessage,
 }: {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-    handleCreation: (data: MeetUpPostBody) => void;
-    errorMessage: string | null;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  handleCreation: (data: MeetUpPostBody) => void;
+  errorMessage: string | null;
 }) {
-    function handleClick(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const { title, location, url, datetime, open_to, additional_details } = Object.fromEntries(formData);
+  function handleClick(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const { title, location, url, datetime, open_to, additional_details } = Object.fromEntries(formData);
 
-        const selectedDate = new Date(datetime.toString());
-        const currentDate = new Date();
+    const selectedDate = new Date(datetime.toString());
+    const currentDate = new Date();
 
-        if (selectedDate < currentDate) {
-            alert("Please select a future date and time for the Meet Up.");
-            return;
-        }
-
-        handleCreation({
-            title: title.toString(),
-            location: location.toString(),
-            url: url?.toString() || "",
-            datetime: datetime.toString(),
-            open_to: open_to?.toString().trim() || "All",
-            additional_details: additional_details?.toString() || "",
-        });
+    if (selectedDate < currentDate) {
+      alert("Please select a future date and time for the Meet Up.");
+      return;
     }
 
-    return (
-        <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
-            <form onSubmit={handleClick} style={styles.form}>
-            <h2>Create Meet Up Post</h2>
+    handleCreation({
+      title: title.toString(),
+      location: location.toString(),
+      url: url?.toString() || "",
+      datetime: datetime.toString(),
+      open_to: open_to?.toString().trim() || "All",
+      additional_details: additional_details?.toString() || "",
+    });
+  }
 
-                {errorMessage && (
-                    <p style={{ color: "red", fontWeight: "bold" }}>
-                        {errorMessage}
-                    </p>
-                )}
+  return (
+    <Modal
+      isOpen={isOpen}
+      contentLabel="Create Meet Up Post"
+      className="ReactModal__Content"
+      overlayClassName="ReactModal__Overlay"
+    >
+      <form onSubmit={handleClick}>
+        <h2>Create Meet Up Post</h2>
 
-                <label htmlFor="title">Title</label>
-                <input name="title" required style={styles.input} />
-                <br />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-                <label htmlFor="location">Location</label>
-                <input name="location" required style={styles.input} />
-                <br />
+        <label htmlFor="title">Title</label>
+        <input name="title" required className="input" />
 
-                <label htmlFor="url">URL (Optional)</label>
-                <input name="url" type="url" style={styles.input} />
-                <br />
+        <label htmlFor="location">Location</label>
+        <input name="location" required className="input" />
 
-                <label htmlFor="datetime">Time & Date</label>
-                <input name="datetime" type="datetime-local" required style={styles.input} />
-                <br />
+        <label htmlFor="url">URL (Optional)</label>
+        <input name="url" type="url" className="input" />
 
-                <label htmlFor="open_to">Open To</label>
-                <input name="open_to" defaultValue="All" style={styles.input} />
-                <br />
+        <label htmlFor="datetime">Time & Date</label>
+        <input name="datetime" type="datetime-local" required className="input" />
 
-                <label htmlFor="additional_details">Additional Details (Optional)</label>
-                <textarea name="additional_details" rows={3} style={{ ...styles.input, height: "60px" }} />
-                <br />
+        <label htmlFor="open_to">Open To</label>
+        <input name="open_to" defaultValue="All" className="input" />
 
-                <button type="submit">Create Meet Up Post</button>
-                <button type="button" onClick={() => setIsOpen(false)}>Cancel</button>
-            </form>
-        </Modal>
-    );
+        <label htmlFor="additional_details">Additional Details (Optional)</label>
+        <textarea name="additional_details" rows={3} className="input textarea" />
+
+        <button type="submit" className="primary-button">Create Meet Up Post</button>
+        <button type="button" className="secondary-button" onClick={() => setIsOpen(false)}>
+          Cancel
+        </button>
+      </form>
+    </Modal>
+  );
 }

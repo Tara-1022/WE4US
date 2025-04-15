@@ -8,11 +8,10 @@ import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import ReactMarkdown from 'react-markdown';
 import { MeetUpPostBody } from '../components/MeetUp/MeetUpPostTypes';
+import './MeetUpPostPage.css'; // 👈 Import the CSS
 
 export default function MeetUpPostPage() {
     const meetUpId = Number(useParams().meetUpId);
-    console.log(meetUpId);
-    
     const [postView, setPostView] = useState<PostView | null>(null);
     const { profileInfo } = useProfileContext();
 
@@ -51,41 +50,47 @@ export default function MeetUpPostPage() {
     }
 
     return (
-        <>
-            <div>
-                <h4>{MeetUpDetails.title}</h4>
+        <div className="meetup-post-container">
+            <h4 className="meetup-post-title">{MeetUpDetails.title}</h4>
+
+            <div className="meetup-post-section">
                 <p><strong>Location:</strong> {MeetUpDetails.location}</p>
                 <p><strong>Date & Time:</strong> {MeetUpDetails.datetime}</p>
                 <p><strong>Open To:</strong> {MeetUpDetails.open_to}</p>
 
                 {MeetUpDetails.url && (
                     <p>
-                        <strong>URL:</strong>{" "}
+                        <strong>URL:</strong>{' '}
                         <a href={MeetUpDetails.url} target="_blank" rel="noopener noreferrer">
                             {MeetUpDetails.url}
                         </a>
                     </p>
                 )}
+            </div>
 
-                {MeetUpDetails.additional_details && (
-                    <div>
-                        <strong>Additional Details:</strong>
+            {MeetUpDetails.additional_details && (
+                <div className="meetup-post-section">
+                    <strong>Additional Details:</strong>
+                    <div className="meetup-post-details">
                         <ReactMarkdown>{MeetUpDetails.additional_details}</ReactMarkdown>
                     </div>
-                )}
-            </div>
-            <p>
-                    <strong>Posted by:</strong>{' '}
-                    <Link to={"/profile/" + postView.creator.name}>
-    {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
-                    </Link>
-                </p>
-
-            {postView.creator.id === profileInfo?.lemmyId && (
-                <PostDeletor postId={postView.post.id} />
+                </div>
             )}
 
-            <CommentsSection postId={postView.post.id} />
-        </>
+            <p className="meetup-post-author">
+                <strong>Posted by:</strong>{' '}
+                <Link to={"/profile/" + postView.creator.name}>
+                    {postView.creator.display_name || postView.creator.name}
+                </Link>
+            </p>
+
+            <div className="meetup-post-footer">
+                {postView.creator.id === profileInfo?.lemmyId && (
+                    <PostDeletor postId={postView.post.id} />
+                )}
+
+                <CommentsSection postId={postView.post.id} />
+            </div>
+        </div>
     );
 }
