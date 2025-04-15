@@ -21,11 +21,13 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 <div className="pg-post-location">
                     Location: {pgData.location || "Not specified"}
                 </div>
+                <div className="pg-post-ratings">
                     <span className="pg-post-rating-item">Cost: {pgData.ratings?.cost || "N/A"}</span>
                     <span className="pg-post-rating-item">Safety: {pgData.ratings?.safety || "N/A"}</span>
                     <span className="pg-post-rating-item">Food: {pgData.ratings?.food || "N/A"}</span>
                     <span className="pg-post-rating-item">Cleanliness: {pgData.ratings?.cleanliness || "N/A"}</span>
-            </div>
+                </div>
+                </div>
         </div>
     );
 }
