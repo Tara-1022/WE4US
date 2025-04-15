@@ -90,7 +90,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     <div className={`image-uploader ${purpose}-image-uploader ${className}`}>
       <div className="image-preview">
         <img 
-          src={currentImage ? constructImageUrl(currentImage.filename) : defaultImage} 
+          src={currentImage?.filename ? constructImageUrl(currentImage.filename) : defaultImage} 
           alt={`${purpose} image`} 
           style={imageStyle as React.CSSProperties}
         />

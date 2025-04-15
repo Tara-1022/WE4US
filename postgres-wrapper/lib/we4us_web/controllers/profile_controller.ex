@@ -56,13 +56,13 @@ defmodule We4usWeb.ProfileController do
       profile ->
         # Convert string values to appropriate types and handle image fields
         processed_params = profile_params
-          |> Map.update("years_of_experience", nil, fn
+          |> Map.update("years_of_experience", profile.years_of_experience, fn
             nil -> nil
             "" -> nil
             val when is_binary(val) -> String.to_integer(val)
             val -> val
           end)
-          |> Map.update("areas_of_interest", [], fn
+          |> Map.update("areas_of_interest", profile.areas_of_interest, fn
             areas when is_list(areas) -> areas
             _ -> profile.areas_of_interest
           end)

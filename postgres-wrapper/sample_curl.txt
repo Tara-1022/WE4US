@@ -21,3 +21,12 @@ curl -X PUT "http://localhost:4000/api/profiles/1" \
 
 curl -X DELETE "http://localhost:4000/api/profiles/1"
 
+curl -X PUT \
+  http://localhost:4000/api/profiles/<username> \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "profile": {
+      "image_filename": null,
+      "image_delete_token": null
+    }
+  }'
