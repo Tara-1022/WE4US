@@ -5,16 +5,27 @@ let styles = {
     container: {
         marginLeft: "1%",
         padding: "1%"
+    },
+    postLink: {
+        fontSize: "small",
+        margin: "2%"
     }
 }
 
-export default function CommentSnippet({ commentView }: { commentView: CommentView }) {
+export default function CommentSnippet({ commentView, withPostLink = false }:
+    { commentView: CommentView, withPostLink?: boolean }) {
     return (
-        <p style={styles.container}>
-            <Link to={"/post/" + commentView.post.id} style={{ all: "unset" }}>
+        <>
+            <p style={styles.container}>
                 {commentView.comment.deleted ? "Comment deleted" : commentView.comment.content} <br />
-            </Link>
-            <Link to={"/profile/" + commentView.creator.name}>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</Link>
-        </p>
+                <Link to={"/profile/" + commentView.creator.name}>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</Link>
+            </p>
+            {
+                withPostLink &&
+                <Link to={"/post/" + commentView.post.id} style={styles.postLink}>
+                    Go to Post
+                </Link>
+            }
+        </>
     )
 }
