@@ -6,6 +6,7 @@ import MemoriesGallery from '../components/MemoriesGallery';
 import { memories } from '../assets/memories/MemoriesData';
 import { LoginButton } from '../auth/LoginHandler';
 import { useAuth } from '../auth/AuthProvider';
+import AnnouncementsPreview from '../components/Announcements/AnnouncementsPreview';
 
 const LandingPage: React.FC = () => {
   const { isLoggedIn } = useAuth();
@@ -23,7 +24,7 @@ const LandingPage: React.FC = () => {
               Hello Duckie! Welcome to WE4US, a vibrant community of smart women engineers shaping
               the future of technology.
             </p>
-            {!isLoggedIn && <LoginButton />}
+            {isLoggedIn ? <AnnouncementsPreview /> : <LoginButton />}
           </div>
         </div>
         <div className="landing-right">

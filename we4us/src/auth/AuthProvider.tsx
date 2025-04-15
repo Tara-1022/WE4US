@@ -143,7 +143,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     setClientToken(token);
-    console.log(token, isLoggedIn)
     if (token) {
       const lastLogin = localStorage.getItem("lastLogin") || new Date().toISOString();
       localStorage.setItem("lastLogin", lastLogin);
