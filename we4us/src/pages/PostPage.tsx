@@ -39,6 +39,13 @@ function FullPostView({ postView, postBody }: { postView: PostView, postBody: Po
                     <p>{postView.community.name}</p>
                 </Link>
                 <ReactMarkdown>{postBody.body}</ReactMarkdown>
+                <p>Created: &nbsp;
+                    {new Date(postView.post.published).toLocaleString()} </p>
+                <p>
+                    {postView.post.updated ?
+                        "Edited: " + new Date(postView.post.updated).toLocaleString() :
+                        ""}
+                </p>
             </div>
         </div>
     )
