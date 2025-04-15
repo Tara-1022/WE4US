@@ -29,7 +29,6 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
 
     function handleCreation(data: PgPostData) {
         console.log(data)
-        
         if (!lemmyInfo) {
             window.alert("Cannot create post; Community not found!")
             console.error("Could not fetch PG Finder community!");

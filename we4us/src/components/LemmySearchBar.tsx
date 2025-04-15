@@ -29,7 +29,7 @@ export default function LemmySearchBar({ handleSearch }:
             </select>
             <label htmlFor="communityId">Within community</label>
             <CommunitySelector name="communityId" />
-            <label htmlFor="checkOnlyPostTitles">Check only post titles?</label>
+            <label htmlFor="checkOnlyPostTitles">Check only titles?</label>
             <input type="checkbox" name="checkOnlyPostTitles" />
             <button type="submit">Search</button>
         </form>
