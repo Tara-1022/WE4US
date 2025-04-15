@@ -1,0 +1,103 @@
+/* PgPostPage.css */
+
+/* Overall Container */
+.pg-post-page {
+    padding: 50px;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+  }
+  
+  /* PG Name */
+  .pg-post-header h3 {
+    font-size: 2rem;
+    color: #01c4a4;
+    text-align: center;
+  }
+  
+  /* General Text */
+  .pg-post-header p,
+  .pg-rating,
+  .pg-description p {
+    color: black;
+    font-size: 1rem;
+  }
+  
+  /* Links */
+  .pg-post-header a,
+  .pg-profile p {
+    color: blue;
+    text-decoration: none;
+  }
+  .pg-post-header a:hover,
+  .pg-profile p:hover {
+    text-decoration: underline;
+  }
+  
+  /* Labels like Location, Ratings */
+  .pg-post-header .label,
+  .pg-rating .label {
+    font-weight: bold;
+    color: black;
+  }
+  
+  /* Ratings */
+  .pg-rating {
+    margin-top: 10px;
+  }
+  
+  /* Description Title */
+  .pg-description h5 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+    margin-top: 20px;
+  }
+  
+  /* Profile Link */
+  .pg-profile {
+    margin-top: 20px;
+  }
+  
+  /* Container for Delete and Comments */
+  .pg-actions-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  
+  /* DELETE POST box */
+  .pg-delete-box {
+    background-color: #3b2e7f;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    max-width: fit-content;
+    margin-left: auto; /* Align right */
+  }
+  .pg-delete-box button,
+  .pg-delete-box a {
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Comments Section */
+  .pg-comments-section {
+    color: black;
+    width: 100%;
+  }
+  .pg-comments-section p,
+  .pg-comments-section span,
+  .pg-comments-section div {
+    color: black;
+  }
+  
+  /* Loader Centering */
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  

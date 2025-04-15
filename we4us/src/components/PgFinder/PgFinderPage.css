@@ -1,7 +1,4 @@
-/* ======================== */
 /* Styles for PgPostList    */
-/* ======================== */
-
 .pg-post-list {
     list-style-type: none;
     margin: 0;
@@ -12,10 +9,7 @@
     margin-bottom: 50px;
 }
 
-/* =========================== */
 /* Styles for PgPostSnippet    */
-/* =========================== */
-
 .pg-post {
     display: flex;
     align-items: center;

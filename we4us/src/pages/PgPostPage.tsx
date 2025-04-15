@@ -8,6 +8,7 @@ import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
 import { PgPostBody } from '../components/PgFinder/PostCreationHandler';
 import ReactMarkdown from "react-markdown"
+import '../styles/PgPostPage.css';
 
 export default function PgPostPage() {
     const pgId = Number(useParams().pgId);
@@ -31,10 +32,10 @@ export default function PgPostPage() {
     }
 
     return (
-        <>
-            <div>
+        <div className="pg-post-page">
+            <div className="pg-post-header">
                 <h3>{postView.post.name}</h3>
-                <p>Location : {pgDetails.location || 'N/A'}</p>
+                <p><span className="label">Location: </span>{pgDetails.location || 'N/A'}</p>
                 {postView.post.url && (
                     <p>
                         <strong>Map URL:</strong>{" "}
@@ -43,24 +44,37 @@ export default function PgPostPage() {
                         </a>
                     </p>
                 )}
-                <p>Cost Rating: {formatRating(pgDetails.ratings?.cost)}/5</p>
-                <p>Safety Rating: {formatRating(pgDetails.ratings?.safety)}/5</p>
-                <p>Food Rating: {formatRating(pgDetails.ratings?.food)}/5</p>
-                <p>Cleanliness Rating: {formatRating(pgDetails.ratings?.cleanliness)}/5</p>
-                <p>AC Available: {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
-                <p>Food Type: {pgDetails.foodType || 'N/A'}</p>
-                <h5>Description (Extra Information:) </h5>
-                <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
-                <Link to={"/profile/" + postView.creator.name}>
-                    <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                </Link>
-
             </div>
 
-            {postView.creator.id == profileInfo?.lemmyId &&
-                <PostDeletor postId={postView.post.id} />}
+            <div className="pg-rating">
+                <p><span className="label">Cost Rating:</span> {formatRating(pgDetails.ratings?.cost)}/5</p>
+                <p><span className="label">Safety Rating:</span> {formatRating(pgDetails.ratings?.safety)}/5</p>
+                <p><span className="label">Food Rating:</span> {formatRating(pgDetails.ratings?.food)}/5</p>
+                <p><span className="label">Cleanliness Rating:</span> {formatRating(pgDetails.ratings?.cleanliness)}/5</p>
+                <p><span className="label">AC Available:</span> {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
+                <p><span className="label">Food Type:</span> {pgDetails.foodType || 'N/A'}</p>
+            </div>
 
-            <CommentsSection postId={postView.post.id} />
-        </>
+            <div className="pg-description">
+                <h5>Description (Extra Information): </h5>
+                <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
+            </div>
+
+            <div className="pg-profile">
+                <Link to={`/profile/${postView.creator.name}`}>
+                    <p>{postView.creator.display_name || postView.creator.name}</p>
+                </Link>
+            </div>
+            <div className="pg-comments-section">
+                <CommentsSection postId={postView.post.id} />
+
+            {postView.creator.id == profileInfo?.lemmyId && (
+                <div className="pg-delete-box">
+                <PostDeletor postId={postView.post.id} />
+                </div>
+            )}
+            </div>
+        </div>
+
     );
 }
