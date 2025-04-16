@@ -8,8 +8,11 @@ export type AnnouncementData = {
     body: string
 }
 
-export function AnnouncementForm({ onSubmit, onClose, initialData }:
-    { onSubmit: (data: AnnouncementData) => void, onClose: () => void, initialData?: AnnouncementData }) {
+export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
+    {
+        onSubmit: (data: AnnouncementData) => void, onClose: () => void, initialData?: AnnouncementData,
+        task: string
+    }) {
     const [loading, setLoading] = useState(false);
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -34,7 +37,7 @@ export function AnnouncementForm({ onSubmit, onClose, initialData }:
                 defaultValue={initialData?.body || undefined} />
             <div>
                 <button type="submit" disabled={loading}>
-                    {loading ? "Creating..." : "Create"}
+                    {loading ? "..." : task}
                 </button>
                 <button type="reset">
                     Reset
@@ -106,6 +109,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
             <AnnouncementForm
                 onSubmit={handleSubmit}
                 onClose={onClose}
+                task="Create"
             />
         </Modal>
     );

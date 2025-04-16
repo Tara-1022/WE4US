@@ -29,6 +29,7 @@ export default function AnnouncementEditor({ postView, onPostUpdated, onClose }:
         initialData={{ title: postView.post.name, body: postView.post.body || "" } as AnnouncementData}
         onSubmit={handleEdit}
         onClose={onClose}
+        task="Edit"
     />
 
 }
