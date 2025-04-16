@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/MemoryCard.css';
 
-interface Memory {
+export interface Memory {
   imageUrl: string;
   title: string;
   description: string;

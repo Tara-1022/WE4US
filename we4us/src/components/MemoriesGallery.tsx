@@ -1,12 +1,6 @@
 import React from 'react';
-import MemoryCard from './MemoryCard';
+import MemoryCard, {Memory} from './MemoryCard';
 import '../styles/MemoriesGallery.css'; 
-
-interface Memory {
-  imageUrl: string;
-  title: string;
-  description: string;
-}
 
 interface MemoriesGalleryProps {
   memories: Memory[];
