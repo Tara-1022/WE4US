@@ -1,4 +1,4 @@
-import { PgPostData } from "./PostCreationHandler";
+import { PgPostData } from "./Types";
 import Modal from "react-modal";
 
 let styles = {
@@ -20,12 +20,6 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
             url: entries.mapUrl.toString(),
             body: {
                 location: (entries.location || '').toString(),
-                ratings: {
-                    cost: Number(entries.costRating || null),
-                    safety: Number(entries.safetyRating || null),
-                    food: Number(entries.foodRating || null),
-                    cleanliness: Number(entries.foodRating || null),
-                },
                 acAvailable: entries.acAvailable === 'on',
                 foodType: (entries.foodType || '').toString(),
                 description: (entries.description || '').toString()
@@ -46,20 +40,6 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <br />
                 <label htmlFor="mapUrl"> Map URL : </label>
                 <input name="mapUrl" type="url" required />
-                <br />
-                <label>Ratings (1-5):</label>
-                <br />
-                <label htmlFor="costRating">Cost : </label>
-                <input name="costRating" type="number" min="1" max="5" required />
-                <br />
-                <label htmlFor="safetyRating">Safety : </label>
-                <input name="safetyRating" type="number" min="1" max="5" required />
-                <br />
-                <label htmlFor="foodRating">Food : </label>
-                <input name="foodRating" type="number" min="1" max="5" required />
-                <br />
-                <label htmlFor="cleanlinessRating">Cleanliness : </label>
-                <input name="cleanlinessRating" type="number" min="1" max="5" required />
                 <br />
                 <label htmlFor="acAvailable">
                     <input
