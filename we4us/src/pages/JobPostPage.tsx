@@ -59,7 +59,7 @@ export default function JobPostPage() {
 
                 {postView.post.url && (
                     <a href={postView.post.url} className="job-apply-button" target="_blank" rel="noopener noreferrer">
-                        Apply Now
+                        See More
                     </a>
                 )}
 

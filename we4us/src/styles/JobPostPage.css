@@ -1,5 +1,5 @@
 :root {
-    /* Color Palette */
+   
     --color-dark-bg: #1e1e1e;
     --color-card-bg: #1f1f1f;
     --color-card-hover: #252525;
@@ -11,6 +11,14 @@
     --color-blue: #00aaff;
     --color-error: #ff4d4d;
     --color-success: #4caf50;
+    --color-primary-dark-purple: #4839a1;
+    --color-primary-orange: #f46801;
+    --color-primary-teal: #01c4a4;
+    --color-primary-purple: #6c5ce7; 
+    /*--color-primary-blue: #0984e3; */   
+    --color-primary-blue: #0767b3; 
+    --color-primary-light-purple: #a29bfe; 
+    
 }
 .job-post-container {
     max-width: 900px;
@@ -36,7 +44,7 @@
 .job-title {
     font-size: 2.0rem;
     margin: 0 0 0.5rem 0;
-    color: var(--color-success);
+    color: var(--color-primary-blue);
     font-weight: 600;
 }
 
@@ -53,7 +61,7 @@
 }
 
 .job-type {
-    background: var(--color-primary-dark-orange);
+    background: var(--color-primary-light-purple);
     color: var(--color-primary-accent);
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
@@ -74,7 +82,7 @@
 
 .detail-label {
     font-size: 0.85rem;
-    color: var(--color-white);
+    color: var(--color-primary-light-purple);
     margin-bottom: 0.25rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -88,7 +96,7 @@
 }
 
 .deadline {
-    color: var(--color-error);
+    color: var(--color-primary-teal);
     font-weight: 600;
 }
 

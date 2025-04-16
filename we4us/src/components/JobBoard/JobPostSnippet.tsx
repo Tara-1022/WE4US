@@ -23,7 +23,7 @@ export default function JobPostSnippet({ postView }: { postView: PostView }) {
                     to={`/job-board/${postView.post.id}`} 
                     className="apply-now-button"
                 >
-                    Apply Now
+                    More Info
                 </Link>
             </div>
             
