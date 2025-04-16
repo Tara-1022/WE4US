@@ -102,11 +102,12 @@ export default function MeetUpPostPage() {
                     )}
                 </>
             }
-            &nbsp;<b
+            &nbsp;
+            {!isEditing && <b
                 onClick={() => setIsEditing(true)}
                 style={{ cursor: "pointer" }}>
-                {isEditing ? "Cancel" : "Edit"}
-            </b>
+                Edit
+            </b>}
             <CommentsSection postId={postView.post.id} />
         </>
     );
