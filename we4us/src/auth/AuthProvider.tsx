@@ -17,6 +17,7 @@ import { CommunityView } from "lemmy-js-client";
 type contextValueType = {
   token: string | null;
   setToken: (newToken: string | null) => void;
+  logout: () => void;
   isLoggedIn: boolean;
 }
 
@@ -24,6 +25,7 @@ type contextValueType = {
 const AuthContext = createContext<contextValueType>({
   token: null,
   setToken: () => { },
+  logout: () => { },
   isLoggedIn: false
 });
 
@@ -51,8 +53,9 @@ async function getPostgresProfile(username: string) {
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const isLoggedIn = token !== null;
+  const { setLemmyInfo } = useLemmyInfo();
   const { setProfileInfo } = useProfileContext();
+  const isLoggedIn = token !== null;
 
   async function setProfileContext() {
     try {
@@ -159,7 +162,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({ token, setToken, isLoggedIn }),
+    () => ({ token, setToken, logout, isLoggedIn }),
     [token]
   );
 
