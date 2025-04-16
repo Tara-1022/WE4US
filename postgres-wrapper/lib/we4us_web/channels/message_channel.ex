@@ -2,18 +2,18 @@ defmodule We4usWeb.MessageChannel do
   use We4usWeb, :channel
   require Logger
     @impl true
-def join("message:" <> recipient_id, payload, socket) do
+def join("message:" <> recipientname, payload, socket) do
   if authorized?(payload) do
-    sender_id = payload["user_id"]
-    socket = assign(socket, :user_id, sender_id)
+    sender_id = payload["username"]
+    socket = assign(socket, :username, sender_id)
 
     # Log the join attempt for debugging
-    Logger.debug("User #{sender_id} joining channel for #{recipient_id}")
+    Logger.debug("User #{sender_id} joining channel for #{recipientname}")
 
     # Check if this is a combined channel ID (contains underscore)
-    if String.contains?(recipient_id, "_") do
+    if String.contains?(recipientname, "_") do
       # Split the combined ID to get both users
-      [user1, user2] = String.split(recipient_id, "_")
+      [user1, user2] = String.split(recipientname, "_")
 
       # Determine who the other user is
       other_user = if sender_id == user1, do: user2, else: user1
@@ -31,7 +31,7 @@ def join("message:" <> recipient_id, payload, socket) do
       {:ok, %{messages: format_messages(messages)}, socket}
     else
       # Backward compatibility for old-style channels
-      messages = case We4us.Messages.get_conversation(sender_id, recipient_id) do
+      messages = case We4us.Messages.get_conversation(sender_id, recipientname) do
         {:ok, msgs} ->
           Logger.debug("Found #{length(msgs)} messages")
           msgs
@@ -51,7 +51,7 @@ end
   @impl true
   def handle_in("new_message", %{"to" => to_user, "body" => body}, socket) do
 
-    from_user = socket.assigns.user_id
+    from_user = socket.assigns.username
     users = [from_user, to_user] |> Enum.sort()
 
     message_params = %{
@@ -81,7 +81,7 @@ end
 
   @impl true
   def handle_in("send_message", %{"to" => to_user, "body" => body}, socket) do
-    from_user = socket.assigns.user_id
+    from_user = socket.assigns.username
     users = [from_user, to_user] |> Enum.sort()
     # 1. Save to DB first
     message_params = %{
@@ -118,17 +118,7 @@ end
     end)
   end
 
-  @impl true
-def handle_info(:after_join, socket) do
-  We4us.Message.get_messages()
-  |> Enum.reverse() # revers to display the latest message at the bottom of the page
-  |> Enum.each(fn msg -> push(socket, "shout", %{
-      name: msg.name,
-      m: msg.message,
-      inserted_at: msg.inserted_at,
-    }) end)
-  {:noreply, socket}
-end
+
 
   # Add authorization logic here as required.
   defp authorized?(_payload) do
