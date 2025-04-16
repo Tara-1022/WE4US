@@ -44,7 +44,7 @@ const App: React.FC = () => {
 
           <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/home" element={<LandingPage />} />
               <Route path="/" element={<ProtectedRoute />} >
                 <Route path="/announcements" element={<AnnouncementPage />} />
                 <Route path="/announcements/:announcementId" element={<AnnouncementPostPage />} />
