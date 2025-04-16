@@ -2,102 +2,191 @@
 
 /* Overall Container */
 .pg-post-page {
-    padding: 50px;
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
+  padding: 2rem;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+  background-color: #f5f7fa;
+  color: #1e1e1e;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* PG Name */
+.pg-post-header h3 {
+  font-size: 2.5rem;
+  color: #f46801;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* General Text */
+.pg-post-header p,
+.pg-rating,
+.pg-description p {
+  color: #1e1e1e;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Links */
+.pg-post-header a,
+.pg-profile p {
+  color: #3a7ffc;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.pg-post-header a:hover,
+.pg-profile p:hover {
+  color: #3b2e7f;
+  text-decoration: underline;
+}
+
+/* Labels like Location, Ratings */
+.pg-post-header .label,
+.pg-rating .label {
+  font-weight: 600;
+  color: #3b2e7f;
+}
+
+/* Ratings Section */
+.pg-rating {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.pg-rating p {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-left: 3px solid #01c4a4;
+}
+
+/* Description Section */
+.pg-description {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 0 15px rgba(244, 104, 1, 0.3); /* Added glow */
+  transition: box-shadow 0.3s ease;
+}
+
+.pg-description:hover {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 0 25px rgba(244, 104, 1, 0.5); /* Stronger glow on hover */
+}
+
+.pg-description h5 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #3b2e7f;
+  margin-bottom: 1rem;
+}
+
+/* Profile Link */
+.pg-profile {
+  margin-top: 1.5rem 0;
+  text-align: center;
+}
+
+.pg-profile p {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: #3a7ffc;
+  color: white !important;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.pg-profile p:hover {
+  background-color: #3b2e7f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Container for Delete and Comments */
+.pg-actions-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* DELETE POST - Compact Button */
+.pg-delete-box {
+  background-color: #3b2e7f;
+  padding: 8px 16px;
+  border-radius: 6px;
+  color: white !important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  width: fit-content;
+  margin: 1rem auto;
+  font-size: 0.9rem;
+  text-align: center;
+  border: none;
+}
+
+.pg-delete-box:hover {
+  background-color: #f46801;
+  transform: translateY(-2px);
+}
+
+.pg-delete-box button,
+.pg-delete-box a {
+  color: white;
+  font-weight: 600;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* COMMENTS SECTION - Highlighted */
+.pg-comments-section {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-left: 4px solid #01c4a4;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.pg-comments-section p,
+.pg-comments-section span,
+.pg-comments-section div {
+  color: #1e1e1e;
+}
+
+/* Loader Centering */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pg-post-page {
+    padding: 1.2rem;
   }
-  
-  /* PG Name */
+
   .pg-post-header h3 {
     font-size: 2rem;
-    color: #01c4a4;
-    text-align: center;
   }
-  
-  /* General Text */
-  .pg-post-header p,
-  .pg-rating,
-  .pg-description p {
-    color: black;
-    font-size: 1rem;
-  }
-  
-  /* Links */
-  .pg-post-header a,
-  .pg-profile p {
-    color: blue;
-    text-decoration: none;
-  }
-  .pg-post-header a:hover,
-  .pg-profile p:hover {
-    text-decoration: underline;
-  }
-  
-  /* Labels like Location, Ratings */
-  .pg-post-header .label,
-  .pg-rating .label {
-    font-weight: bold;
-    color: black;
-  }
-  
-  /* Ratings */
-  .pg-rating {
-    margin-top: 10px;
-  }
-  
-  /* Description Title */
-  .pg-description h5 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: black;
-    margin-top: 20px;
-  }
-  
-  /* Profile Link */
-  .pg-profile {
-    margin-top: 20px;
-  }
-  
-  /* Container for Delete and Comments */
-  .pg-actions-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    flex-wrap: wrap;
-  }
-  
-  /* DELETE POST box */
-  .pg-delete-box {
-    background-color: #3b2e7f;
-    padding: 10px 15px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    max-width: fit-content;
-    margin-left: auto; /* Align right */
-  }
-  .pg-delete-box button,
-  .pg-delete-box a {
-    color: white;
-    font-weight: bold;
-  }
-  
-  /* Comments Section */
-  .pg-comments-section {
-    color: black;
-    width: 100%;
-  }
-  .pg-comments-section p,
-  .pg-comments-section span,
-  .pg-comments-section div {
-    color: black;
-  }
-  
-  /* Loader Centering */
-  .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
+}
