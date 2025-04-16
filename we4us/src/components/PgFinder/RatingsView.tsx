@@ -1,11 +1,11 @@
 import { Ratings } from "./Types";
 
-export default function RatingsView({ ratings }: { ratings: Ratings }) {
+export default function RatingsView({ ratings }: { ratings: Ratings | null }) {
     const formatRating = (rating: number | null) => {
         if (rating === null) return 'N/A';
         return rating === 0 ? '0' : rating;
     }
-
+    if (!ratings) return <h4>No ratings yet!</h4>
     return (
         <>
             <p>Cost Rating: {formatRating(ratings.cost)}/5</p>

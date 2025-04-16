@@ -41,7 +41,12 @@ export default function PgPostPage() {
     const [reviews, setReviews] = useState<CommentView[]>([]);
     const { profileInfo } = useProfileContext();
 
-    const avgRatings: Ratings = Average(reviews.map((review) => getReviewContent(review).ratings))
+    const filteredReviews = reviews.filter((review) => !review.comment.deleted)
+    const avgRatings: Ratings | null =
+        filteredReviews.length == 0 ?
+            null :
+            Average(filteredReviews
+                .map((review) => getReviewContent(review).ratings))
 
     let commentsContextValue: commentsContextValueType = {
         comments: reviews,
@@ -83,7 +88,11 @@ export default function PgPostPage() {
 
             {/* Reviews */}
             <ReviewCreator postId={postView.post.id} />
-            <ul>{list}</ul>
+            <ul style={{
+                listStyleType: "none",
+                margin: 0,
+                padding: 0
+            }}>{list}</ul>
         </CommentsContext.Provider>
     );
 }

@@ -3,6 +3,7 @@ import { useProfileContext } from '../ProfileContext';
 import LikeHandler from '../LikeHandler';
 import { Link } from "react-router-dom";
 import CommentDeletor from '../CommentDeletor';
+import { ReviewEditor } from './ReviewLibrary';
 import RatingsView from './RatingsView';
 import { getReviewContent } from './Types';
 
@@ -18,15 +19,15 @@ let styles = {
 export function ReviewSnippet({ review }: { review: CommentView }) {
 
     return (
-        <p style={styles.container}>
+        <div style={styles.container}>
             {review.comment.deleted ?
                 "Review deleted" :
                 <>
                     <RatingsView ratings={getReviewContent(review).ratings} />
-                    <p>review.comment.content</p>
+                    <p>{getReviewContent(review).content}</p>
                 </>} <br />
             <Link to={"/profile/" + review.creator.name}>{review.creator.display_name ? review.creator.display_name : review.creator.name}</Link>
-        </p>
+        </div>
     )
 }
 
@@ -46,7 +47,10 @@ export default function Review({ review }: { review: CommentView }) {
             <LikeHandler forPost={false} isInitiallyLiked={review.my_vote == 1} initialLikes={review.counts.score} id={review.comment.id} />
 
             {(!review.comment.deleted && review.creator.id == profileInfo?.lemmyId) &&
-                <CommentDeletor commentId={review.comment.id} />}
+                <>
+                    <ReviewEditor initialReview={review} />
+                    <CommentDeletor commentId={review.comment.id} />
+                </>}
 
         </div>
     );

@@ -45,7 +45,7 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
                 <br />
                 <textarea name="content" defaultValue={defaultContent?.content || undefined} />
                 <br />
-                <button type="submit">Create</button>
+                <button type="submit">{task}</button>
                 <button type="reset">Clear</button>
             </form>
         </Collapsible>

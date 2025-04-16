@@ -17,7 +17,7 @@ export type Ratings = {
     cost: number,
     safety: number,
     food: number,
-    cleanliness: number 
+    cleanliness: number
 }
 
 export type ReviewContent = {
@@ -45,18 +45,18 @@ function Add(r1: Ratings, r2: Ratings) {
 
 export function Average(ratings: Ratings[]) {
     const counts: Ratings = {
-        cost: ratings.filter((rating) => { rating.cost ? true : false }).length,
-        cleanliness: ratings.filter((rating) => { rating.cleanliness ? true : false }).length,
-        food: ratings.filter((rating) => { rating.food ? true : false }).length,
-        safety: ratings.filter((rating) => { rating.cost ? true : false }).length
+        cost: ratings.filter(rating => rating.cost != null).length,
+        cleanliness: ratings.filter(rating => rating.cleanliness != null).length,
+        food: ratings.filter(rating => rating.food != null).length,
+        safety: ratings.filter(rating => rating.safety != null).length,
     }
 
     const sum: Ratings = ratings.reduce((prev: Ratings, curr: Ratings) => Add(prev, curr))
-
+    
     return {
-        cost: counts.cost? (sum.cost || 0) / counts.cost : 0,
-        cleanliness: counts.cleanliness? (sum.cleanliness || 0) / counts.cleanliness : 0,
-        food: counts.food? (sum.food || 0) / counts.food : 0,
-        safety: counts.safety? (sum.safety || 0) / counts.safety : 0,
+        cost: counts.cost ? (sum.cost || 0) / counts.cost : 0,
+        cleanliness: counts.cleanliness ? (sum.cleanliness || 0) / counts.cleanliness : 0,
+        food: counts.food ? (sum.food || 0) / counts.food : 0,
+        safety: counts.safety ? (sum.safety || 0) / counts.safety : 0,
     } as Ratings
 }
