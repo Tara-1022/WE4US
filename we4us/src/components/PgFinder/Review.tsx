@@ -36,7 +36,6 @@ export default function Review({ review }: { review: CommentView }) {
     let styles = {
         container: {
             backgroundColor: "rgba(255,255,255,0.3)",
-            marginLeft: "10%",
             padding: "1%"
         }
     }
