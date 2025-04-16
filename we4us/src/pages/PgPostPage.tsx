@@ -1,66 +1,89 @@
-import { PostView } from 'lemmy-js-client';
+import { PostView, CommentView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
-import { getPostById } from '../library/LemmyApi';
+import { getPostById, getComments } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom';
-import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import { useProfileContext } from '../components/ProfileContext';
-import { PgPostBody } from '../components/PgFinder/PostCreationHandler';
-import ReactMarkdown from "react-markdown"
+import { PgPostBody, Ratings, Average, getReviewContent } from '../components/PgFinder/Types';
+import ReactMarkdown from "react-markdown";
+import { CommentsContext, commentsContextValueType } from '../components/CommentsContext';
+import RatingsView from '../components/PgFinder/RatingsView';
+import Review from '../components/PgFinder/Review';
+import { ReviewCreator } from '../components/PgFinder/ReviewLibrary';
+
+function FullPostView({ postView }: { postView: PostView }) {
+    let pgDetails: PgPostBody = JSON.parse(postView.post.body || "{}");
+
+    return <div><h3>{postView.post.name}</h3>
+        <p>Location : {pgDetails.location || 'N/A'}</p>
+        {postView.post.url && (
+            <p>
+                <strong>Map URL:</strong>{" "}
+                <a href={postView.post.url} target="_blank" rel="noopener noreferrer">
+                    {postView.post.url}
+                </a>
+            </p>
+        )}
+        <p>AC Available: {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
+        <p>Food Type: {pgDetails.foodType || 'N/A'}</p>
+        <h5>Description (Extra Information:) </h5>
+        <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
+        <Link to={"/profile/" + postView.creator.name}>
+            <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
+        </Link>
+    </div>
+}
 
 export default function PgPostPage() {
-    const pgId = Number(useParams().pgId);
+    const postId = Number(useParams().pgId);
     const [postView, setPostView] = useState<PostView | null>(null);
+    const [reviews, setReviews] = useState<CommentView[]>([]);
     const { profileInfo } = useProfileContext();
+
+    const avgRatings: Ratings = Average(reviews.map((review) => getReviewContent(review).ratings))
+
+    let commentsContextValue: commentsContextValueType = {
+        comments: reviews,
+        setComments: setReviews,
+        postId: postId
+    };
 
     useEffect(
         () => {
-            getPostById(pgId).then(
-                response =>
-                    setPostView(response ? response.post_view : null)
-            )
+            getPostById(postId).then(
+                response => setPostView(response ? response.post_view : null)
+            );
+            getComments({ postId: postId }).then(
+                comments => setReviews(comments)
+            );
+            commentsContextValue = { ...commentsContextValue, postId: postId };
         },
-        [pgId]
+        [postId]
     )
+
+    useEffect(() => { commentsContextValue = { ...commentsContextValue, comments: reviews } }
+        , [reviews])
+
+
     if (!postView) return <Loader />;
-    let pgDetails: PgPostBody = JSON.parse(postView.post.body || "{}");
-    const formatRating = (rating: number | null) => {
-        if (rating === null) return 'N/A';
-        return rating === 0 ? '0' : rating;
-    }
 
+    let list = reviews.map(
+        (review) => <li key={review.comment.id} >
+            <Review review={review} />
+        </li>
+    )
     return (
-        <>
-            <div>
-                <h3>{postView.post.name}</h3>
-                <p>Location : {pgDetails.location || 'N/A'}</p>
-                {postView.post.url && (
-                    <p>
-                        <strong>Map URL:</strong>{" "}
-                        <a href={postView.post.url} target="_blank" rel="noopener noreferrer">
-                            {postView.post.url}
-                        </a>
-                    </p>
-                )}
-                <p>Cost Rating: {formatRating(pgDetails.ratings?.cost)}/5</p>
-                <p>Safety Rating: {formatRating(pgDetails.ratings?.safety)}/5</p>
-                <p>Food Rating: {formatRating(pgDetails.ratings?.food)}/5</p>
-                <p>Cleanliness Rating: {formatRating(pgDetails.ratings?.cleanliness)}/5</p>
-                <p>AC Available: {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
-                <p>Food Type: {pgDetails.foodType || 'N/A'}</p>
-                <h5>Description (Extra Information:) </h5>
-                <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
-                <Link to={"/profile/" + postView.creator.name}>
-                    <p>{postView.creator.display_name ? postView.creator.display_name : postView.creator.name}</p>
-                </Link>
-
-            </div>
+        <CommentsContext.Provider value={commentsContextValue}>
+            <FullPostView postView={postView} />
+            <RatingsView ratings={avgRatings} />
 
             {postView.creator.id == profileInfo?.lemmyId &&
                 <PostDeletor postId={postView.post.id} />}
 
-            <CommentsSection postId={postView.post.id} />
-        </>
+            {/* Reviews */}
+            <ReviewCreator postId={postView.post.id} />
+            <ul>{list}</ul>
+        </CommentsContext.Provider>
     );
 }
