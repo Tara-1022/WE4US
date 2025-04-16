@@ -1,5 +1,6 @@
 import { PgPostData } from "./PostCreationHandler";
 import Modal from "react-modal";
+import "./PgFinderPage.css";
 
 let styles = {
     form: {
@@ -37,7 +38,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
         <Modal
             isOpen={isOpen}
             contentLabel="Login">
-            <form onSubmit={handleClick} style={styles.form}>
+            <form onSubmit={handleClick} className="pg-modal-form">
                 <label htmlFor="name"> Name of the PG: </label>
                 <input name="name" required />
                 <br />

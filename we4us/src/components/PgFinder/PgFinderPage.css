@@ -70,3 +70,115 @@
     color: #019a86;
     text-decoration: underline;
 }
+
+.pg-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.pg-modal-content {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.pg-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pg-modal-form input,
+.pg-modal-form select,
+.pg-modal-form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.pg-modal-form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.pg-modal-form button {
+    background-color: #01c4a4;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pg-modal-form button:hover {
+    background-color: #019a86;
+}
+
+.pg-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #f9f9f9;
+    padding: 24px;
+    border-radius: 12px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #1e1e1e;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.pg-modal-form input[type="text"],
+.pg-modal-form input[type="url"],
+.pg-modal-form input[type="number"],
+.pg-modal-form select,
+.pg-modal-form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.pg-modal-form label {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.pg-modal-form textarea {
+    resize: vertical;
+}
+
+.pg-modal-form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.pg-modal-form button {
+    background-color: #01c4a4;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pg-modal-form button:hover {
+    background-color: #019a86;
+}
