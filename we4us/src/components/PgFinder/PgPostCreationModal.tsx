@@ -24,7 +24,7 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                     cost: Number(entries.costRating || null),
                     safety: Number(entries.safetyRating || null),
                     food: Number(entries.foodRating || null),
-                    cleanliness: Number(entries.foodRating || null),
+                    cleanliness: Number(entries.cleanlinessRating || null),
                 },
                 acAvailable: entries.acAvailable === 'on',
                 foodType: (entries.foodType || '').toString(),
