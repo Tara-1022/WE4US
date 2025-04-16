@@ -37,7 +37,7 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
                 defaultValue={initialData?.body || undefined} />
             <div>
                 <button type="submit" disabled={loading}>
-                    {loading ? "..." : task}
+                    {loading ? "Submitting..." : task}
                 </button>
                 <button type="reset">
                     Reset
