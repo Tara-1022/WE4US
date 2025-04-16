@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME , DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -95,6 +95,16 @@ export async function deletePost(postId: number) {
     }
   );
   return response.post_view;
+}
+
+export async function editComment(commentId: number, content: string) {
+  const response = await getClient().editComment(
+    {
+      comment_id: commentId,
+      content: content
+    }
+  )
+  return response.comment_view;
 }
 
 export async function editPost(newPostDetails: EditPost) {
