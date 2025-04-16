@@ -3,17 +3,14 @@ import Modal from "react-modal";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../../components/LemmyContextProvider";
 
-interface PostCreationModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onPostCreated: (newPost: any) => void;
+export type AnnouncementData = {
+    title: string,
+    body: string
 }
 
-const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
+export function AnnouncementForm({ onSubmit, onClose, initialData }:
+    { onSubmit: (data: AnnouncementData) => void, onClose: () => void, initialData?: AnnouncementData }) {
     const [loading, setLoading] = useState(false);
-    const {lemmyInfo} = useLemmyInfo();
-
-    if (!lemmyInfo) return <h3>Could not fetch Announcements community!</h3>
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -21,17 +18,57 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
         const formData = new FormData(event.currentTarget);
         const { title, body } = Object.fromEntries(formData);
-        
+
+        onSubmit({ title, body } as AnnouncementData);
+        setLoading(false);
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="title">Title: </label>
+            <input type="text" name="title" placeholder="Title" required
+                defaultValue={initialData?.title || undefined} />
+            <br />
+            <label htmlFor="body">Body: </label>
+            <textarea name="body" placeholder="Body" required
+                defaultValue={initialData?.body || undefined} />
+            <div>
+                <button type="submit" disabled={loading}>
+                    {loading ? "Creating..." : "Create"}
+                </button>
+                <button type="reset">
+                    Reset
+                </button>
+                <button onClick={onClose}>
+                    Cancel
+                </button>
+            </div>
+        </form>
+    )
+}
+
+interface PostCreationModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onPostCreated: (newPost: any) => void;
+}
+
+const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
+    const { lemmyInfo } = useLemmyInfo();
+
+    if (!lemmyInfo) return <h3>Could not fetch Announcements community!</h3>
+
+    async function handleSubmit(data: AnnouncementData) {
         // Adding a check to please TypeScript. Because of other checks,
         // Lemmy info will always be defined here
         if (!lemmyInfo) {
             console.error("Error creating post: Lemmy details not available");
-            return 
+            return
         }
 
         createPost({
-            name: title.toString(),
-            body: body.toString(),
+            name: data.title.toString(),
+            body: data.body.toString(),
             community_id: lemmyInfo.announcements_details.community.id
         })
             .then(
@@ -41,8 +78,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
                 })
             .catch((error) =>
                 console.error("Error creating post:", error))
-            .finally(() =>
-                setLoading(false))
     };
 
     return (
@@ -68,21 +103,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
                 },
             }}
         >
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="title">Title: </label>
-                <input type="text" name="title" placeholder="Title" required />
-                <br />
-                <label htmlFor="body">Body: </label>
-                <textarea name="body" placeholder="Body" required />
-                <div>
-                    <button type="submit" disabled={loading}>
-                        {loading ? "Creating..." : "Create"}
-                    </button>
-                    <button type="reset" onClick={() => onClose()}>
-                        Cancel
-                    </button>
-                </div>
-            </form>
+            <AnnouncementForm
+                onSubmit={handleSubmit}
+                onClose={onClose}
+            />
         </Modal>
     );
 };
