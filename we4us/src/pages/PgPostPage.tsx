@@ -56,11 +56,11 @@ export default function PgPostPage() {
             </div>
 
             <div className="pg-description">
-                <h5>Description (Extra Information): </h5>
+                <h5>Additional Information: </h5>
                 <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
             </div>
 
-            <div className="pg-profile">
+            <div className="pg-profile">@
                 <Link to={`/profile/${postView.creator.name}`}>
                     <p>{postView.creator.display_name || postView.creator.name}</p>
                 </Link>

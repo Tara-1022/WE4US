@@ -1,5 +1,3 @@
-/* PgPostPage.css */
-
 /* Overall Container */
 .pg-post-page {
   padding: 2rem;
@@ -9,13 +7,15 @@
   max-width: 1200px;
   margin: 0 auto;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(1, 247, 235, 0.913); /* Glow retained */
 }
 
 /* PG Name */
 .pg-post-header h3 {
   font-size: 2.5rem;
-  color: #f46801;
+  color: #01c4a4; /* Updated color */
   text-align: center;
   margin-bottom: 1.5rem;
   font-weight: 700;
@@ -52,13 +52,13 @@
   color: #3b2e7f;
 }
 
-/* Ratings Section */
+/* Ratings Section - Glow removed */
 .pg-rating {
   margin-top: 1.5rem;
   padding: 1.5rem;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Basic shadow only */
 }
 
 .pg-rating p {
@@ -67,22 +67,18 @@
   border-left: 3px solid #01c4a4;
 }
 
-/* Description Section */
+/* Description Section - Glow removed */
 .pg-description {
   margin-top: 2rem;
   padding: 1.5rem;
   background-color: white;
   border-radius: 8px;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.05),
-    0 0 15px rgba(244, 104, 1, 0.3); /* Added glow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Basic shadow only */
   transition: box-shadow 0.3s ease;
 }
 
 .pg-description:hover {
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 0 25px rgba(244, 104, 1, 0.5); /* Stronger glow on hover */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle hover shadow */
 }
 
 .pg-description h5 {
@@ -92,27 +88,21 @@
   margin-bottom: 1rem;
 }
 
-/* Profile Link */
+/* Profile Link - Left-aligned, no button style */
 .pg-profile {
-  margin-top: 1.5rem 0;
-  text-align: center;
+  margin-top: 1.5rem;
+  text-align: left;
 }
 
 .pg-profile p {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background-color: #3a7ffc;
-  color: white !important;
-  border-radius: 25px;
-  transition: all 0.3s ease;
+  display: inline;
+  color: #1e1e1e;
   font-size: 1rem;
-  margin: 0 auto; /* Center horizontally */
-}
-
-.pg-profile p:hover {
-  background-color: #3b2e7f;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  font-weight: 500;
+  margin: 0;
 }
 
 /* Container for Delete and Comments */
@@ -156,7 +146,7 @@
   text-align: center;
 }
 
-/* COMMENTS SECTION - Highlighted */
+/* COMMENTS SECTION */
 .pg-comments-section {
   background-color: white;
   border-radius: 10px;
@@ -180,7 +170,7 @@
   height: 100vh;
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .pg-post-page {
     padding: 1.2rem;
