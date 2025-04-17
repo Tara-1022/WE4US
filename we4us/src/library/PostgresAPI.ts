@@ -1,5 +1,4 @@
 import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT } from "../constants";
-import { ImageDetailsType } from "./ImageHandling";
 
 export interface Profile {
   username: string;
@@ -11,16 +10,6 @@ export interface Profile {
   areas_of_interest?: string[];
   image_filename?: string | null;
   image_delete_token?: string | null;
-}
-
-// Helper function to get profile image details from a profile
-export function getImageDetails(profile: Profile): ImageDetailsType | undefined {
-  if (!profile.image_filename || !profile.image_delete_token) return undefined;
-  
-  return {
-    filename: profile.image_filename,
-    deleteToken: profile.image_delete_token
-  };
 }
 
 export const fetchProfiles = async () => {
