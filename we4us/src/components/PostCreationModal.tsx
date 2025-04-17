@@ -92,6 +92,9 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         onPostCreated(secondPost);
         updatePostWithLink(firstPost.post.id, newPost.postBody, secondPost.post.id);
       }
+      else {
+        if (uploadedImageCopies) deleteImage(uploadedImageCopies[1]);
+      }
 
       onPostCreated(firstPost);
       setUploadedImageCopies([]);
