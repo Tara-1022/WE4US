@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { ImageDetailsType, uploadImage, constructImageUrl, deleteImage } from "../library/ImageHandling";
 import default_avatar from "../assets/profile_duck.png";
 import default_post_image from "../assets/default_post_image.png";
-import { imageStyles } from "../styles/ImageStyles";
 
 interface ImageUploaderProps {
   onUploadChange: (imageDetails: ImageDetailsType[] | undefined) => void;
@@ -89,10 +88,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const defaultImage = purpose === 'profile' ? default_avatar : default_post_image;
 
-  const imageStyle = purpose === 'profile'
-    ? imageStyles.profile
-    : imageStyles.post;
-
   const displayImage =
     hasUploaded ?
       (uploadedCopies.length > 0 ? constructImageUrl(uploadedCopies[0]) : defaultImage)
@@ -105,7 +100,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         <img
           src={displayImage}
           alt={`${purpose} image`}
-          style={imageStyle as React.CSSProperties}
+          className={`${purpose}-image`}
         />
       </div>
 
