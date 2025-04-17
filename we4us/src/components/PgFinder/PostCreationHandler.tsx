@@ -41,8 +41,14 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
             url: data.url,
             community_id: lemmyInfo.pg_finder_details.community.id
         }).then(
-            (newPost) => handleCreatedPost(newPost)
-        )
+            (newPost) => { handleCreatedPost(newPost);
+            window.alert("PG added successfully!");
+            }
+        ).catch(error => {
+            window.alert("Failed to create post: " + error.message);
+            console.error("Post creation failed:", error);
+        });
+    
         setIsOpen(false);
     }
 
