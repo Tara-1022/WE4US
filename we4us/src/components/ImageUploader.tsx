@@ -7,6 +7,8 @@ import { imageStyles } from "../styles/ImageStyles";
 interface ImageUploaderProps {
   currentImage?: ImageDetailsType;
   onImageChange: (imageDetails: ImageDetailsType | undefined) => void;
+  onMultipleUploads?: (imageDetails: ImageDetailsType[]) => void;
+  copiesCount?: number;
   purpose?: 'profile' | 'post';
   className?: string;
 }
@@ -14,6 +16,8 @@ interface ImageUploaderProps {
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
   currentImage, 
   onImageChange, 
+  onMultipleUploads,
+  copiesCount = 1,
   purpose = 'profile',
   className = ''
 }) => {
@@ -52,9 +56,23 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     const file = event.target.files[0];
     
     try {
-      const imageDetails = await uploadImage(file);
-      console.log("Image uploaded:", imageDetails);
-      onImageChange(imageDetails);
+      // Upload the primary image
+      const primaryImageDetails = await uploadImage(file);
+      console.log("Primary image uploaded:", primaryImageDetails);
+      onImageChange(primaryImageDetails);
+
+      // If additional copies are requested, upload them too
+      if (onMultipleUploads && copiesCount > 1) {
+        const copies: ImageDetailsType[] = [primaryImageDetails];
+        
+        // Create additional copies
+        for (let i = 1; i < copiesCount; i++) {
+          const copyDetails = await uploadImage(file);
+          copies.push(copyDetails);
+        }
+        
+        onMultipleUploads(copies);
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
       window.alert("Failed to upload image. Please try again.");

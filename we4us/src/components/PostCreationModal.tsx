@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { ImageDetailsType } from "../library/ImageHandling";
 import { createPost, editPost } from "../library/LemmyApi";
@@ -28,21 +28,31 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
   )
 }
 
-function cloneImageWithNewToken(imageData: ImageDetailsType | undefined): ImageDetailsType | undefined {
-  if (!imageData) return undefined;
-  return {
-    ...imageData,
-    deleteToken: `${imageData.deleteToken}-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`
-  };
-}
-
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [imageData, setImageData] = useState<ImageDetailsType | undefined>(undefined);
+  const [imageDataCopies, setImageDataCopies] = useState<ImageDetailsType[]>([]);
+  const [originalImageData, setOriginalImageData] = useState<ImageDetailsType | undefined>(undefined);
 
   function handleCancel() {
+    setImageData(originalImageData);
     onClose();
   }
+
+  // Keep track of the original image when modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      setOriginalImageData(imageData);
+    }
+  }, [isOpen]);
+
+  const handleMultipleImageUploads = (images: ImageDetailsType[]) => {
+    if (images.length > 0) {
+      // First image is already set by onImageChange
+      // store the rest as copies
+      setImageDataCopies(images.slice(1));
+    }
+  };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,10 +82,13 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       });
 
       if (secondCommunityId) {
+        // Use a pre-uploaded copy for the second post if available
+        const secondPostImageData = imageDataCopies.length > 0 ? imageDataCopies[0] : undefined;
+        
         const secondPostBody: PostBodyType = addPostLinkToPostBody(
           {
             ...newPost.postBody,
-            imageData: cloneImageWithNewToken(imageData)
+            imageData: secondPostImageData
           },
           firstPost.post.id
         );
@@ -90,7 +103,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         updatePostWithLink(firstPost.post.id, newPost.postBody, secondPost.post.id);
       }
 
-      onPostCreated(firstPost); // Passing the newpost for the parent to handle.
+      onPostCreated(firstPost);
+      setOriginalImageData(imageData);
       onClose();
 
     } catch (error) {
@@ -98,6 +112,11 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     } finally {
       setLoading(false);
     }
+  };
+
+  const calculateNeededCopies = () => {
+    // Default to 2 - one for primary post, one for potential secondary post
+    return 2;
   };
 
 
@@ -134,10 +153,12 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <label htmlFor="communityId">Choose Community: </label>
         <CommunitySelector name="communityId" isRequired={true} />
         <br />
-        <label>Upload image/video: </label>
+        <label>Upload image: </label>
         <ImageUploader
           currentImage={imageData}
           onImageChange={setImageData}
+          onMultipleUploads={handleMultipleImageUploads}
+          copiesCount={calculateNeededCopies()}
           purpose="post"
         />
         <br />
