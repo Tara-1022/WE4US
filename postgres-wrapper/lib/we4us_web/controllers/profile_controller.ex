@@ -18,25 +18,29 @@ defmodule We4usWeb.ProfileController do
       nil ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
+        |> json(%{error: "Profile with username '#{username}' not found"})
       profile ->
         json(conn, %{profile: profile_json(profile)})
     end
   end
 
   @doc "Create a new profile."
-  def create(conn, params) do
-    profile_params =
-      case params do
-        %{"profile" => p} -> p
-        _ -> params
-      end
-
+  def create(conn, %{"profile" => profile_params}) do
     case Profiles.create_profile(profile_params) do
       {:ok, profile} ->
         conn
         |> put_status(:created)
         |> json(%{profile: profile_json(profile)})
+
+      {:error, :missing_username} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Username is required to create a profile"})
+
+      {:error, :username_taken} ->
+        conn
+        |> put_status(:conflict)
+        |> json(%{error: "Username already exists."})
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -51,7 +55,7 @@ defmodule We4usWeb.ProfileController do
       nil ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
+        |> json(%{error: "Profile with username '#{username}' not found"})
 
       profile ->
         # Convert string values to appropriate types and handle image fields
@@ -82,25 +86,23 @@ defmodule We4usWeb.ProfileController do
   end
 
   @doc "Delete a profile by username."
-  def delete(conn, %{"username" => username}) do
-    case Profiles.get_profile(username) do
-      nil ->
+   @doc "Delete a profile by username."
+   def delete(conn, %{"username" => username}) do
+    case Profiles.delete_profile(username) do
+      {:ok, :deleted} ->
+        conn
+        |> put_status(:no_content)
+        |> json(%{message: "Profile deleted successfully"})
+
+      {:error, :profile_not_found} ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
+        |> json(%{error: "Profile with username '#{username}' not found"})
 
-      profile ->
-        case Profiles.delete_profile(profile) do
-          {:ok, _} ->
-            conn
-            |> put_status(:no_content)
-            |> json(%{message: "Profile deleted successfully"})
-
-          {:error, _reason} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{error: "Profile deletion failed"})
-        end
+      {:error, reason} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
     end
   end
 
