@@ -82,22 +82,17 @@
     z-index: 1000;
 }
 
-.pg-modal-content {
-    background-color: white;
-    padding: 24px;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    position: relative;
-    font-family: 'Segoe UI', sans-serif;
+.pg-modal-form-wrapper {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    max-width: fit-content;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.pg-modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
 
 .pg-modal-form input,
 .pg-modal-form select,
@@ -129,17 +124,13 @@
     background-color: #019a86;
 }
 
-.pg-modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background-color: #f9f9f9;
-    padding: 24px;
-    border-radius: 12px;
-    font-family: 'Segoe UI', sans-serif;
-    color: #1e1e1e;
-    max-width: 500px;
-    margin: 0 auto;
+
+.pg-modal-form input,
+.pg-modal-form select,
+.pg-modal-form textarea {
+    padding: 6px 8px; /* Less vertical padding */
+    font-size: 0.95rem;
+    margin-bottom: 4px; /* Optional: for space between inputs and labels */
 }
 
 .pg-modal-form input[type="text"],
@@ -181,4 +172,63 @@
 
 .pg-modal-form button:hover {
     background-color: #019a86;
+}
+.pg-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow: auto; /* 🔥 this enables scroll */
+    padding: 20px; /* allows breathing space on small screens */
+}
+
+.pg-modal-form-wrapper {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    max-width: fit-content;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.pg-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Adjust spacing between fields */
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    padding: 16px; /* Reduce padding inside the form */
+    border-radius: 10px;
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.pg-modal-form textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-size: 1rem;
+    padding: 8px;
+}
+.cancel-button {
+    background-color: #e74c3c !important;
+    color: white !important;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #c0392b !important;
 }

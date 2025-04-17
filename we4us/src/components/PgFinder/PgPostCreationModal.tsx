@@ -37,7 +37,11 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     return (
         <Modal
             isOpen={isOpen}
-            contentLabel="Login">
+            onRequestClose={() => setIsOpen(false)}
+            className="pg-modal-form-wrapper"
+            overlayClassName="pg-modal-overlay"
+            contentLabel="Create PG Entry"
+            >
             <form onSubmit={handleClick} className="pg-modal-form">
                 <label htmlFor="name"> Name of the PG: </label>
                 <input name="name" required />
@@ -82,7 +86,8 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <textarea name="description" rows={4} cols={50}></textarea>
                 <br />
                 <button type="submit">Add New PG</button>
-                <button type="reset" onClick={() => setIsOpen(false)}>Cancel</button>
+                <button type="reset" className="cancel-button" onClick={() => setIsOpen(false)}>Cancel</button>
+
             </form>
         </Modal>
     )
