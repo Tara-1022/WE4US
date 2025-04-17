@@ -103,6 +103,7 @@ a:hover {
   padding: 1rem;
   font-size:1rem;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .btn-danger:hover {
