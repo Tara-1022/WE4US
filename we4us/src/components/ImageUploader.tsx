@@ -29,7 +29,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const [uploadedCopies, setUploadedCopies] = useState<ImageDetailsType[] | undefined>(undefined);
   const hasUploaded = uploadedCopies != undefined;
 
-  useEffect(()=>{
+  useEffect(() => {
     onUploadChange(uploadedCopies);
   }, [uploadedCopies])
 

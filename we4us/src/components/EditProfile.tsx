@@ -69,9 +69,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   const handleCancel = () => {
     if (!uploadedImage) return;
     // Remove pending image
-    deleteImage(uploadedImage).catch(err =>
-      console.error("Error cleaning up pending profile image:", err)
-    );
+    deleteImage(uploadedImage)
     setUploadedImage(undefined);
     onCancel();
   };

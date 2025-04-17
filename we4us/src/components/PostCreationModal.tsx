@@ -140,7 +140,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <label>Upload image: </label>
         <ImageUploader
           originalImage={undefined}
-          onNewUpload={handleImageChange}
+          onUploadChange={handleImageChange}
           copiesCount={2}
           purpose="post"
         />

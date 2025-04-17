@@ -1,20 +1,10 @@
 import { LEMMY_IMAGE_URL } from "../constants"
 import { getClient } from "./LemmyApi"
+import { Profile } from "./PostgresAPI"
 
 export type ImageDetailsType = {
   filename: string,
   deleteToken: string
-}
-
-export async function checkImageExists(image: ImageDetailsType | string): Promise<boolean> {
-  try {
-    const url = constructImageUrl(image);
-    const response = await fetch(url, { method: 'HEAD' });
-    return response.status === 200;
-  } catch (error) {
-    console.error("Error checking if image exists:", error);
-    return false;
-  }
 }
 
 // https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/common/image-upload-form.tsx#L73
@@ -43,22 +33,15 @@ export async function uploadImage(image: File): Promise<ImageDetailsType> {
 }
 
 // https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/common/media-uploads.tsx#L80
-export async function deleteImage(image: ImageDetailsType) {
+export async function deleteImage(image: ImageDetailsType, withAlert = true): Promise<boolean> {
+  console.log("Asked to delete ", image)
   if (
     !image ||
-    !image.filename ||
-    !image.deleteToken ||
-    image.filename === "null" ||
-    image.deleteToken === "null"
+    !image.deleteToken
   ) {
+    if (withAlert) window.alert("Skipping image deletion: invalid or missing details");
     console.warn("Skipping image deletion: invalid or missing details", image);
-    return;
-  }
-
-  const exists = await checkImageExists(image);
-  if (!exists) {
-    console.log("Image does not exist, skipping deletion:", image.filename);
-    return;
+    return true;
   }
 
   const response = await getClient().deleteImage({
@@ -66,15 +49,18 @@ export async function deleteImage(image: ImageDetailsType) {
     filename: image.filename
   });
 
-  if (!response) throw new Error("Image could not be deleted");
-  return response;
+  if (!response && withAlert) window.alert(
+    "Image deletion failed: image is malformed," +
+    " or does not exist. Please remove unused images through your profile page.")
+
+  return response
 }
 
 export function constructImageUrl(input: ImageDetailsType | string): string {
   if (typeof input === 'object' && input.filename) {
     return LEMMY_IMAGE_URL + input.filename;
   }
-  
+
   if (typeof input === 'string') {
     return LEMMY_IMAGE_URL + input;
   }
@@ -83,9 +69,9 @@ export function constructImageUrl(input: ImageDetailsType | string): string {
   throw new Error("Input must be ImageDetailsType or string");
 }
 
-export function getProfileImageUrl(profile: any): string {
+export function getProfileImageUrl(profile: Profile): string {
   if (profile?.image_filename) {
     return constructImageUrl(profile.image_filename);
   }
-  return "/assets/profile_duck.png"; 
+  return "/assets/profile_duck.png";
 }
