@@ -18,13 +18,15 @@ type contextValueType = {
   token: string | null;
   setToken: (newToken: string | null) => void;
   logout: () => void;
+  isLoggedIn: boolean;
 }
 
 // Note: AuthContext must only be used in components under AuthProvider
 const AuthContext = createContext<contextValueType>({
   token: null,
   setToken: () => { },
-  logout: () => { }
+  logout: () => { },
+  isLoggedIn: false
 });
 
 // Dev note: token must be set/reset ONLY via the provided function
@@ -53,6 +55,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const { setLemmyInfo } = useLemmyInfo();
   const { setProfileInfo } = useProfileContext();
+  const isLoggedIn = token !== null;
 
   async function setProfileContext() {
     try {
@@ -159,7 +162,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   // ensure unnecessary rerenders are not triggered
   const contextValue: contextValueType = useMemo(
-    () => ({ token, setToken, logout }),
+    () => ({ token, setToken, logout, isLoggedIn }),
     [token]
   );
 

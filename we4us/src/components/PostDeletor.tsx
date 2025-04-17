@@ -46,5 +46,5 @@ export default function PostDeletor({ postId, imageData }: { postId: number, ima
 
     }
 
-    return <b onClick={handleDelete} style={styles.actionText}>Delete Post</b>
+    return <b onClick={handleDelete} style={styles.actionText}>Delete</b>
 }
