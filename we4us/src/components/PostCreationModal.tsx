@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
-import { ImageDetailsType } from "../library/ImageHandling";
+import { ImageDetailsType, deleteImage } from "../library/ImageHandling";
 import { createPost, editPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
@@ -30,27 +30,41 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
-  const [imageData, setImageData] = useState<ImageDetailsType | undefined>(undefined);
-  const [imageDataCopies, setImageDataCopies] = useState<ImageDetailsType[]>([]);
+  const [pendingImageData, setPendingImageData] = useState<ImageDetailsType | undefined>(undefined);
+  const [pendingImageCopies, setPendingImageCopies] = useState<ImageDetailsType[]>([]);
   const [originalImageData, setOriginalImageData] = useState<ImageDetailsType | undefined>(undefined);
 
+  
   function handleCancel() {
-    setImageData(originalImageData);
+    setPendingImageData(originalImageData);
+    
+    // Clean up any pending image uploads that weren't saved
+    if (pendingImageData && pendingImageData !== originalImageData) {
+      deleteImage(pendingImageData).catch(err => 
+        console.error("Error cleaning up pending image:", err)
+      );
+    }
+    
+    // Clean up any pending image copies
+    pendingImageCopies.forEach(img => {
+      deleteImage(img).catch(err => 
+        console.error("Error cleaning up pending image copy:", err)
+      );
+    });
+    
+    setPendingImageCopies([]);
     onClose();
   }
 
-  // Keep track of the original image when modal is opened
-  useEffect(() => {
-    if (isOpen) {
-      setOriginalImageData(imageData);
-    }
-  }, [isOpen]);
+  const handleImageChange = (imageDetails: ImageDetailsType | undefined) => {
+    setPendingImageData(imageDetails);
+  };
 
   const handleMultipleImageUploads = (images: ImageDetailsType[]) => {
     if (images.length > 0) {
       // First image is already set by onImageChange
       // store the rest as copies
-      setImageDataCopies(images.slice(1));
+      setPendingImageCopies(images.slice(1));
     }
   };
 
@@ -66,7 +80,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
     const postBody: PostBodyType = {
       body: body.toString(),
-      imageData: imageData
+      imageData: pendingImageData
     }
 
     const newPost = {
@@ -75,6 +89,13 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     };
 
     try {
+      if (originalImageData && 
+        pendingImageData && 
+        originalImageData !== pendingImageData) {
+        await deleteImage(originalImageData).catch(err => 
+          console.error("Error deleting original image:", err)
+        );
+      }
       const firstPost = await createPost({
         ...newPost,
         body: JSON.stringify(newPost.postBody),
@@ -83,7 +104,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
       if (secondCommunityId) {
         // Use a pre-uploaded copy for the second post if available
-        const secondPostImageData = imageDataCopies.length > 0 ? imageDataCopies[0] : undefined;
+        const secondPostImageData = pendingImageCopies.length > 0 ? pendingImageCopies[0] : undefined;
         
         const secondPostBody: PostBodyType = addPostLinkToPostBody(
           {
@@ -104,7 +125,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       }
 
       onPostCreated(firstPost);
-      setOriginalImageData(imageData);
+      setOriginalImageData(pendingImageData);
+      setPendingImageCopies([])
       onClose();
 
     } catch (error) {
@@ -155,8 +177,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <br />
         <label>Upload image: </label>
         <ImageUploader
-          currentImage={imageData}
-          onImageChange={setImageData}
+          currentImage={pendingImageData}
+          onImageChange={handleImageChange}
           onMultipleUploads={handleMultipleImageUploads}
           copiesCount={calculateNeededCopies()}
           purpose="post"

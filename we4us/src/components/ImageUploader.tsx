@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImageDetailsType, uploadImage, deleteImage, constructImageUrl } from "../library/ImageHandling";
+import { ImageDetailsType, uploadImage, constructImageUrl } from "../library/ImageHandling";
 import default_avatar from "../assets/profile_duck.png"; 
 import default_post_image from "../assets/default_image.png";
 import { imageStyles } from "../styles/ImageStyles";
@@ -22,6 +22,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   className = ''
 }) => {
   const [loading, setLoading] = useState(false);
+  const [tempImage, setTempImage] = useState<ImageDetailsType | undefined>(currentImage);
 
   const defaultImage = purpose === 'profile' ? default_avatar : default_post_image;
 
@@ -33,32 +34,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     }
 
     setLoading(true);
-    
-    // Delete previous image if it exists
-    if (currentImage) {
-      try {
-        await deleteImage(currentImage);
-      } catch (error) {
-        console.error("Error deleting previous image:", error);
-        
-        // Check if it's because the image doesn't exist
-        if (error instanceof Error && error.message.includes("image does not exist")) {
-          console.log("Image already deleted or doesn't exist, proceeding with upload");
-        } else {
-          // Stop the process if deletion fails for other reasons
-          setLoading(false);
-          window.alert("Failed to remove previous image. Please try again later.");
-          return;
-        }
-      }
-    }
-
     const file = event.target.files[0];
-    
+
     try {
       // Upload the primary image
       const primaryImageDetails = await uploadImage(file);
       console.log("Primary image uploaded:", primaryImageDetails);
+
+      setTempImage(primaryImageDetails);
       onImageChange(primaryImageDetails);
 
       // If additional copies are requested, upload them too
@@ -81,23 +64,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     }
   };
 
-  const handleImageDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleRemoveImage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    
-    if (!currentImage) return;
-    
-    setLoading(true);
-    
-    try {
-      await deleteImage(currentImage);
-      onImageChange(undefined);
-      window.alert("Image deleted");
-    } catch (error) {
-      console.error("Error deleting image:", error);
-      window.alert("Failed to delete image. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    setTempImage(undefined);
+    onImageChange(undefined);
   };
 
   const imageStyle = purpose === 'profile' 
@@ -125,7 +95,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         
         {currentImage && (
           <button 
-            onClick={handleImageDelete}
+            onClick={handleRemoveImage}
             disabled={loading}
           >
             Remove Image
