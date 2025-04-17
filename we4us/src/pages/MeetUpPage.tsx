@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
 import MeetUpPostList from "../components/MeetUp/MeetUpPostList";
-import { Loader } from "lucide-react";
+import { Loader, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 import { getMeetUpPostList } from "../library/LemmyApi";
 import PostCreationHandler from "../components/MeetUp/PostCreationHandler";
 import './MeetUpPage.css';

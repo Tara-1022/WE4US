@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME , MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -97,6 +97,16 @@ export async function deletePost(postId: number) {
   return response.post_view;
 }
 
+export async function editComment(commentId: number, content: string) {
+  const response = await getClient().editComment(
+    {
+      comment_id: commentId,
+      content: content
+    }
+  )
+  return response.comment_view;
+}
+
 export async function editPost(newPostDetails: EditPost) {
   const response = await getClient().editPost(newPostDetails);
   return response.post_view;
@@ -125,15 +135,20 @@ export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, 
   }
 }
 
-export async function getComments(postId: number): Promise<CommentView[]> {
+export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH }:
+   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
   try {
+    // Apparently if max_depth is provided, limit is ignored
+    // https://github.com/LemmyNet/lemmy/blob/e7ddb96659e7ceff794f1ba4c2929a7f17dfe73b/crates/db_views/src/comment/comment_view.rs#L277
+    // It doesn't make sense for us to use limits
     const response = await getClient().getComments(
       {
         post_id: postId,
-        limit: 50
+        parent_id: parentId,
+        max_depth: maxDepth
       }
     );
     commentCollection = response.comments.slice();

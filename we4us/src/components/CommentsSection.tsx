@@ -14,17 +14,17 @@ export default function CommentsSection({ postId }: { postId: number }) {
         setComments: setComments,
         postId: postId
     };
-    
+
     useEffect(() => {
-        getComments(postId).then(
+        getComments({ postId: postId }).then(
             comments =>
-                setComments(comments));
+                setComments(comments)
+        );
         commentsContextValue = { ...commentsContextValue, postId: postId };
-        console.log("Fetched comments");
     },
         [postId]
     );
-    
+
     useEffect(() => {
         commentsTree = buildCommentsTree(comments);
         commentsContextValue = { ...commentsContextValue, comments: comments }

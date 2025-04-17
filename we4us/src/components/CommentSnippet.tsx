@@ -18,6 +18,13 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
         <>
             <p style={styles.container}>
                 {commentView.comment.deleted ? "Comment deleted" : commentView.comment.content} <br />
+            <p>Created: &nbsp;
+                {new Date(commentView.comment.published).toLocaleString()} </p>
+            <p>
+                {commentView.comment.updated ?
+                    "Edited: " + new Date(commentView.comment.updated).toLocaleString() :
+                    ""}
+            </p>
                 <Link to={"/profile/" + commentView.creator.name}>{commentView.creator.display_name ? commentView.creator.display_name : commentView.creator.name}</Link>
             </p>
             {

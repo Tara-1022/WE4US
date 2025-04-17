@@ -1,14 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
-import { CommentView, CommunityView, PostView, Search } from 'lemmy-js-client';
+import { CommentView, PostView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
 import { Loader, Search as SearchIcon } from 'lucide-react';
-import PostSnippet from '../components/PostSnippet';
+import AnnouncementPostSnippet from '../components/Announcements/AnnouncementPostSnippet';
+import MeetUpPostSnippet from '../components/MeetUp/MeetUpSnippet';
+import PgPostSnippet from '../components/PgFinder/PgPostSnippet';
+import JobPostSnippet from '../components/JobBoard/JobPostSnippet';
 import CommentSnippet from '../components/CommentSnippet';
-import CommunitySnippet from '../components/CommunitySnippet';
 import InfiniteScroll from "react-infinite-scroll-component";
-import { DEFAULT_POSTS_PER_PAGE } from '../constants';
+import { ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from '../constants';
+import RedirectPage from './RedirectPage';
 
 let styles = {
   list: {
@@ -19,25 +22,46 @@ let styles = {
 }
 
 type GenericView = {
-  type_: "comment" | "community" | "post",
-  data: CommentView | CommunityView | PostView,
+  type_: "comment" | "post",
+  data: CommentView | PostView,
   id: number
 }
 
-function GenericViewSnippet({ view }: { view: GenericView }) {
+function GenericViewSnippet({ view, community }: { view: GenericView, community: string }) {
   switch (view.type_) {
     case "comment":
       return <CommentSnippet commentView={view.data as CommentView} withPostLink={true} />
-    case "community":
-      return <CommunitySnippet communityView={view.data as CommunityView} />
     case "post":
-      return <PostSnippet postView={view.data as PostView} />
+      const postView = view.data as PostView;
+      switch (community) {
+        case ANNOUNCEMENTS_COMMUNITY_NAME:
+          return <AnnouncementPostSnippet postView={postView} />
+        case MEET_UP_COMMUNITY_NAME:
+          return <MeetUpPostSnippet postView={postView} />
+        case PG_FINDER_COMMUNITY_NAME:
+          return <PgPostSnippet postView={postView} />
+        case JOB_BOARD_COMMUNITY_NAME:
+          return <JobPostSnippet postView={postView} />
+        default:
+          return <></>
+      }
     default:
       return <></>
   }
 }
 
-const SearchPage: React.FC = () => {
+const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) => {
+  if (community &&
+    !([ANNOUNCEMENTS_COMMUNITY_NAME,
+      MEET_UP_COMMUNITY_NAME,
+      PG_FINDER_COMMUNITY_NAME,
+      JOB_BOARD_COMMUNITY_NAME].some(
+        (name) => name == community
+      ))) {
+    console.log(community == ANNOUNCEMENTS_COMMUNITY_NAME)
+    return <RedirectPage />
+  }
+
   const [result, setResult] = useState<GenericView[] | null>(null);
   const [lastQuery, setLastQuery] = useState<Search | null>(null);
   const filteredResult = result?.filter(
@@ -45,13 +69,9 @@ const SearchPage: React.FC = () => {
       switch (view.type_) {
         case "comment":
           const comment = view.data as CommentView;
-          return !comment.post.deleted && !comment.comment.deleted && comment.post.nsfw != true;
-        case "community":
-          const community = view.data as CommunityView;
-          return community.community.nsfw != true;
+          return !comment.post.deleted && !comment.comment.deleted;
         case "post":
-          const post = view.data as PostView;
-          return post.post.nsfw != true && post.community.nsfw != true;
+          return true;
         // No need to filter deleted posts since our logic automatically
         // hides them from search results
       }
@@ -78,7 +98,7 @@ const SearchPage: React.FC = () => {
       const queryWithPagination = {
         ...lastQuery,
         page,
-        limit: DEFAULT_POSTS_PER_PAGE,
+        limit: DEFAULT_POSTS_PER_PAGE
       };
 
       search(queryWithPagination).then(
@@ -87,8 +107,6 @@ const SearchPage: React.FC = () => {
             [...(result || []),
             ...response.posts
               .map(p => { return { type_: "post", data: p, id: p.post.id } as GenericView }),
-            ...response.communities
-              .map(c => { return { type_: "community", data: c, id: c.community.id } as GenericView }),
             ...response.comments
               .map(c => { return { type_: "comment", data: c, id: c.comment.id } as GenericView })
             ]
@@ -100,21 +118,22 @@ const SearchPage: React.FC = () => {
             (response.comments.length >= DEFAULT_POSTS_PER_PAGE) ||
             (response.communities.length >= DEFAULT_POSTS_PER_PAGE) ||
             (response.users.length >= DEFAULT_POSTS_PER_PAGE)
-            // We have to check users too, since the API returns this.
+            // We have to check communities and users too, since the API returns this.
           );
+          console.log(filteredResult)
         })
     }, [lastQuery, page]);
 
   const list = filteredResult?.map(
     view => <li key={view.type_ + view.id}>
-      <GenericViewSnippet view={view} />
+      <GenericViewSnippet view={view} community={community} />
     </li>
   );
 
   return (
     <>
       <SearchIcon />
-      <LemmySearchBar handleSearch={handleSearch} />
+      <LemmySearchBar handleSearch={handleSearch} communityName={community} />
 
       {isResultPresent &&
         <div style={{ overflow: "auto" }} className='scrollableDiv'>
@@ -138,4 +157,4 @@ const SearchPage: React.FC = () => {
   );
 };
 
-export default SearchPage;
+export default SpecialisedSearchPage;
