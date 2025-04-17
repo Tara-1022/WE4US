@@ -51,6 +51,23 @@ export default function MeetUpPostPage() {
     console.error("Error parsing post body:", error);
   }
 
+  let readableDateTime = MeetUpDetails.datetime;
+  try {
+    const parsedDate = new Date(MeetUpDetails.datetime);
+    if (!isNaN(parsedDate.getTime())) {
+      readableDateTime = parsedDate.toLocaleString(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+  } catch (e) {
+    console.error("Invalid datetime format:", e);
+  }
+
   const toggleCommentsVisibility = () => {
     setCommentsVisible((prev) => !prev);
   };
@@ -64,7 +81,7 @@ export default function MeetUpPostPage() {
           <strong>Location:</strong> {MeetUpDetails.location}
         </p>
         <p>
-          <strong>Date & Time:</strong> {MeetUpDetails.datetime}
+          <strong>Date & Time:</strong> {readableDateTime}
         </p>
         <p>
           <strong>Open To:</strong> {MeetUpDetails.open_to}

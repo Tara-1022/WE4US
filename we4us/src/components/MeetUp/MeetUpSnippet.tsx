@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PostView } from "lemmy-js-client";
 import { MeetUpPostBody } from "./MeetUpPostTypes";
+import { Clock } from "lucide-react";
 
 export default function MeetUpPostSnippet({
   postView,
@@ -31,6 +32,15 @@ export default function MeetUpPostSnippet({
       };
     }
   }
+
+  const readableDateTime =
+    parsedBody.datetime && !parsedBody.datetime.startsWith("Error")
+      ? new Date(parsedBody.datetime).toLocaleString(undefined, {
+          dateStyle: "medium",
+          timeStyle: "short",
+        })
+      : parsedBody.datetime;
+
   const styles = {
     card: {
       backgroundColor: "#2f2f2f",
@@ -40,6 +50,7 @@ export default function MeetUpPostSnippet({
       transition: "background-color 0.2s ease",
       fontFamily: "'Inter', sans-serif",
       border: "1px solid rgba(255, 255, 255, 0.05)",
+      position: "relative" as const,
     },
     hover: {
       backgroundColor: "#3a3a3a",
@@ -61,6 +72,17 @@ export default function MeetUpPostSnippet({
       textDecoration: "underline",
       wordBreak: "break-word",
     },
+    dateTimeTopRight: {
+      position: "absolute" as const,
+      top: "16px",
+      right: "20px",
+      fontSize: "13px",
+      color: "#bbbbbb",
+      fontStyle: "italic",
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+    },
   };
 
   const handleHover = (e: React.MouseEvent<HTMLDivElement>, hover: boolean) => {
@@ -81,11 +103,14 @@ export default function MeetUpPostSnippet({
         onMouseLeave={(e) => handleHover(e, false)}
       >
         <h3 style={styles.title}>{parsedBody.title}</h3>
+
+        <div style={styles.dateTimeTopRight}>
+          <Clock size={14} strokeWidth={1.5} />
+          {readableDateTime}
+        </div>
+
         <p style={styles.detail}>
           <strong>Location:</strong> {parsedBody.location}
-        </p>
-        <p style={styles.detail}>
-          <strong>Date & Time:</strong> {parsedBody.datetime}
         </p>
         <p style={styles.detail}>
           <strong>Open To:</strong> {parsedBody.open_to}
