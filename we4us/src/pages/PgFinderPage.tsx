@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { PostView } from "lemmy-js-client";
 import PgPostList from "../components/PgFinder/PgPostList";
-import { Loader } from 'lucide-react';
+import { Loader, Search } from 'lucide-react';
 import { getPgPostList } from "../library/LemmyApi";
+import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
 import "../components/PgFinder/PgFinderPage.css";
 
@@ -23,6 +24,7 @@ export default function PgFinderPage() {
         return (
             <>
                 <h3 style={{textAlign: "center"}}>PG FINDER</h3>
+                <Link to="/pg-finder/search"><Search /></Link>
                 <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
                 {postViews.length > 0 ?
                     <PgPostList postViews={postViews} />
