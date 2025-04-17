@@ -4,6 +4,7 @@ import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-re
 import LogoutButton from '../auth/LogoutButton';
 import { useProfileContext } from './ProfileContext';
 import {getProfileImageUrl } from '../library/ImageHandling';
+import { useAuth } from '../auth/AuthProvider';
 import '../styles/sidebar.css';
 
 interface SidebarProps {
@@ -11,18 +12,19 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { to: '/', label: 'Home', icon: Home },
-  { to: '/announcements', label: 'Announcements', icon: Bell },
-  { to: '/reaching-out', label: 'Reaching Out', icon: Heart },
-  { to: '/whos-who', label: "Who's Who", icon: Award },
-  { to: '/job-board', label: 'Job Board', icon: Briefcase },
-  { to: '/meetup', label: 'Meet Up', icon: Users },
-  { to: '/pg-finder', label: 'PG Finder', icon: Building2 }
+  { to: '/home', label: 'Home', icon: Home, highlightedPaths: ["/home"] },
+  { to: '/announcements', label: 'Announcements', icon: Bell, highlightedPaths: ["/announcements"] },
+  { to: '/reaching-out', label: 'Reaching Out', icon: Heart, highlightedPaths: ["/reaching-out", "/post", "/community", "/search"] },
+  { to: '/whos-who', label: "Who's Who", icon: Award, highlightedPaths: ["/whos-who", "/profile"] },
+  { to: '/job-board', label: 'Job Board', icon: Briefcase, highlightedPaths: ["/job-board"] },
+  { to: '/meetup', label: 'Meet Up', icon: Users, highlightedPaths: ["/meetup"] },
+  { to: '/pg-finder', label: 'PG Finder', icon: Building2, highlightedPaths: ["/pg-finder"] }
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
   const {profileInfo} = useProfileContext();
+  const { isLoggedIn } = useAuth();
   const profileImageUrl = getProfileImageUrl(profileInfo)
 
   const user = {
@@ -38,15 +40,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
           <img src={user.avatar} alt="Profile" className="user-avatar" />
           <div className="user-info">
             <div className="user-display-name">{user.name}</div>
-            <div className="user-name">{"@" + user.username}</div>
+            <div className="user-name">{user.username ? "@" + user.username : undefined}</div>
           </div>
         </Link>
         <nav className="nav-items">
-          {navItems.map(({ to, label, icon: Icon }) => (
+          {navItems.map(({ to, label, icon: Icon, highlightedPaths }) => (
             <div key={to}>
               <Link
                 to={to}
-                className={`nav-item ${location.pathname === to ? 'active' : ''}`}
+                className={`nav-item ${(highlightedPaths.some((h) => location.pathname.startsWith(h))) ? 'active' : ''}`}
               >
                 <Icon className="w-5 h-5" />
                 <span>{label}</span>
@@ -55,9 +57,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
           ))}
         </nav>
 
-        <div className="logout-section">
-          <LogoutButton/>
-        </div>
+        {isLoggedIn && (
+          <div className="logout-section">
+            <LogoutButton />
+          </div>
+        )}
+        
       </div>
     </>
   );

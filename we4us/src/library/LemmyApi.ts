@@ -1,9 +1,10 @@
-import { LEMMY_INSTANCE_URL, DEFAULT_COMMENTS_PER_PAGE, DEFAULT_POSTS_PER_PAGE } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
   CommunityVisibility, EditPost
 } from 'lemmy-js-client';
+
 // TODO: improve the error handling
 // TODO: have all functions either return the reponse, or unpack it
 // for consistency. Not a mix of both. Unpacking should preferably be done
@@ -77,7 +78,6 @@ export async function deleteComment(commentId: number) {
   });
   return response.comment_view;
 }
-
 export async function createPost(createPostData: CreatePost): Promise<PostView> {
   try {
     const response = await getClient().createPost(createPostData);
@@ -97,20 +97,58 @@ export async function deletePost(postId: number) {
   return response.post_view;
 }
 
+export async function editComment(commentId: number, content: string) {
+  const response = await getClient().editComment(
+    {
+      comment_id: commentId,
+      content: content
+    }
+  )
+  return response.comment_view;
+}
+
 export async function editPost(newPostDetails: EditPost) {
   const response = await getClient().editPost(newPostDetails);
   return response.post_view;
 }
 
-export async function getComments(postId: number): Promise<CommentView[]> {
+export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, page = 1 }
+  : { limit?: number, page?: number }
+): Promise<PostView[]> {
+  // Fetches and returns a list of recent announcement PostViews
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      sort: "New",
+      community_name: ANNOUNCEMENTS_COMMUNITY_NAME,
+      show_nsfw: true,
+      limit: limit,
+      page: page,
+    });
+    postCollection = response.posts.slice();
+    console.log(postCollection)
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return postCollection;
+  }
+}
+
+export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH }:
+   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
   try {
+    // Apparently if max_depth is provided, limit is ignored
+    // https://github.com/LemmyNet/lemmy/blob/e7ddb96659e7ceff794f1ba4c2929a7f17dfe73b/crates/db_views/src/comment/comment_view.rs#L277
+    // It doesn't make sense for us to use limits
     const response = await getClient().getComments(
       {
         post_id: postId,
-        limit: 50
+        parent_id: parentId,
+        max_depth: maxDepth
       }
     );
     commentCollection = response.comments.slice();
@@ -123,16 +161,26 @@ export async function getComments(postId: number): Promise<CommentView[]> {
   }
 }
 
-export async function getCommunityDetails(communityId: number) {
+export async function getCommunityDetailsFromId(communityId: number) {
   const response = await getClient().getCommunity({
     id: communityId
   });
   return response.community_view;
 }
 
-export async function getCommunityList() {
-  const response = await getClient().listCommunities();
-  return response.communities;
+export async function getCommunityDetailsFromName(name: string) {
+  const response = await getClient().getCommunity({
+    name: name
+  });
+  return response.community_view;
+}
+
+// https://github.com/LemmyNet/lemmy-ui/blob/main/src/shared/components/person/person-details.tsx#L297
+export async function getPersonDetails(username: string) {
+  const response = await getClient().getPersonDetails({
+    username: username
+  });
+  return response;
 }
 
 export async function getPostById(postId: number): Promise<GetPostResponse | null> {
@@ -151,17 +199,18 @@ export async function getPostById(postId: number): Promise<GetPostResponse | nul
 }
 
 export async function getPostList(
-  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }: 
-  { communityId?: number; page?: number; limit?: number }
+  { communityId, page = 1, limit = DEFAULT_POSTS_PER_PAGE }:
+    { communityId?: number; page?: number; limit?: number }
 ): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts({
       type_: "All",
-      sort : "New",
-      limit : limit,
-      page : page,
+      sort: "New",
+      limit: limit,
+      page: page,
       community_id: communityId,
+      show_nsfw: false
     });
     postCollection = response.posts.slice();
   } catch (error) {
@@ -170,7 +219,52 @@ export async function getPostList(
   return postCollection;
 }
 
-
+export async function getJobPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: limit,
+        community_name: JOB_BOARD_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
+export async function getPgPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent PostViews
+  // or an empty list if fetch fails
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: limit,
+        community_name: PG_FINDER_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
+    postCollection = response.posts.slice();
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    return postCollection;
+  }
+}
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
@@ -263,4 +357,21 @@ export async function updateDisplayName(displayName: string) {
     }
   );
   return response.success
+}
+export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent Meet-Up PostViews
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit: limit,
+      sort: "New",
+      community_name: MEET_UP_COMMUNITY_NAME,
+      show_nsfw: true,
+    });
+    postCollection = response.posts.slice();
+  } catch (error) {
+    console.error("Failed to fetch meet-up posts:", error);
+  }
+  return postCollection;
 }

@@ -1,4 +1,6 @@
 import '../styles/ProfilePage.css';
+import LemmyPersonDetails from './LemmyPersonDetails';
+import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
 import { constructImageUrl } from "../library/ImageHandling";
 import profile_duck from "../assets/profile_duck.png";
@@ -12,6 +14,11 @@ interface ProfileViewProps {
 const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
   return (
     <div className="profile-content">
+      {onEdit && (
+          <button onClick={onEdit} className="edit-button">
+            <Pencil />
+          </button>
+      )}
       <div className="profile-image-container">
         <img
           src={profile.image_filename ? constructImageUrl(profile.image_filename) : profile_duck}
@@ -57,13 +64,9 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
       </div>
-      {onEdit && (
-        <div className="button-group">
-          <button onClick={onEdit} className="edit-button">
-            Edit Profile
-          </button>
-        </div>
-      )}
+      {profile.username &&
+        <LemmyPersonDetails username={profile.username} />
+      }
     </div>
   );
 };

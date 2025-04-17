@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ImageDetailsType, uploadImage, constructImageUrl, deleteImage } from "../library/ImageHandling";
 import default_avatar from "../assets/profile_duck.png";
-import default_post_image from "../assets/default_image.png";
+import default_post_image from "../assets/default_post_image.png";
 import { imageStyles } from "../styles/ImageStyles";
 
 interface ImageUploaderProps {

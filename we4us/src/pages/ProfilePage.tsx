@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchProfileByUsername, Profile } from "../library/PostgresAPI";
 import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
@@ -9,7 +9,6 @@ import '../styles/ProfilePage.css';
 
 const ProfilePage = () => {
   const { username: paramUsername } = useParams<{ username?: string }>();
-  const navigate = useNavigate();
   const { profileInfo, setProfileInfo } = useProfileContext();
 
   const username = paramUsername || profileInfo?.username;
@@ -20,7 +19,6 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!username) {
-      navigate('/login');
       return;
     }
 
@@ -45,8 +43,8 @@ const ProfilePage = () => {
     };
 
     getProfile();
-  }, [username, navigate]);
-
+  }, [username]);
+  
   const handleProfileUpdate = (updatedProfile: Profile) => {
     setProfile(updatedProfile);
 

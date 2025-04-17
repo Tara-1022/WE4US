@@ -67,7 +67,7 @@ defmodule We4usWeb.ProfileController do
             _ -> profile.areas_of_interest
           end)
 
-        case Profiles.update_profile(profile, processed_params) do
+        case Profiles.update_profile(username, processed_params) do
           {:ok, updated_profile} ->
             conn
             |> put_status(:ok)

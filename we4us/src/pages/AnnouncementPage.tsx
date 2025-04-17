@@ -1,11 +1,82 @@
-import React from 'react';
+import { useState, useEffect } from "react";
+import { PostView } from "lemmy-js-client";
+import AnnouncementPostSnippet from "../components/Announcements/AnnouncementPostSnippet";
+import { Loader, Search } from 'lucide-react';
+import { getAnnouncementPostList } from "../library/LemmyApi";
+import PostCreationModal from "../components/Announcements/AnnouncementCreationModal";
+import { useProfileContext } from "../components/ProfileContext";
+import { DEFAULT_POSTS_PER_PAGE } from "../constants";
+import PaginationControls from "../components/PaginationControls";
+import { Link } from "react-router-dom";
 
-const AnnouncementPage: React.FC = () => {
+let styles = {
+  list: {
+    listStyleType: "none",
+    margin: 0,
+    padding: 0
+  },
+  listItem: {
+
+  },
+  text: {
+    marginTop: "5%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+}
+
+function PostCreationButton({ handlePostCreated }:
+  { handlePostCreated: (newPost: PostView) => void }) {
+  const [showModal, setShowModal] = useState(false);
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Announcements</h1>
-    </div>
-  );
-};
+    <>
+      <button onClick={() => setShowModal(true)}>New Announcement</button>
+      <PostCreationModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onPostCreated={handlePostCreated}
+      />
+    </>
+  )
+}
 
-export default AnnouncementPage;
+export default function AnnouncementsPage() {
+  const [postViews, setPostViews] = useState<PostView[] | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const { profileInfo } = useProfileContext();
+  const hasMore = postViews?.length === DEFAULT_POSTS_PER_PAGE;
+
+  useEffect(() => {
+    getAnnouncementPostList({ page: page }).then(
+      (posts) => setPostViews(posts)
+    );
+  }, [page]);
+
+
+  if (!postViews) return <Loader />;
+  else {
+    const list = postViews.map(
+      postView => <li key={postView.post.id} style={styles.listItem}>
+        <AnnouncementPostSnippet postView={postView} />
+      </li>
+    );
+    return (
+      <>
+        <h1>Announcements</h1>
+        <Link to="/announcements/search"><Search /></Link>
+        {
+          profileInfo?.isAdmin &&
+          <PostCreationButton handlePostCreated={(newPost: PostView) => setPostViews([newPost, ...postViews])} />
+        }
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+        {postViews.length > 0 ?
+          <ul style={styles.list}>{list}</ul>
+          :
+          <h3 style={styles.text}>No announcements yet!</h3>
+        }
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+      </>
+    );
+  }
+}
