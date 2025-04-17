@@ -2,9 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
-import DuckAvatar from '../assets/profile_duck.png';
 import { useProfileContext } from './ProfileContext';
-import { constructImageUrl } from '../library/ImageHandling';
+import {getProfileImageUrl } from '../library/ImageHandling';
 import '../styles/sidebar.css';
 
 interface SidebarProps {
@@ -24,11 +23,7 @@ const navItems = [
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
   const {profileInfo} = useProfileContext();
-
-   // Create a URL for the profile image if available, otherwise use default duck
-   const profileImageUrl = profileInfo?.image_filename 
-   ? constructImageUrl(profileInfo.image_filename)
-   : DuckAvatar;
+  const profileImageUrl = getProfileImageUrl(profileInfo)
 
   const user = {
     name: profileInfo?.display_name,
