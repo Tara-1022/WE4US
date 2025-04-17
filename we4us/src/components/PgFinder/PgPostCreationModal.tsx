@@ -2,12 +2,6 @@ import { PgPostData } from "./PostCreationHandler";
 import Modal from "react-modal";
 import "./PgFinderPage.css";
 
-let styles = {
-    form: {
-        color: "black"
-    }
-}
-
 export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, handleCreation: (data: PgPostData) => void }) {
 
@@ -71,23 +65,24 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                         type="checkbox"
                         name="acAvailable"
                         id="acAvailable"
-                    /> AC Available
+                    />{" "}AC Available
                 </label>
                 <br />
                 <label htmlFor="foodType">Food Type Available: </label>
                 <select name="foodType" required>
                     <option value="">Select Food Type</option>
-                    <option value="veg">Vegetarian</option>
-                    <option value="nonveg">Non-Vegetarian</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Non-vegetarian">Non-Vegetarian</option>
                     <option value="both">Both</option>
                 </select>
                 <br />
                 <label htmlFor="description"> Additional Information: </label>
                 <textarea name="description" rows={4} cols={50}></textarea>
                 <br />
+                <div className="pg-form-button-group">
                 <button type="submit">Add New PG</button>
                 <button type="reset" className="cancel-button" onClick={() => setIsOpen(false)}>Cancel</button>
-
+                </div>
             </form>
         </Modal>
     )

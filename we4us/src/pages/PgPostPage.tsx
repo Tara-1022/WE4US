@@ -35,15 +35,17 @@ export default function PgPostPage() {
         <div className="pg-post-page">
             <div className="pg-post-header">
                 <h3>{postView.post.name}</h3>
-                <p><span className="label">Location: </span>{pgDetails.location || 'N/A'}</p>
+                <p><span className="label">Location: </span>{pgDetails.location || 'Not Specified'}</p>
                 {postView.post.url && (
                     <p>
-                        <strong>Map URL:</strong>{" "}
+                        <span className="label">Map URL: </span>
                         <a href={postView.post.url} target="_blank" rel="noopener noreferrer">
                             {postView.post.url}
                         </a>
                     </p>
                 )}
+                 <p><span className="label">AC Available:</span> {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
+                <p><span className="label">Food Type:</span> {pgDetails.foodType || 'N/A'}</p>
             </div>
 
             <div className="pg-rating">
@@ -51,16 +53,14 @@ export default function PgPostPage() {
                 <p><span className="label">Safety Rating:</span> {formatRating(pgDetails.ratings?.safety)}/5</p>
                 <p><span className="label">Food Rating:</span> {formatRating(pgDetails.ratings?.food)}/5</p>
                 <p><span className="label">Cleanliness Rating:</span> {formatRating(pgDetails.ratings?.cleanliness)}/5</p>
-                <p><span className="label">AC Available:</span> {pgDetails.acAvailable ? 'Yes' : 'No'}</p>
-                <p><span className="label">Food Type:</span> {pgDetails.foodType || 'N/A'}</p>
-            </div>
+                </div>
 
             <div className="pg-description">
                 <h5>Additional Information: </h5>
                 <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
             </div>
 
-            <div className="pg-profile">@
+            <div className="pg-profile">Added by @
                 <Link to={`/profile/${postView.creator.name}`}>
                     <p>{postView.creator.display_name || postView.creator.name}</p>
                 </Link>
