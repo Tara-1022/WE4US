@@ -6,7 +6,7 @@ export enum JobType {
 }
 
 export type JobPostData = {
-    url: string,
+    url: string | undefined,
     name: string,
     body: JobPostBody
 }
