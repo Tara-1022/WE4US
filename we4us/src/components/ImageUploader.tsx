@@ -1,30 +1,60 @@
-import React, { useState } from "react";
-import { ImageDetailsType, uploadImage, constructImageUrl } from "../library/ImageHandling";
-import default_avatar from "../assets/profile_duck.png"; 
+import React, { useEffect, useState } from "react";
+import { ImageDetailsType, uploadImage, constructImageUrl, deleteImage } from "../library/ImageHandling";
+import default_avatar from "../assets/profile_duck.png";
 import default_post_image from "../assets/default_image.png";
 import { imageStyles } from "../styles/ImageStyles";
 
 interface ImageUploaderProps {
-  currentImage?: ImageDetailsType;
-  onImageChange: (imageDetails: ImageDetailsType | undefined) => void;
-  onMultipleUploads?: (imageDetails: ImageDetailsType[]) => void;
+  onUploadChange: (imageDetails: ImageDetailsType[] | undefined) => void;
+  originalImage?: ImageDetailsType;
   copiesCount?: number;
   purpose?: 'profile' | 'post';
   className?: string;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ 
-  currentImage, 
-  onImageChange, 
-  onMultipleUploads,
+/*
+Handle image upload & deletion of uploaded images, as needed
+Will return copiesCount copies of the *same* image
+If undefined, no image uploaded
+If an empty list, delete the existing image
+*/
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  onUploadChange,
+  originalImage,
   copiesCount = 1,
   purpose = 'profile',
   className = ''
 }) => {
   const [loading, setLoading] = useState(false);
-  const [tempImage, setTempImage] = useState<ImageDetailsType | undefined>(currentImage);
+  const [uploadedCopies, setUploadedCopies] = useState<ImageDetailsType[] | undefined>(undefined);
+  const hasUploaded = uploadedCopies != undefined;
 
-  const defaultImage = purpose === 'profile' ? default_avatar : default_post_image;
+  useEffect(()=>{
+    onUploadChange(uploadedCopies);
+  }, [uploadedCopies])
+
+  const deleteUploadedImage = async () => {
+    if (!uploadedCopies) {
+      setUploadedCopies([]);
+      return;
+    };
+    for (const copy of uploadedCopies) {
+      deleteImage(copy);
+      console.log("deleted");
+    }
+    setUploadedCopies([]);
+  }
+
+  const handleRemoveImage = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    deleteUploadedImage();
+  };
+
+  const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    deleteUploadedImage();
+    setUploadedCopies(undefined);
+  }
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -34,28 +64,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     }
 
     setLoading(true);
+    deleteUploadedImage();
     const file = event.target.files[0];
 
     try {
       // Upload the primary image
-      const primaryImageDetails = await uploadImage(file);
-      console.log("Primary image uploaded:", primaryImageDetails);
+      const copies: ImageDetailsType[] = [];
 
-      setTempImage(primaryImageDetails);
-      onImageChange(primaryImageDetails);
-
-      // If additional copies are requested, upload them too
-      if (onMultipleUploads && copiesCount > 1) {
-        const copies: ImageDetailsType[] = [primaryImageDetails];
-        
-        // Create additional copies
-        for (let i = 1; i < copiesCount; i++) {
-          const copyDetails = await uploadImage(file);
-          copies.push(copyDetails);
-        }
-        
-        onMultipleUploads(copies);
+      for (let i = 1; i <= copiesCount; i++) {
+        const copyDetails = await uploadImage(file);
+        console.log("Uploaded ", i, " times");
+        copies.push(copyDetails);
       }
+
+      setUploadedCopies(copies);
+
     } catch (error) {
       console.error("Error uploading image:", error);
       window.alert("Failed to upload image. Please try again.");
@@ -64,26 +87,28 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     }
   };
 
-  const handleRemoveImage = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setTempImage(undefined);
-    onImageChange(undefined);
-  };
+  const defaultImage = purpose === 'profile' ? default_avatar : default_post_image;
 
-  const imageStyle = purpose === 'profile' 
-    ? imageStyles.profile 
+  const imageStyle = purpose === 'profile'
+    ? imageStyles.profile
     : imageStyles.post;
+
+  const displayImage =
+    hasUploaded ?
+      (uploadedCopies.length > 0 ? constructImageUrl(uploadedCopies[0]) : defaultImage)
+      :
+      (originalImage ? constructImageUrl(originalImage) : defaultImage)
 
   return (
     <div className={`image-uploader ${purpose}-image-uploader ${className}`}>
       <div className="image-preview">
-        <img 
-          src={currentImage?.filename ? constructImageUrl(currentImage.filename) : defaultImage} 
-          alt={`${purpose} image`} 
+        <img
+          src={displayImage}
+          alt={`${purpose} image`}
           style={imageStyle as React.CSSProperties}
         />
       </div>
-      
+
       <div className="image-controls">
         <input
           id={`${purpose}ImageUpload`}
@@ -92,16 +117,16 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           onChange={handleImageUpload}
           disabled={loading}
         />
-        
-        {currentImage && (
-          <button 
-            onClick={handleRemoveImage}
-            disabled={loading}
-          >
-            Remove Image
-          </button>
-        )}
-        
+
+        <button
+          onClick={handleRemoveImage}
+          disabled={loading}
+        >
+          Remove Image
+          &nbsp; {hasUploaded + " " + uploadedCopies}
+        </button>
+
+        <button onClick={handleReset}>Reset</button>
         {loading && <span>Processing...</span>}
       </div>
     </div>

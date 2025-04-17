@@ -30,42 +30,20 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
-  const [pendingImageData, setPendingImageData] = useState<ImageDetailsType | undefined>(undefined);
-  const [pendingImageCopies, setPendingImageCopies] = useState<ImageDetailsType[]>([]);
-  const [originalImageData, setOriginalImageData] = useState<ImageDetailsType | undefined>(undefined);
+  const [uploadedImageCopies, setUploadedImageCopies] = useState<ImageDetailsType[] | undefined>(undefined);
 
-  
   function handleCancel() {
-    setPendingImageData(originalImageData);
-    
-    // Clean up any pending image uploads that weren't saved
-    if (pendingImageData && pendingImageData !== originalImageData) {
-      deleteImage(pendingImageData).catch(err => 
-        console.error("Error cleaning up pending image:", err)
-      );
-    }
-    
     // Clean up any pending image copies
-    pendingImageCopies.forEach(img => {
-      deleteImage(img).catch(err => 
-        console.error("Error cleaning up pending image copy:", err)
-      );
-    });
-    
-    setPendingImageCopies([]);
+    if (!uploadedImageCopies) return;
+    uploadedImageCopies.forEach(
+      img => deleteImage(img)
+        .catch(err => console.error("Error cleaning up pending image copy:", err))
+    )
     onClose();
   }
 
-  const handleImageChange = (imageDetails: ImageDetailsType | undefined) => {
-    setPendingImageData(imageDetails);
-  };
-
-  const handleMultipleImageUploads = (images: ImageDetailsType[]) => {
-    if (images.length > 0) {
-      // First image is already set by onImageChange
-      // store the rest as copies
-      setPendingImageCopies(images.slice(1));
-    }
+  const handleImageChange = (imageDetails: ImageDetailsType[] | undefined) => {
+    setUploadedImageCopies(imageDetails);
   };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -80,7 +58,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
     const postBody: PostBodyType = {
       body: body.toString(),
-      imageData: pendingImageData
+      ...(uploadedImageCopies && { imageData: uploadedImageCopies[0] })
     }
 
     const newPost = {
@@ -89,13 +67,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     };
 
     try {
-      if (originalImageData && 
-        pendingImageData && 
-        originalImageData !== pendingImageData) {
-        await deleteImage(originalImageData).catch(err => 
-          console.error("Error deleting original image:", err)
-        );
-      }
+
       const firstPost = await createPost({
         ...newPost,
         body: JSON.stringify(newPost.postBody),
@@ -103,13 +75,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       });
 
       if (secondCommunityId) {
-        // Use a pre-uploaded copy for the second post if available
-        const secondPostImageData = pendingImageCopies.length > 0 ? pendingImageCopies[0] : undefined;
-        
         const secondPostBody: PostBodyType = addPostLinkToPostBody(
           {
             ...newPost.postBody,
-            imageData: secondPostImageData
+            ...(uploadedImageCopies && { imageData: uploadedImageCopies[1] })
           },
           firstPost.post.id
         );
@@ -119,14 +88,13 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           body: JSON.stringify(secondPostBody),
           community_id: Number(secondCommunityId)
         });
-        
+
         onPostCreated(secondPost);
         updatePostWithLink(firstPost.post.id, newPost.postBody, secondPost.post.id);
       }
 
       onPostCreated(firstPost);
-      setOriginalImageData(pendingImageData);
-      setPendingImageCopies([])
+      setUploadedImageCopies([]);
       onClose();
 
     } catch (error) {
@@ -135,12 +103,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       setLoading(false);
     }
   };
-
-  const calculateNeededCopies = () => {
-    // Default to 2 - one for primary post, one for potential secondary post
-    return 2;
-  };
-
 
   return (
     <Modal
@@ -177,10 +139,9 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <br />
         <label>Upload image: </label>
         <ImageUploader
-          currentImage={pendingImageData}
-          onImageChange={handleImageChange}
-          onMultipleUploads={handleMultipleImageUploads}
-          copiesCount={calculateNeededCopies()}
+          originalImage={undefined}
+          onNewUpload={handleImageChange}
+          copiesCount={2}
           purpose="post"
         />
         <br />
