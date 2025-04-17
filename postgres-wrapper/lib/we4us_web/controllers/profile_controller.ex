@@ -86,7 +86,6 @@ defmodule We4usWeb.ProfileController do
   end
 
   @doc "Delete a profile by username."
-   @doc "Delete a profile by username."
    def delete(conn, %{"username" => username}) do
     case Profiles.delete_profile(username) do
       {:ok, :deleted} ->
