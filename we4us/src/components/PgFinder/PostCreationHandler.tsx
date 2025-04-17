@@ -1,9 +1,10 @@
 import { useState } from "react";
-import CreatePostModal from "./PgPostCreationModal";
+import PgPostForm from "./PgPostForm";
 import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
 import { PgPostData } from "./Types";
+import Modal from "react-modal";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,11 +33,16 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     return (
         <>
             <button onClick={() => setIsOpen(true)}>New PG</button>
-            <CreatePostModal
+
+            <Modal
                 isOpen={isOpen}
-                handleCreation={handleCreation}
-                setIsOpen={setIsOpen}
-            />
+                contentLabel="Add new PG">
+                <PgPostForm
+                    handleSubmit={handleCreation}
+                    onClose={() => setIsOpen(false)}
+                    task="Add PG"
+                />
+            </Modal>
         </>
     );
 }

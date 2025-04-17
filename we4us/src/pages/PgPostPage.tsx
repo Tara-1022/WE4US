@@ -4,6 +4,7 @@ import { getPostById, getComments } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom';
 import PostDeletor from '../components/PostDeletor';
+import PgPostEditor from '../components/PgFinder/PgPostEditor';
 import { useProfileContext } from '../components/ProfileContext';
 import { PgPostBody, Ratings, Average, getReviewContent } from '../components/PgFinder/Types';
 import ReactMarkdown from "react-markdown";
@@ -39,6 +40,7 @@ export default function PgPostPage() {
     const postId = Number(useParams().pgId);
     const [postView, setPostView] = useState<PostView | null>(null);
     const [reviews, setReviews] = useState<CommentView[]>([]);
+    const [isEditing, setIsEditing] = useState(false);
     const { profileInfo } = useProfileContext();
 
     const filteredReviews = reviews.filter((review) => !review.comment.deleted)
@@ -80,12 +82,31 @@ export default function PgPostPage() {
     )
     return (
         <CommentsContext.Provider value={commentsContextValue}>
-            <FullPostView postView={postView} />
-            <RatingsView ratings={avgRatings} />
+            {isEditing ?
+                <PgPostEditor
+                    postView={postView}
+                    onClose={() => setIsEditing(false)}
+                    onPostUpdated={setPostView} />
+                :
+                <>
+                    <FullPostView postView={postView} />
+                    <RatingsView ratings={avgRatings} />
 
-            {postView.creator.id == profileInfo?.lemmyId &&
-                <PostDeletor postId={postView.post.id} />}
-
+                    {postView.creator.id == profileInfo?.lemmyId &&
+                        <>
+                            <PostDeletor postId={postView.post.id} />
+                            &nbsp;
+                            {!isEditing &&
+                                <b
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Edit
+                                </b>}
+                        </>
+                    }
+                </>
+            }
             {/* Reviews */}
             <ReviewCreator postId={postView.post.id} />
             <ul style={{
