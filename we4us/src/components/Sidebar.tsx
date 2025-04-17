@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
 import { useProfileContext } from './ProfileContext';
-import {getProfileImageUrl } from '../library/ImageHandling';
+import {getProfileImageSource } from '../library/ImageHandling';
 import { useAuth } from '../auth/AuthProvider';
 import '../styles/sidebar.css';
 
@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
   const {profileInfo} = useProfileContext();
   const { isLoggedIn } = useAuth();
-  const profileImageUrl = getProfileImageUrl(profileInfo)
+  const profileImageUrl = getProfileImageSource(profileInfo)
 
   const user = {
     name: profileInfo?.display_name,

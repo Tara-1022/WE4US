@@ -1,4 +1,5 @@
 import { LEMMY_IMAGE_URL } from "../constants"
+import profile_duck from '../assets/profile_duck.png'
 import { getClient } from "./LemmyApi"
 import { Profile } from "./PostgresAPI"
 
@@ -69,9 +70,9 @@ export function constructImageUrl(input: ImageDetailsType | string): string {
   throw new Error("Input must be ImageDetailsType or string");
 }
 
-export function getProfileImageUrl(profile: Profile | undefined): string {
+export function getProfileImageSource(profile: Profile | undefined): string {
   if (profile?.image_filename) {
     return constructImageUrl(profile.image_filename);
   }
-  return "/assets/profile_duck.png";
+  return profile_duck;
 }
