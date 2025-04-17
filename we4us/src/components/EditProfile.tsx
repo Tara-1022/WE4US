@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 import { useProfileContext } from "./ProfileContext";
 import ImageUploader from "./ImageUploader";
-import { ImageDetailsType } from "../library/ImageHandling";
+import { ImageDetailsType, deleteImage } from "../library/ImageHandling";
 
 interface ProfileEditFormProps {
   profile: Profile;
@@ -17,10 +17,32 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   const { profileInfo } = useProfileContext();
 
   // Add state for image details
-  const [imageDetails, setImageDetails] = useState<ImageDetailsType | undefined>({
-    filename: profile.image_filename,
-    deleteToken: profile.image_delete_token
-  } as ImageDetailsType);
+  const [pendingImageDetails, setPendingImageDetails] = useState<ImageDetailsType | undefined>(
+    profile.image_filename && profile.image_delete_token ? 
+    {
+      filename: profile.image_filename,
+      deleteToken: profile.image_delete_token
+    } : undefined
+  );
+
+  const [originalImageDetails, setOriginalImageDetails] = useState<ImageDetailsType | undefined>(
+    profile.image_filename && profile.image_delete_token ? 
+    {
+      filename: profile.image_filename,
+      deleteToken: profile.image_delete_token
+    } : undefined
+  );
+
+  useEffect(() => {
+    const newImageDetails = profile.image_filename && profile.image_delete_token ? 
+      {
+        filename: profile.image_filename,
+        deleteToken: profile.image_delete_token
+      } : undefined;
+      
+    setOriginalImageDetails(newImageDetails);
+    setPendingImageDetails(newImageDetails);
+  }, [profile]);
 
   // They shouldn't reach this view in the first place. Even if, through some
   // bug, they do see this component, it should not allow edits.
@@ -46,7 +68,23 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   }
   
   const handleImageChange = (newImageDetails: ImageDetailsType | undefined) => {
-    setImageDetails(newImageDetails);
+    setPendingImageDetails(newImageDetails);
+  };
+
+  const handleCancel = () => {
+    // If we have a pending image that's different from the original
+    if (pendingImageDetails && 
+        pendingImageDetails !== originalImageDetails && 
+        (pendingImageDetails.filename !== originalImageDetails?.filename || 
+         pendingImageDetails.deleteToken !== originalImageDetails?.deleteToken)) {
+      // Clean up the pending image
+      deleteImage(pendingImageDetails).catch(err => 
+        console.error("Error cleaning up pending profile image:", err)
+      );
+    }
+    
+    setPendingImageDetails(originalImageDetails);
+    onCancel();
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,6 +103,17 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     }
     
     try {
+      if (originalImageDetails && 
+        pendingImageDetails && 
+        pendingImageDetails !== originalImageDetails &&
+        (pendingImageDetails.filename !== originalImageDetails.filename || 
+         pendingImageDetails.deleteToken !== originalImageDetails.deleteToken)) {
+        // Delete the original image after the new one is confirmed saved
+        await deleteImage(originalImageDetails).catch(err => 
+          console.error("Error deleting original profile image:", err)
+        );
+      }
+
       const response = await updateProfile(profile.username, {
         username: profile.username,
         display_name: display_name.toString(),
@@ -73,14 +122,16 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
         company_or_university: company_or_university?.toString() || "",
         years_of_experience: years_of_experience ? Number(years_of_experience) : null,
         areas_of_interest: areas,
-        image_filename: imageDetails?.filename || null,
-        image_delete_token: imageDetails?.deleteToken || null
+        image_filename: pendingImageDetails?.filename || null,
+        image_delete_token: pendingImageDetails?.deleteToken || null
       });
 
       if (!response.profile) {
         throw new Error(response.message || "Failed to update profile.");
       }
       
+      setOriginalImageDetails(pendingImageDetails);
+
       onProfileUpdate(response.profile);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while saving.");
@@ -97,8 +148,9 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
       <div className="form-group profile-image-section">
         <label>Profile Picture:</label>
         <ImageUploader 
-          currentImage={imageDetails} 
+          currentImage={pendingImageDetails} 
           onImageChange={handleImageChange} 
+          purpose="profile"
         />
       </div>
       
@@ -171,7 +223,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
           <button
             type="button"
             className="cancel-button"
-            onClick={onCancel}
+            onClick={handleCancel}
             disabled={isProcessing}
           >
             Cancel
