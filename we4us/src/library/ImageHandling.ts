@@ -6,6 +6,17 @@ export type ImageDetailsType = {
   deleteToken: string
 }
 
+export async function checkImageExists(image: ImageDetailsType | string): Promise<boolean> {
+  try {
+    const url = constructImageUrl(image);
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.status === 200;
+  } catch (error) {
+    console.error("Error checking if image exists:", error);
+    return false;
+  }
+}
+
 // https://github.com/LemmyNet/lemmy-ui/blob/c15a0eb1e5baa291e175567967db4c3205711807/src/shared/components/common/image-upload-form.tsx#L73
 export async function uploadImage(image: File): Promise<ImageDetailsType> {
   try {
@@ -44,6 +55,12 @@ export async function deleteImage(image: ImageDetailsType) {
     return;
   }
 
+  const exists = await checkImageExists(image);
+  if (!exists) {
+    console.log("Image does not exist, skipping deletion:", image.filename);
+    return;
+  }
+
   const response = await getClient().deleteImage({
     token: image.deleteToken,
     filename: image.filename
@@ -64,4 +81,11 @@ export function constructImageUrl(input: ImageDetailsType | string): string {
 
   console.error("Invalid input to constructImageUrl:", input);
   throw new Error("Input must be ImageDetailsType or string");
+}
+
+export function getProfileImageUrl(profile: any): string {
+  if (profile?.image_filename) {
+    return constructImageUrl(profile.image_filename);
+  }
+  return "/assets/profile_duck.png"; 
 }
