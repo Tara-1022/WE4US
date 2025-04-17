@@ -17,7 +17,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   const { profileInfo } = useProfileContext();
 
   // Add state for image details
-  const [pendingImageDetails, setPendingImageDetails] = useState<ImageDetailsType | undefined>(
+  const [pendingImageDetails, setPendingImageDetails] = useState(
     profile.image_filename && profile.image_delete_token ? 
     {
       filename: profile.image_filename,
@@ -25,7 +25,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     } : undefined
   );
 
-  const [originalImageDetails, setOriginalImageDetails] = useState<ImageDetailsType | undefined>(
+  const [originalImageDetails, setOriginalImageDetails] = useState(
     profile.image_filename && profile.image_delete_token ? 
     {
       filename: profile.image_filename,
