@@ -4,7 +4,7 @@ import { useSafeContext } from "../library/useSafeContext";
 
 export type commentsContextValueType = {
     comments: CommentView[];
-    setComments: (newCommentView: CommentView[]) => void;
+    setComments: React.Dispatch<React.SetStateAction<CommentView[]>>;
     postId: number;
 }
 
