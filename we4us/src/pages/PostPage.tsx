@@ -17,12 +17,6 @@ import "../styles/PostPage.css";
 function FullPostView({ postView, postBody }: { postView: PostView, postBody: PostBodyType }) {
     return (
         <div className="post-content">
-            {postView.post.url && 
-                <a href={postView.post.url} target='_blank' rel="noopener noreferrer" className="post-url">
-                    {postView.post.url}
-                </a>
-            }
-            
             {postBody.imageData &&
                 <div className='post-image-container'>
                     <Link to={constructImageUrl(postBody.imageData)}>
@@ -33,6 +27,12 @@ function FullPostView({ postView, postBody }: { postView: PostView, postBody: Po
                             title='Click to view full image' />
                     </Link>
                 </div>
+            }
+            
+            {postView.post.url && 
+                <a href={postView.post.url} target='_blank' rel="noopener noreferrer" className="post-url">
+                    {postView.post.url}
+                </a>
             }
             
             <div className="post-body">
