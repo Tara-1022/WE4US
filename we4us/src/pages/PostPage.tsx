@@ -9,13 +9,12 @@ import { useProfileContext } from '../components/ProfileContext';
 import LikeHandler from '../components/LikeHandler';
 import { getPostBody, PostBodyType } from '../library/PostBodyType';
 import { constructImageUrl } from '../library/LemmyImageHandling';
-import ReactMarkdown from "react-markdown"
+import ReactMarkdown from "react-markdown";
 import PostEditor from '../components/PostEditor';
-import "../styles/FullImageView.css"
-import "../styles/PostPage.css"
+import "../styles/FullImageView.css";
+import "../styles/PostPage.css";
 
 function FullPostView({ postView, postBody }: { postView: PostView, postBody: PostBodyType }) {
-
     return (
         <div className="post-content">
             {postView.post.url && 
@@ -25,16 +24,17 @@ function FullPostView({ postView, postBody }: { postView: PostView, postBody: Po
             }
             
             {postBody.imageData &&
-                <div className='imageContainer'>
+                <div className='post-image-container'>
                     <Link to={constructImageUrl(postBody.imageData)}>
                         <img
                             src={constructImageUrl(postBody.imageData)}
                             alt="PostImage"
-                            className='image'
+                            className='post-image'
                             title='Click to view full image' />
                     </Link>
                 </div>
             }
+            
             <div className="post-body">
                 <ReactMarkdown>{postBody.body}</ReactMarkdown>
             </div>
@@ -88,7 +88,12 @@ export default function PostPage() {
                                 </Link>
                             </span>
                             <span className="post-date">
-                                {new Date(postView.post.published).toLocaleString()}
+                                Published on {new Date(postView.post.published).toLocaleString()}
+                                {postView.post.updated && 
+                                    <span className="last-edit">
+                                        · Last edited {new Date(postView.post.updated).toLocaleString()}
+                                    </span>
+                                }
                             </span>
                         </div>
                         <h3 className="post-title">{postView.post.name}</h3>

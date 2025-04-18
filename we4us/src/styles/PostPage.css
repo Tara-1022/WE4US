@@ -19,11 +19,12 @@
 
 .post-meta {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   font-size: 12px;
   color: #818384;
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .post-meta a {
@@ -41,6 +42,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-wrap: wrap;
 }
 
 .community-link {
@@ -55,11 +57,12 @@
 .post-date {
   font-size: 11px;
   color: #818384;
+  text-align: right;
 }
 
-.dot-separator {
-  margin: 0 6px;
-  font-size: 10px;
+.last-edit {
+  display: block;
+  margin-top: 2px;
 }
 
 .post-title {
@@ -85,7 +88,7 @@
 }
 
 .post-content {
-  padding: 0 16px;
+  padding: 10px 16px;
 }
 
 .post-body {
@@ -93,19 +96,29 @@
   line-height: 1.5;
   margin: 8px 0;
   word-wrap: break-word;
+  padding: 10px;
 }
 
-.imageContainer {
+.post-body ul, .post-body ol {
+  padding-left: 24px;
+  margin: 8px 0;
+}
+
+.post-body li {
+  margin-bottom: 4px;
+}
+
+.post-image-container {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
-  margin: 0;
+  margin: 10px 0;
   background-color: transparent;
 }
 
-.image {
+.post-image {
   max-width: 100%;
   max-height: 512px;
   object-fit: contain;
@@ -163,20 +176,8 @@
   color: #4fbcff;
 }
 
-.delete-button-wrapper button {
-  display: flex;
-  align-items: center;
+.delete-button {
   color: #FF4500;
-  padding: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  border-radius: 2px;
-}
-
-.delete-button-wrapper button:hover {
-  background-color: #272729;
 }
 
 .comments-section {
@@ -223,5 +224,14 @@ a:hover {
   
   .post-title {
       font-size: 18px;
+  }
+  
+  .post-meta {
+      flex-direction: column;
+  }
+  
+  .post-date {
+      margin-top: 4px;
+      text-align: left;
   }
 }
