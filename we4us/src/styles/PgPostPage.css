@@ -2,21 +2,23 @@
 :root {
   --primary-color: #01c4a4;
   --primary-hover: #019f86;
-  --secondary-color: #3b2e7f;
+  --secondary-color: #f46801;
   --secondary-hover: #2a1e6b;
   --accent-color: #3a7ffc;
   --accent-hover: #2a6fec;
   --error-color: #e74c3c;
   --error-hover: #c0392b;
-  --warning-color: #f46801;
+  --warning-color:#3b2e7f;
   --bg-light: #f5f7fa;
+  --bg-dark: #1e1e1e;
   --bg-white: #ffffff;
+  --bg-black:  #171717;
   --text-dark: #1e1e1e;
   --text-light: #ffffff;
   --border-radius-sm: 6px;
   --border-radius-md: 8px;
   --border-radius-lg: 12px;
-  --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --box-shadow-sm:  0 2px 4px rgba(235, 235, 235, 0.05);
   --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --box-shadow-lg: 0 0 20px rgba(1, 247, 235, 0.913);
   --transition: all 0.2s ease;
@@ -26,8 +28,8 @@
 .pg-post-page {
   padding: 2rem;
   font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
+  background-color: var(--bg-dark);
+  color: var(--text-light);
   max-width: 1200px;
   margin: 0 auto;
   border-radius: var(--border-radius-lg);
@@ -53,7 +55,7 @@
 .pg-post-header p,
 .pg-rating,
 .pg-description p {
-  color: var(--text-dark);
+  color: var(--text-light);
   font-size: 1.1rem;
   line-height: 1.6;
 }
@@ -141,7 +143,7 @@ a:hover {
 .pg-rating {
   margin-top: 1.5rem;
   padding: 1.5rem;
-  background-color: var(--bg-white);
+  background-color: var(--bg-black);
   border-radius: var(--border-radius-md);
   box-shadow: var(--box-shadow-sm);
 }
@@ -155,7 +157,7 @@ a:hover {
 .pg-description {
   margin-top: 2rem;
   padding: 2rem 2.5rem;
-  background-color: var(--bg-white);
+  background-color: var(--bg-black);
   border-radius: var(--border-radius-md);
   box-shadow: var(--box-shadow-sm);
   transition: box-shadow 0.3s ease;
@@ -179,7 +181,7 @@ a:hover {
 
 .pg-profile p {
   display: inline;
-  color: var(--text-dark);
+  color: var(--text-light);
   font-size: 1rem;
   padding: 0;
   background: none;
@@ -198,7 +200,7 @@ a:hover {
 }
 
 .pg-comments-section {
-  background-color: var(--bg-white);
+  background-color: var(--bg-black);
   border-radius: 10px;
   padding: 1.5rem;
   margin-top: 2rem;
@@ -209,7 +211,7 @@ a:hover {
 .pg-comments-section p,
 .pg-comments-section span,
 .pg-comments-section div {
-  color: var(--text-dark);
+  color: var(--text-light);
 }
 
 /* ===== Responsive Design ===== */
