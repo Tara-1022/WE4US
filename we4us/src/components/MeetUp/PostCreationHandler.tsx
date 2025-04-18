@@ -1,9 +1,10 @@
 import { useState } from "react";
-import CreatePostModal from "./CreatePostModal";
+import PostForm from "./PostForm";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
 import { PostView } from "lemmy-js-client";
-import { MeetUpPostBody } from "./MeetUpPostTypes";
+import { MeetUpPostType } from "./MeetUpPostTypes";
+import Modal from "react-modal";
 
 export default function PostCreationHandler({
     handleCreatedPost,
@@ -14,7 +15,7 @@ export default function PostCreationHandler({
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { lemmyInfo } = useLemmyInfo();
 
-    async function handleCreation(data: MeetUpPostBody): Promise<void> {
+    async function handleCreation(data: MeetUpPostType): Promise<void> {
         console.log(data);
         setErrorMessage(null);
 
@@ -25,9 +26,10 @@ export default function PostCreationHandler({
 
         try {
             const newPost = await createPost({
-                body: JSON.stringify(data),
+                body: JSON.stringify(data.body),
                 name: data.title,
-                community_id: lemmyInfo.meet_up_details.community.id || -1,
+                community_id: lemmyInfo.meet_up_details.community.id,
+                ...(data.url && { url: data.url.toString() })
             });
 
             handleCreatedPost(newPost);
@@ -41,12 +43,14 @@ export default function PostCreationHandler({
     return (
         <>
             <button onClick={() => setIsOpen(true)}>New Post</button>
-            <CreatePostModal
-                isOpen={isOpen}
-                handleCreation={handleCreation}
-                setIsOpen={setIsOpen}
-                errorMessage={errorMessage}
-            />
+            <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
+                <PostForm
+                    handleSubmit={handleCreation}
+                    errorMessage={errorMessage}
+                    onClose={() => setIsOpen(false)}
+                    task="Create Meet Up Post"
+                />
+            </Modal>
         </>
     );
 }
