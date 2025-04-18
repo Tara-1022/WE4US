@@ -22,6 +22,7 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
     const [personDetails, setPersonDetails] = useState<PersonDetails>();
     const [isLoading, setLoading] = useState<boolean>(false);
     const [isPostsToggle, setPostsToggle] = useState<boolean>(true);
+    const [page, setPage] = useState(1);
 
     useEffect(
         () => {
@@ -38,6 +39,7 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                                 commentsCount: personDetails.person_view.counts.comment_count
                             }
                         });
+                        console.log(personDetails.posts, personDetails.comments)
                     }
                 )
                 .catch(

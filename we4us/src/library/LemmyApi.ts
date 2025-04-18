@@ -176,9 +176,11 @@ export async function getCommunityDetailsFromName(name: string) {
 }
 
 // https://github.com/LemmyNet/lemmy-ui/blob/main/src/shared/components/person/person-details.tsx#L297
-export async function getPersonDetails(username: string) {
+export async function getPersonDetails(username: string, page = 1, limit = DEFAULT_POSTS_PER_PAGE) {
   const response = await getClient().getPersonDetails({
-    username: username
+    username: username,
+    page,
+    limit
   });
   return response;
 }
