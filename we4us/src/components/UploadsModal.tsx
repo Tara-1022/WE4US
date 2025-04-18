@@ -86,7 +86,6 @@ export default function UploadsModal() {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <>
-
             <span
                 onClick={() => setIsOpen(true)}
                 className="see-uploads-text">See your uploads</span>

@@ -1,11 +1,16 @@
 .see-uploads-text {
-  color: var(--color-dark-bg);
-  cursor: pointer
+  color: #4CAF50;
+  font-weight: 550;
+  cursor: pointer;
+  position: absolute;
+  top: 30%;
+  right: 5%;
 }
 
 .see-uploads-text:hover {
-  color: var(--color-primary-teal);
+  font-weight: 490;
   text-decoration: underline;
+
 }
 
 .profile-container {
