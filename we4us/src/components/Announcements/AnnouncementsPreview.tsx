@@ -3,6 +3,7 @@ import { PostView } from "lemmy-js-client";
 import AnnouncementPostSnippet from "./AnnouncementPostSnippet";
 import { Loader } from 'lucide-react';
 import { getAnnouncementPostList } from "../../library/LemmyApi"
+import "./AnnouncementsPreview.css"
 
 export default function AnnouncementsPreview() {
     const [postViews, setPostViews] = useState<PostView[] | null>(null);

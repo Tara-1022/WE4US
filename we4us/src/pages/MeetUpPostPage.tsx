@@ -7,13 +7,15 @@ import CommentsSection from "../components/CommentsSection";
 import PostDeletor from "../components/PostDeletor";
 import { useProfileContext } from "../components/ProfileContext";
 import ReactMarkdown from "react-markdown";
-import { MeetUpPostBody } from "../components/MeetUp/MeetUpPostTypes";
+import { MeetUpPostType, defaultPostData } from '../components/MeetUp/MeetUpPostTypes';
+import PostEditor from '../components/MeetUp/PostEditor';
 import "./MeetUpPostPage.css";
 
 export default function MeetUpPostPage() {
   const meetUpId = Number(useParams().meetUpId);
   const [postView, setPostView] = useState<PostView | null>(null);
   const [commentsVisible, setCommentsVisible] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const { profileInfo } = useProfileContext();
 
   useEffect(() => {
@@ -25,35 +27,33 @@ export default function MeetUpPostPage() {
   if (!postView)
     return <Loader size={32} strokeWidth={2} className="animate-spin" />;
 
-  let MeetUpDetails: MeetUpPostBody = {
+  let MeetUpDetails: MeetUpPostType = {
     title: postView.post.name,
-    location: "Unknown",
-    datetime: "Not Specified",
-    open_to: "All",
-    url: "",
-    additional_details: "",
+    url: defaultPostData.url,
+    body: defaultPostData.body,
   };
 
   try {
     if (postView.post.body) {
       const parsedData = JSON.parse(postView.post.body);
-
       MeetUpDetails = {
         title: parsedData.title || postView.post.name,
-        location: parsedData.location || "Unknown",
-        datetime: parsedData.datetime || "Not Specified",
-        open_to: parsedData.open_to?.trim() || "All",
-        url: parsedData.url?.trim() || "",
-        additional_details: parsedData.additional_details?.trim() || "",
+        url: parsedData.url?.trim() || defaultPostData.url,
+        body: {
+          location: parsedData.location || defaultPostData.body.location,
+          datetime: parsedData.datetime || defaultPostData.body.datetime,
+          open_to: parsedData.open_to?.trim() || defaultPostData.body.open_to,
+          additional_details: parsedData.additional_details?.trim() || defaultPostData.body.additional_details,
+        },
       };
     }
   } catch (error) {
     console.error("Error parsing post body:", error);
   }
 
-  let readableDateTime = MeetUpDetails.datetime;
+  let readableDateTime = MeetUpDetails.body.datetime;
   try {
-    const parsedDate = new Date(MeetUpDetails.datetime);
+    const parsedDate = new Date(MeetUpDetails.body.datetime);
     if (!isNaN(parsedDate.getTime())) {
       readableDateTime = parsedDate.toLocaleString(undefined, {
         weekday: "long",
@@ -74,67 +74,68 @@ export default function MeetUpPostPage() {
 
   return (
     <div className="meetup-post-container">
-      <h4 className="meetup-post-title">{MeetUpDetails.title}</h4>
+      {isEditing ? (
+        <PostEditor
+          postView={postView}
+          onPostUpdated={setPostView}
+          onClose={() => setIsEditing(false)}
+        />
+      ) : (
+        <>
+          <h4 className="meetup-post-title">{MeetUpDetails.title}</h4>
 
-      <div className="meetup-post-section">
-        <p>
-          <strong>Location:</strong> {MeetUpDetails.location}
-        </p>
-        <p>
-          <strong>Date & Time:</strong> {readableDateTime}
-        </p>
-        <p>
-          <strong>Open To:</strong> {MeetUpDetails.open_to}
-        </p>
+          <div className="meetup-post-section">
+            <p><strong>Location:</strong> {MeetUpDetails.body.location}</p>
+            <p><strong>Date & Time:</strong> {readableDateTime}</p>
+            <p><strong>Open To:</strong> {MeetUpDetails.body.open_to}</p>
+            {MeetUpDetails.url && (
+              <p>
+                <strong>URL:</strong>{" "}
+                <a href={MeetUpDetails.url} target="_blank" rel="noopener noreferrer">
+                  {MeetUpDetails.url}
+                </a>
+              </p>
+            )}
+          </div>
 
-        {MeetUpDetails.url && (
-          <p>
-            <strong>URL:</strong>{" "}
-            <a
-              href={MeetUpDetails.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {MeetUpDetails.url}
-            </a>
+          {MeetUpDetails.body.additional_details && (
+            <div className="meetup-post-section">
+              <strong>Additional Details:</strong>
+              <div className="meetup-post-details">
+                <ReactMarkdown>{MeetUpDetails.body.additional_details}</ReactMarkdown>
+              </div>
+            </div>
+          )}
+
+          <p className="meetup-post-author">
+            <strong>Posted by:</strong>{" "}
+            <Link to={"/profile/" + postView.creator.name}>
+              {postView.creator.display_name || postView.creator.name}
+            </Link>
           </p>
-        )}
-      </div>
 
-      {MeetUpDetails.additional_details && (
-        <div className="meetup-post-section">
-          <strong>Additional Details:</strong>
-          <div className="meetup-post-details">
-            <ReactMarkdown>{MeetUpDetails.additional_details}</ReactMarkdown>
+          <div className="meetup-post-footer">
+            <div className="meetup-post-footer-actions">
+              {postView.creator.id === profileInfo?.lemmyId && (
+                <>
+                  <PostDeletor postId={postView.post.id} />
+                  <b onClick={() => setIsEditing(true)} style={{ cursor: "pointer" }}>
+                    Edit
+                  </b>
+                </>
+              )}
+              <button
+                className="meetup-post-comments-button"
+                onClick={toggleCommentsVisibility}
+              >
+                {commentsVisible ? "Hide Comments" : "Comments"}
+              </button>
+            </div>
           </div>
-        </div>
+
+          {commentsVisible && <CommentsSection postId={postView.post.id} />}
+        </>
       )}
-
-      <p className="meetup-post-author">
-        <strong>Posted by:</strong>{" "}
-        <Link to={"/profile/" + postView.creator.name}>
-          {postView.creator.display_name || postView.creator.name}
-        </Link>
-      </p>
-
-      <div className="meetup-post-footer">
-        {postView.creator.id === profileInfo?.lemmyId && (
-          <div className="meetup-post-footer-actions">
-            <PostDeletor postId={postView.post.id} />
-          </div>
-        )}
-
-        <div className="meetup-post-footer-actions">
-          <button
-            className="meetup-post-comments-button"
-            onClick={toggleCommentsVisibility}
-          >
-            {commentsVisible ? "Hide Comments" : "Comments"}
-          </button>
-        </div>
-      </div>
-
-      {commentsVisible && <CommentsSection postId={postView.post.id} />}
     </div>
   );
 }

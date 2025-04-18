@@ -79,6 +79,7 @@ body {
 
 .meetup-post-footer {
   margin-top: 20px;
+  margin-bottom: 20px;
   border-top: 1px solid #333;
   padding-top: 24px;
   display: flex;
@@ -91,7 +92,11 @@ body {
   display: flex;
   gap: 16px;
   justify-content: flex-start;
-  margin-bottom: 30px;
+  justify-content: space-between; 
+  width: 100%;
+  flex-wrap: wrap;
+
+
 }
 
 .meetup-post-footer-actions b,
@@ -126,7 +131,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .animate-spin {

@@ -4,7 +4,6 @@ import Sidebar from './components/Sidebar';
 import LandingPage from './pages/LandingPage';
 import AnnouncementPage from './pages/AnnouncementPage';
 import AnnouncementPostPage from './pages/AnnouncementPostPage';
-import AuthorisationPage from './pages/AuthorisationPage';
 import JobBoardPage from './pages/JobBoardPage';
 import MeetUpPage from './pages/MeetUpPage';
 import MeetUpPost from './pages/MeetUpPostPage';
@@ -19,6 +18,7 @@ import CommunityPage from './pages/CommunityPage';
 import ReachingOutSearchPage from './pages/ReachingOutSearchPage';
 import SpecialisedSearchPage from './pages/SpecialisedSearchPage';
 import AppContextProvider from './AppContextProvider';
+import Chat from './pages/Chat';
 import Modal from "react-modal";
 import PgPostPage from './pages/PgPostPage';
 import JobPostPage from './pages/JobPostPage';
@@ -26,6 +26,7 @@ import JobPostPage from './pages/JobPostPage';
 import { Menu } from 'lucide-react';
 import { BackButton } from './components/NavButtons';
 import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from './constants';
+
 
 Modal.setAppElement('#root');
 
@@ -49,7 +50,6 @@ const App: React.FC = () => {
 
           <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Routes>
-              <Route path="/login" element={<AuthorisationPage />} />
               <Route path="/home" element={<LandingPage />} />
               <Route path="/" element={<Navigate to="/home" />} />
 
@@ -71,6 +71,7 @@ const App: React.FC = () => {
                 <Route path="/pg-finder/search" element={<SpecialisedSearchPage community={PG_FINDER_COMMUNITY_NAME} />} />
                 
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
+                <Route path="/chat/:to_user" element={<Chat/>}/>
                 <Route path="/search" element={<ReachingOutSearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
