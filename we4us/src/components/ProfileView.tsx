@@ -22,6 +22,7 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           <Pencil />
         </button>
       )}
+        <UploadsModal />
       <div className="profile-image-container">
         <img
           src={profile.image_filename ? constructImageUrl(profile.image_filename) : profile_duck}
@@ -67,7 +68,6 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
       </div>
-      <UploadsModal />
       {profile.username &&
         <LemmyPersonDetails username={profile.username} />
       }

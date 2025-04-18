@@ -3,14 +3,13 @@
   font-weight: 550;
   cursor: pointer;
   position: absolute;
-  top: 30%;
-  right: 5%;
+  top: 45px;
+  right: 1px;
 }
 
 .see-uploads-text:hover {
   font-weight: 490;
   text-decoration: underline;
-
 }
 
 .profile-container {

@@ -1,5 +1,5 @@
 .ReactModal__Overlay {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.5) !important;
     position: fixed;
     inset: 0;
     display: flex;
@@ -9,9 +9,10 @@
 }
 
 .ReactModal__Content {
-    background-color: #1e1e1e;
-    color: "white";
-    width: 90%;
+    background-color: black;
+    color: white;
+    width: 80%;
+    max-width: 800px;
     max-height: 80vh;
     overflow-y: auto;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
@@ -41,7 +42,7 @@
     cursor: pointer;
     border-style: none;
     color: var(--color-white);
-    background-color: var(--color-primary-teal);
+    background-color: #4CAF50;
     position: absolute;
     top: 3%;
     right: 1%;

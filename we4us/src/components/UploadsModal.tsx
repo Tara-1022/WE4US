@@ -88,7 +88,7 @@ export default function UploadsModal() {
         <>
             <span
                 onClick={() => setIsOpen(true)}
-                className="see-uploads-text">See your uploads</span>
+                className="see-uploads-text">See uploads</span>
             <Modal
                 isOpen={isOpen}
                 onRequestClose={() => setIsOpen(false)}
