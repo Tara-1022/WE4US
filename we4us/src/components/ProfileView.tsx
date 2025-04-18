@@ -4,7 +4,10 @@ import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
 import { constructImageUrl } from "../library/ImageHandling";
 import profile_duck from "../assets/profile_duck.png";
+import UploadsModal from './UploadsModal';
+import Modal from "react-modal";
 
+Modal.setAppElement('#root');
 
 interface ProfileViewProps {
   profile: Profile;
@@ -15,9 +18,9 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
   return (
     <div className="profile-content">
       {onEdit && (
-          <button onClick={onEdit} className="edit-button">
-            <Pencil />
-          </button>
+        <button onClick={onEdit} className="edit-button">
+          <Pencil />
+        </button>
       )}
       <div className="profile-image-container">
         <img
@@ -64,6 +67,7 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
       </div>
+      <UploadsModal />
       {profile.username &&
         <LemmyPersonDetails username={profile.username} />
       }
