@@ -78,6 +78,8 @@ export default function PgPostPage() {
             <Review review={review} />
         </li>
     )
+    console.log("All filtered: ", filteredReviews.map(review => review.comment.content))
+    console.log("Avergae rating: ", avgRatings)
     return (
         <CommentsContext.Provider value={commentsContextValue}>
             <FullPostView postView={postView} />
