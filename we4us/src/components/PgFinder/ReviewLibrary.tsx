@@ -96,5 +96,5 @@ export function ReviewEditor({ initialReview }: { initialReview: CommentView }) 
             )
     }
 
-    return <ReviewFormHandler task="Save" handleTask={handleEdit} defaultContent={initialContent} />
+    return <ReviewFormHandler task="Edit" handleTask={handleEdit} defaultContent={initialContent} />
 }
