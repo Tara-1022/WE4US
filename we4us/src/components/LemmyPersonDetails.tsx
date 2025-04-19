@@ -5,6 +5,8 @@ import { CommentView, PostView } from "lemmy-js-client";
 import PostList from "./PostList";
 import CommentList from "./CommentList";
 import { Loader, ToggleLeft, ToggleRight } from "lucide-react";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 
 type OverviewDetails = {
     isAdmin: boolean,
@@ -12,34 +14,39 @@ type OverviewDetails = {
     commentsCount: number
 }
 
-type PersonDetails = {
-    posts: PostView[],
-    comments: CommentView[],
-    overview: OverviewDetails
-}
-
 export default function LemmyPersonDetails({ username }: { username: string }) {
-    const [personDetails, setPersonDetails] = useState<PersonDetails>();
+    const [overviewDetails, setOverviewDetails] = useState<OverviewDetails>();
     const [isLoading, setLoading] = useState<boolean>(false);
     const [isPostsToggle, setPostsToggle] = useState<boolean>(true);
+
+    const [posts, setPosts] = useState<PostView[]>();
+    const [comments, setComments] = useState<CommentView[]>();
     const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(
         () => {
             setLoading(true);
-            getPersonDetails(username)
+            getPersonDetails(username, page)
                 .then(
-                    (personDetails) => {
-                        setPersonDetails({
-                            posts: personDetails.posts,
-                            comments: personDetails.comments,
-                            overview: {
-                                isAdmin: personDetails.person_view.is_admin,
-                                postsCount: personDetails.person_view.counts.post_count,
-                                commentsCount: personDetails.person_view.counts.comment_count
-                            }
+                    (loadedPersonDetails) => {
+                        setOverviewDetails({
+                            isAdmin: loadedPersonDetails.person_view.is_admin,
+                            postsCount: loadedPersonDetails.person_view.counts.post_count,
+                            commentsCount: loadedPersonDetails.person_view.counts.comment_count
                         });
-                        console.log(personDetails.posts, personDetails.comments)
+                        setPosts(loadedPersonDetails.posts);
+                        setComments(loadedPersonDetails.comments);
+                        console.log(loadedPersonDetails.posts, loadedPersonDetails.comments, loadedPersonDetails.moderates)
+                        window.alert(
+                            loadedPersonDetails.posts.length + " "
+                            + loadedPersonDetails.comments.length + " "
+                            + loadedPersonDetails.moderates.length
+                        )
+                        if (loadedPersonDetails.posts.length < DEFAULT_POSTS_PER_PAGE
+                            && loadedPersonDetails.comments.length < DEFAULT_POSTS_PER_PAGE
+                            && loadedPersonDetails.moderates.length < DEFAULT_POSTS_PER_PAGE
+                        ) setHasMore(false)
                     }
                 )
                 .catch(
@@ -49,9 +56,39 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
         }, [username]
     )
 
+    useEffect(
+        () => {
+            setLoading(true);
+            getPersonDetails(username, page)
+                .then(
+                    (loadedPersonDetails) => {
+                        setPosts([...(posts || []), ...loadedPersonDetails.posts]);
+                        setComments([...(comments || []), ...loadedPersonDetails.comments]);
+                        console.log(
+                            "Loaded more!",
+                            loadedPersonDetails.posts, loadedPersonDetails.comments, loadedPersonDetails.moderates)
+                        window.alert(
+                            page + " page, " +
+                            loadedPersonDetails.posts.length + " "
+                            + loadedPersonDetails.comments.length + " "
+                            + loadedPersonDetails.moderates.length
+                        )
+                        if (loadedPersonDetails.posts.length < DEFAULT_POSTS_PER_PAGE
+                            && loadedPersonDetails.comments.length < DEFAULT_POSTS_PER_PAGE
+                            && loadedPersonDetails.moderates.length < DEFAULT_POSTS_PER_PAGE
+                        ) setHasMore(false)
+                    }
+                )
+                .catch(
+                    (error) => console.error("Error fetching more details:", error)
+                )
+                .finally(() => setLoading(false))
+        }, [page]
+    )
+
     if (isLoading) return <Loader />;
 
-    if (!personDetails) {
+    if (!overviewDetails) {
         return <div className="profile-details" style={{ textAlign: "left" }}>
             <h5 style={{ color: "red" }}>
                 Could not fetch Reaching out profile!
@@ -66,15 +103,15 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                     Reaching out Profile:
                 </h3>
                 <div className="detail-item">
-                    <span className="detail-value"><b>{personDetails.overview.isAdmin && "Is an Admin!"}</b></span>
+                    <span className="detail-value"><b>{overviewDetails.isAdmin && "Is an Admin!"}</b></span>
                 </div>
                 <div className="detail-item">
                     <span className="detail-label">Posts: </span>
-                    <span className="detail-value">{personDetails.overview.postsCount || 0}</span>
+                    <span className="detail-value">{overviewDetails.postsCount || 0}</span>
                 </div>
                 <div className="detail-item">
                     <span className="detail-label">Comments: </span>
-                    <span className="detail-value">{personDetails.overview.commentsCount || 0}</span>
+                    <span className="detail-value">{overviewDetails.commentsCount || 0}</span>
                 </div>
             </div>
 
@@ -88,11 +125,27 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                     }
                 </span>
                 <span style={{ margin: "0 10px" }}>Comments</span>
+                {/* <InfiniteScroll
+                    next={() => setPage(page + 1)}
+                    dataLength={
+                        isPostsToggle ? posts?.length || 0 : comments?.length || 0
+                    }
+                    hasMore={hasMore}
+                    loader={<Loader />}> */}
+                    {
+                        isPostsToggle ?
+                            posts && posts.length > 0 ?
+                                <PostList postViews={posts} />
+                                : <><br /><h4>No posts yet!</h4></>
+                            :
+                            comments && comments.length > 0 ?
+                                <CommentList commentViews={comments} />
+                                : <><br /><h4>No comments yet!</h4></>
+                    }
+                {/* </InfiniteScroll> */}
                 {
-                    isPostsToggle ?
-                        personDetails.posts.length > 0 ? <PostList postViews={personDetails.posts} /> : <><br /><h4>No posts yet!</h4></>
-                        :
-                        personDetails.comments.length > 0 ? <CommentList commentViews={personDetails.comments} /> : <><br /><h4>No comments yet!</h4></>
+                    hasMore && <button onClick={() => setPage(page + 1)}
+                    >See more</button>
                 }
             </div>
         </>

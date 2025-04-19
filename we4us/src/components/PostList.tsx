@@ -15,7 +15,7 @@ let styles = {
 export default function PostList({ postViews }: { postViews: PostView[] }) {
     // Simply return a styled list of PostSnippets
     const list = postViews.map(
-        postView => <li key={postView.post.id} style={styles.listItem}>
+        postView => <li key={"post" + postView.post.id} style={styles.listItem}>
                         <PostSnippet postView={postView} />
                     </li>
     );

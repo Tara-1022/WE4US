@@ -25,7 +25,7 @@ export default function CommentList({ commentViews }: { commentViews: CommentVie
     // TODO: link to the exact comment location
     const list = commentViews
         .map(
-            commentView => <li key={commentView.comment.id} style={styles.listItem}>
+            commentView => <li key={"comment" + commentView.comment.id} style={styles.listItem}>
                 <CommentSnippet commentView={commentView} withPostLink={true}/>
             </li>
         )
