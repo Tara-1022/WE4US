@@ -1,13 +1,24 @@
+<<<<<<< HEAD
 //all of this was auto generated
+=======
+>>>>>>> 95f12973cc07fc1a0c3872d55abccce22b05b47f
 // NOTE: The contents of this file will only be executed if
 // you uncomment its entry in "assets/js/app.js".
 
 // Bring in Phoenix channels client library:
+<<<<<<< HEAD
 //import {Socket} from "phoenix"
 
 // And connect to the path in "lib/we4us_web/endpoint.ex". We pass the
 // token for authentication. Read below how it should be used.
 //let socket = new Socket("/socket", {params: {token: window.userToken}})
+=======
+import {Socket} from "phoenix"
+
+// And connect to the path in "lib/we4us_web/endpoint.ex". We pass the
+// token for authentication. Read below how it should be used.
+let socket = new Socket("/socket", {params: {token: window.userToken}})
+>>>>>>> 95f12973cc07fc1a0c3872d55abccce22b05b47f
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,

@@ -29,6 +29,7 @@ import { Menu } from 'lucide-react';
 import { BackButton } from './components/NavButtons';
 import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from './constants';
 
+
 Modal.setAppElement('#root');
 
 const App: React.FC = () => {
@@ -73,7 +74,6 @@ const App: React.FC = () => {
                 
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
                 <Route path="/chat/:to_user" element={<Chat/>}/>
-                {/*<Route path="/search" element={<SearchPage />} />*/}
                 <Route path="/search" element={<ReachingOutSearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
