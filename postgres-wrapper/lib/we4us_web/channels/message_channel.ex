@@ -83,7 +83,8 @@ end
   def handle_in("send_message", %{"to" => to_user, "body" => body}, socket) do
     from_user = socket.assigns.username
     users = [from_user, to_user] |> Enum.sort()
-    # 1. Save to DB first
+
+
     message_params = %{
       "from_user" => from_user,
       "to_user" => to_user,
@@ -93,19 +94,24 @@ end
     case %We4us.Messages.Message{}
          |> We4us.Messages.Message.changeset(message_params)
          |> We4us.Repo.insert() do
-      {:ok, _message} ->
+      {:ok, message} ->
+        formatted_message = %{
+          id: message.id,
+          from_user: from_user,
+          to_user: to_user,
+          body: body,
+          inserted_at: message.inserted_at
+        }
+
         topic = "message:#{Enum.join(users, "_")}"
-        We4usWeb.Endpoint.broadcast(topic, "new_message", %{
-          from: from_user,
-          body: body
-        })
-        {:noreply, socket}
+        We4usWeb.Endpoint.broadcast(topic, "new_message", formatted_message)
+
+        {:reply, {:ok, formatted_message}, socket}
 
       {:error, _changeset} ->
         {:reply, {:error, %{reason: "Failed to save message"}}, socket}
     end
   end
-
   defp format_messages(messages) do
     Enum.map(messages, fn msg ->
       %{

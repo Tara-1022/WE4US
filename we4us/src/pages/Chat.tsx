@@ -88,6 +88,7 @@ export async function sendMessage(message: string, recipient: string): Promise<M
 const Chat: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
+  const [processedMessageIds, setProcessedMessageIds] = useState<Set<string>>(new Set());
   const [messages, setMessages] = useState<Message[]>([]);
   const { profileInfo } = useProfileContext();
   const { to_user } = useParams<{ to_user: string }>();
@@ -141,31 +142,37 @@ const Chat: React.FC = () => {
     };
   }, [profileInfo, to_user]);
 
-  const handleSendMessage = async (): Promise<void> => {
-    if (!isSocketInitialized || !to_user || !message.trim()) {
-      return;
-    }
-  
-    try {
-      const messageText = message;
-      
-      await sendMessage(messageText, to_user);
-      
-      const newMessage: Message = {
-        id: `local-${Date.now()}`, 
-        from_user: currentUser || '',
-        to_user: to_user,
-        body: messageText,
-        inserted_at: new Date().toISOString()
-      };
-      
-      setMessages(prevMessages => [...prevMessages, newMessage]);
-      
-      setMessage('');
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
-  };
+  // Modify your handleSendMessage function
+const handleSendMessage = async (): Promise<void> => {
+  if (!isSocketInitialized || !to_user || !message.trim()) {
+    return;
+  }
+
+  try {
+    const messageText = message;
+    
+    // Send the message but don't add it to state
+    // The channel.on("new_message") will handle adding it
+    await sendMessage(messageText, to_user);
+    
+    // Clear the input field
+    setMessage('');
+  } catch (error) {
+    console.error("Error sending message:", error);
+    
+    // Only add a fallback message if sending failed
+    const fallbackMessage: Message = {
+      id: `local-${Date.now()}`,
+      from_user: currentUser || '',
+      to_user: to_user || '',
+      body: message,
+      inserted_at: new Date().toISOString()
+    };
+    
+    setMessages(prevMessages => [...prevMessages, fallbackMessage]);
+    setMessage('');
+  }
+};
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setMessage(e.target.value);
