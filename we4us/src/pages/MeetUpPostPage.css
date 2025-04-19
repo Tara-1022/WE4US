@@ -53,6 +53,7 @@ body {
 .meetup-post-details {
   margin-top: 16px;
   padding: 18px;
+  padding-left: 20px; 
   background-color: rgba(27, 27, 27, 0.95);
   border: 1px solid #3a3a3a;
   border-radius: 8px;
@@ -60,6 +61,11 @@ body {
   line-height: 1.7;
   transition: all 0.3s ease-in-out;
 }
+.meetup-post-details ul {
+  list-style-position: inside;
+  padding-left: 8px; 
+}
+
 
 .meetup-post-author {
   font-size: 1rem;

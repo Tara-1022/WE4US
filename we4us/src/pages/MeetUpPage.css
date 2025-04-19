@@ -11,6 +11,26 @@
     flex-direction: column;
     align-items: center;
 }
+.search-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+  
+  .search-icon {
+    width: 24px;
+    height: 24px;
+    color: #555; /* change to fit your theme */
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .search-icon:hover {
+    color: #1e90ff; /* hover color */
+    transform: scale(1.1);
+  }
+  
 
 .meetup-header-row {
     display: flex;
@@ -20,6 +40,8 @@
     width: 100%;
     border-bottom: 1px solid #444444;
     padding-bottom: 15px;
+    padding: 1rem;
+
 }
 
 .meetup-header {
@@ -30,6 +52,25 @@
     letter-spacing: 2px;
     transition: all 0.3s ease-in-out;
 }
+.meetup-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem; 
+  }
+  
+  .meetup-search-icon {
+    width: 26px;
+    height: 26px;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .meetup-search-icon:hover {
+    color: #38bdf8; 
+    transform: scale(1.2);
+  }
+  
 
 .no-posts {
     font-size: 1.3rem;
@@ -49,7 +90,21 @@
     backdrop-filter: blur(8px);
     transition: all 0.3s ease-in-out;
 }
-
+.meetup-header-actions button {
+    background-color: #2563eb; 
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .meetup-header-actions button:hover {
+    background-color: #1d4ed8; 
+    transform: translateY(-2px);
+  }
+  
 .meetup-create-post button {
     padding: 12px 24px;
     background: #444444;
