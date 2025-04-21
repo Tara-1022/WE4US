@@ -2,8 +2,8 @@
 
 :root {
     /* Color Palette */
-    --color-dark-bg: #1e1e1e;
-    --color-card-bg: #1f1f1f;
+    --color-dark-bg: #080808;
+    --color-card-bg: #3c3c3c;
     --color-card-hover: #252525;
     --color-white: #f0f0f0;
     --color-gray: #888;
@@ -80,6 +80,8 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    border-color: #a29bfe;
+  
   }
   
   .job-board-header {
@@ -113,7 +115,8 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-xxl);
+    
   }
   
 
@@ -125,6 +128,8 @@
     box-shadow: var(--shadow-sm);
     transition: all var(--transition-normal);
     border-left: 4px solid transparent;
+    gap: 2rem;
+  
   }
   
   .job-post-item:hover {

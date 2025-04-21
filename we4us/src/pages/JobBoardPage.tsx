@@ -27,7 +27,7 @@ export default function JobBoardPage() {
     return (
         <div className="job-board-container"> 
           <div className="job-board-header">
-            <h1>Job Board</h1>
+            <h1>JOB BOARD</h1>
             <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
           </div>
       

@@ -53,15 +53,25 @@ export default function JobPostPage() {
                     </div>
                     <div className="detail-item">
                         <span className="detail-label">Deadline</span>
-                        <span className="detail-value deadline">{jobDetails.deadline || "Rolling"}</span>
+                        <span className="detail-value deadline">
+                        {jobDetails.deadline ? (
+                        new Date(jobDetails.deadline).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0) ? (
+                        <span className="deadline-passed">Deadline Passed</span> ) : (jobDetails.deadline)) : ("Job Closed")}
+                        </span>
                     </div>
-                </div>
-
-                {postView.post.url && (
-                    <a href={postView.post.url} className="job-apply-button" target="_blank" rel="noopener noreferrer">
-                        See More
-                    </a>
-                )}
+                    {postView.post.url && (
+                    <div className="detail-item">
+                        <span className="detail-label">Link</span>
+                        <a 
+                         href={postView.post.url} 
+                         className="detail-value" 
+                         target="_blank" 
+                         rel="noopener noreferrer"
+                        >
+                        Visit Site!
+                        </a>
+                    </div>)}
+                    </div>  
 
                 <div className="job-description">
                     <h3>Job Description</h3>
