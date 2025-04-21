@@ -1,11 +1,68 @@
+// CommentCreator.tsx
 import { createComment } from "../library/LemmyApi";
 import { useCommentsContext } from "./CommentsContext";
-import { useState } from "react";
+import { useState} from "react";
 import Collapsible from "./Collapsible";
 
 export default function CommentCreator({ parentId, actionName = "Comment" }: { parentId?: number, actionName?: string }) {
     const { postId, setComments, comments } = useCommentsContext();
     const [content, setContent] = useState("");
+    const [isExpanded, setIsExpanded] = useState(false);
+    
+    const styles = {
+        form: {
+            marginBottom: "16px"
+        },
+        textarea: {
+            width: "100%",
+            minHeight: "60px",
+            padding: "12px",
+            border: "1px solid #444",
+            borderRadius: "4px",
+            resize: "vertical" as const,
+            fontFamily: "inherit",
+            fontSize: "14px",
+            marginBottom: "8px",
+            transition: "border-color 0.2s",
+            backgroundColor: "#252830",
+            color: "#e0e0e0"
+        },
+        formActions: {
+            display: "flex",
+            gap: "8px"
+        },
+        submitButton: {
+            padding: "6px 16px",
+            backgroundColor: "#ff7b00",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "500",
+            transition: "background-color 0.2s"
+        },
+        cancelButton: {
+            padding: "6px 16px",
+            backgroundColor: "#32343a",
+            color: "#a0a8b0",
+            border: "1px solid #444",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "500",
+            transition: "background-color 0.2s"
+        },
+        actionButton: {
+            background: "none",
+            border: "none",
+            color: "#a0a8b0", // Light text color for dark theme
+            cursor: "pointer",
+            fontWeight: "500",
+            padding: 0,
+            fontSize: "13px",
+            display: "flex",
+            alignItems: "center"
+        }
+    };
 
     function handleCreate() {
         if (content == "") {
@@ -26,9 +83,11 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
                     newComments = [...comments.slice(0, parentIndex), updatedParent, ...comments.slice(parentIndex + 1)]
                 }
                 setComments([commentView, ...newComments]);
+                // Auto-close form after submission
+                setIsExpanded(false);
+                setContent("");
             }
         );
-        setContent("");   
     }
 
     function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>){
@@ -38,25 +97,54 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
 
     function CollapsedIcon(){
         return (
-            <b>
-            Cancel
-            </b>
-        )
-    }
-    function OpenIcon(){
-        return (
-            <b>
+            <b style={styles.actionButton}>
             {actionName}
             </b>
         )
     }
+    
+    function OpenIcon(){
+        return (
+            <b style={styles.actionButton}>
+            Cancel
+            </b>
+        )
+    }
+
+    function handleToggle() {
+        setIsExpanded(!isExpanded);
+    }
 
     return (
-        <Collapsible CollapsedIcon={CollapsedIcon} OpenIcon={OpenIcon} initiallyExpanded={false}>
-            <textarea name="content" value={content} onChange={handleChange}/>
-            <br />
-            <button onClick={handleCreate}>{actionName}</button>
-            <button onClick={()=>{setContent("");}}>Clear</button>
+        <Collapsible 
+            CollapsedIcon={CollapsedIcon} 
+            OpenIcon={OpenIcon} 
+            initiallyExpanded={false}
+            onToggle={handleToggle}
+        >
+            <div style={styles.form}>
+                <textarea 
+                    style={styles.textarea}
+                    name="content" 
+                    value={content} 
+                    onChange={handleChange}
+                    placeholder={`Write your ${actionName.toLowerCase()}...`}
+                />
+                <div style={styles.formActions}>
+                    <button 
+                        onClick={handleCreate}
+                        style={styles.submitButton}
+                    >
+                        {actionName}
+                    </button>
+                    <button 
+                        onClick={() => {setContent("");}}
+                        style={styles.cancelButton}
+                    >
+                        Clear
+                    </button>
+                </div>
+            </div>
         </Collapsible>
-    )
+    );
 }
