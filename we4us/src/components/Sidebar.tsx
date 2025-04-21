@@ -4,6 +4,7 @@ import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-re
 import LogoutButton from '../auth/LogoutButton';
 import DuckAvatar from '../assets/profile_duck.png';
 import { useProfileContext } from './ProfileContext';
+import { useAuth } from '../auth/AuthProvider';
 import '../styles/sidebar.css';
 
 interface SidebarProps {
@@ -22,7 +23,8 @@ const navItems = [
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
-  const { profileInfo } = useProfileContext();
+  const {profileInfo} = useProfileContext();
+  const { isLoggedIn } = useAuth();
 
   const user = {
     name: profileInfo?.displayName,
@@ -54,9 +56,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
           ))}
         </nav>
 
-        <div className="logout-section">
-          <LogoutButton />
-        </div>
+        {isLoggedIn && (
+          <div className="logout-section">
+            <LogoutButton />
+          </div>
+        )}
+        
       </div>
     </>
   );

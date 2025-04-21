@@ -1,0 +1,86 @@
+/* LandingPage.css */
+/* Full-Screen Layout */
+.landing-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Left Section */
+.landing-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.landing-title {
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--color-white);
+}
+
+.landing-title svg {
+    margin-right: 1rem;
+    color: var(--color-white);
+}
+
+/* Description */
+.landing-desc {
+    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+}
+
+.landing-btn {
+    background-color: var(--color-primary-orange);
+    padding: 1rem;
+    border-radius: 40px;
+    font-size:1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.landing-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* Right Section */
+.landing-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-dark-bg);
+}
+
+.landing-image {
+    margin-top: 2rem;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10%;
+}
+@media (min-width: 768px) {
+    .landing-left {
+        width: 50%;
+        text-align: left;
+        padding: 2rem;
+    }
+    .landing-right {
+        width: 50%;
+    }
+    .landing-container {
+        flex-direction: row;
+    }
+}
+@media (max-width: 768px) {
+    .landing-title{
+        justify-content: center;
+    }
+}
