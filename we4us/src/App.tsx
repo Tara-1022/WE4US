@@ -18,6 +18,7 @@ import CommunityPage from './pages/CommunityPage';
 import ReachingOutSearchPage from './pages/ReachingOutSearchPage';
 import SpecialisedSearchPage from './pages/SpecialisedSearchPage';
 import AppContextProvider from './AppContextProvider';
+import Chat from './pages/Chat';
 import Modal from "react-modal";
 import PgPostPage from './pages/PgPostPage';
 import JobPostPage from './pages/JobPostPage';
@@ -25,6 +26,7 @@ import JobPostPage from './pages/JobPostPage';
 import { Menu } from 'lucide-react';
 import { BackButton } from './components/NavButtons';
 import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from './constants';
+
 
 Modal.setAppElement('#root');
 
@@ -69,6 +71,7 @@ const App: React.FC = () => {
                 <Route path="/pg-finder/search" element={<SpecialisedSearchPage community={PG_FINDER_COMMUNITY_NAME} />} />
                 
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
+                <Route path="/chat/:to_user" element={<Chat/>}/>
                 <Route path="/search" element={<ReachingOutSearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
