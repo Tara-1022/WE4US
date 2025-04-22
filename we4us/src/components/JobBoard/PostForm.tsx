@@ -7,12 +7,8 @@ let styles = {
     }
 };
 
-export default function PostForm({ onClose, handleSubmit, task, initialData, withJobStatus = false }:
-    {
-        onClose: () => void, handleSubmit: (data: JobPostData) => void,
-        task: string, initialData?: JobPostData,
-        withJobStatus?: boolean
-    }) {
+export default function PostForm({ onClose, handleSubmit, task, initialData }:
+    { onClose: () => void, handleSubmit: (data: JobPostData) => void, task: string, initialData?: JobPostData }) {
 
     function generateTitle(company?: string, role?: string, jobType?: string): string {
         if (!role || !company) return "";
@@ -22,7 +18,7 @@ export default function PostForm({ onClose, handleSubmit, task, initialData, wit
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const { url, company, role, location, description, deadline, name, job_type, job_status } = Object.fromEntries(formData);
+        const { url, company, role, location, description, deadline, name, job_type } = Object.fromEntries(formData);
 
         if (deadline && !isDateInFuture(deadline.toString())) {
             window.alert("Error: Deadline must be a future date");
@@ -38,7 +34,7 @@ export default function PostForm({ onClose, handleSubmit, task, initialData, wit
                     company: company.toString(),
                     role: role.toString(),
                     location: location.toString(),
-                    open: withJobStatus ? true : (job_status == "on"),
+                    open: true,
                     deadline: deadline?.toString(),
                     description: description.toString(),
                     job_type: job_type as JobType
@@ -81,13 +77,6 @@ export default function PostForm({ onClose, handleSubmit, task, initialData, wit
             <label htmlFor="description">Description</label>
             <textarea name="description" defaultValue={initialData?.body.description || undefined} />
             <br />
-            {withJobStatus &&
-                <>
-                    <label htmlFor="job_status">Job Open?</label>
-                    <input type="checkbox" name="job_status" defaultValue={initialData?.body.open ? "on" : undefined} />
-                    <br />
-                </>
-            }
             <button type="submit">{task}</button>
             <button type="reset">Reset</button>
             <button type="button" onClick={onClose}>Cancel</button>

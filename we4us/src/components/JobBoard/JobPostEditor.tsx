@@ -38,7 +38,6 @@ export default function JobPostEditor({ postView, onPostUpdated, onClose }:
             url: postView.post.url,
             body: jobDetails
         }}
-        withJobStatus={true}
         task="Edit"
     />
 }
