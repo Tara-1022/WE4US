@@ -1,27 +1,10 @@
 import { useState } from "react";
-import CreatePostModal from "./PgPostCreationModal";
+import PgPostForm from "./PgPostForm";
 import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
-
-export type PgPostData = {
-    name: string,
-    body: PgPostBody,
-    url: string
-}
-
-export type PgPostBody = {
-    location: string,
-    ratings: {
-        cost: number | null,
-        safety: number | null,
-        food: number | null,
-        cleanliness: number | null
-    },
-    acAvailable: boolean,
-    foodType: string,
-    description: string
-}
+import { PgPostData } from "./Types";
+import Modal from "react-modal";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -50,11 +33,16 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     return (
         <>
             <button onClick={() => setIsOpen(true)}>New PG</button>
-            <CreatePostModal
+
+            <Modal
                 isOpen={isOpen}
-                handleCreation={handleCreation}
-                setIsOpen={setIsOpen}
-            />
+                contentLabel="Add new PG">
+                <PgPostForm
+                    handleSubmit={handleCreation}
+                    onClose={() => setIsOpen(false)}
+                    task="Add PG"
+                />
+            </Modal>
         </>
     );
 }

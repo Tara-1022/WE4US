@@ -1,13 +1,14 @@
 import { useState } from "react";
-import CreatePostModal from "./JobPostCreationModal";
+import PostForm from "./PostForm";
 import { createPost } from "../../library/LemmyApi";
 import { PostView } from "lemmy-js-client";
 import { useLemmyInfo } from "../LemmyContextProvider"
 import { JobPostData } from "./JobTypes";
+import Modal from "react-modal";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
-    const {lemmyInfo} = useLemmyInfo();
+    const { lemmyInfo } = useLemmyInfo();
 
     if (!lemmyInfo) return <h3>Could not fetch Job Board community!</h3>
 
@@ -16,11 +17,11 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
 
         if (!lemmyInfo) {
             console.error("Error creating post: Lemmy details not available");
-            return 
+            return
         }
-        
+
         createPost({
-            ...(data.url && {url: data.url}),
+            ...(data.url && { url: data.url }),
             body: JSON.stringify(data.body),
             name: data.name.toString(),
             community_id: lemmyInfo.job_board_details.community.id
@@ -34,7 +35,12 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     return (
         <>
             <button onClick={() => setIsOpen(!isOpen)}>New Post</button>
-            <CreatePostModal isOpen={isOpen} handleCreation={handleCreation} setIsOpen={setIsOpen} />
+            <Modal isOpen={isOpen} contentLabel="Create Job Post">
+                <PostForm 
+                handleSubmit={handleCreation} 
+                onClose={() => setIsOpen(false)}
+                task="Create Job Post" />
+            </Modal>
         </>
     );
 }
