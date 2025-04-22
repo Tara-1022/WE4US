@@ -51,26 +51,42 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Update a profile by username."
   def update(conn, %{"username" => username, "profile" => profile_params}) do
-    case Profiles.update_profile(username, profile_params) do
-      {:ok, updated_profile} ->
-        conn
-        |> put_status(:ok)
-        |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
-
-      {:error, :profile_not_found} ->
+    case Profiles.get_profile(username) do
+      nil ->
         conn
         |> put_status(:not_found)
         |> json(%{error: "Profile with username '#{username}' not found"})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{errors: ChangesetJSON.errors(changeset)})
+      profile ->
+        # Convert string values to appropriate types and handle image fields
+        processed_params = profile_params
+          |> Map.update("years_of_experience", profile.years_of_experience, fn
+            nil -> nil
+            "" -> nil
+            val when is_binary(val) -> String.to_integer(val)
+            val -> val
+          end)
+          |> Map.update("areas_of_interest", profile.areas_of_interest, fn
+            areas when is_list(areas) -> areas
+            _ -> profile.areas_of_interest
+          end)
+
+        case Profiles.update_profile(username, processed_params) do
+          {:ok, updated_profile} ->
+            conn
+            |> put_status(:ok)
+            |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{errors: ChangesetJSON.errors(changeset)})
+        end
     end
   end
 
   @doc "Delete a profile by username."
-  def delete(conn, %{"username" => username}) do
+   def delete(conn, %{"username" => username}) do
     case Profiles.delete_profile(username) do
       {:ok, :deleted} ->
         conn
@@ -89,6 +105,7 @@ defmodule We4usWeb.ProfileController do
     end
   end
 
+
   defp profile_json(profile) do
     %{
       username: profile.username,
@@ -97,7 +114,9 @@ defmodule We4usWeb.ProfileController do
       current_role: profile.current_role,
       company_or_university: profile.company_or_university,
       years_of_experience: profile.years_of_experience,
-      areas_of_interest: profile.areas_of_interest
+      areas_of_interest: profile.areas_of_interest,
+      image_filename: profile.image_filename,
+      image_delete_token: profile.image_delete_token
     }
   end
 end

@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
-import DuckAvatar from '../assets/profile_duck.png';
 import { useProfileContext } from './ProfileContext';
+import {getProfileImageSource } from '../library/ImageHandling';
 import { useAuth } from '../auth/AuthProvider';
 import '../styles/sidebar.css';
 
@@ -25,11 +25,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
   const {profileInfo} = useProfileContext();
   const { isLoggedIn } = useAuth();
+  const profileImageUrl = getProfileImageSource(profileInfo)
 
   const user = {
-    name: profileInfo?.displayName,
-    username: profileInfo?.userName,
-    avatar: DuckAvatar
+    name: profileInfo?.display_name,
+    username: profileInfo?.username,
+    avatar: profileImageUrl
   };
 
   return (
