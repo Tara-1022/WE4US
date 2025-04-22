@@ -15,6 +15,26 @@ let socket: Socket | null = null;
 let channel: Channel | null = null;
 let socketInitialized: boolean = false;
 
+const formatMessageDate = (date: Date): string => {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return 'Today';
+  } else if (date.toDateString() === yesterday.toDateString()) {
+    return 'Yesterday';
+  }
+  else {
+    return date.toLocaleDateString('en-US', { 
+      weekday: 'long',
+      month: 'short', 
+      day: 'numeric',
+      year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined
+    });
+  }
+}
+
 export async function initializeSocket(sender: string, recipient: string): Promise<{channel: Channel | null, messages: Message[]}> {
   if (!sender || !recipient) {
     console.error("Username is undefined. Cannot initialize socket.");
@@ -192,30 +212,54 @@ const handleSendMessage = async (): Promise<void> => {
           <h2 className="text-xl font-bold text-white">Chat with {to_user}</h2>
         </div>
         
-        <div className="flex-1 overflow-y-auto">
-          {messages.map((msg, index) => {
-            const isOwnMessage = msg.from_user === currentUser;
-            return (
-              <div 
-                key={msg.id || index} 
-                className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-6`}
-              >
-                <div className="flex flex-col max-w-[70%]">
-                  <div className={`text-sm font-bold mb-1 ${isOwnMessage ? 'text-cyan-500 text-right' : 'text-green-500'}`}>
-                    {isOwnMessage ? 'You' : msg.from_user}
-                  </div>
-                  
-                  <div className="rounded-2xl bg-black min-h-[40px]" style={{ padding: '4px' }}>
-                    <p className="text-white">{msg.body}</p>
-                    <small className="block text-right text-gray-400 text-xs mt-2">
-                      {new Date(msg.inserted_at).toLocaleTimeString()}
-                    </small>
-                  </div>
+        <div className="flex-1 p-4 overflow-y-auto">
+
+      {(() => {
+        let currentDate = '';
+        let messageGroups: JSX.Element[] = [];
+        
+        messages.forEach((msg, index) => {
+          const messageDate = new Date(msg.inserted_at);
+          const dateString = formatMessageDate(messageDate);
+          const isOwnMessage = msg.from_user === currentUser;
+          
+
+          if (dateString !== currentDate) {
+            currentDate = dateString;
+            messageGroups.push(
+              <div key={`date-${dateString}-${index}`} className="flex justify-center my-4">
+                <div className="text-white text-xl">
+                  {dateString}
                 </div>
               </div>
             );
-          })}
-          <div ref={messagesEndRef} />
+          }
+          
+          // Add the message
+          messageGroups.push(
+            <div 
+              key={msg.id || index} 
+              className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-3`}
+            >
+              <div className="flex flex-col max-w-[70%]">
+                <div className={`text-sm font-bold mb-1 ${isOwnMessage ? 'text-cyan-500 text-right' : 'text-green-500'}`}>
+                  {isOwnMessage ? 'You' : msg.from_user}
+                </div>
+                
+                <div className="rounded-2xl bg-black min-h-[40px]" style={{ padding: '12px 16px' }}>
+                  <p className="text-white">{msg.body}</p>
+                  <small className="block text-right text-gray-400 text-xs mt-2">
+                    {messageDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  </small>
+                </div>
+              </div>
+            </div>
+          );
+        });
+        
+        return messageGroups;
+      })()}
+      <div ref={messagesEndRef} />
         </div>
         
         <div className="p-4 border-gray-200 flex gap-2 sticky bottom-5   ">

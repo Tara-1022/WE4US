@@ -18,7 +18,6 @@ import CommunityPage from './pages/CommunityPage';
 import ReachingOutSearchPage from './pages/ReachingOutSearchPage';
 import SpecialisedSearchPage from './pages/SpecialisedSearchPage';
 import AppContextProvider from './AppContextProvider';
-//import SearchPage from './pages/SearchPage';
 import Chat from './pages/Chat';
 
 import Modal from "react-modal";
