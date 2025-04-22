@@ -88,7 +88,6 @@ export async function sendMessage(message: string, recipient: string): Promise<M
 const Chat: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
-  const [processedMessageIds, setProcessedMessageIds] = useState<Set<string>>(new Set());
   const [messages, setMessages] = useState<Message[]>([]);
   const { profileInfo } = useProfileContext();
   const { to_user } = useParams<{ to_user: string }>();
@@ -189,11 +188,11 @@ const handleSendMessage = async (): Promise<void> => {
 
     return (
       <div className="flex flex-col">
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-4 shadow-md flex justify-center">
+        <div className="flex justify-center sticky top-3.5 z-10">
           <h2 className="text-xl font-bold text-white">Chat with {to_user}</h2>
         </div>
         
-        <div className="flex-1 p-4 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
           {messages.map((msg, index) => {
             const isOwnMessage = msg.from_user === currentUser;
             return (
@@ -206,8 +205,7 @@ const handleSendMessage = async (): Promise<void> => {
                     {isOwnMessage ? 'You' : msg.from_user}
                   </div>
                   
-                  {/* Added px-4 py-3 classes for horizontal and vertical padding */}
-                  <div className="rounded-2xl bg-black px-4 py-3">
+                  <div className="rounded-2xl bg-black min-h-[40px]" style={{ padding: '4px' }}>
                     <p className="text-white">{msg.body}</p>
                     <small className="block text-right text-gray-400 text-xs mt-2">
                       {new Date(msg.inserted_at).toLocaleTimeString()}
@@ -220,19 +218,19 @@ const handleSendMessage = async (): Promise<void> => {
           <div ref={messagesEndRef} />
         </div>
         
-        <div className="p-4 border-gray-200 flex gap-2">
+        <div className="p-4 border-gray-200 flex gap-2 sticky bottom-5   ">
           <input
             type="text"
             value={message}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
-            className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 bg-black border border-gray-300 rounded-full ml-4 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-custom-orange"
           />
           <button 
             onClick={handleSendMessage} 
             disabled={!message.trim()}
-            className={`rounded-full px-5 py-2 font-medium ${!message.trim() ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+            className={`rounded-full w-[100px] px-5 py-2 font-medium ${!message.trim() ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
           >
             Send
           </button>

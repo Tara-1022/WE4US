@@ -46,38 +46,6 @@ def join("message:" <> recipientname, payload, socket) do
     {:error, %{reason: "unauthorized"}}
   end
 end
-  # Channels can be used in a request/response fashion
-  # by sending replies to requests from the client
-  @impl true
-  def handle_in("new_message", %{"to" => to_user, "body" => body}, socket) do
-
-    from_user = socket.assigns.username
-    users = [from_user, to_user] |> Enum.sort()
-
-    message_params = %{
-      from_user: from_user,
-      to_user: to_user,
-      message: body
-    }
-    # Save message to database
-    case We4us.Messages.create_message(%{
-      from_user: from_user,
-      to_user: to_user,
-      message: body
-    }) do
-      {:ok, _message} ->
-        topic = "message:#{Enum.join(users, "_")}"
-        broadcast!(socket, "new_message", %{from: from_user, body: body})
-        Phoenix.PubSub.broadcast(We4us.PubSub, topic, %{
-          event: "new_message",
-          payload: %{from: from_user, body: body}
-        })
-        {:noreply, socket}
-
-      {:error, changeset} ->
-        {:reply, {:error, changeset}, socket}
-    end
-  end
 
   @impl true
   def handle_in("send_message", %{"to" => to_user, "body" => body}, socket) do
