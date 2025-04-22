@@ -9,6 +9,7 @@ import Modal from "react-modal";
 
 Modal.setAppElement('#root');
 
+
 interface ProfileViewProps {
   profile: Profile;
   isOfCurrentUser: boolean;

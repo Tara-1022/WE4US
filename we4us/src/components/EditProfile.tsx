@@ -137,7 +137,6 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             copiesCount={1}
             purpose="profile"
           />
-          <span style={{ color: "black" }}>{"Delete old image? " + deleteOldImage + " Original image " + originalImage}</span>
         </div>
 
         <div className="form-group">

@@ -118,7 +118,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           disabled={loading}
         >
           Remove Image
-          &nbsp; {hasUploaded + " " + uploadedCopies}
         </button>
 
         <button onClick={handleReset}>Reset</button>

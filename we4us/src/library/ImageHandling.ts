@@ -1,4 +1,4 @@
-import { DEFAULT_POSTS_PER_PAGE, LEMMY_IMAGE_URL } from "../constants"
+import { LEMMY_IMAGE_URL, DEFAULT_POSTS_PER_PAGE } from "../constants"
 import profile_duck from '../assets/profile_duck.png'
 import { getClient } from "./LemmyApi"
 import { Profile } from "./PostgresAPI"
