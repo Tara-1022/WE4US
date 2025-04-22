@@ -4,19 +4,21 @@ import { JobPostBody } from "./JobTypes";
 
 export default function JobStatusChanger({ postId, initialView, onUpdate }:
     { postId: number, initialView: PostView, onUpdate: (updatedPost: PostView) => void }) {
-    console.log("Parsing", initialView.post.body)
     const jobBody = JSON.parse(initialView.post.body || "{}") as JobPostBody
 
     function changeStatus(event: React.MouseEvent<HTMLButtonElement>) {
+        if (!confirm("Changing job status from \"" +
+            (jobBody.open ? "Open" : "Closed") +
+            "\" to \"" +
+            (jobBody.open ? "Closed" : "Open") +
+            "\". \nAre you sure?"
+        )) return
+
         event.preventDefault()
         const newJobBody = {
             ...jobBody,
             open: !jobBody.open
         }
-        console.log("Switching to, ", {
-            post_id: postId,
-            body: JSON.stringify(newJobBody)
-        })
         editPost(
             {
                 post_id: postId,
