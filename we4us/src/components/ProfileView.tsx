@@ -2,6 +2,9 @@ import '../styles/ProfilePage.css';
 import LemmyPersonDetails from './LemmyPersonDetails';
 import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
+import { constructImageUrl } from "../library/ImageHandling";
+import profile_duck from "../assets/profile_duck.png";
+
 
 interface ProfileViewProps {
   profile: Profile;
@@ -16,6 +19,13 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
             <Pencil />
           </button>
       )}
+      <div className="profile-image-container">
+        <img
+          src={profile.image_filename ? constructImageUrl(profile.image_filename) : profile_duck}
+          alt={`${profile.display_name}'s profile`}
+          className="profile-image"
+        />
+      </div>
       <h1>{profile.display_name}</h1>
       <p className="username">@{profile.username}</p>
       <div className="profile-details">
