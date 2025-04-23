@@ -18,7 +18,6 @@ export default function PgFinderPage() {
         () => {
         getPgPostList(page).then(setPostViews);
     }, [page]);
-
     if (!postViews) return <Loader />;
 
     return (

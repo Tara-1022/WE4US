@@ -243,6 +243,7 @@ export async function getJobPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): 
     return postCollection;
   }
 }
+
 export async function getPgPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {

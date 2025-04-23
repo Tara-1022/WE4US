@@ -26,7 +26,6 @@ export default function JobBoardPage() {
         );
     }
     
-
     return (
         <div className="job-board-container">
             <h1>Job Board</h1>

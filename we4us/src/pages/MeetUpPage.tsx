@@ -17,7 +17,6 @@ export default function MeetUpPage() {
     useEffect(() => {
         getMeetUpPostList(page).then(setPostViews);
     }, [page]);
-
     if (!postViews) return <Loader />;
 
     return (
