@@ -1,4 +1,3 @@
-// CommentCreator.tsx
 import { createComment } from "../library/LemmyApi";
 import { useCommentsContext } from "./CommentsContext";
 import { useState} from "react";
@@ -7,7 +6,6 @@ import Collapsible from "./Collapsible";
 export default function CommentCreator({ parentId, actionName = "Comment" }: { parentId?: number, actionName?: string }) {
     const { postId, setComments, comments } = useCommentsContext();
     const [content, setContent] = useState("");
-    const [isExpanded, setIsExpanded] = useState(false);
     
     const styles = {
         form: {
@@ -84,7 +82,6 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
                 }
                 setComments([commentView, ...newComments]);
                 // Auto-close form after submission
-                setIsExpanded(false);
                 setContent("");
             }
         );
@@ -111,16 +108,13 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
         )
     }
 
-    function handleToggle() {
-        setIsExpanded(!isExpanded);
-    }
 
     return (
         <Collapsible 
             CollapsedIcon={CollapsedIcon} 
             OpenIcon={OpenIcon} 
             initiallyExpanded={false}
-            onToggle={handleToggle}
+            onToggle={() => {}}
         >
             <div style={styles.form}>
                 <textarea 

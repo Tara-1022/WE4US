@@ -62,8 +62,8 @@ function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
                     <Collapsible
                         initiallyExpanded={false}
                         onToggle={() => setViewReplies(!viewReplies)}
-                        CollapsedIcon={() => <span style={styles.repliesButton}>Hide Replies</span>}
-                        OpenIcon={() => <span style={styles.repliesButton}>Show Replies</span>}
+                        CollapsedIcon={() => <span style={styles.repliesButton}>Show Replies</span>}
+                        OpenIcon={() => <span style={styles.repliesButton}>Hide Replies</span>}
                     >
                         <CommentsTree commentsTree={commentNode.children} />
                     </Collapsible>

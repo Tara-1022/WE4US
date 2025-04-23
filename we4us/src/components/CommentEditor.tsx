@@ -57,7 +57,6 @@ export default function CommentEditor({
 }) {
     const { setComments, comments } = useCommentsContext();
     const [content, setContent] = useState(initialText);
-    const [isExpanded, setIsExpanded] = useState(false);
     
     const styles = {
         form: {
@@ -114,7 +113,6 @@ export default function CommentEditor({
                     (element: CommentView) =>
                         element.comment.id === commentId ? updatedCommentView : element
                 ));
-                setIsExpanded(false);
             })
             .catch(() => {
                 window.alert("Comment could not be updated");
@@ -125,16 +123,12 @@ export default function CommentEditor({
         setContent(initialText);
     }
 
-    function handleToggle() {
-        setIsExpanded(!isExpanded);
-    }
-
     return (
         <Collapsible 
             CollapsedIcon={CollapsedIcon} 
             OpenIcon={OpenIcon} 
             initiallyExpanded={false}
-            onToggle={handleToggle}
+            onToggle={() => {}}
         >
             <div style={styles.form}>
                 <textarea 
