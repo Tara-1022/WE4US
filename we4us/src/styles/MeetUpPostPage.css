@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  background: linear-gradient(135deg, #2e2e2e, #121212);
+  color: #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.6s ease, color 0.4s ease;
+  line-height: 1.6;
+}
+
+.meetup-post-container {
+  max-width: 760px;
+  margin: 40px auto;
+  padding: 40px;
+  background: linear-gradient(135deg, #2a2a2a, #3b3b3b);
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease-in-out;
+  position: relative;
+}
+
+.meetup-post-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.meetup-post-section {
+  margin-bottom: 32px;
+  padding-left: 12px;
+  border-left: 4px solid #3a3a3a;
+}
+
+.meetup-post-section p {
+  font-size: 1rem;
+  margin: 8px 0;
+  line-height: 1.75;
+}
+
+.meetup-post-section a {
+  color: #71b7ff;
+  font-weight: 500;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.meetup-post-section a:hover {
+  opacity: 0.85;
+  color: #4a9dff;
+}
+
+.meetup-post-details {
+  margin-top: 16px;
+  padding: 18px 20px;
+  background-color: rgba(27, 27, 27, 0.95);
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.7;
+  transition: all 0.3s ease-in-out;
+}
+
+.meetup-post-details ul {
+  list-style-position: inside;
+  padding-left: 8px;
+}
+
+.meetup-post-author {
+  font-size: 1rem;
+  color: #b0b0b0;
+  margin-top: 40px;
+}
+
+.meetup-post-author a {
+  font-weight: 500;
+  color: #71b7ff;
+  text-decoration: none;
+}
+
+.meetup-post-author a:hover {
+  text-decoration: underline;
+}
+
+.meetup-post-footer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 1px solid #333;
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.meetup-post-footer-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.meetup-post-footer-actions b {
+  background: linear-gradient(135deg, #4d79ff, #2a64c2);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.meetup-post-footer-actions b:hover {
+  background: linear-gradient(135deg, #3a66d0, #2b5aa0);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+.meetup-post-footer-actions b:active,
+.meetup-post-footer-actions .meetup-post-comments-button:active {
+  transform: scale(0.98);
+}
+
+.meetup-post-footer-actions .meetup-post-comments-button {
+  background: linear-gradient(135deg, #4d79ff, #2a64c2);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.meetup-post-footer-actions .meetup-post-comments-button:hover {
+  background: linear-gradient(135deg, #3a66d0, #2b5aa0);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.meetup-post-comments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.animate-spin {
+  display: block;
+  margin: 120px auto;
+  color: #888;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .meetup-post-container {
+    padding: 24px;
+    margin: 24px 16px;
+  }
+
+  .meetup-post-title {
+    font-size: 1.85rem;
+  }
+
+  .meetup-post-details {
+    font-size: 1rem;
+  }
+}
+
+.post-delete-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+.post-delete-top-right button {
+  background: linear-gradient(135deg, #ff4d4d, #c2552a);
+  color: #fff;
+  border: none;
+  font-size: 2rem;       
+  border-radius: 12px;
+  font-weight: 800;     
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.post-delete-top-right button:hover {
+  background: linear-gradient(135deg, #e14a4c, #da6767);
+  transform: scale(1.08);
+}

@@ -7,50 +7,74 @@ import { MeetUpPostType } from "./MeetUpPostTypes";
 import Modal from "react-modal";
 
 export default function PostCreationHandler({
-    handleCreatedPost,
+  handleCreatedPost,
 }: {
-    handleCreatedPost: (newPost: PostView) => void;
+  handleCreatedPost: (newPost: PostView) => void;
 }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const { lemmyInfo } = useLemmyInfo();
+  const [isOpen, setIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { lemmyInfo } = useLemmyInfo();
 
-    async function handleCreation(data: MeetUpPostType): Promise<void> {
-        console.log(data);
-        setErrorMessage(null);
+  async function handleCreation(data: MeetUpPostType): Promise<void> {
+    console.log(data);
+    setErrorMessage(null);
 
-        if (!lemmyInfo) {
-            setErrorMessage("Could not fetch Meet-Up community!");
-            return;
-        }
-
-        try {
-            const newPost = await createPost({
-                body: JSON.stringify(data.body),
-                name: data.title,
-                community_id: lemmyInfo.meet_up_details.community.id,
-                ...(data.url && { url: data.url.toString() })
-            });
-
-            handleCreatedPost(newPost);
-            setIsOpen(false);
-        } catch (error) {
-            console.error("Post creation failed:", error);
-            setErrorMessage("Failed to create the post. Please try again.");
-        }
+    if (!lemmyInfo) {
+      setErrorMessage("Could not fetch Meet-Up community!");
+      return;
     }
 
-    return (
-        <>
-            <button onClick={() => setIsOpen(true)}>New Post</button>
-            <Modal isOpen={isOpen} contentLabel="Create Meet Up Post">
-                <PostForm
-                    handleSubmit={handleCreation}
-                    errorMessage={errorMessage}
-                    onClose={() => setIsOpen(false)}
-                    task="Create Meet Up Post"
-                />
-            </Modal>
-        </>
-    );
+    try {
+      const newPost = await createPost({
+        body: JSON.stringify(data.body),
+        name: data.title,
+        community_id: lemmyInfo.meet_up_details.community.id,
+        ...(data.url && { url: data.url.toString() }),
+      });
+
+      handleCreatedPost(newPost);
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Post creation failed:", error);
+      setErrorMessage("Failed to create the post. Please try again.");
+    }
+  }
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)} style={buttonStyle}>
+        + New Meet-Up
+      </button>
+
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        contentLabel="Create Meet-Up Post"
+        ariaHideApp={false}
+        className="ReactModal__Content"
+        overlayClassName="ReactModal__Overlay"
+      >
+        <PostForm
+          handleSubmit={handleCreation}
+          errorMessage={errorMessage}
+          onClose={() => setIsOpen(false)}
+          task="Create Meet-Up Post"
+        />
+      </Modal>
+    </>
+  );
 }
+
+const buttonStyle: React.CSSProperties = {
+  padding: "10px 16px",
+  backgroundColor: "#2f2f2f", 
+  border: "1px solid #444",
+  borderRadius: "8px",
+  fontSize: "1em",
+  cursor: "pointer",
+  color: "#f1f1f1", 
+  fontWeight: 500,
+  boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+  transition: "background-color 0.2s ease",
+  marginBottom: "10px",
+};
