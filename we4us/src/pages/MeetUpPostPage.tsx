@@ -9,7 +9,7 @@ import { useProfileContext } from "../components/ProfileContext";
 import ReactMarkdown from "react-markdown";
 import { MeetUpPostType, defaultPostData } from '../components/MeetUp/MeetUpPostTypes';
 import PostEditor from '../components/MeetUp/PostEditor';
-import "./MeetUpPostPage.css";
+import "../styles/MeetUpPostPage.css";
 
 export default function MeetUpPostPage() {
   const meetUpId = Number(useParams().meetUpId);
@@ -74,6 +74,12 @@ export default function MeetUpPostPage() {
 
   return (
     <div className="meetup-post-container">
+      {postView.creator.id === profileInfo?.lemmyId && (
+        <div className="post-delete-top-right">
+          <PostDeletor postId={postView.post.id} />
+        </div>
+      )}
+
       {isEditing ? (
         <PostEditor
           postView={postView}
@@ -117,12 +123,7 @@ export default function MeetUpPostPage() {
           <div className="meetup-post-footer">
             <div className="meetup-post-footer-actions">
               {postView.creator.id === profileInfo?.lemmyId && (
-                <>
-                  <PostDeletor postId={postView.post.id} />
-                  <b onClick={() => setIsEditing(true)} style={{ cursor: "pointer" }}>
-                    Edit
-                  </b>
-                </>
+                <b onClick={() => setIsEditing(true)}>Edit</b>
               )}
               <button
                 className="meetup-post-comments-button"

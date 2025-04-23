@@ -5,7 +5,7 @@ import { Loader, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getMeetUpPostList } from "../library/LemmyApi";
 import PostCreationHandler from "../components/MeetUp/PostCreationHandler";
-import './MeetUpPage.css';
+import "../styles/MeetUpPage.css";
 
 export default function MeetUpPage() {
     const [postViews, setPostViews] = useState<PostView[] | null>(null);

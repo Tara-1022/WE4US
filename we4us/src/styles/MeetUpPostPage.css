@@ -16,6 +16,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
   transition: all 0.4s ease-in-out;
+  position: relative;
 }
 
 .meetup-post-title {
@@ -52,8 +53,7 @@ body {
 
 .meetup-post-details {
   margin-top: 16px;
-  padding: 18px;
-  padding-left: 20px; 
+  padding: 18px 20px;
   background-color: rgba(27, 27, 27, 0.95);
   border: 1px solid #3a3a3a;
   border-radius: 8px;
@@ -61,11 +61,11 @@ body {
   line-height: 1.7;
   transition: all 0.3s ease-in-out;
 }
+
 .meetup-post-details ul {
   list-style-position: inside;
-  padding-left: 8px; 
+  padding-left: 8px;
 }
-
 
 .meetup-post-author {
   font-size: 1rem;
@@ -97,16 +97,13 @@ body {
 .meetup-post-footer-actions {
   display: flex;
   gap: 16px;
-  justify-content: flex-start;
-  justify-content: space-between; 
+  justify-content: space-between;
   width: 100%;
   flex-wrap: wrap;
-
-
 }
 
-.meetup-post-footer-actions b{
-    background: linear-gradient(135deg, #ff4d4d, #c2552a);
+.meetup-post-footer-actions b {
+  background: linear-gradient(135deg, #4d79ff, #2a64c2);
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -120,6 +117,18 @@ body {
   text-decoration: none;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
+
+.meetup-post-footer-actions b:hover {
+  background: linear-gradient(135deg, #3a66d0, #2b5aa0);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+.meetup-post-footer-actions b:active,
+.meetup-post-footer-actions .meetup-post-comments-button:active {
+  transform: scale(0.98);
+}
+
 .meetup-post-footer-actions .meetup-post-comments-button {
   background: linear-gradient(135deg, #4d79ff, #2a64c2);
   color: #fff;
@@ -136,19 +145,9 @@ body {
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.meetup-post-footer-actions b:hover{
-
- background: linear-gradient(135deg, #e14a4c, #da6767);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
 .meetup-post-footer-actions .meetup-post-comments-button:hover {
   background: linear-gradient(135deg, #3a66d0, #2b5aa0);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.meetup-post-footer-actions b:active,
-.meetup-post-footer-actions .meetup-post-comments-button:active {
-  transform: scale(0.98);
 }
 
 .meetup-post-comments {
@@ -185,18 +184,25 @@ body {
     font-size: 1rem;
   }
 }
-.meetup-post-footer-actions button:first-of-type {
-  background: linear-gradient(135deg, #4d79ff, #2a64c2);
-  color: white !important;
+
+.post-delete-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+.post-delete-top-right button {
+  background: linear-gradient(135deg, #ff4d4d, #c2552a);
+  color: #fff;
   border: none;
-  padding: 12px 20px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  font-weight: 600;
+  font-size: 2rem;       
+  border-radius: 12px;
+  font-weight: 800;     
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.meetup-post-footer-actions button:first-of-type:hover {
-  background: linear-gradient(135deg, #3a66d0, #2b5aa0) !important
+.post-delete-top-right button:hover {
+  background: linear-gradient(135deg, #e14a4c, #da6767);
+  transform: scale(1.08);
 }

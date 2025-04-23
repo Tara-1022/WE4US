@@ -21,13 +21,13 @@
   .search-icon {
     width: 24px;
     height: 24px;
-    color: #555; /* change to fit your theme */
+    color: #555; 
     cursor: pointer;
     transition: color 0.3s ease, transform 0.2s ease;
   }
   
   .search-icon:hover {
-    color: #1e90ff; /* hover color */
+    color: #1e90ff; 
     transform: scale(1.1);
   }
   
