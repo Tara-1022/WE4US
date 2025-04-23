@@ -62,7 +62,7 @@ export default function AnnouncementsPage() {
       </li>
     );
     return (
-      <>
+      <div className="page">
         <h1>Announcements</h1>
         <Link to="/announcements/search"><Search /></Link>
         {
@@ -76,7 +76,7 @@ export default function AnnouncementsPage() {
           <h3 style={styles.text}>No announcements yet!</h3>
         }
         <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-      </>
+      </div>
     );
   }
 }

@@ -22,8 +22,8 @@ export default function PgFinderPage() {
     else if (postViews.length == 0) return <h3>No posts to see!</h3>;
     else {
         return (
-            <>
-                <h3>PG FINDER</h3>
+            <div className="page">
+                <h1>PG FINDER</h1>
                 <Link to="/pg-finder/search"><Search /></Link>
                 <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
                 {postViews.length > 0 ?
@@ -31,7 +31,7 @@ export default function PgFinderPage() {
                     :
                     <h3>No PGs yet!</h3>
                 }
-            </>
+            </div>
         )
     }
 }

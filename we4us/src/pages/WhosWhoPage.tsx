@@ -68,36 +68,38 @@ const WhosWhoPage: React.FC = () => {
     .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
 
     return (
-      <div className='whoswho-container'>
-        <h1>Who's Who</h1>
+      <div className='page'>
+        <div className='whoswho-container'>
+          <h1>Who's Who</h1>
   
-        {/* Search Box */}
-        <input
-          type="text"
-          placeholder="Search by name, company..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className='search-input'
-        />
+          {/* Search Box */}
+          <input
+            type="text"
+            placeholder="Search by name, company..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className='search-input'
+          />
   
-        {/* Cohort-wise Profile Display */}
-        {sortedCohorts.length > 0 ? (
-          sortedCohorts.map((cohort) => (
-            <div key={cohort} className='cohort-section'>
-              <h2>Cohort {cohort}</h2>
-              <div className='profile-list'>
-                {groupedProfiles[cohort].map((profile) => (
-                  <ProfileSnippet
-                    key = {profile.username}
-                    profile = {profile}
-                  />
-                ))}
+          {/* Cohort-wise Profile Display */}
+          {sortedCohorts.length > 0 ? (
+            sortedCohorts.map((cohort) => (
+              <div key={cohort} className='cohort-section'>
+                <h2>Cohort {cohort}</h2>
+                <div className='profile-list'>
+                  {groupedProfiles[cohort].map((profile) => (
+                    <ProfileSnippet
+                      key = {profile.username}
+                      profile = {profile}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p>No profiles found.</p>
-        )}
+            ))
+          ) : (
+            <p>No profiles found.</p>
+          )}
+        </div>
       </div>
     );
   };  

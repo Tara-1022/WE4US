@@ -36,7 +36,7 @@ function FullPostView({ postView }: { postView: PostView }) {
         console.error("Error parsing post body:", error);
     }
     return (
-        <>
+        <div className='page'>
             <div>
                 <h4>{MeetUpDetails.title}</h4>
                 <p><strong>Location:</strong> {MeetUpDetails.body.location}</p>
@@ -65,7 +65,7 @@ function FullPostView({ postView }: { postView: PostView }) {
                     {postView.creator.display_name ? postView.creator.display_name : postView.creator.name}
                 </Link>
             </p>
-        </>
+        </div>
     )
 }
 

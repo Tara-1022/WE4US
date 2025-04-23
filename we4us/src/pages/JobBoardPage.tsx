@@ -26,13 +26,15 @@ export default function JobBoardPage() {
 
 
     return (
-        <div className="job-board-container">
-            <h1>Job Board</h1>
+        <div className="page">
+            <div className="job-board-container">
+                <h1>Job Board</h1>
 
-            <Link to="/job-board/search"><Search /></Link>
+                <Link to="/job-board/search"><Search /></Link>
 
-            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
-            {postViews.length > 0 ? (<JobPostList postViews={postViews} />) : (<h3>No jobs right now!</h3>)}
+                <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
+                {postViews.length > 0 ? (<JobPostList postViews={postViews} />) : (<h3>No jobs right now!</h3>)}
+            </div>
         </div>
     );
 

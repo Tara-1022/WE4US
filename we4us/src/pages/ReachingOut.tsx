@@ -66,7 +66,7 @@ function ReachingOut() {
   }
 
   return (
-    <>
+    <div className="page">
       <h1>Recent Posts</h1>
       <Link to="/search"><Search /></Link>
       <PostCreationButton handlePostCreated={handlePostCreated} />
@@ -81,7 +81,7 @@ function ReachingOut() {
         )}
 
       <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-    </>
+    </div>
   );
 }
 
