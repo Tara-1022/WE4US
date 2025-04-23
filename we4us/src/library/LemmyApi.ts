@@ -403,13 +403,14 @@ export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise
 export async function changeUserPassword(
   oldPassword: string,
   newPassword: string,
+  confirmPassword:string,
   previousJwt: string | undefined // Accept the previous JWT as a parameter
 ): Promise<{ success: boolean; jwt?: string }> {
   try {
     const response = await getClient().changePassword({
       old_password: oldPassword,
       new_password: newPassword,
-      new_password_verify: newPassword,
+      new_password_verify: confirmPassword,
     });
     
     // Check the JWT from the response

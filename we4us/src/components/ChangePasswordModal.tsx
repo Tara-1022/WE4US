@@ -50,7 +50,7 @@ export function ChangePasswordModal({
 
     setIsProcessing(true);
     const token = localStorage.getItem("token");
-    const result = await changeUserPassword(oldPassword, newPassword, token?.toString());
+    const result = await changeUserPassword(oldPassword, newPassword, confirmPassword, token?.toString());
     if (result.success && result.jwt) {
       localStorage.setItem("token", result.jwt);
       setToken(result.jwt);
