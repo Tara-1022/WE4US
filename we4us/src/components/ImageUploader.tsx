@@ -113,12 +113,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           disabled={loading}
         />
 
-        <button
+        {originalImage && <button
           onClick={handleRemoveImage}
           disabled={loading}
         >
           Remove Image
-        </button>
+        </button>}
 
         <button onClick={handleReset}>Reset</button>
         {loading && <span>Processing...</span>}
