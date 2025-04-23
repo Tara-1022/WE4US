@@ -1,5 +1,18 @@
+.post-image-section {}
+
+.post-image-uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .image-preview {
     width: 50%;
+    border-radius: 0;
     max-width: 500px;
     flex: 1;
     aspect-ratio: 1;
@@ -11,3 +24,5 @@
     height: 100%;
     object-fit: cover
 }
+
+.image-controls {}
