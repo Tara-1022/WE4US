@@ -21,102 +21,102 @@ import Graduation_img from './Graduation C4.jpg'
 export const memories = [
   // cohort 2
   {
-      imageUrl: C2_img1,
-      title: "WE-C2",
-      description: "",
-    },
-    {
-      imageUrl: C2_img2,
-      title: "WE-C2",
-      description: "",
-    },
-    {
-      imageUrl: C2_img3,
-      title: "WE-C2",
-      description: "",
-    },
-    // cohort 4
-    {
-      imageUrl: C4_img1,
-      title: "WE-C4 Bootcamp",
-      description: "Our first Google visit!",
-    },
-    {
-      imageUrl: C4_img2,
-      title: "WE-C4 Bootcamp",
-      description: "Our first Google visit!",
-    },
-    {
-      imageUrl: C4_img3,
-      title: "WE-C4 Bootcamp",
-      description: "Hanging around for post-lecture talks with Asokan",
-    },
-    {
-      imageUrl: Christmas_img,
-      title: "WE-C4 Christmas Party",
-      description: "Celebrating the festive season with joy and laughter.",
-    },
-    {
-      imageUrl: Graduation_img,
-      title: "WE-C4 Graduation",
-      description: "Celebrating the end of a successful programme.",
-    },
-    // cohort 5
-    {
-      imageUrl: C5_img1,
-      title: "WE-C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img2,
-      title: "WE-C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img3,
-      title: "WE-C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img4,
-      title: "WE-C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img5,
-      title: "WE-C5",
-      description: "",
-    },
-    // cohort 6
-    {
-      imageUrl: img1,
-      title: "WE-C6 Orientation Day",
-      description: "Getting to know each other and setting expectations.",
-    },
-    {
-      imageUrl: img3,
-      title: "WE-C6 Bootcamp",
-      description: "Learning new technologies and building cool projects.",
-    },
-    {
-      imageUrl: img2,
-      title: "WE-C6 Bootcamp Bash",
-      description: "Celebrating the end of a successful bootcamp.",
-    },
-    {
-      imageUrl: Alumni1,
-      title: "Alumni Fest '24",
-      description: "Selfies with Dawn!",
-    },
-    {
-      imageUrl: Alumni2,
-      title: "Alumni Fest '24",
-      description: "Panel Interview hosted by Divina John",
-    },
-    {
-      imageUrl: Alumni3,
-      title: "Alumni Fest '24",
-      description: "Group photo at the end of a memorable day!",
-    },
-  ];
-  
+    imageUrl: C2_img1,
+    title: "C2 WE Attempt",
+    description: "Tried to spell \"WE\"… nailed the chaos, not the symmetry",
+  },
+  {
+    imageUrl: C2_img2,
+    title: "C2 First Meet-Up",
+    description: "Zoom to room — C2 finally met IRL!",
+  },
+  {
+    imageUrl: C2_img3,
+    title: "C2 Click & Bond",
+    description: "One big WE hug — now in 3D!",
+  },
+  // cohort 4
+  {
+    imageUrl: C4_img1,
+    title: "C4 Bootcamp",
+    description: "Our first Google visit!",
+  },
+  {
+    imageUrl: C4_img2,
+    title: "C4 Bootcamp",
+    description: "Our first Google visit!",
+  },
+  {
+    imageUrl: C4_img3,
+    title: "C4 Bootcamp",
+    description: "Hanging around for post-lecture talks with Asokan",
+  },
+  {
+    imageUrl: Christmas_img,
+    title: "C4 Christmas Party",
+    description: "Celebrating the festive season with joy and laughter.",
+  },
+  {
+    imageUrl: Graduation_img,
+    title: "C4 Graduation",
+    description: "Celebrating lifeling friendships, and the end of a successful programme.",
+  },
+  // cohort 5
+  {
+    imageUrl: C5_img1,
+    title: "C5",
+    description: "",
+  },
+  {
+    imageUrl: C5_img2,
+    title: "C5",
+    description: "",
+  },
+  {
+    imageUrl: C5_img3,
+    title: "C5",
+    description: "",
+  },
+  {
+    imageUrl: C5_img4,
+    title: "C5",
+    description: "",
+  },
+  {
+    imageUrl: C5_img5,
+    title: "C5",
+    description: "",
+  },
+  // cohort 6
+  {
+    imageUrl: img1,
+    title: "C6 Orientation Day",
+    description: "Getting to know each other and setting expectations.",
+  },
+  {
+    imageUrl: img3,
+    title: "C6 Bootcamp",
+    description: "Learning new technologies and building cool projects.",
+  },
+  {
+    imageUrl: img2,
+    title: "C6 Bootcamp Bash",
+    description: "Celebrating the end of a successful bootcamp.",
+  },
+  // Alumni Fest
+  {
+    imageUrl: Alumni1,
+    title: "Alumni Fest '24",
+    description: "Selfies with Dawn!",
+  },
+  {
+    imageUrl: Alumni2,
+    title: "Alumni Fest '24",
+    description: "Panel Interview hosted by Divina John",
+  },
+  {
+    imageUrl: Alumni3,
+    title: "Alumni Fest '24",
+    description: "Group photo at the end of a memorable day!",
+  },
+];
