@@ -8,6 +8,8 @@ export interface Profile {
   company_or_university?: string;
   years_of_experience?: number | null;
   areas_of_interest?: string[];
+  image_filename?: string | null;
+  image_delete_token?: string | null;
 }
 
 export const fetchProfiles = async () => {

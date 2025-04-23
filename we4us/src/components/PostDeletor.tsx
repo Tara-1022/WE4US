@@ -1,5 +1,5 @@
 import { deletePost, hidePost } from "../library/LemmyApi";
-import { deleteImage, ImageDetailsType } from "../library/LemmyImageHandling";
+import { deleteImage, ImageDetailsType } from "../library/ImageHandling";
 import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 
