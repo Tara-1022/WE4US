@@ -15,10 +15,24 @@ import C4_img3 from './C4_img3.jpg'
 import C2_img1 from './C2_img1.jpeg'
 import C2_img2 from './C2-img2.jpeg'
 import C2_img3 from './C2_img3.jpeg'
+import C1_graduation from './c1_graduation.jpeg'
+import C1_alumni_fest from './C1_alumni_fest.jpeg'
+import Blr_interns_24 from './blr_interns_24.jpeg'
 import Christmas_img from './Christmas C4.jpg'
 import Graduation_img from './Graduation C4.jpg'
 
 export const memories = [
+  // cohort 1
+  {
+    imageUrl: C1_graduation,
+    title: "C1 Graduation",
+    description: "The first, ground-breaking batch of WE!",
+  },
+  {
+    imageUrl: C1_alumni_fest,
+    title: "C1 @ Alumni Fest '24",
+    description: "Group photo of Cohot 1",
+  },
   // cohort 2
   {
     imageUrl: C2_img1,
@@ -118,5 +132,11 @@ export const memories = [
     imageUrl: Alumni3,
     title: "Alumni Fest '24",
     description: "Group photo at the end of a memorable day!",
+  },
+  // Misc.
+   {
+    imageUrl: Blr_interns_24,
+    title: "Google Bangalore Interns '24",
+    description: "Catching up with Asokan and Kunisha at the Bangalore office!",
   },
 ];
