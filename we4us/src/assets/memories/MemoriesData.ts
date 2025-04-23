@@ -19,100 +19,104 @@ import Christmas_img from './Christmas C4.jpg'
 import Graduation_img from './Graduation C4.jpg'
 
 export const memories = [
-    {
-      imageUrl: img1,
-      title: "Orientation WE-6",
-      description: "Getting to know each other and setting expectations.",
-    },
-    {
-      imageUrl: img3,
-      title: "WE-6 Bootcamp",
-      description: "Learning new technologies and building cool projects.",
-    },
-    {
-      imageUrl: img2,
-      title: "Bootcamp Bash",
-      description: "Celebrating the end of a successful bootcamp.",
-    },
-    {
-      imageUrl: C5_img1,
-      title: "C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img2,
-      title: "C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img3,
-      title: "C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img4,
-      title: "C5",
-      description: "",
-    },
-    {
-      imageUrl: C5_img5,
-      title: "C5",
-      description: "",
-    },
-    {
-      imageUrl: Alumni1,
-      title: "",
-      description: "",
-    },
-    {
-      imageUrl: Alumni2,
-      title: "",
-      description: "",
-    },
-    {
-      imageUrl: Alumni3,
-      title: "",
-      description: "",
-    },
-    {
-      imageUrl: C4_img1,
-      title: "C4",
-      description: "",
-    },
-    {
-      imageUrl: C4_img2,
-      title: "C4",
-      description: "",
-    },
-    {
-      imageUrl: C4_img3,
-      title: "C4",
-      description: "",
-    },
-    {
+  // cohort 2
+  {
       imageUrl: C2_img1,
-      title: "C2",
+      title: "WE-C2",
       description: "",
     },
     {
       imageUrl: C2_img2,
-      title: "C2",
+      title: "WE-C2",
       description: "",
     },
     {
       imageUrl: C2_img3,
-      title: "C2",
+      title: "WE-C2",
       description: "",
+    },
+    // cohort 4
+    {
+      imageUrl: C4_img1,
+      title: "WE-C4 Bootcamp",
+      description: "Our first Google visit!",
+    },
+    {
+      imageUrl: C4_img2,
+      title: "WE-C4 Bootcamp",
+      description: "Our first Google visit!",
+    },
+    {
+      imageUrl: C4_img3,
+      title: "WE-C4 Bootcamp",
+      description: "Hanging around for post-lecture talks with Asokan",
     },
     {
       imageUrl: Christmas_img,
-      title: "C4 Christmas Party",
+      title: "WE-C4 Christmas Party",
       description: "Celebrating the festive season with joy and laughter.",
     },
     {
       imageUrl: Graduation_img,
-      title: "C4 Graduation",
+      title: "WE-C4 Graduation",
       description: "Celebrating the end of a successful programme.",
+    },
+    // cohort 5
+    {
+      imageUrl: C5_img1,
+      title: "WE-C5",
+      description: "",
+    },
+    {
+      imageUrl: C5_img2,
+      title: "WE-C5",
+      description: "",
+    },
+    {
+      imageUrl: C5_img3,
+      title: "WE-C5",
+      description: "",
+    },
+    {
+      imageUrl: C5_img4,
+      title: "WE-C5",
+      description: "",
+    },
+    {
+      imageUrl: C5_img5,
+      title: "WE-C5",
+      description: "",
+    },
+    // cohort 6
+    {
+      imageUrl: img1,
+      title: "WE-C6 Orientation Day",
+      description: "Getting to know each other and setting expectations.",
+    },
+    {
+      imageUrl: img3,
+      title: "WE-C6 Bootcamp",
+      description: "Learning new technologies and building cool projects.",
+    },
+    {
+      imageUrl: img2,
+      title: "WE-C6 Bootcamp Bash",
+      description: "Celebrating the end of a successful bootcamp.",
+    },
+    {
+      imageUrl: Alumni1,
+      title: "Alumni Fest '24",
+      description: "Selfies with Dawn!",
+    },
+    {
+      imageUrl: Alumni2,
+      title: "Alumni Fest '24",
+      description: "Panel Interview hosted by Divina John",
+    },
+    {
+      imageUrl: Alumni3,
+      title: "Alumni Fest '24",
+      description: "Group photo at the end of a memorable day!",
     },
   ];
   
