@@ -91,14 +91,6 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
           />
         </div>
         <div className="form-group">
-          <label htmlFor="cohort">Cohort:</label>
-          <input
-            type="text"
-            name="cohort"
-            defaultValue={profile.cohort || ''}
-          />
-        </div>
-        <div className="form-group">
           <label htmlFor="current_role">Current Role:</label>
           <input
             type="text"
