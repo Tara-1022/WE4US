@@ -4,7 +4,7 @@ import { getPostBody, PostBodyType } from "../library/PostBodyType";
 import ImageUploader from "./ImageUploader";
 import { useState } from "react";
 import { ImageDetailsType, deleteImage } from "../library/ImageHandling";
-import "../styles/FullImageView.css"
+import "../styles/PostImageUploader.css"
 
 export default function PostEditor({ postView, onPostUpdated, onClose }:
     { postView: PostView, onPostUpdated: (updatedPostView: PostView) => void, onClose: () => void }) {
