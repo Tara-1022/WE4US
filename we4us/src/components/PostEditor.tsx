@@ -1,6 +1,7 @@
 import { PostView } from "lemmy-js-client";
 import { editPost } from "../library/LemmyApi";
 import { getPostBody, PostBodyType } from "../library/PostBodyType";
+import "../styles/FullImageView.css"
 
 export default function PostEditor({ postView, onPostUpdated, onClose }:
     { postView: PostView, onPostUpdated: (updatedPostView: PostView) => void, onClose: () => void }) {
