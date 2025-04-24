@@ -17,14 +17,13 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   const { profileInfo } = useProfileContext();
   const [uploadedImage, setUploadedImage] = useState<ImageDetailsType | undefined>(undefined);
   const [deleteOldImage, setDeleteOldImage] = useState(false);
-  // Add state for current details
-  const [originalImage, setOriginalImage] = useState(
-    profile.image_filename && profile.image_delete_token ?
-      {
-        filename: profile.image_filename,
-        deleteToken: profile.image_delete_token
-      } : undefined
-  );
+
+  // Derived state for current details
+  const originalImage = profile.image_filename && profile.image_delete_token ?
+    {
+      filename: profile.image_filename,
+      deleteToken: profile.image_delete_token
+    } : undefined;
 
   // They shouldn't reach this view in the first place. Even if, through some
   // bug, they do see this component, it should not allow edits.
@@ -115,7 +114,6 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
         throw new Error(response.message || "Failed to update profile.");
       }
 
-      setOriginalImage(uploadedImage);
       onProfileUpdate(response.profile);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while saving.");
