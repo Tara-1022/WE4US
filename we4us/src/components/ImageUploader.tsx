@@ -7,7 +7,7 @@ interface ImageUploaderProps {
   onUploadChange: (imageDetails: ImageDetailsType[] | undefined) => void;
   originalImage?: ImageDetailsType;
   copiesCount?: number;
-  purpose?: 'profile' | 'post';
+  purpose: 'profile' | 'post';
   className?: string;
 }
 
@@ -21,7 +21,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   onUploadChange,
   originalImage,
   copiesCount = 1,
-  purpose = 'profile',
+  purpose,
   className = ''
 }) => {
   const [loading, setLoading] = useState(false);
@@ -113,12 +113,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           disabled={loading}
         />
 
-        <button
+        {originalImage && <button
           onClick={handleRemoveImage}
           disabled={loading}
         >
           Remove Image
-        </button>
+        </button>}
 
         <button onClick={handleReset}>Reset</button>
         {loading && <span>Processing...</span>}

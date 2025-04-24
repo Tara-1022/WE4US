@@ -5,7 +5,7 @@ import { createPost, editPost } from "../library/LemmyApi";
 import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
 import ImageUploader from "./ImageUploader";
-import "../styles/FullImageView.css"
+import "../styles/PostImageUploader.css"
 
 interface PostCreationModalProps {
   isOpen: boolean;
