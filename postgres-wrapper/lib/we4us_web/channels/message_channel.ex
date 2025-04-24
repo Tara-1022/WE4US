@@ -11,9 +11,9 @@ def join("message:" <> recipientname, payload, socket) do
     Logger.debug("User #{sender_id} joining channel for #{recipientname}")
 
     # Check if this is a combined channel ID (contains underscore)
-    if String.contains?(recipientname, "_") do
+    if String.contains?(recipientname, "#") do
       # Split the combined ID to get both users
-      [user1, user2] = String.split(recipientname, "_")
+      [user1, user2] = String.split(recipientname, "#")
 
       # Determine who the other user is
       other_user = if sender_id == user1, do: user2, else: user1
@@ -71,7 +71,7 @@ end
           inserted_at: message.inserted_at
         }
 
-        topic = "message:#{Enum.join(users, "_")}"
+        topic = "message:#{Enum.join(users, "#")}"
         We4usWeb.Endpoint.broadcast(topic, "new_message", formatted_message)
 
         {:reply, {:ok, formatted_message}, socket}

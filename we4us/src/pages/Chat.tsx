@@ -48,7 +48,7 @@ export async function initializeSocket(sender: string, recipient: string): Promi
     socket.connect();
     console.log("Socket connection attempted");
     const users = [sender, recipient].sort();
-    const topic = `message:${users.join("_")}`;
+    const topic = `message:${users.join("#")}`;
     channel = socket.channel(topic, { username: sender });
     
     const joinResponse = await new Promise<{messages: Message[]}>((resolve, reject) => {
