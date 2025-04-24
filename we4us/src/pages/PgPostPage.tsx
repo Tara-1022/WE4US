@@ -78,7 +78,7 @@ export default function PgPostPage() {
 
     if (!postView) return <Loader />;
 
-    let list = reviews.map(
+    let list = filteredReviews.map(
         (review) => <li key={review.comment.id} >
             <Review review={review} />
         </li>
