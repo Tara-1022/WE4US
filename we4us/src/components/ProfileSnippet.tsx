@@ -1,21 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { constructImageUrl } from '../library/ImageHandling'; 
+import { constructImageUrl } from '../library/ImageHandling';
 import DuckAvatar from '../assets/profile_duck.png';
 import "./ProfileSnippet.css";
+import { Profile } from "../library/PostgresAPI";
 
 interface ProfileSnippetProps {
-  profile: {
-    username: string;
-    display_name: string;
-    image_filename?: string | null;  
-  };
+  profile: Profile
 }
 
 const ProfileSnippet: React.FC<ProfileSnippetProps> = ({ profile }) => {
-  const { username, display_name, image_filename } = profile;
-  
-  const profileImageUrl = image_filename 
+  const { username, display_name, image_filename, cohort } = profile;
+
+  const profileImageUrl = image_filename
     ? constructImageUrl(image_filename)
     : DuckAvatar;
 
