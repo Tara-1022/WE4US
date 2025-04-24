@@ -1,0 +1,120 @@
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.6); 
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ReactModal__Content {
+  background-color: #1e1e1e; 
+  color: #f0f0f0; 
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  max-width: 840px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  inset: auto !important;
+  position: relative;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+form h2 {
+  font-size: 1.35rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  color: #e2e2e2;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+form label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #bcbcbc;
+  margin-bottom: 0.2rem;
+}
+
+form input,
+form textarea {
+  background-color: #272727;
+  color: #f1f1f1;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #555;
+  background-color: #2d2d2d;
+}
+
+form button {
+  padding: 0.6rem 0.9rem;
+  font-size: 0.92rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+form button[type="submit"] {
+  background-color: #2f2f2f;
+  color: #eaeaea;
+}
+
+form button[type="submit"]:hover {
+  background-color: #3b3b3b;
+}
+
+form button[type="button"] {
+  background-color: transparent;
+  border: 1px solid #4a4a4a;
+  color: #aaa;
+  margin-top: -0.4rem;
+}
+
+form button[type="button"]:hover {
+  background-color: #292929;
+  color: #fff;
+}
+
+form p {
+  color: #ff5f5f;
+  font-size: 0.82rem;
+  margin: -0.4rem 0 0.4rem;
+  text-align: center;
+}
+.primary-button {
+  background-color: #2f2f2f;
+  color: #eaeaea;
+}
+
+.primary-button:hover {
+  background-color: #3b3b3b;
+}
+
+.secondary-button {
+  background-color: transparent;
+  border: 1px solid #4a4a4a;
+  color: #aaa;
+  margin-top: -0.4rem;
+}
+
+.secondary-button:hover {
+  background-color: #292929;
+  color: #fff;
+}

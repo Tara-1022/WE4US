@@ -1,6 +1,9 @@
 import Comment from './Comment';
 import { CommentNodeI } from '../library/CommentUtils';
 import Collapsible from './Collapsible';
+import { useEffect, useState } from 'react';
+import { getComments } from '../library/LemmyApi';
+import { useCommentsContext } from './CommentsContext';
 
 let styles = {
     list: {
@@ -13,15 +16,62 @@ let styles = {
     }
 }
 
-export default function CommentsTree({commentsTree}:{commentsTree: CommentNodeI[]}) {
+function RootAndReplies({ commentNode }: { commentNode: CommentNodeI }) {
+    const [viewReplies, setViewReplies] = useState<boolean>(false);
+    const [repliesLoaded, setRepliesLoaded] = useState<boolean>(
+        commentNode.commentView.counts.child_count == 0 ||
+        (commentNode.commentView.counts.child_count > 0
+            && commentNode.children.length > 0
+        )
+    );
+    const { setComments } = useCommentsContext();
+
+    useEffect(
+        () => {
+            if (viewReplies && !repliesLoaded) fetchReplies();
+        }, [viewReplies]
+    )
+
+    function fetchReplies() {
+        console.log("Fetching more")
+        getComments({ parentId: commentNode.commentView.comment.id })
+            .then(
+                (newComments) => {
+                    newComments = newComments.filter(
+                        (comment) => comment.comment.id != commentNode.commentView.comment.id
+                    )
+                    setComments((prevComments) => [...prevComments, ...newComments]);
+                    setRepliesLoaded(true);
+                }
+            )
+    }
+
+    return (
+        <>
+            <Comment commentView={commentNode.commentView} depth={commentNode.depth} />
+            {commentNode.commentView.counts.child_count > 0 &&
+                <>
+                    <Collapsible
+                        initiallyExpanded={false}
+                        onToggle={() => setViewReplies(!viewReplies)}
+                        CollapsedIcon={() => <span>Hide Replies</span>}
+                        OpenIcon={() => <span>Show Replies</span>}
+                    >
+                        <CommentsTree commentsTree={commentNode.children} />
+                    </Collapsible>
+                </>
+            }
+        </>
+    )
+}
+
+// https://github.com/LemmyNet/lemmy-ui/blob/129fb5b2f994e02bfecc36e3f6884bdbf485b87a/src/shared/components/post/post.tsx#L868
+export default function CommentsTree({ commentsTree }: { commentsTree: CommentNodeI[] }) {
     const list = commentsTree.map(
         commentNode =>
         (
             <li key={commentNode.commentView.comment.id} style={styles.listItem}>
-                <Collapsible>
-                    <Comment commentView={commentNode.commentView} depth={commentNode.depth} />
-                    <CommentsTree commentsTree={commentNode.children}/>
-                </Collapsible>
+                <RootAndReplies commentNode={commentNode} />
             </li>
         )
     );

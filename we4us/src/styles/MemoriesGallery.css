@@ -1,0 +1,21 @@
+/* MemoriesGallery.css */
+.memories-container {
+  max-width: 90vw;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  background-color: var(--color-dark-bg);
+  text-align: center;
+}
+
+.memories-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 3rem;
+}
+
+.memories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}

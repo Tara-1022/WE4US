@@ -3,7 +3,7 @@ import default_image from '../assets/default_post_image.png'
 import { Link } from 'react-router-dom';
 import LikeHandler from './LikeHandler';
 import { PostBodyType, getPostBody } from '../library/PostBodyType';
-import { constructImageUrl } from '../library/LemmyImageHandling';
+import { constructImageUrl } from '../library/ImageHandling';
 
 let styles: { [key: string]: React.CSSProperties } = {
     post: {
@@ -40,7 +40,7 @@ export default function PostSnippet({ postView }: { postView: PostView }) {
 
             <div style={styles.imageContainer}>
                 <img
-                    src={postBody.imageData ? constructImageUrl(postBody.imageData) : default_image}
+                    src={postBody.imageData ? constructImageUrl(postBody.imageData.filename) : default_image}
                     alt="PostImage"
                     style={styles.image} />
             </div>
