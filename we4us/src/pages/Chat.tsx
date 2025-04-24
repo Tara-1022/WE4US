@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { useProfileContext } from '../components/ProfileContext';
 import { useParams } from 'react-router-dom';
 import { Socket, Channel } from "phoenix";
+import { Link } from 'react-router-dom';
 
 interface Message {
   id: string;
@@ -243,7 +244,12 @@ const handleSendMessage = async (): Promise<void> => {
             >
               <div className="flex flex-col max-w-[70%]">
                 <div className={`text-sm font-bold mb-1 ${isOwnMessage ? 'text-cyan-500 text-right' : 'text-green-500'}`}>
-                  {isOwnMessage ? 'You' : msg.from_user}
+                  {isOwnMessage ? 'You' : <Link 
+          to={`/profile/${msg.from_user}`}
+          className="hover:underline cursor-pointer"
+        >
+          {msg.from_user}
+        </Link>}
                 </div>
                 
                 <div className="rounded-2xl bg-black min-h-[40px]" style={{ padding: '12px 16px' }}>
