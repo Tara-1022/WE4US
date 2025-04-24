@@ -375,3 +375,21 @@ export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise
   }
   return postCollection;
 }
+
+export async function requestPasswordReset(email: string): Promise<boolean> {
+  try {
+    const response = await getClient().passwordReset({
+      email: email,
+    });
+
+    if (response.success) {
+      return true; 
+    } else {
+      console.error("Password reset failed");
+      return false; 
+    }
+  } catch (error) {
+    console.error("Error requesting password reset:", error);
+    return false; 
+  }
+}
