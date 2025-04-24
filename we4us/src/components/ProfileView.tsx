@@ -2,7 +2,7 @@ import '../styles/ProfilePage.css';
 import LemmyPersonDetails from './LemmyPersonDetails';
 import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
-
+import { Link } from 'react-router-dom';
 interface ProfileViewProps {
   profile: Profile;
   onEdit?: () => void;
@@ -18,6 +18,7 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
       )}
       <h1>{profile.display_name}</h1>
       <p className="username">@{profile.username}</p>
+      <Link to={`/chat/${profile.username}`}>Talk to me</Link>
       <div className="profile-details">
         {profile.cohort && (
           <div className="detail-item">
