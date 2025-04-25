@@ -34,9 +34,9 @@ export default function CommunityPage() {
     );
 
     if (!postViews) return <Loader />;
-    else if (!communityView) return <h3>Looks like this community doesn't exist!</h3>
+    if (!communityView) return <h3>Looks like this community doesn't exist!</h3>
     else if (postViews.length == 0) {
-        return (<>
+    return (<>
             <CommunitySnippet communityView={communityView} />
             <h3>No posts to see!</h3></>
         )

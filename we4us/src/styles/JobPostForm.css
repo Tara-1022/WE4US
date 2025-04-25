@@ -1,0 +1,88 @@
+:root {
+   
+    --color-dark-bg: #1e1e1e;
+    --color-card-bg: #1f1f1f;
+    --color-card-hover: #252525;
+    --color-white: #f0f0f0;
+    --color-gray: #646464;
+    --color-light-gray: #b0b0b0;
+    --color-primary-orange: orange;
+    --color-primary-dark-orange: rgb(217, 121, 4);
+    --color-blue: #00aaff;
+    --color-error: #ff4d4d;
+    --color-error-hover: #ae0a0a;
+    --color-success:#4caf50 ;
+    --color-success-hover: #2f7131; 
+    --color-primary-dark-purple: #4839a1;
+    --color-primary-teal: #01c4a4;
+    --color-primary-purple: #6c5ce7; 
+    /*--color-primary-blue: #0984e3; */   
+    --color-primary-blue: #0767b3; 
+    --color-primary-light-purple: #a29bfe; 
+    
+}
+.post-form {
+    color: var(--color-primary-dark-purple);
+    font-family: sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.post-form input,
+.post-form select,
+.post-form textarea {
+    color: var(--color-dark-bg);
+    font-weight: bold;
+    background-color: var(--color-gray);
+    border: "none";
+    border-color: var(--color-primary-light-purple);
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 1px 0 8px;
+    box-sizing: border-box;
+}
+
+.post-form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.post-form button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-form button[type="submit"] {
+    background-color: var(--color-success);
+    color: white;
+}
+
+.post-form button[type="reset"] {
+    background-color: var(--color-primary-dark-orange);
+    color: white;
+}
+
+.post-form button[type="button"] {
+    background-color: var(--color-error);
+    color: white;
+}
+.post-form button[type="submit"]:hover {
+    background-color: var(--color-success-hover);
+    color: white;
+}
+
+.post-form button[type="reset"]:hover {
+    background-color: var(--color-primary-orange);
+    color: white;
+}
+
+.post-form button[type="button"]:hover {
+    background-color: var(--color-error-hover);
+    color: white;
+}

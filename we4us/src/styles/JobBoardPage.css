@@ -110,7 +110,10 @@
     border-radius: 3px;
   }
   
-  
+  .search-container {
+    margin-top: 20px;
+  }
+
   .job-listings {
     width: 100%;
     display: grid;

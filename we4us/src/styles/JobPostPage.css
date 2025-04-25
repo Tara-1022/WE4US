@@ -138,9 +138,11 @@
     color: var(--color-error);
     font-weight: bold;
   }
-  
 
-/* Responsive adjustments */
+
+
+  
+  /* Responsive adjustments */
 @media (max-width: 768px) {
     .job-post-card {
         padding: 1.5rem;
