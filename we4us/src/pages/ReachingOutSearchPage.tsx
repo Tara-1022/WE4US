@@ -45,7 +45,8 @@ const ReachingOutSearchPage: React.FC = () => {
       switch (view.type_) {
         case "comment":
           const comment = view.data as CommentView;
-          return !comment.post.deleted && !comment.comment.deleted && comment.post.nsfw != true;
+          return !comment.post.deleted && !comment.comment.deleted
+            && comment.post.nsfw != true && comment.community.nsfw != true;
         case "community":
           const community = view.data as CommunityView;
           return community.community.nsfw != true;

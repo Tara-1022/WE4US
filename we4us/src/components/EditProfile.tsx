@@ -78,7 +78,7 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     setIsProcessing(true);
     setError(null);
     const formData = new FormData(e.currentTarget);
-    const { display_name, cohort, current_role, company_or_university, years_of_experience, areas_of_interest }
+    const { display_name, current_role, company_or_university, years_of_experience, areas_of_interest }
       = Object.fromEntries(formData);
 
     const areas: string[] = areas_of_interest.toString().split(",").map((area: string) => area.trim());
@@ -101,13 +101,14 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
       const response = await updateProfile(profile.username, {
         username: profile.username,
         display_name: display_name.toString(),
-        cohort: cohort?.toString() || "",
         current_role: current_role?.toString() || "",
         company_or_university: company_or_university?.toString() || "",
         years_of_experience: years_of_experience ? Number(years_of_experience) : null,
         areas_of_interest: areas,
-        image_filename: uploadedImage?.filename || null,
-        image_delete_token: uploadedImage?.deleteToken || null
+        image_filename: uploadedImage?.filename ||
+          (deleteOldImage ? null : originalImage?.filename),
+        image_delete_token: uploadedImage?.deleteToken ||
+          (deleteOldImage ? null : originalImage?.deleteToken)
       });
 
       if (!response.profile) {
@@ -146,14 +147,6 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             minLength={3}
             maxLength={20}
             required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cohort">Cohort:</label>
-          <input
-            type="text"
-            name="cohort"
-            defaultValue={profile.cohort || ''}
           />
         </div>
         <div className="form-group">

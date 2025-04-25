@@ -60,7 +60,7 @@ export default function PostEditor({ postView, onPostUpdated, onClose }:
             body: JSON.stringify(
                 {
                     body: body,
-                    imageData: uploadedImage || originalImage
+                    imageData: uploadedImage || (deleteOldImage ? undefined : originalImage)
                 } as PostBodyType
             ),
             ...(url && { url: url.toString() })
