@@ -179,3 +179,19 @@
   .cancel-button:hover {
     background-color: var(--error-hover) !important;
   }
+
+  .new-pg-btn {
+    background-color: #f46801; 
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 12px; 
+  }
+
+.new-pg-btn:hover {
+    background-color: #f46801;
+}

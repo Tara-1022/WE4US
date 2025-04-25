@@ -3,6 +3,7 @@ import CreatePostModal from "./PgPostCreationModal";
 import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
+import "./PgFinderPage.css";
 
 export type PgPostData = {
     name: string,
@@ -54,7 +55,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
 
     return (
         <>
-            <button onClick={() => setIsOpen(true)}>New PG</button>
+        <button className="new-pg-btn" onClick={() => setIsOpen(true)}>New PG</button>
             <CreatePostModal
                 isOpen={isOpen}
                 handleCreation={handleCreation}
