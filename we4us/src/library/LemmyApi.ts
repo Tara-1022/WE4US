@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -136,7 +136,7 @@ export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, 
 }
 
 export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH }:
-   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
+  { postId?: number, parentId?: number, maxDepth?: number }): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
@@ -403,8 +403,8 @@ export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise
 export async function changeUserPassword(
   oldPassword: string,
   newPassword: string,
-  confirmPassword:string,
-  previousJwt: string | undefined // Accept the previous JWT as a parameter
+  confirmPassword: string,
+  previousJwt: string | undefined
 ): Promise<{ success: boolean; jwt?: string }> {
   try {
     const response = await getClient().changePassword({
@@ -412,15 +412,12 @@ export async function changeUserPassword(
       new_password: newPassword,
       new_password_verify: confirmPassword,
     });
-    
+
     // Check the JWT from the response
     const newJwt = response.jwt;
-    console.log(previousJwt + " is the oldJwt")
-    console.log(newJwt+" is the newJwt")
 
     // Compare the new JWT with the previous JWT
     const success = newJwt != previousJwt;
-    console.log(success+ " is the success op")
 
     return {
       success,

@@ -22,7 +22,7 @@ Gradients:
 - Blue to Teal: linear-gradient(to right, #3a7ffc, #01c4a4)
 */
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -101,7 +101,7 @@ a:hover {
   background-color: var(--color-primary-orange);
   width: 100%;
   padding: 1rem;
-  font-size:1rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -109,11 +109,12 @@ a:hover {
 .btn-danger:hover {
   background-color: #d55a00;
 }
+
 /* Back button */
 .btn-back {
   position: fixed;
   top: 1rem;
-  left: 10rem; 
+  left: 10rem;
   z-index: 50;
   background-color: var(--color-dark-bg);
   border-radius: 0.5rem;
@@ -141,11 +142,18 @@ a:hover {
   background-color: var(--color-dark-bg);
 }
 
-/* Change Password section */
-.change-password-section {
-  padding: 0.5rem 0.5rem;
-  background-color: var(--color-dark-bg);
-  margin-bottom: 1px; 
+/* Change-password */
+.text-link-orange {
+  color: var(--color-primary-orange);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 3rem;
+}
+
+.text-link-orange:hover {
+  text-decoration: underline;
+  color: #d55a00;
 }
 
 /* Main content area */
@@ -162,7 +170,7 @@ a:hover {
 
 @media (max-width: 600px) {
   .btn-back {
-    left: auto; 
-    right: 1rem; 
+    left: auto;
+    right: 1rem;
   }
 }

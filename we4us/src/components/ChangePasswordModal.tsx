@@ -38,7 +38,7 @@ export function ChangePasswordModal({
       return;
     }
 
-    if(newPassword == oldPassword){
+    if (newPassword == oldPassword) {
       setError("New password must be different than old password");
       return;
     }
@@ -46,6 +46,10 @@ export function ChangePasswordModal({
     if (newPassword !== confirmPassword) {
       setError("New password and confirmation do not match.");
       return;
+    }
+
+    if (newPassword.length < 10 || newPassword.length > 60) {
+      setError("Password length should be between 10 to 60 char");
     }
 
     setIsProcessing(true);
