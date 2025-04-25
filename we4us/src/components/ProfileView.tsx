@@ -3,6 +3,7 @@ import LemmyPersonDetails from './LemmyPersonDetails';
 import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
 import { constructImageUrl } from "../library/ImageHandling";
+import ReactMarkdown from "react-markdown";
 import profile_duck from "../assets/profile_duck.png";
 
 
@@ -15,9 +16,9 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
   return (
     <div className="profile-content">
       {onEdit && (
-          <button onClick={onEdit} className="edit-button">
-            <Pencil />
-          </button>
+        <button onClick={onEdit} className="edit-button">
+          <Pencil />
+        </button>
       )}
       <div className="profile-image-container">
         <img
@@ -54,7 +55,7 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
         {profile.areas_of_interest && profile.areas_of_interest.length > 0 && (
-          <div className="areas-of-interest">
+          <div className="large-detail">
             <h3>Areas of Interest</h3>
             <ul>
               {profile.areas_of_interest.map((area, index) => (
@@ -63,6 +64,14 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
             </ul>
           </div>
         )}
+        <div className="large-detail">
+          <h3>Description:</h3>
+          <div className="description">
+            <ReactMarkdown>
+              {profile.description || "No description yet!"}
+            </ReactMarkdown>
+          </div>
+        </div>
       </div>
       {profile.username &&
         <LemmyPersonDetails username={profile.username} />

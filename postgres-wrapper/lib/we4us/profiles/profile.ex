@@ -15,14 +15,16 @@ defmodule We4us.Profiles.Profile do
     field(:areas_of_interest, {:array, :string}, default: [])
     field(:image_filename, :string, default: nil)
     field(:image_delete_token, :string, default: nil)
-
+    field(:description, :string, default: nil)
     timestamps(type: :naive_datetime)
   end
 
   @doc false
   def changeset(profile, attrs) do
     profile
-    |> cast(attrs, [:display_name, :username, :cohort, :current_role, :company_or_university, :years_of_experience, :areas_of_interest, :image_filename, :image_delete_token])
+    |> cast(attrs, [:display_name, :username, :cohort, :current_role,
+     :company_or_university, :years_of_experience, :areas_of_interest,
+      :image_filename, :image_delete_token, :description])
     |> validate_required([:display_name, :username])  # cohort remains optional
     |> validate_length(:display_name, min: 3, max: 100)
     |> validate_length(:username, min: 3, max: 50)

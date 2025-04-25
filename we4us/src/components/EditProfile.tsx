@@ -78,7 +78,8 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     setIsProcessing(true);
     setError(null);
     const formData = new FormData(e.currentTarget);
-    const { display_name, current_role, company_or_university, years_of_experience, areas_of_interest }
+    const { display_name, current_role, company_or_university,
+      years_of_experience, areas_of_interest, description }
       = Object.fromEntries(formData);
 
     const areas: string[] = areas_of_interest.toString().split(",").map((area: string) => area.trim());
@@ -108,7 +109,8 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
         image_filename: uploadedImage?.filename ||
           (deleteOldImage ? null : originalImage?.filename),
         image_delete_token: uploadedImage?.deleteToken ||
-          (deleteOldImage ? null : originalImage?.deleteToken)
+          (deleteOldImage ? null : originalImage?.deleteToken),
+        description: description?.toString() || ""
       });
 
       if (!response.profile) {
@@ -179,6 +181,13 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             type="text"
             name="areas_of_interest"
             defaultValue={profile.areas_of_interest?.join(', ') || ''}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description:</label>
+          <textarea
+            name="description"
+            defaultValue={profile.description || ''}
           />
         </div>
 
