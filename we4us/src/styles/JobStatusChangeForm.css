@@ -1,0 +1,67 @@
+.modal-content {
+    width: 50%;
+    color: black;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.modal-header {
+    color: black;;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal-label {
+    display: block;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.modal-input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button-new-date {
+    background-color: #4caf50;
+    color: white;
+}
+
+.modal-button-update-status {
+    background-color: #ff9800;
+    color: white;
+}
+
+.modal-button-cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-button-new-date:hover {
+    background-color: #2f7131;
+    color: white;
+}
+
+.modal-button-update-status:hover {
+    background-color:  #f46801;
+    color: white;
+}
+
+.modal-button-cancel:hover {
+    background-color: #ae0a0a;
+    color: white;
+}

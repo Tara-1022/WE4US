@@ -29,6 +29,7 @@ export default function PostForm({ onClose, handleSubmit, task, initialData }:
                     company: company.toString(),
                     role: role.toString(),
                     location: location.toString(),
+                    open: true,
                     deadline: deadline?.toString(),
                     description: description.toString(),
                     job_type: job_type as JobType
@@ -43,8 +44,8 @@ export default function PostForm({ onClose, handleSubmit, task, initialData }:
 
     return (
         <form onSubmit={handleClick} className="post-form">
-            <label htmlFor="title">Title</label>
-            <input name="title" required
+            <label htmlFor="name">Title</label>
+            <input name="name" 
                 defaultValue={initialData?.name || undefined} />
             <label htmlFor="url">Job Link</label>
             <input name="url" type="url" defaultValue={initialData?.url || undefined} />

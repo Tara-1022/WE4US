@@ -10,15 +10,16 @@ import { useProfileContext } from '../components/ProfileContext';
 import { JobPostBody } from '../components/JobBoard/JobTypes';
 import ReactMarkDown from "react-markdown";
 import "../styles/JobPostPage.css";
+import JobStatusChanger from '../components/JobBoard/JobStatusChanger';
+import { Link } from 'react-router-dom';
+
 
 export default function JobPostPage() {
     const jobId = Number(useParams().jobId);
     const [postView, setPostView] = useState<PostView | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const { profileInfo } = useProfileContext();
-
     const [isHovered, setIsHovered] = useState(false);
-
 
     useEffect(() => {
         getPostById(jobId).then(response => setPostView(response ? response.post_view : null));
@@ -55,8 +56,11 @@ export default function JobPostPage() {
                     <div className="job-details-grid">
                         <div className="detail-item">
                             <span className="detail-label">Posted by</span>
-                            <span className="detail-value">{postView.creator.display_name || postView.creator.name}</span>
+                               <Link className="detail-value" to={"/profile/" + postView.creator.name}>
+                                {postView.creator.display_name || postView.creator.name}
+                               </Link>
                         </div>
+
                         <div className="detail-item">
                             <span className="detail-label">Location</span>
                             <span className="detail-value">{jobDetails.location || "Remote"}</span>
@@ -64,6 +68,10 @@ export default function JobPostPage() {
                         <div className="detail-item">
                             <span className="detail-label">Role</span>
                             <span className="detail-value">{jobDetails.role}</span>
+                        </div>
+                        <div className="detail-item">
+                            <span className="detail-label">Status</span>
+                            <span className="detail-value">{jobDetails.open ? "Open" : "Closed"}</span>
                         </div>
                         <div className="detail-item">
                             <span className="detail-label">Deadline</span>
@@ -104,27 +112,32 @@ export default function JobPostPage() {
                     {postView.creator.id === profileInfo?.lemmyId && (
                         <div className="job-controls">
                             <PostDeletor postId={postView.post.id} />
-                            <button 
-                                style={{ cursor: "pointer", 
-                                    marginLeft: "0rem", 
-                                    backgroundColor: isHovered ? "#a29bfe" : "#6c5ce7", 
+                            <button
+                                style={{
+                                    cursor: "pointer",
+                                    marginLeft: "0rem",
+                                    backgroundColor: isHovered ? "#a29bfe" : "#6c5ce7",
                                     color: "white",
                                     padding: "7px 25px",
                                     border: "none",
                                     borderRadius: "1rem",
                                     transition: "background-color 0.2s ease",
-                                 }}
+                                }}
                                 onClick={() => setIsEditing(true)}
-                                onMouseEnter={() => setIsHovered(true)} 
+                                onMouseEnter={() => setIsHovered(true)}
                                 onMouseLeave={() => setIsHovered(false)}
                             >
                                 Edit
                             </button>
+                            <JobStatusChanger
+                                postId={postView.post.id}
+                                initialView={postView}
+                                onUpdate={setPostView}
+                            />
                         </div>
                     )}
                 </article>
             )}
-
             <CommentsSection postId={postView.post.id} />
         </div>
     );

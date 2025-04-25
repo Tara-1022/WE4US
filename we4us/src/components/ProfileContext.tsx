@@ -1,19 +1,21 @@
 import { createContext, useEffect, useState } from "react";
 import { useSafeContext } from "../library/useSafeContext";
 import { updateDisplayName } from "../library/LemmyApi";
+import { Profile } from "../library/PostgresAPI";
 
 // TODO: Add necessary details to connect to Who's who
-export type profileInfoType = {
-    lemmyId: number;
-    displayName: string;
-    userName: string;
-    isAdmin: boolean;
-    cohort?: string;
-    companyOrUniversity?: string;
-    currentRole?: string;
-    yearsOfExperience?: number | null;
-    areasOfInterest?: string[];
-}
+// Make all properties in Profile optional except for username, display name
+// So that a fail to fetch extra postgres info doesn't
+// result in a failure across the app
+export type profileInfoType =
+    Omit<Profile, "username" | "display_name">
+    & Partial<Profile>
+    & {
+        lemmyId: number;
+        isAdmin: boolean;
+        display_name: string;
+        username: string;
+    };
 
 export type profileContextType = {
     profileInfo: profileInfoType | undefined;
@@ -39,10 +41,10 @@ export default function ProfileContextProvider({ children }: { children: React.R
 
     useEffect(
         () => {
-            console.log("Display name is now: ", profileInfo ? profileInfo.displayName : profileInfo);
+            console.log("Display name is now: ", profileInfo ? profileInfo.display_name : profileInfo);
             if (profileInfo && countTriggers > 2) {
                 console.log("Triggered. on:", profileInfo);
-                updateDisplayName(profileInfo.displayName)
+                updateDisplayName(profileInfo.display_name)
                     .then(
                         (status) => {
                             if (status) console.log("Lemmy name updated successfully")
@@ -62,7 +64,7 @@ export default function ProfileContextProvider({ children }: { children: React.R
             setCountTriggers(a => a + 1);
         },
         // this is the only editable information shared with lemmy
-        [profileInfo?.displayName]
+        [profileInfo?.display_name]
     )
 
     const contextValue: profileContextType = {

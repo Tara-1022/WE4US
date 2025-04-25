@@ -27,14 +27,15 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
+    background-color: white;
 }
 
 .post-form input,
 .post-form select,
 .post-form textarea {
-    color: var(--color-dark-bg);
+    color: var(--color-white);
     font-weight: bold;
-    background-color: var(--color-gray);
+    background-color: var(--color-dark-bg);
     border: "none";
     border-color: var(--color-primary-light-purple);
     padding: 8px;
@@ -48,6 +49,7 @@
     font-weight: bold;
     display: block;
     margin-top: 10px;
+    color: #1e1e1e;
 }
 
 .post-form button {
