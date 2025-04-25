@@ -1,3 +1,17 @@
+.see-uploads-text {
+  color: #4CAF50;
+  font-weight: 550;
+  cursor: pointer;
+  position: absolute;
+  top: 45px;
+  right: 1px;
+}
+
+.see-uploads-text:hover {
+  font-weight: 490;
+  text-decoration: underline;
+}
+
 .profile-container {
     max-width: 90%;
     margin: 0 auto;
