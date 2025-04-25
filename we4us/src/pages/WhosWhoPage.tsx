@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProfiles, Profile } from "../library/PostgresAPI";
-import { Loader } from 'lucide-react';
+import { Loader, Search } from 'lucide-react';
 import ProfileSnippet from "../components/ProfileSnippet";
 import Carousel from '../components/Carousel';
 import "../styles/WhosWhoPage.css"
@@ -70,9 +70,10 @@ const WhosWhoPage: React.FC = () => {
 
   return (
     <div className='whoswho-container'>
-      <h1>Who's Who</h1>
+      <h1>Who's Who?</h1>
 
       {/* Search Box */}
+      <Search className='search-icon'/>
       <input
         type="text"
         placeholder="Search by name, company..."
@@ -86,7 +87,6 @@ const WhosWhoPage: React.FC = () => {
         sortedCohorts.map((cohort) => (
           <div key={cohort} className='cohort-section'>
             <h2>Cohort {cohort}</h2>
-            <div className='profile-list'>
               <Carousel
                 items={groupedProfiles[cohort].map((profile) => (
                   <ProfileSnippet
@@ -97,8 +97,6 @@ const WhosWhoPage: React.FC = () => {
                 scrollBy={300}
                 classPrefix={"C" + cohort}
               />
-
-            </div>
           </div>
         ))
       ) : (
