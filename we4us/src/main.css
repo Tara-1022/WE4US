@@ -97,7 +97,7 @@ a:hover {
   background-color: var(--color-primary-blue);
 }
 
-.btn-danger {
+.modal-container .btn-danger {
   background-color: var(--color-primary-orange);
   width: 100%;
   padding: 1rem;
@@ -106,7 +106,7 @@ a:hover {
   cursor: pointer;
 }
 
-.btn-danger:hover {
+.modal-container .btn-danger:hover {
   background-color: #d55a00;
 }
 
