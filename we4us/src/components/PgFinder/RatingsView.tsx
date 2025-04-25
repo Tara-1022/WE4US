@@ -3,7 +3,7 @@ import { Ratings } from "./Types";
 export default function RatingsView({ ratings }: { ratings: Ratings | null }) {
     const formatRating = (rating: number | null) => {
         if (rating === null) return 'N/A';
-        return rating === 0 ? '0' : rating;
+        return Math.round(rating * 100) / 100;
     }
     if (!ratings) return <h4>No ratings yet!</h4>
     return (

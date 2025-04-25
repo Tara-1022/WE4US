@@ -46,13 +46,6 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 <div style={styles.location}>
                     Location: {pgData.location || "Not specified"}
                 </div>
-
-                <div style={styles.ratings}>
-                    <span style={styles.ratingItem}>Cost: {pgData.ratings?.cost || "N/A"}</span>
-                    <span style={styles.ratingItem}>Safety: {pgData.ratings?.safety || "N/A"}</span>
-                    <span style={styles.ratingItem}>Food: {pgData.ratings?.food || "N/A"}</span>
-                    <span style={styles.ratingItem}>Cleanliness: {pgData.ratings?.cleanliness || "N/A"}</span>
-                </div>
             </div>
         </div>
     );

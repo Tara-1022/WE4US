@@ -9,6 +9,7 @@ import JobPostEditor from '../components/JobBoard/JobPostEditor';
 import { useProfileContext } from '../components/ProfileContext';
 import { JobPostBody } from '../components/JobBoard/JobTypes';
 import ReactMarkDown from "react-markdown";
+import JobStatusChanger from '../components/JobBoard/JobStatusChanger';
 
 export function FullPost({ postView }: { postView: PostView }) {
     let jobDetails: JobPostBody = JSON.parse(postView.post.body || "{}");
@@ -46,7 +47,7 @@ export default function JobPostPage() {
 
     if (!postView) return <Loader />;
 
-
+    console.log(postView)
     return (
         <>
             {
@@ -66,6 +67,11 @@ export default function JobPostPage() {
                                     >
                                         Edit
                                     </b>}
+                                &nbsp;
+                                <JobStatusChanger
+                                    postId={postView.post.id}
+                                    initialView={postView}
+                                    onUpdate={setPostView} />
                             </>}
 
                     </>
