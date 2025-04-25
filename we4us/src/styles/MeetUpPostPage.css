@@ -185,13 +185,13 @@ body {
   }
 }
 
-.post-delete-top-right {
+.meetup-post-delete {
   position: absolute;
   top: 20px;
   right: 20px;
   z-index: 10;
 }
-.post-delete-top-right button {
+.meetup-post-delete button {
   background: linear-gradient(135deg, #ff4d4d, #c2552a);
   color: #fff;
   border: none;
@@ -202,7 +202,7 @@ body {
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.post-delete-top-right button:hover {
+.meetup-post-delete button:hover {
   background: linear-gradient(135deg, #e14a4c, #da6767);
   transform: scale(1.08);
 }

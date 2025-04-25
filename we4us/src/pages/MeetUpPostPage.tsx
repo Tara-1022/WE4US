@@ -75,7 +75,7 @@ export default function MeetUpPostPage() {
   return (
     <div className="meetup-post-container">
       {postView.creator.id === profileInfo?.lemmyId && (
-        <div className="post-delete-top-right">
+        <div className="meetup-post-delete">
           <PostDeletor postId={postView.post.id} />
         </div>
       )}

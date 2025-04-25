@@ -39,37 +39,37 @@ export default function MeetUpPostSnippet({ postView }: { postView: PostView }) 
 
   return (
     <Link
-      to={`/meetup/${postView.post.id}`}
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      <div className="card">
-        <h3 className="title">{parsedBody.title}</h3>
-
-        <div className="dateTimeTopRight">
-          <Clock size={14} strokeWidth={1.5} />
-          {formattedDateTime}
-        </div>
-
-        <p className="detail">
-          <strong>Location:</strong> {parsedBody.body.location}
-        </p>
-        <p className="detail">
-          <strong>Open To:</strong> {parsedBody.body.open_to}
-        </p>
-        {parsedBody.url && (
-          <p className="detail">
-            <strong>Event Link:</strong>{" "}
-            <a
-              href={parsedBody.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              {parsedBody.url}
-            </a>
-          </p>
-        )}
+    to={`/meetup/${postView.post.id}`}
+    style={{ textDecoration: "none", color: "inherit" }}
+  >
+    <div className="card meet-up">
+      <h3 className="title">{parsedBody.title}</h3>
+  
+      <div className="dateTimeTopRight">
+        <Clock size={14} strokeWidth={1.5} />
+        {formattedDateTime}
       </div>
-    </Link>
+  
+      <p className="detail">
+        <strong>Location:</strong> {parsedBody.body.location}
+      </p>
+      <p className="detail">
+        <strong>Open To:</strong> {parsedBody.body.open_to}
+      </p>
+      {parsedBody.url && (
+        <p className="detail">
+          <strong>Event Link:</strong>{" "}
+          <a
+            href={parsedBody.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            {parsedBody.url}
+          </a>
+        </p>
+      )}
+    </div>
+  </Link>  
   );
 }

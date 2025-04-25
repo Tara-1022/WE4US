@@ -14,6 +14,6 @@ export const WARNING_INTERVAL = 1000 * 60 * 5; // 5 minutes
 export const MAX_WARNINGS = 3;
 
 export const JOB_BOARD_COMMUNITY_NAME = "job_board";
-export const MEET_UP_COMMUNITY_NAME = "meet_up";
+export const MEET_UP_COMMUNITY_NAME = "Meetup";
 export const PG_FINDER_COMMUNITY_NAME = "pg_finder";
 export const ANNOUNCEMENTS_COMMUNITY_NAME = "announcements";

@@ -51,8 +51,8 @@ export default function PostCreationHandler({
         onRequestClose={() => setIsOpen(false)}
         contentLabel="Create Meet-Up Post"
         ariaHideApp={false}
-        className="ReactModal__Content"
-        overlayClassName="ReactModal__Overlay"
+        className="meet-up-modal-content"
+        overlayClassName="meet-up-modal-overlay"
       >
         <PostForm
           handleSubmit={handleCreation}
@@ -67,12 +67,12 @@ export default function PostCreationHandler({
 
 const buttonStyle: React.CSSProperties = {
   padding: "10px 16px",
-  backgroundColor: "#2f2f2f", 
+  backgroundColor: "#2f2f2f",
   border: "1px solid #444",
   borderRadius: "8px",
   fontSize: "1em",
   cursor: "pointer",
-  color: "#f1f1f1", 
+  color: "#f1f1f1",
   fontWeight: 500,
   boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
   transition: "background-color 0.2s ease",
