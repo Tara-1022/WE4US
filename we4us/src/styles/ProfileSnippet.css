@@ -1,0 +1,34 @@
+.profile-snippet {
+    display: block;
+    border: 1px solid var(--color-gray);
+    padding: 10px;
+    width: 250px;
+    height: 200px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+}
+
+.profile-snippet:hover {
+    background-color: var(--color-white);
+    color: var(--profile-green);
+    text-decoration: none;
+}
+
+.profile-snippet .profile-image {
+    width: 100px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.profile-snippet .display-name {
+    font-size: large;
+}
+
+
+.profile-snippet .username {}
