@@ -196,3 +196,18 @@
   height: 100%;
   object-fit: cover;
 }
+
+.posts-comments-container{
+   color: var(--color-dark-bg);
+   text-align: left; 
+}
+.posts-comments-toggle{
+  margin: auto;
+  text-align: center;
+}
+
+.posts-comments-toggle .toggler {
+  position: relative;
+  top: 6px;
+  cursor: pointer;
+}
