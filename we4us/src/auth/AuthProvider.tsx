@@ -5,6 +5,8 @@ import { useProfileContext } from "../components/ProfileContext";
 import { useLemmyInfo } from "../components/LemmyContextProvider";
 import { MAX_WARNINGS, MILLISECONDS_IN_AN_HOUR, SESSION_DURATION, WARNING_INTERVAL, ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from "../constants";
 import { CommunityView } from "lemmy-js-client";
+import Modal from "react-modal";
+import { changeUserPassword } from "../library/LemmyApi";
 
 // Storing jwt in localstorage is our best current option https://stackoverflow.com/questions/69294536/where-to-store-jwt-token-in-react-client-side-in-secure-way
 // since making backend changes is not feasible at present
@@ -43,6 +45,125 @@ async function getPostgresProfile(username: string) {
     console.error("Error fetching postgres profile details:", error);
     window.alert("Unable to fetch Postgres profile info. Some features of the site may not work; try logging out and logging back in. If the issue persists, contact the admins.");
   }
+}
+
+export function ChangePasswordModal({
+  isOpen,
+  handleClose,
+  onPasswordChange,
+}: {
+  isOpen: boolean;
+  handleClose: () => void;
+  onPasswordChange: (success: boolean) => void;
+}) {
+  const { setToken } = useAuth();
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Effect to reset state when modal is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setError(null);
+    }
+  }, [isOpen]);
+
+  async function handleChangePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setError("All fields are required.");
+      return;
+    }
+
+    if (newPassword == oldPassword) {
+      setError("New password must be different than old password");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError("New password and confirmation do not match.");
+      return;
+    }
+
+    if (newPassword.length < 10 || newPassword.length > 60) {
+      setError("Password length should be between 10 to 60 char");
+    }
+
+    setIsProcessing(true);
+    const token = localStorage.getItem("token");
+    const result = await changeUserPassword(oldPassword, newPassword, confirmPassword, token?.toString());
+    if (result.success && result.jwt) {
+      localStorage.setItem("token", result.jwt);
+      setToken(result.jwt);
+      window.alert("Password changed successfully!");
+      onPasswordChange(true);
+      handleClose();
+    } else {
+      onPasswordChange(false);
+      setError("Password change failed. Please check your current password.");
+    }
+    setIsProcessing(false);
+  }
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={handleClose}
+      className="modal-content"
+      overlayClassName="modal-overlay"
+      contentLabel="Change Password"
+      shouldCloseOnOverlayClick={true}
+    >
+      <div className="modal-container">
+        <h2 className="modal-heading">Change Password</h2>
+        <form onSubmit={handleChangePassword} className="space-y-4">
+          <div>
+            <label htmlFor="old_password" className="modal-label">Current Password</label>
+            <input
+              id="old_password"
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="modal-input"
+            />
+          </div>
+          <div>
+            <label htmlFor="new_password" className="modal-label">New Password</label>
+            <input
+              id="new_password"
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              className="modal-input"
+            />
+          </div>
+          <div>
+            <label htmlFor="confirm_password" className="modal-label">Confirm New Password</label>
+            <input
+              id="confirm_password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="modal-input"
+            />
+          </div>
+          {error && <div className="error-message">{error}</div>}
+          <button type="submit" className="btn btn-danger" disabled={isProcessing}>
+            {isProcessing ? "Saving..." : "Change Password"}
+          </button>
+        </form>
+      </div>
+    </Modal>
+  );
 }
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -162,3 +283,4 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
+
