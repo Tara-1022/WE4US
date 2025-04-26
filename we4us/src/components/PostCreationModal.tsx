@@ -151,6 +151,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           onUploadChange={handleImageChange}
           copiesCount={2}
           purpose="post"
+          loading={loading}
+          setLoading={setLoading}
         />
         <br />
         <label htmlFor="secondCommunityId">Create a copy of this post in: </label>
