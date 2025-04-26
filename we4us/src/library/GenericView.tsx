@@ -5,6 +5,8 @@ import PgPostSnippet from '../components/PgFinder/PgPostSnippet';
 import JobPostSnippet from '../components/JobBoard/JobPostSnippet';
 import CommentSnippet from '../components/CommentSnippet';
 import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from '../constants';
+import { ReviewSnippet } from '../components/PgFinder/Review';
+import PostSnippet from '../components/PostSnippet';
 
 export type GenericView = {
     type_: "comment" | "post",
@@ -34,7 +36,13 @@ export function commentToGenericView(c: CommentView): GenericView {
 export function GenericViewSnippet({ view }: { view: GenericView }) {
     switch (view.type_) {
         case "comment":
-            return <CommentSnippet commentView={view.data as CommentView} withPostLink={true} />
+            switch (view.community_name) {
+                case PG_FINDER_COMMUNITY_NAME:
+                    return <ReviewSnippet review={view.data as CommentView} withPostLink={true}/>
+                default:
+                    return <CommentSnippet commentView={view.data as CommentView} withPostLink={true} />
+            }
+
         case "post":
             const postView = view.data as PostView;
             switch (view.community_name) {
@@ -47,7 +55,7 @@ export function GenericViewSnippet({ view }: { view: GenericView }) {
                 case JOB_BOARD_COMMUNITY_NAME:
                     return <JobPostSnippet postView={postView} />
                 default:
-                    return <></>
+                    return <PostSnippet postView={postView} />
             }
         default:
             return <></>
