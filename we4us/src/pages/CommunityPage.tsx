@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { CommunityView, PostView } from "lemmy-js-client";
 import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
-import  PostCreationButton  from '../components/PostCreationButton';
+import PostCreationButton from '../components/PostCreationButton';
 import { getCommunityDetailsFromId, getPostList } from "../library/LemmyApi";
 import CommunitySnippet from "../components/CommunitySnippet";
 import PaginationControls from "../components/PaginationControls";
@@ -35,7 +35,8 @@ export default function CommunityPage() {
     );
 
     function handlePostCreated(newPost: PostView) {
-        setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
+        // Don't display the copy of a post in another community
+        if (newPost.community.id == communityId) setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
     }
 
     if (!postViews) return <Loader />;
