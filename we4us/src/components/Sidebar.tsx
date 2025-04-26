@@ -1,70 +1,69 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
+import { useProfileContext } from './ProfileContext';
+import {getProfileImageSource } from '../library/ImageHandling';
+import { useAuth } from '../auth/AuthProvider';
+import '../styles/sidebar.css';
 
-const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface SidebarProps {
+  isOpen: boolean;
+}
 
-  const navItems = [
-    { to: '/', label: 'Home' },
-    { to: '/announcements', label: 'Announcements' },
-    { to: '/job-board', label: 'Job Board' },
-    { to: '/meetup', label: 'Meet Up' },
-    { to: '/pg-finder', label: 'PG Finder' },
-    { to: '/profile', label: 'Profile' },
-    { to: '/reaching-out', label: 'Reaching Out' },
-    { to: '/whos-who', label: 'Who\'s Who' }
-  ];
+const navItems = [
+  { to: '/home', label: 'Home', icon: Home, highlightedPaths: ["/home"] },
+  { to: '/announcements', label: 'Announcements', icon: Bell, highlightedPaths: ["/announcements"] },
+  { to: '/reaching-out', label: 'Reaching Out', icon: Heart, highlightedPaths: ["/reaching-out", "/post", "/community", "/search"] },
+  { to: '/whos-who', label: "Who's Who", icon: Award, highlightedPaths: ["/whos-who", "/profile"] },
+  { to: '/job-board', label: 'Job Board', icon: Briefcase, highlightedPaths: ["/job-board"] },
+  { to: '/meetup', label: 'Meet Up', icon: Users, highlightedPaths: ["/meetup"] },
+  { to: '/pg-finder', label: 'PG Finder', icon: Building2, highlightedPaths: ["/pg-finder"] }
+];
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+  const location = useLocation();
+  const {profileInfo} = useProfileContext();
+  const { isLoggedIn } = useAuth();
+  const profileImageUrl = getProfileImageSource(profileInfo)
+
+  const user = {
+    name: profileInfo?.display_name,
+    username: profileInfo?.username,
+    avatar: profileImageUrl
+  };
 
   return (
     <>
-      {}
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 z-50 text-white"
-      >
-        <Menu size={24} />
-      </button>
-
-      {}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 flex"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setIsOpen(false);
-          }}
-        >
-          <div 
-            className="w-64 h-full bg-gray-900 text-white shadow-lg transform transition-transform duration-300"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <h2 className="text-2xl font-bold">WE4US</h2>
-              <button onClick={() => setIsOpen(false)}>
-                <X size={24} />
-              </button>
+      <div className={`sidebar ${!isOpen ? 'closed' : ''}`}>
+        <Link to="/profile" className="user-profile">
+          <img src={user.avatar} alt="Profile" className="user-avatar" />
+          <div className="user-info">
+            <div className="user-display-name">{user.name}</div>
+            <div className="user-name">{user.username ? "@" + user.username : undefined}</div>
+          </div>
+        </Link>
+        <nav className="nav-items">
+          {navItems.map(({ to, label, icon: Icon, highlightedPaths }) => (
+            <div key={to}>
+              <Link
+                to={to}
+                className={`nav-item ${(highlightedPaths.some((h) => location.pathname.startsWith(h))) ? 'active' : ''}`}
+              >
+                <Icon className="w-5 h-5" />
+                <span>{label}</span>
+              </Link>
             </div>
+          ))}
+        </nav>
 
-            <nav className="p-4">
-              <ul className="space-y-2">
-                {navItems.map((item) => (
-                  <li key={item.to}>
-                    <Link 
-                      to={item.to} 
-                      onClick={() => setIsOpen(false)}
-                      className="block py-2 px-4 hover:bg-gray-700 rounded"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+        {isLoggedIn && (
+          <div className="logout-section">
             <LogoutButton />
           </div>
-        </div>
-      )}
+        )}
+        
+      </div>
     </>
   );
 };

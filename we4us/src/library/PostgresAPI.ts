@@ -1,32 +1,26 @@
-import { API_BASE_URL, PROFILES_ENDPOINT } from "../constants";
+import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT } from "../constants";
 
 export interface Profile {
-  id: string;
   username: string;
   display_name: string;
   cohort?: string;
   current_role?: string;
   company_or_university?: string;
-  years_of_experience?: number;
+  years_of_experience?: number | null;
   areas_of_interest?: string[];
+  image_filename?: string | null;
+  image_delete_token?: string | null;
 }
 
 export const fetchProfiles = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}`);
+    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}`);
     if (!response.ok) {
       throw new Error("Failed to fetch profiles");
     }
     const jsonData = await response.json();
 
-    return jsonData.profiles.map((p: any) => ({
-      id: p.id,
-      username: p.username,
-      displayName: p.display_name, 
-      cohort: p.cohort,
-      companyOrUniversity: p.company_or_university,
-      currentRole: p.current_role,
-    }));
+    return jsonData.profiles.map((p: any) => (p as Profile));
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
@@ -36,55 +30,40 @@ export const fetchProfiles = async () => {
   }
 };
 
-export const fetchProfileById = async (id: number) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}/${id}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch profile");
-    }
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      throw new Error("Unknown error occurred.");
-    }
-  }
-};
-
+/**
+ * Fetches a profile by username.
+ * @param username - The username of the profile to fetch.
+ * @returns {Profile | null} - Returns the profile object if found, otherwise null.
+ */
 export const fetchProfileByUsername = async (username: string) => {
   try {
-    const response = await fetch(`${API_BASE_URL}${PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`);
+    const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${encodeURIComponent(username)}`
+);
     
+    if (response.status === 404) {
+      return null;
+    }
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch profile for username: ${username}`);
+      throw new Error(`Failed to fetch profile for username: ${username}. Status: ${response.status}`);
     }
 
     const jsonData = await response.json();
-    const profile = jsonData.profiles.find((p: any) => p.username === username);
 
-    if (!profile) {
+    if (!jsonData.profile) {
       throw new Error(`Profile not found for username: ${username}`);
     }
 
-    return {
-      id: profile.id,
-      username: profile.username,
-      display_name: profile.display_name, 
-      cohort: profile.cohort,
-      company_or_university: profile.company_or_university, 
-      current_role: profile.current_role, 
-      years_of_experience: profile.years_of_experience,
-      areas_of_interest: profile.areas_of_interest || [],
-    };
+    return jsonData.profile as Profile;
   } catch (error) {
     console.error("Error fetching profile by username:", error);
     return null; 
   }
 };
+
 export const updateProfile = async (username: string, profileData: Profile) => {
   try {
-    const url = `${API_BASE_URL}${PROFILES_ENDPOINT}?username=${encodeURIComponent(username)}`;
+    const url = `${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${username}`;
 
     const response = await fetch(url, {
       method: 'PUT', 
@@ -92,7 +71,7 @@ export const updateProfile = async (username: string, profileData: Profile) => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify(profileData),
+      body: JSON.stringify({ profile: profileData }),
     });
 
     if (!response.ok) {

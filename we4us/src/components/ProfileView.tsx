@@ -1,25 +1,37 @@
-
 import '../styles/ProfilePage.css';
+import LemmyPersonDetails from './LemmyPersonDetails';
+import { Pencil } from 'lucide-react';
+import { Profile } from '../library/PostgresAPI';
+import { constructImageUrl } from "../library/ImageHandling";
+import profile_duck from "../assets/profile_duck.png";
+import UploadsModal from './UploadsModal';
+import Modal from "react-modal";
 
-interface Profile {
-  id: string;
-  username: string;
-  display_name: string;
-  cohort?: string;
-  current_role?: string;
-  company_or_university?: string;
-  years_of_experience?: number;
-  areas_of_interest?: string[];
-}
+Modal.setAppElement('#root');
+
 
 interface ProfileViewProps {
   profile: Profile;
+  isOfCurrentUser: boolean;
   onEdit?: () => void;
 }
 
-const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
+const ProfileView = ({ profile, onEdit, isOfCurrentUser = false }: ProfileViewProps) => {
   return (
     <div className="profile-content">
+      {onEdit && isOfCurrentUser && <>
+        <button onClick={onEdit} className="edit-button">
+          <Pencil />
+        </button>
+        <UploadsModal />
+      </>}
+      <div className="profile-image-container">
+        <img
+          src={profile.image_filename ? constructImageUrl(profile.image_filename) : profile_duck}
+          alt={`${profile.display_name}'s profile`}
+          className="profile-image"
+        />
+      </div>
       <h1>{profile.display_name}</h1>
       <p className="username">@{profile.username}</p>
       <div className="profile-details">
@@ -58,13 +70,9 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
           </div>
         )}
       </div>
-      {onEdit && (
-        <div className="button-group">
-          <button onClick={onEdit} className="edit-button">
-            Edit Profile
-          </button>
-        </div>
-      )}
+      {profile.username &&
+        <LemmyPersonDetails username={profile.username} />
+      }
     </div>
   );
 };

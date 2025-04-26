@@ -1,0 +1,48 @@
+/* MeetUpSnippet.css */
+.card {
+    background-color: #2f2f2f;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    transition: background-color 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+  }
+  
+  .card:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 12px;
+  }
+  
+  .detail {
+    font-size: 15px;
+    color: #dddddd;
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+  
+  .link {
+    color: #90cdf4;
+    text-decoration: underline;
+    word-break: break-word;
+  }
+  
+  .dateTimeTopRight {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 13px;
+    color: #bbbbbb;
+    font-style: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  

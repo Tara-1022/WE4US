@@ -9,7 +9,14 @@ let styles = {
         padding: 0
     },
     listItem: {
-        cursor: 'pointer'
+        cursor: 'pointer',
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        margin: "1%"
+    },
+    postLink: {
+        fontSize: "small",
+        margin: "2%"
     }
 }
 
@@ -19,9 +26,7 @@ export default function CommentList({ commentViews }: { commentViews: CommentVie
     const list = commentViews
         .map(
             commentView => <li key={commentView.comment.id} style={styles.listItem}>
-                <Link to={"/post/" + commentView.post.id} style={{ all: "unset" }}>
-                    <CommentSnippet commentView={commentView} />
-                </Link>
+                <CommentSnippet commentView={commentView} withPostLink={true}/>
             </li>
         )
     return <ul style={styles.list}>{list}</ul>;

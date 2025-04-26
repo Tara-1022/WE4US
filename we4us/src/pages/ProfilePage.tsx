@@ -1,38 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProfileByUsername } from "../library/PostgresAPI"; 
+import { useParams } from 'react-router-dom';
+import { fetchProfileByUsername, Profile } from "../library/PostgresAPI";
 import { useProfileContext } from '../components/ProfileContext';
 import { Loader } from 'lucide-react';
 import ProfileEditForm from '../components/EditProfile';
 import ProfileView from '../components/ProfileView';
 import '../styles/ProfilePage.css';
 
-interface Profile {
-  id: string;
-  username: string;
-  display_name: string;
-  cohort?: string;
-  current_role?: string;
-  company_or_university?: string;
-  years_of_experience?: number;
-  areas_of_interest?: string[];
-}
-
 const ProfilePage = () => {
   const { username: paramUsername } = useParams<{ username?: string }>();
-  const navigate = useNavigate();
-  const { profileInfo } = useProfileContext();
+  const { profileInfo, setProfileInfo } = useProfileContext();
 
-  const username = paramUsername || profileInfo?.userName; 
+  const username = paramUsername || profileInfo?.username;
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!username) {
-      navigate('/login');
       return;
     }
 
@@ -54,19 +40,29 @@ const ProfilePage = () => {
       } finally {
         setIsLoading(false);
       }
-    };    
+    };
 
     getProfile();
-  }, [username, navigate]);
+  }, [username]);
   
   const handleProfileUpdate = (updatedProfile: Profile) => {
     setProfile(updatedProfile);
+
+    setProfileInfo(
+      (prevProfileInfo) => {
+        if (prevProfileInfo)
+          return {
+            ...updatedProfile,
+            displayName: updatedProfile.display_name,
+            userName: prevProfileInfo.username, // username never changes anyway
+            lemmyId: prevProfileInfo.lemmyId,
+            isAdmin: prevProfileInfo.isAdmin
+          }
+        else throw new Error("No profile to update")
+      });
+
     setIsEditing(false);
-    setUpdateMessage("Profile updated successfully!");
-    
-    setTimeout(() => {
-      setUpdateMessage(null);
-    }, 3000);
+    window.alert("Profile updated successfully!");
   };
 
   const handleEditToggle = () => {
@@ -76,7 +72,7 @@ const ProfilePage = () => {
   if (isLoading) {
     return (
       <div className="loading">
-        <Loader size={48} className="loading-spinner"/>
+        <Loader size={48} className="loading-spinner" />
         <p>Loading profile...</p>
       </div>
     );
@@ -92,24 +88,21 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-      {updateMessage && (
-        <div className="success-message">
-          {updateMessage}
-        </div>
-      )}
-      
-      {isEditing ? (
-        <ProfileEditForm 
-          profile={profile} 
-          onProfileUpdate={handleProfileUpdate} 
-          onCancel={() => setIsEditing(false)} 
-        />
-      ) : (
-        <ProfileView 
-          profile={profile} 
-          onEdit={updateMessage ? undefined : handleEditToggle} 
-        />
-      )}
+      {isEditing && (profileInfo?.username == profile.username)
+        ? (
+          <ProfileEditForm
+            profile={profile}
+            onProfileUpdate={handleProfileUpdate}
+            onCancel={() => setIsEditing(false)}
+          />)
+        : (
+          <ProfileView
+            profile={profile}
+            isOfCurrentUser={
+              (profileInfo?.username == profile.username) ? true : false}
+              onEdit={handleEditToggle}
+          />)
+      }
     </div>
   );
 };

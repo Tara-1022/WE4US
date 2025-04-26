@@ -6,82 +6,41 @@ defmodule We4usWeb.ProfileController do
   alias We4usWeb.ChangesetJSON
   alias We4us.Repo
 
-  @doc """
-  Fetch all profiles from the database and return them as JSON.
-
-  Endpoint: GET /api/profiles
-  """
+  @doc "Fetch all profiles from the database and return them as JSON."
   def index(conn, _params) do
     profiles = Profiles.list_profiles()
     json(conn, %{profiles: Enum.map(profiles, &profile_json/1)})
   end
 
-  @doc """
-  Fetch a single profile by username.
-
-  Endpoint: GET /api/profiles/by_username/:username
-  """
-  def get_by_username(conn, %{"username" => username}) do
-    case Repo.get_by(Profile, username: username) do
+  @doc "Fetch a single profile by username and return it as JSON."
+  def show(conn, %{"username" => username}) do
+    case Profiles.get_profile(username) do
       nil ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
-
+        |> json(%{error: "Profile with username '#{username}' not found"})
       profile ->
         json(conn, %{profile: profile_json(profile)})
     end
   end
 
-  @doc """
-  Update a profile by username.
-
-  Endpoint: PUT /api/profiles/by_username/:username
-  """
-  def update_by_username(conn, %{"username" => username} = params) do
-    case Repo.get_by(Profile, username: username) do
-      nil ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Profile not found"})
-
-      profile ->
-        # Remove "username" from params before updating
-        updated_params = Map.drop(params, ["username"])
-        changeset = Profile.changeset(profile, updated_params)
-
-        case Repo.update(changeset) do
-          {:ok, updated_profile} ->
-            json(conn, %{
-              message: "Profile updated successfully",
-              profile: profile_json(updated_profile)
-            })
-
-          {:error, changeset} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{error: "Failed to update profile", details: ChangesetJSON.errors(changeset)})
-        end
-    end
-  end
-
-  @doc """
-  Create a new profile.
-
-  Endpoint: POST /api/profiles
-  """
-  def create(conn, params) do
-    profile_params =
-      case params do
-        %{"profile" => p} -> p
-        _ -> params
-      end
-
+  @doc "Create a new profile."
+  def create(conn, %{"profile" => profile_params}) do
     case Profiles.create_profile(profile_params) do
       {:ok, profile} ->
         conn
         |> put_status(:created)
         |> json(%{profile: profile_json(profile)})
+
+      {:error, :missing_username} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Username is required to create a profile"})
+
+      {:error, :username_taken} ->
+        conn
+        |> put_status(:conflict)
+        |> json(%{error: "Username already exists."})
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -90,88 +49,74 @@ defmodule We4usWeb.ProfileController do
     end
   end
 
-  @doc """
-  Update a profile by ID.
-
-  Endpoint: PUT /api/profiles/:id
-  """
-  def update(conn, %{"id" => id} = params) do
-    case Integer.parse(id) do
-      {parsed_id, ""} ->
-        case Profiles.get_profile(parsed_id) do
-          nil ->
-            conn
-            |> put_status(:not_found)
-            |> json(%{error: "Profile not found"})
-
-          profile ->
-            case Profiles.update_profile(profile, params) do
-              {:ok, updated_profile} ->
-                json(conn, %{
-                  message: "Profile updated successfully",
-                  profile: profile_json(updated_profile)
-                })
-
-              {:error, %Ecto.Changeset{} = changeset} ->
-                conn
-                |> put_status(:unprocessable_entity)
-                |> json(%{errors: ChangesetJSON.errors(changeset)})
-            end
-        end
-
-      _ ->
+  @doc "Update a profile by username."
+  def update(conn, %{"username" => username, "profile" => profile_params}) do
+    case Profiles.get_profile(username) do
+      nil ->
         conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Invalid ID format"})
+        |> put_status(:not_found)
+        |> json(%{error: "Profile with username '#{username}' not found"})
+
+      profile ->
+        # Convert string values to appropriate types and handle image fields
+        processed_params = profile_params
+          |> Map.update("years_of_experience", profile.years_of_experience, fn
+            nil -> nil
+            "" -> nil
+            val when is_binary(val) -> String.to_integer(val)
+            val -> val
+          end)
+          |> Map.update("areas_of_interest", profile.areas_of_interest, fn
+            areas when is_list(areas) -> areas
+            _ -> profile.areas_of_interest
+          end)
+
+        case Profiles.update_profile(username, processed_params) do
+          {:ok, updated_profile} ->
+            conn
+            |> put_status(:ok)
+            |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> json(%{errors: ChangesetJSON.errors(changeset)})
+        end
     end
   end
 
-  @doc """
-  Delete a profile by ID.
-
-  Endpoint: DELETE /api/profiles/:id
-  """
-  def delete(conn, %{"id" => id}) do
-    case Integer.parse(id) do
-      {parsed_id, ""} ->
-        case Profiles.get_profile(parsed_id) do
-          nil ->
-            conn
-            |> put_status(:not_found)
-            |> json(%{error: "Profile not found"})
-
-          profile ->
-            case Profiles.delete_profile(profile) do
-              {:ok, _} ->
-                conn
-                |> put_status(:no_content)
-                |> json(%{message: "Profile deleted successfully"})
-
-              {:error, _reason} ->
-                conn
-                |> put_status(:unprocessable_entity)
-                |> json(%{error: "Profile deletion failed"})
-            end
-        end
-
-      _ ->
+  @doc "Delete a profile by username."
+   def delete(conn, %{"username" => username}) do
+    case Profiles.delete_profile(username) do
+      {:ok, :deleted} ->
         conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Invalid ID format"})
+        |> put_status(:no_content)
+        |> json(%{message: "Profile deleted successfully"})
+
+      {:error, :profile_not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Profile with username '#{username}' not found"})
+
+      {:error, reason} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
     end
   end
 
-  # Helper function to format profile data for JSON responses
+
   defp profile_json(profile) do
     %{
-      id: profile.id,
       username: profile.username,
       display_name: profile.display_name,
       cohort: profile.cohort,
       current_role: profile.current_role,
       company_or_university: profile.company_or_university,
       years_of_experience: profile.years_of_experience,
-      areas_of_interest: profile.areas_of_interest
+      areas_of_interest: profile.areas_of_interest,
+      image_filename: profile.image_filename,
+      image_delete_token: profile.image_delete_token
     }
   end
 end
