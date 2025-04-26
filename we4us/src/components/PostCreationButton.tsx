@@ -6,6 +6,8 @@ import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
 import ImageUploader from "./ImageUploader";
 import "../styles/PostImageUploader.css"
+// Temporary, can be removed any time
+import "../styles/UploadsModal.css"
 import { PostView } from "lemmy-js-client";
 
 interface PostCreationModalProps {
@@ -135,23 +137,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       isOpen={isOpen}
       onRequestClose={handleCancel}
       contentLabel="Create Post"
-      style={{
-        overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
-        content: {
-          top: "50%",
-          left: "50%",
-          right: "auto",
-          bottom: "auto",
-          marginRight: "-50%",
-          transform: "translate(-50%, -50%)",
-          padding: "20px",
-          background: "white",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          color: "black"
-          // TODO: Update color from theme, not hardcoded
-        },
-      }}
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Post Title: </label>
