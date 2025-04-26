@@ -5,33 +5,36 @@ import { Loader, Search } from 'lucide-react';
 import { getPgPostList } from "../library/LemmyApi";
 import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
+import PaginationControls from "../components/PaginationControls";
+import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import "../styles/PgPost.css"
 
 export default function PgFinderPage() {
-    const [postViews, setPostViews] = useState<PostView[] | null>(null);
+    const [postViews, setPostViews] = useState<PostView[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
 
     useEffect(
         () => {
-            getPgPostList().then(
-                (postViews) => { setPostViews(postViews) }
-            )
-        }, [])
-
-
+        getPgPostList(page).then(setPostViews);
+    }, [page]);
     if (!postViews) return <Loader />;
-    else if (postViews.length == 0) return <h3>No posts to see!</h3>;
-    else {
-        return (
-            <>
-                <h3>PG FINDER</h3>
-                <Link to="/pg-finder/search"><Search /></Link>
-                <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
-                {postViews.length > 0 ?
-                    <PgPostList postViews={postViews} />
-                    :
-                    <h3>No PGs yet!</h3>
-                }
-            </>
-        )
-    }
+
+    return (
+        <>
+            <h3>PG FINDER</h3>
+            <Link to="/pg-finder/search"><Search /></Link>
+            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
+            
+            <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+            
+            {postViews.length > 0 ? (
+                <PgPostList postViews={postViews} />
+            ) : (
+                <h3>No PGs yet!</h3>
+            )}
+            
+            <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+        </>
+    )
 }
