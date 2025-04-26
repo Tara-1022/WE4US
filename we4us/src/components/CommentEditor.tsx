@@ -2,62 +2,19 @@ import { CommentView } from "lemmy-js-client";
 import { editComment } from "../library/LemmyApi";
 import { useCommentsContext } from "./CommentsContext";
 import { useState } from "react";
-import Collapsible from "./Collapsible";
-
-function CollapsedIcon() {
-    const style = {
-        actionButton: {
-            background: "none",
-            border: "none",
-            color: "#a0a8b0",
-            cursor: "pointer",
-            fontWeight: "500" as const,
-            padding: 0,
-            fontSize: "13px",
-            display: "flex",
-            alignItems: "center"
-        }
-    };
-    
-    return (
-        <b style={style.actionButton}>
-            Edit
-        </b>
-    )
-}
-
-function OpenIcon() {
-    const style = {
-        actionButton: {
-            background: "none",
-            border: "none",
-            color: "#a0a8b0",
-            cursor: "pointer",
-            fontWeight: "500" as const,
-            padding: 0,
-            fontSize: "13px",
-            display: "flex",
-            alignItems: "center"
-        }
-    };
-    
-    return (
-        <b style={style.actionButton}>
-            Cancel
-        </b>
-    )
-}
 
 export default function CommentEditor({
     commentId,
-    initialText
+    initialText,
+    onClose
 }: {
     commentId: number,
-    initialText: string
+    initialText: string,
+    onClose: () => void
 }) {
     const { setComments, comments } = useCommentsContext();
     const [content, setContent] = useState(initialText);
-    
+
     const styles = {
         form: {
             marginBottom: "16px"
@@ -82,7 +39,7 @@ export default function CommentEditor({
         },
         saveButton: {
             padding: "6px 16px",
-            backgroundColor: "#ff7b00", 
+            backgroundColor: "#ff7b00",
             color: "white",
             border: "none",
             borderRadius: "4px",
@@ -117,41 +74,42 @@ export default function CommentEditor({
             .catch(() => {
                 window.alert("Comment could not be updated");
             });
+        onClose();
     }
 
-    function handleReset(){
+    function handleReset() {
         setContent(initialText);
     }
 
     return (
-        <Collapsible 
-            CollapsedIcon={CollapsedIcon} 
-            OpenIcon={OpenIcon} 
-            initiallyExpanded={false}
-            onToggle={() => {}}
-        >
+        <>
             <div style={styles.form}>
-                <textarea 
+                <textarea
                     style={styles.textarea}
-                    value={content} 
-                    onChange={(e) => setContent(e.target.value)} 
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
                 />
                 <div style={styles.buttonGroup}>
-                    <button 
-                        onClick={handleSave} 
+                    <button
+                        onClick={handleSave}
                         disabled={content == initialText}
                         style={styles.saveButton}
                     >
                         Save
                     </button>
-                    <button 
+                    <button
                         onClick={handleReset}
                         style={styles.resetButton}
                     >
                         Reset
+                    </button><button
+                        onClick={onClose}
+                        style={styles.resetButton}
+                    >
+                        Cancel
                     </button>
                 </div>
             </div>
-        </Collapsible>
+        </>
     );
 }
