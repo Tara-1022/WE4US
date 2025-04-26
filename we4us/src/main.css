@@ -141,6 +141,13 @@ a:hover {
   background-color: var(--color-dark-bg);
 }
 
+/* Change Password section */
+.change-password-section {
+  padding: 0.5rem 0.5rem;
+  background-color: var(--color-dark-bg);
+  margin-bottom: 1px; 
+}
+
 /* Main content area */
 .main-content {
   padding: 1rem;

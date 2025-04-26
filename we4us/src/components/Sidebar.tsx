@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
@@ -6,6 +6,7 @@ import { useProfileContext } from './ProfileContext';
 import {getProfileImageSource } from '../library/ImageHandling';
 import { useAuth } from '../auth/AuthProvider';
 import '../styles/sidebar.css';
+import { ChangePasswordModal } from './ChangePasswordModal';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -26,11 +27,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const {profileInfo} = useProfileContext();
   const { isLoggedIn } = useAuth();
   const profileImageUrl = getProfileImageSource(profileInfo)
+  const [showModal, setShowModal] = useState(false);
 
   const user = {
     name: profileInfo?.display_name,
     username: profileInfo?.username,
     avatar: profileImageUrl
+  };
+
+  const handlePasswordChange = (success: boolean) => {
+    if (success) {
+      alert("Password changed successfully!"); 
+      setShowModal(false);  // Close the modal
+    }
   };
 
   return (
@@ -56,13 +65,21 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
             </div>
           ))}
         </nav>
-
+          
         {isLoggedIn && (
-          <div className="logout-section">
-            <LogoutButton />
-          </div>
+          <><div className="change-password-section">
+            <button type="button" onClick={() => setShowModal(true)} className="btn btn-danger">
+            Change Password
+          </button>
+          <ChangePasswordModal
+            isOpen={showModal}
+            handleClose={() => setShowModal(false)}
+            onPasswordChange={handlePasswordChange} 
+          />
+          </div><div className="logout-section">
+              <LogoutButton />
+            </div></>
         )}
-        
       </div>
     </>
   );

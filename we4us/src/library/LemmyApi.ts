@@ -382,3 +382,51 @@ export async function updateDisplayName(displayName: string) {
   );
   return response.success
 }
+export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  // Fetches and returns a list of recent Meet-Up PostViews
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts({
+      type_: "All",
+      limit: limit,
+      sort: "New",
+      community_name: MEET_UP_COMMUNITY_NAME,
+      show_nsfw: true,
+    });
+    postCollection = response.posts.slice();
+  } catch (error) {
+    console.error("Failed to fetch meet-up posts:", error);
+  }
+  return postCollection;
+}
+
+export async function changeUserPassword(
+  oldPassword: string,
+  newPassword: string,
+  previousJwt: string | undefined // Accept the previous JWT as a parameter
+): Promise<{ success: boolean; jwt?: string }> {
+  try {
+    const response = await getClient().changePassword({
+      old_password: oldPassword,
+      new_password: newPassword,
+      new_password_verify: newPassword,
+    });
+    
+    // Check the JWT from the response
+    const newJwt = response.jwt;
+    console.log(previousJwt + " is the oldJwt")
+    console.log(newJwt+" is the newJwt")
+
+    // Compare the new JWT with the previous JWT
+    const success = newJwt != previousJwt;
+    console.log(success+ " is the success op")
+
+    return {
+      success,
+      jwt: newJwt,
+    };
+  } catch (error) {
+    console.error("Changing password failed:", error);
+    return { success: false };
+  }
+}
