@@ -11,15 +11,15 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
     
     const styles = {
         container: {
-            backgroundColor: "#121418",
-            borderRadius: "8px",
+            backgroundColor: "#1a1a1b",
+            borderRadius: "0px",
             marginBottom: "16px",
-            padding: "20px 20px 20px 40px",
-            boxShadow: "0 1px 3px rgba(45, 44, 44, 0.3)",
-            transition: "background-color 0.2s ease",
-            borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "none",
+            padding: "12px 16px 12px 24px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            border: "1px solid #343536",
+            borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "1px solid #343536",
             marginLeft: depth * 18 + "px"
-        },
+        },        
         
         actionsContainer: {
             display: "flex",
