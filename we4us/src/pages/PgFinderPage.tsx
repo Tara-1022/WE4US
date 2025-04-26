@@ -8,7 +8,7 @@ import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
 import "../components/PgFinder/PgFinderPage.css";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
-import "../styles/PgPost.css"
+import "../styles/PgPostPage.css"
 
 export default function PgFinderPage() {
     const [postViews, setPostViews] = useState<PostView[]>([]);
