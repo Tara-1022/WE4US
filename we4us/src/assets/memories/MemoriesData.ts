@@ -15,6 +15,8 @@ import C4_img3 from './C4_img3.jpg'
 import C2_img1 from './C2_img1.jpeg'
 import C2_img2 from './C2-img2.jpeg'
 import C2_img3 from './C2_img3.jpeg'
+import C3_img1 from './C3_img1.jpg'
+import C3_img2 from './C3_img2.jpg'
 import C1_graduation from './c1_graduation.jpeg'
 import C1_alumni_fest from './C1_alumni_fest.jpeg'
 import Blr_interns_24 from './blr_interns_24.jpeg'
@@ -48,6 +50,17 @@ export const memories = [
     imageUrl: C2_img3,
     title: "C2 Click & Bond",
     description: "One big WE hug — now in 3D!",
+  },
+  // cohort 4
+  {
+    imageUrl: C3_img1,
+    title: "C3 Graduation",
+    description: "The cohort and mentors: \"Say WE!\"",
+  },
+  {
+    imageUrl: C3_img2,
+    title: "C3 Graduation",
+    description: "Presentations and talks!",
   },
   // cohort 4
   {
