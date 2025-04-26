@@ -1,54 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
-import { CommentView, PostView, Search } from 'lemmy-js-client';
+import { CommentView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
 import { Loader, Search as SearchIcon } from 'lucide-react';
-import AnnouncementPostSnippet from '../components/Announcements/AnnouncementPostSnippet';
-import MeetUpPostSnippet from '../components/MeetUp/MeetUpSnippet';
-import PgPostSnippet from '../components/PgFinder/PgPostSnippet';
-import JobPostSnippet from '../components/JobBoard/JobPostSnippet';
-import CommentSnippet from '../components/CommentSnippet';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from '../constants';
+import { commentToGenericView, GenericView, GenericViewList, postToGenericView } from '../library/GenericView';
 import RedirectPage from './RedirectPage';
-
-let styles = {
-  list: {
-    listStyleType: "none",
-    margin: 0,
-    padding: 0
-  }
-}
-
-type GenericView = {
-  type_: "comment" | "post",
-  data: CommentView | PostView,
-  id: number
-}
-
-function GenericViewSnippet({ view, community }: { view: GenericView, community: string }) {
-  switch (view.type_) {
-    case "comment":
-      return <CommentSnippet commentView={view.data as CommentView} withPostLink={true} />
-    case "post":
-      const postView = view.data as PostView;
-      switch (community) {
-        case ANNOUNCEMENTS_COMMUNITY_NAME:
-          return <AnnouncementPostSnippet postView={postView} />
-        case MEET_UP_COMMUNITY_NAME:
-          return <MeetUpPostSnippet postView={postView} />
-        case PG_FINDER_COMMUNITY_NAME:
-          return <PgPostSnippet postView={postView} />
-        case JOB_BOARD_COMMUNITY_NAME:
-          return <JobPostSnippet postView={postView} />
-        default:
-          return <></>
-      }
-    default:
-      return <></>
-  }
-}
 
 const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) => {
   if (community &&
@@ -105,10 +64,8 @@ const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) =
         (response) => {
           setResult(
             [...(result || []),
-            ...response.posts
-              .map(p => { return { type_: "post", data: p, id: p.post.id } as GenericView }),
-            ...response.comments
-              .map(c => { return { type_: "comment", data: c, id: c.comment.id } as GenericView })
+            ...response.posts.map(p => postToGenericView(p)),
+            ...response.comments.map(c => commentToGenericView(c))
             ]
           );
           // searching among users would be redundant since we already 
@@ -124,30 +81,22 @@ const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) =
         })
     }, [lastQuery, page]);
 
-  const list = filteredResult?.map(
-    view => <li key={view.type_ + view.id}>
-      <GenericViewSnippet view={view} community={community} />
-    </li>
-  );
-
   return (
     <>
       <SearchIcon />
       <LemmySearchBar handleSearch={handleSearch} communityName={community} />
 
-      {isResultPresent &&
+      {isResultPresent && filteredResult &&
         <div style={{ overflow: "auto" }} className='scrollableDiv'>
-          <ul style={styles.list}>
-            <InfiniteScroll
-              dataLength={filteredResult?.length || 0}
-              next={() => setPage(page + 1)}
-              hasMore={hasMore}
-              loader={<Loader />}
-              endMessage={<h4 style={{ textAlign: 'center' }}>That's all, folks!</h4>}
-              scrollableTarget="scrollableDiv">
-              {list}
-            </InfiniteScroll>
-          </ul>
+          <InfiniteScroll
+            dataLength={filteredResult?.length || 0}
+            next={() => setPage(page + 1)}
+            hasMore={hasMore}
+            loader={<Loader />}
+            endMessage={<h4 style={{ textAlign: 'center' }}>That's all, folks!</h4>}
+            scrollableTarget="scrollableDiv">
+            <GenericViewList views={filteredResult} />
+          </InfiniteScroll>
         </div>
       }
 
