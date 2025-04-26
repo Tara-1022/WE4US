@@ -94,7 +94,7 @@ export default function PostEditor({ postView, onPostUpdated, onClose }:
             />
             <button type="submit" disabled={loading}>Save</button>
             <button type="reset" disabled={loading}>Reset</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleCancel} disabled={loading}>Cancel</button>
         </form>
     )
 
