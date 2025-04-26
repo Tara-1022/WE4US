@@ -1,7 +1,8 @@
 import { CommentView } from "lemmy-js-client";
 import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
-export default function CommentSnippet({ commentView, withPostLink = false }:
+export default function CommentSnippet({ commentView, withPostLink = false }: 
     { commentView: CommentView, withPostLink?: boolean }) {
     
     const styles = {
@@ -42,10 +43,13 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
     return (
         <>
             <div style={styles.content}>
-                {commentView.comment.deleted ? 
-                    <span style={styles.deleted}>Comment deleted</span> : 
-                    commentView.comment.content
-                }
+                {commentView.comment.deleted ? (
+                    <span style={styles.deleted}>Comment deleted</span>
+                ) : (
+                    <ReactMarkdown>
+                        {commentView.comment.content}
+                    </ReactMarkdown>
+                )}
             </div>
             
             <div style={styles.meta}>
