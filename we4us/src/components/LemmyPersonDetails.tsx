@@ -2,7 +2,7 @@ import '../styles/ProfilePage.css';
 import { useEffect, useState } from "react";
 import { getPersonDetails } from "../library/LemmyApi";
 import { CommentView, PostView } from "lemmy-js-client";
-import { commentToGenericView, GenericView, GenericViewList, postToGenericView } from '../library/GenericView';
+import { commentToGenericView, GenericViewList, postToGenericView } from '../library/GenericView';
 import { Loader, ToggleLeft, ToggleRight } from "lucide-react";
 
 type OverviewDetails = {
@@ -58,7 +58,7 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
 
     function PostCommentToggle() {
         return <div className="posts-comments-toggle">
-            <span style={{ margin: "0 10px" }}>Posts</span>
+            <span style={{ margin: "0 10px" }}>Top Posts</span>
             <span onClick={() => setPostsToggle(!isPostsToggle)}
                 className='toggler'>
                 {isPostsToggle ?

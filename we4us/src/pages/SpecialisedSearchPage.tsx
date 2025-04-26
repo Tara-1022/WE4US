@@ -5,19 +5,12 @@ import { CommentView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
 import { Loader, Search as SearchIcon } from 'lucide-react';
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from '../constants';
+import { DEFAULT_POSTS_PER_PAGE, isSpecialCommunity } from '../constants';
 import { commentToGenericView, GenericView, GenericViewList, postToGenericView } from '../library/GenericView';
 import RedirectPage from './RedirectPage';
 
 const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) => {
-  if (community &&
-    !([ANNOUNCEMENTS_COMMUNITY_NAME,
-      MEET_UP_COMMUNITY_NAME,
-      PG_FINDER_COMMUNITY_NAME,
-      JOB_BOARD_COMMUNITY_NAME].some(
-        (name) => name == community
-      ))) {
-    console.log(community == ANNOUNCEMENTS_COMMUNITY_NAME)
+  if (community && !(isSpecialCommunity(community))) {
     return <RedirectPage />
   }
 

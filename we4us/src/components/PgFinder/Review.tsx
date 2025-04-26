@@ -35,7 +35,7 @@ export function ReviewSnippet({ review, withPostLink = false }:
             <Link to={"/profile/" + review.creator.name}>{review.creator.display_name ? review.creator.display_name : review.creator.name}</Link>
             {
                 withPostLink &&
-                <Link to={"/post/" + review.post.id} style={styles.postLink}>
+                <Link to={"/pg-finder/" + review.post.id} style={styles.postLink}>
                     Go to Post
                 </Link>
             }
