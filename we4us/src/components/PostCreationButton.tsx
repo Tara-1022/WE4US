@@ -149,7 +149,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <input type="url" name="url" placeholder="URL" />
         <br />
         {communityId ?
-          <input hidden={true} name="communityId" type="number" value={communityId} />
+          <input type="hidden" name="communityId" value={communityId} />
           :
           <>
             <label htmlFor="communityId">Choose Community: </label>
