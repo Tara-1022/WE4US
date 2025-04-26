@@ -5,7 +5,7 @@ import C5_img1 from "./C5_img1.jpeg";
 import C5_img2 from "./C5_img2.jpeg";
 import C5_img3 from "./C5_img3.jpg";
 import C5_img4 from "./C5_img4.jpeg";
-import C5_img5 from "./C5_img5.jpeg";
+import Inter_Cohort_Bootcamp from "./Inter_Cohort_Bootcamp.jpeg";
 import Alumni1 from './Alumni_fest1.jpg'
 import Alumni2 from './Alumni_fest2.jpg'
 import Alumni3 from './Alumni_fest3.jpg'
@@ -31,7 +31,7 @@ export const memories = [
   {
     imageUrl: C1_alumni_fest,
     title: "C1 @ Alumni Fest '24",
-    description: "Group photo of Cohot 1",
+    description: "Group photo of Cohort 1",
   },
   // cohort 2
   {
@@ -78,28 +78,23 @@ export const memories = [
   // cohort 5
   {
     imageUrl: C5_img1,
-    title: "C5",
-    description: "",
+    title: "C5 Google Office Visit",
+    description: "Explored the vibrant Google Office in Hyderabad!",
   },
   {
     imageUrl: C5_img2,
-    title: "C5",
-    description: "",
+    title: "C5 Summer Bootcamp 2023",
+    description: "Collaborated, coded, and connected at Summer for a Summer!",
   },
   {
     imageUrl: C5_img3,
-    title: "C5",
-    description: "",
+    title: "C5 Graduation",
+    description: "Marked the end of an incredible chapter and onto new beginnings!",
   },
   {
     imageUrl: C5_img4,
-    title: "C5",
-    description: "",
-  },
-  {
-    imageUrl: C5_img5,
-    title: "C5",
-    description: "",
+    title: "C5 Bootcamp Bash",
+    description: "Celebrated the end of the Bootcamp with fun, friends, and memorable moments.",
   },
   // cohort 6
   {
@@ -138,5 +133,10 @@ export const memories = [
     imageUrl: Blr_interns_24,
     title: "Google Bangalore Interns '24",
     description: "Catching up with Asokan and Kunisha at the Bangalore office!",
+  },
+  {
+    imageUrl: Inter_Cohort_Bootcamp,
+    title: "Winter Bootcamp 2024",
+    description: "Scholars from different cohorts came together to collaborate, learn, and create.",
   },
 ];
