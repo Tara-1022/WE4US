@@ -26,7 +26,7 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={defaultContent? "review-edit-form": "review-create-form"}>
             <label>Ratings (1-5):</label>
             <br />
             <label htmlFor="costRating">Cost : </label>
