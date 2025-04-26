@@ -50,16 +50,18 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
             transition: "background-color 0.2s"
         },
         actionButton: {
-            background: "none",
+            backgroundColor: "#ff7b00",
             border: "none",
-            color: "#a0a8b0", // Light text color for dark theme
+            color: "white",  // Light text color for dark theme
             cursor: "pointer",
-            fontWeight: "500",
-            padding: 0,
-            fontSize: "13px",
+            fontWeight: "600",
+            padding: "6px 16px",
+            fontSize: "14px",
             display: "flex",
-            alignItems: "center"
-        }
+            alignItems: "center",
+            borderRadius: "6px",
+            transition: "background-color 0.2s"
+        }        
     };
 
     function handleCreate() {

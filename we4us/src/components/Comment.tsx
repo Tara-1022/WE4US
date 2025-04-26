@@ -11,15 +11,16 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
     
     const styles = {
         container: {
-            backgroundColor: "#1a1d21",
+            backgroundColor: "#121418",
             borderRadius: "8px",
             marginBottom: "16px",
-            padding: "16px", 
-            boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
+            padding: "20px 20px 20px 40px",
+            boxShadow: "0 1px 3px rgba(45, 44, 44, 0.3)",
             transition: "background-color 0.2s ease",
             borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "none",
-            marginLeft: depth * 16 + "px"
+            marginLeft: depth * 18 + "px"
         },
+        
         actionsContainer: {
             display: "flex",
             gap: "16px",
