@@ -226,14 +226,14 @@ export async function getJobPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): 
   try {
     const response = await getClient().getPosts(
       {
-      type_: "All",
-      limit: limit,
-      page: page,
-      community_name: JOB_BOARD_COMMUNITY_NAME,
-      show_nsfw: true,
-      sort: "New"
-    }
-  );
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: JOB_BOARD_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
     postCollection = response.posts.slice();
   }
   catch (error) {
@@ -249,21 +249,21 @@ export async function getPgPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): P
   try {
     const response = await getClient().getPosts(
       {
-      type_: "All",
-      limit: limit,
-      page: page,
-      community_name: PG_FINDER_COMMUNITY_NAME,
-      show_nsfw: true,
-      sort: "New"
-    }
-  );
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: PG_FINDER_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
     postCollection = response.posts.slice();
   }
-   catch (error) {
+  catch (error) {
     console.error(error);
   }
   finally {
-  return postCollection;
+    return postCollection;
   }
 }
 
@@ -272,20 +272,20 @@ export async function getMeetUpPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE
   try {
     const response = await getClient().getPosts(
       {
-      type_: "All",
-      limit: limit,
-      page: page,
-      community_name: MEET_UP_COMMUNITY_NAME,
-      show_nsfw: true,
-      sort: "New"
-    }
-  );
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: MEET_UP_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
     postCollection = response.posts.slice();
   } catch (error) {
     console.error("Failed to fetch meet-up posts:", error);
   }
   finally {
-  return postCollection;
+    return postCollection;
   }
 }
 
@@ -381,23 +381,6 @@ export async function updateDisplayName(displayName: string) {
     }
   );
   return response.success
-}
-export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
-  // Fetches and returns a list of recent Meet-Up PostViews
-  let postCollection: PostView[] = [];
-  try {
-    const response = await getClient().getPosts({
-      type_: "All",
-      limit: limit,
-      sort: "New",
-      community_name: MEET_UP_COMMUNITY_NAME,
-      show_nsfw: true,
-    });
-    postCollection = response.posts.slice();
-  } catch (error) {
-    console.error("Failed to fetch meet-up posts:", error);
-  }
-  return postCollection;
 }
 
 export async function changeUserPassword(

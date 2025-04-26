@@ -4,9 +4,8 @@ import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-re
 import LogoutButton from '../auth/LogoutButton';
 import { useProfileContext } from './ProfileContext';
 import { getProfileImageSource } from '../library/ImageHandling';
-import { useAuth } from '../auth/AuthProvider';
+import { ChangePasswordModal, useAuth } from '../auth/AuthProvider';
 import '../styles/sidebar.css';
-import { ChangePasswordModal } from './ChangePasswordModal';
 
 interface SidebarProps {
   isOpen: boolean;

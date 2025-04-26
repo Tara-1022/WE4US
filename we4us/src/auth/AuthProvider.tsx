@@ -77,6 +77,10 @@ export function ChangePasswordModal({
     e.preventDefault();
     setError(null);
 
+    if (newPassword.length < 10 || newPassword.length > 60) {
+      setError("Password length should be between 10 to 60 char");
+    }
+
     if (!oldPassword || !newPassword || !confirmPassword) {
       setError("All fields are required.");
       return;
@@ -92,10 +96,6 @@ export function ChangePasswordModal({
       return;
     }
 
-    if (newPassword.length < 10 || newPassword.length > 60) {
-      setError("Password length should be between 10 to 60 char");
-    }
-
     setIsProcessing(true);
     const token = localStorage.getItem("token");
     const result = await changeUserPassword(oldPassword, newPassword, confirmPassword, token?.toString());
@@ -107,7 +107,7 @@ export function ChangePasswordModal({
       handleClose();
     } else {
       onPasswordChange(false);
-      setError("Password change failed. Please check your current password.");
+      window.alert("Password change failed");
     }
     setIsProcessing(false);
   }
