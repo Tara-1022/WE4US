@@ -1,4 +1,4 @@
-import { PgPostData } from "./PostCreationHandler";
+import { PgPostData } from "./Types";
 import Modal from "react-modal";
 import "./PgFinderPage.css";
 
@@ -15,12 +15,6 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
             url: entries.mapUrl.toString(),
             body: {
                 location: (entries.location || '').toString(),
-                ratings: {
-                    cost: Number(entries.costRating || null),
-                    safety: Number(entries.safetyRating || null),
-                    food: Number(entries.foodRating || null),
-                    cleanliness: Number(entries.cleanlinessRating || null),
-                },
                 acAvailable: entries.acAvailable === 'on',
                 foodType: (entries.foodType || '').toString(),
                 description: (entries.description || '').toString()

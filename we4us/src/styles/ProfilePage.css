@@ -1,3 +1,17 @@
+.see-uploads-text {
+  color: #4CAF50;
+  font-weight: 550;
+  cursor: pointer;
+  position: absolute;
+  top: 45px;
+  right: 1px;
+}
+
+.see-uploads-text:hover {
+  font-weight: 490;
+  text-decoration: underline;
+}
+
 .profile-container {
     max-width: 90%;
     margin: 0 auto;
@@ -83,6 +97,7 @@
   .areas-of-interest ul {
     list-style-type: none;
     padding: 0;
+    color: #333;
   }
   
   .areas-of-interest li {
@@ -128,4 +143,57 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+  }
+
+  .profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-image-uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .image-preview {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .image-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .profile-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }

@@ -8,7 +8,7 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
     try {
         pgData = JSON.parse(postView.post.body || "{}");
     } catch (e) {
-        pgData = { location: "Unknown", ratings: { cost: null, safety: null, food: null, cleanliness: null } };
+        pgData = { location: "Unknown", ratings: null };
     }
 
     return (

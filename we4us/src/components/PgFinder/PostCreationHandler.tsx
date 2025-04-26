@@ -4,25 +4,7 @@ import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
 import "./PgFinderPage.css";
-
-export type PgPostData = {
-    name: string,
-    body: PgPostBody,
-    url: string
-}
-
-export type PgPostBody = {
-    location: string,
-    ratings: {
-        cost: number | null,
-        safety: number | null,
-        food: number | null,
-        cleanliness: number | null
-    },
-    acAvailable: boolean,
-    foodType: string,
-    description: string
-}
+import { PgPostData  } from "./Types";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
