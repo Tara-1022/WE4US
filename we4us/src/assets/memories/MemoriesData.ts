@@ -1,27 +1,33 @@
-import img1 from "./img1.jpg";
-import img2 from "./img2.jpg";
-import img3 from "./img3.jpg";
+import C1_graduation from './c1_graduation.jpeg'
+import C1_alumni_fest from './C1_alumni_fest.jpeg'
+
+import C2_img1 from './C2_img1.jpeg'
+import C2_img2 from './C2-img2.jpeg'
+import C2_img3 from './C2_img3.jpeg'
+
+import C3_img1 from './C3_img1.jpg'
+import C3_img2 from './C3_img2.jpg'
+
+import C4_img1 from './C4_img1.jpg'
+import C4_img2 from './C4_img2.jpg'
+import C4_img3 from './C4_img3.jpg'
+import C4_Christmas_img from './C4_Christmas.jpg'
+import C4_Graduation_img from './C4_Graduation.jpg'
+
 import C5_img1 from "./C5_img1.jpeg";
 import C5_img2 from "./C5_img2.jpeg";
 import C5_img3 from "./C5_img3.jpg";
 import C5_img4 from "./C5_img4.jpeg";
+
+import C6_img1 from "./C6_img1.jpg";
+import C6_img2 from "./C6_img2.jpg";
+import C6_img3 from "./C6_img3.jpg";
+
 import Inter_Cohort_Bootcamp from "./Inter_Cohort_Bootcamp.jpeg";
 import Alumni1 from './Alumni_fest1.jpg'
 import Alumni2 from './Alumni_fest2.jpg'
 import Alumni3 from './Alumni_fest3.jpg'
-import C4_img1 from './C4_img1.jpg'
-import C4_img2 from './C4_img2.jpg'
-import C4_img3 from './C4_img3.jpg'
-import C2_img1 from './C2_img1.jpeg'
-import C2_img2 from './C2-img2.jpeg'
-import C2_img3 from './C2_img3.jpeg'
-import C3_img1 from './C3_img1.jpg'
-import C3_img2 from './C3_img2.jpg'
-import C1_graduation from './c1_graduation.jpeg'
-import C1_alumni_fest from './C1_alumni_fest.jpeg'
 import Blr_interns_24 from './blr_interns_24.jpeg'
-import Christmas_img from './Christmas C4.jpg'
-import Graduation_img from './Graduation C4.jpg'
 
 export const memories = [
   // cohort 1
@@ -79,12 +85,12 @@ export const memories = [
     description: "Hanging around for post-lecture talks with Asokan",
   },
   {
-    imageUrl: Christmas_img,
+    imageUrl: C4_Christmas_img,
     title: "C4 Christmas Party",
     description: "Celebrating the festive season with joy and laughter.",
   },
   {
-    imageUrl: Graduation_img,
+    imageUrl: C4_Graduation_img,
     title: "C4 Graduation",
     description: "Celebrating lifeling friendships, and the end of a successful programme.",
   },
@@ -111,17 +117,17 @@ export const memories = [
   },
   // cohort 6
   {
-    imageUrl: img1,
+    imageUrl: C6_img1,
     title: "C6 Orientation Day",
     description: "Getting to know each other and setting expectations.",
   },
   {
-    imageUrl: img3,
+    imageUrl: C6_img3,
     title: "C6 Bootcamp",
     description: "Learning new technologies and building cool projects.",
   },
   {
-    imageUrl: img2,
+    imageUrl: C6_img2,
     title: "C6 Bootcamp Bash",
     description: "Celebrating the end of a successful bootcamp.",
   },
