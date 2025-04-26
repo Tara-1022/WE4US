@@ -11,7 +11,8 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
             lineHeight: 1.5,
             marginBottom: "8px",
             wordBreak: "break-word" as const,
-            color: "#e0e0e0" 
+            color: "#e0e0e0",
+            paddingLeft: "12px" 
         },
         deleted: {
             color: "#888888",
