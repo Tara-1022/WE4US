@@ -48,10 +48,10 @@ const ProfileView = ({ profile, onEdit }: ProfileViewProps) => {
             <span className="detail-value">{profile.company_or_university}</span>
           </div>
         )}
-        {profile.years_of_experience !== undefined && profile.years_of_experience !== null && (
+        {profile.working_since && (
           <div className="detail-item">
-            <span className="detail-label">Years of Experience:</span>
-            <span className="detail-value">{profile.years_of_experience}</span>
+            <span className="detail-label">Working Since:</span>
+            <span className="detail-value">{profile.working_since}</span>
           </div>
         )}
         {profile.areas_of_interest && profile.areas_of_interest.length > 0 && (

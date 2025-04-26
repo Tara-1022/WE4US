@@ -12,7 +12,7 @@ curl -X POST http://localhost:4000/api/profiles \
        "cohort": "4",
        "current_role": "Data Scientist",
        "company_or_university": "Meta",
-       "years_of_experience": 5,
+       "working_since": "1999",
        "areas_of_interest": ["AI", "Big Data"]
      }
      }'

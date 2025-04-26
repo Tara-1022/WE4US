@@ -62,12 +62,6 @@ defmodule We4usWeb.ProfileController do
         # Convert string values to appropriate types and handle image fields
         processed_params =
           profile_params
-          |> Map.update("years_of_experience", profile.years_of_experience, fn
-            nil -> nil
-            "" -> nil
-            val when is_binary(val) -> String.to_integer(val)
-            val -> val
-          end)
           |> Map.update("areas_of_interest", profile.areas_of_interest, fn
             areas when is_list(areas) -> areas
             _ -> profile.areas_of_interest
@@ -114,11 +108,11 @@ defmodule We4usWeb.ProfileController do
       cohort: profile.cohort,
       current_role: profile.current_role,
       company_or_university: profile.company_or_university,
-      years_of_experience: profile.years_of_experience,
       areas_of_interest: profile.areas_of_interest,
       image_filename: profile.image_filename,
       image_delete_token: profile.image_delete_token,
-      description: profile.description
+      description: profile.description,
+      working_since: profile.working_since
     }
   end
 end

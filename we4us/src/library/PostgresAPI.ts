@@ -6,11 +6,11 @@ export interface Profile {
   cohort?: string;
   current_role?: string;
   company_or_university?: string;
-  years_of_experience?: number | null;
+  working_since?: string;
   areas_of_interest?: string[];
   image_filename?: string | null;
   image_delete_token?: string | null;
-  description?: string | null;
+  description?: string;
 }
 
 export const fetchProfiles = async () => {
