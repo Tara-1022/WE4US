@@ -1,0 +1,21 @@
+.new-post-button {
+    background-color: #1e1e1e;
+    color: rgb(198, 195, 195);
+    padding: 9px 25px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #6c5ce7;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+    font-weight: 600;
+    font-family:'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+
+.new-post-button:hover {
+    background-color:#3c3c3c;
+}
+

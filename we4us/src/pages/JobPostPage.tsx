@@ -19,8 +19,7 @@ export default function JobPostPage() {
     const [postView, setPostView] = useState<PostView | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const { profileInfo } = useProfileContext();
-    const [isHovered, setIsHovered] = useState(false);
-
+    
     useEffect(() => {
         getPostById(jobId).then(response => setPostView(response ? response.post_view : null));
     }, [jobId]);
@@ -111,29 +110,21 @@ export default function JobPostPage() {
 
                     {postView.creator.id === profileInfo?.lemmyId && (
                         <div className="job-controls">
-                            <PostDeletor postId={postView.post.id} />
                             <button
-                                style={{
-                                    cursor: "pointer",
-                                    marginLeft: "0rem",
-                                    backgroundColor: isHovered ? "#a29bfe" : "#6c5ce7",
-                                    color: "white",
-                                    padding: "7px 25px",
-                                    border: "none",
-                                    borderRadius: "1rem",
-                                    transition: "background-color 0.2s ease",
-                                }}
                                 onClick={() => setIsEditing(true)}
-                                onMouseEnter={() => setIsHovered(true)}
-                                onMouseLeave={() => setIsHovered(false)}
                             >
                                 Edit
                             </button>
+                
                             <JobStatusChanger
                                 postId={postView.post.id}
                                 initialView={postView}
                                 onUpdate={setPostView}
                             />
+
+                            <PostDeletor postId={postView.post.id} />
+                            
+                           
                         </div>
                     )}
                 </article>

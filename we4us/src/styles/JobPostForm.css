@@ -2,7 +2,7 @@
    
     --color-dark-bg: #1e1e1e;
     --color-card-bg: #1f1f1f;
-    --color-card-hover: #252525;
+    --color-card-hover: #434343;
     --color-white: #f0f0f0;
     --color-gray: #646464;
     --color-light-gray: #b0b0b0;
@@ -15,6 +15,7 @@
     --color-success-hover: #2f7131; 
     --color-primary-dark-purple: #4839a1;
     --color-primary-teal: #01c4a4;
+    --colour-primary-light-teal:#08fbd2;
     --color-primary-purple: #6c5ce7; 
     /*--color-primary-blue: #0984e3; */   
     --color-primary-blue: #0767b3; 
@@ -27,29 +28,29 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
-    background-color: white;
+    background-color: var(--color-dark-bg);
 }
 
 .post-form input,
 .post-form select,
 .post-form textarea {
-    color: var(--color-white);
     font-weight: bold;
-    background-color: var(--color-dark-bg);
+    background-color: #323232;
     border: "none";
     border-color: var(--color-primary-light-purple);
-    padding: 8px;
+    padding: 10px;
     border-radius: 5px;
-    width: 100%;
-    margin: 1px 0 8px;
-    box-sizing: border-box;
+    width: 104%;
+    margin: 1px 0 5px;
+    
 }
 
 .post-form label {
     font-weight: bold;
     display: block;
     margin-top: 10px;
-    color: #1e1e1e;
+    color: var(--color-white);
+    font-size: large;
 }
 
 .post-form button {
@@ -61,30 +62,34 @@
 }
 
 .post-form button[type="submit"] {
-    background-color: var(--color-success);
+    background-color: var(--color-primary-teal);
     color: white;
+    font-weight: bold;
 }
 
 .post-form button[type="reset"] {
-    background-color: var(--color-primary-dark-orange);
+    background-color: var(--color-primary-blue);
     color: white;
+    font-weight: bold;
 }
 
 .post-form button[type="button"] {
-    background-color: var(--color-error);
+    background-color: var(--color-primary-dark-purple);
     color: white;
+    font-weight: bold;
 }
 .post-form button[type="submit"]:hover {
-    background-color: var(--color-success-hover);
+    background-color: var(--colour-primary-light-teal);
     color: white;
+    font-weight: bold;
 }
 
 .post-form button[type="reset"]:hover {
-    background-color: var(--color-primary-orange);
+    background-color: var(--color-blue);
     color: white;
 }
 
 .post-form button[type="button"]:hover {
-    background-color: var(--color-error-hover);
+    background-color: var(--color-primary-light-purple);
     color: white;
 }

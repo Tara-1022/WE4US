@@ -12,7 +12,7 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
     const jobBody = JSON.parse(initialView.post.body || "{}") as JobPostBody;
 
     const [deadline, setDeadline] = useState<string | undefined>(jobBody.deadline || undefined);
-    const [isHovered, setIsHovered] = useState(false);
+    
 
 
     function changeStatus(updateDeadline = false) {
@@ -70,30 +70,26 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
     }
 
     return <>
-        <button onClick={handleMarkJob}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                style={{
-                    cursor: "pointer",
-                    marginLeft: "10px",
-                    backgroundColor: isHovered ? " #00aaff" : " #0767b3",
-                    color: "white",
-                    padding: "7px 25px",
-                    border: "none",
-                    borderRadius: "1rem",
-                    transition: "background-color 0.2s ease",
-                    }}
-        >
+        <button onClick={handleMarkJob}>
              Mark Job {jobBody.open ? 'Closed' : 'Open'}
         </button>
 
         <Modal
     isOpen={isOpen}
+    ariaHideApp={false}
+    onRequestClose={() => setIsOpen(false)}
     style={{
-        overlay: {
-            alignItems: "center",
-            justifyContent: "center",
+        content: {
+            backgroundColor: ' #1e1e1e', 
+            color: 'white',             
+            borderColor: ' #4839a1', 
+            width: '550px',          
+            height: '220px',         
+            margin: 'auto',   
         },
+        overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)' 
+        }
     }}
 >
     <h4 className="modal-header">

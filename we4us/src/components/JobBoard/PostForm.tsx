@@ -44,26 +44,42 @@ export default function PostForm({ onClose, handleSubmit, task, initialData }:
 
     return (
         <form onSubmit={handleClick} className="post-form">
+
             <label htmlFor="name">Title</label>
             <input name="name" 
+                placeholder="Optional"
                 defaultValue={initialData?.name || undefined} />
+
             <label htmlFor="url">Job Link</label>
-            <input name="url" type="url" defaultValue={initialData?.url || undefined} />
+            <input name="url" type="url"  
+                placeholder="Optional" 
+                defaultValue={initialData?.url || undefined} />
+
             <label htmlFor="company">Company</label>
-            <input name="company" required defaultValue={initialData?.body.company || undefined} />
+            <input name="company" required 
+                defaultValue={initialData?.body.company || undefined} />
+
             <label htmlFor="role">Role</label>
-            <input name="role" required defaultValue={initialData?.body.role || undefined} />
+            <input name="role" required 
+                defaultValue={initialData?.body.role || undefined} />
+
             <label htmlFor="location">Location</label>
-            <input name="location" required defaultValue={initialData?.body.location || undefined} />
+            <input name="location" required 
+                defaultValue={initialData?.body.location || undefined} />
+
             <label htmlFor="deadline">Deadline</label>
-            <input name="deadline" type="date" defaultValue={initialData?.body.deadline || undefined} />
+            <input name="deadline" type="date" 
+                defaultValue={initialData?.body.deadline || undefined} />
+
             <label htmlFor="job_type">Type</label>
-            <select name="job_type" required defaultValue={initialData?.body.job_type || undefined}>
+            <select name="job_type" required 
+                defaultValue={initialData?.body.job_type || undefined}>
                 <option value="">Not Selected</option>
                 {Object.values(JobType).map((type) => (
                     <option key={type} value={type}>{type}</option>
                 ))}
             </select>
+            
             <label htmlFor="description">Description</label>
             <textarea name="description" defaultValue={initialData?.body.description || undefined} />
             <div>

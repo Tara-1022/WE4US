@@ -1,67 +1,102 @@
+:root {
+   
+    --color-dark-bg: #1e1e1e;
+    --color-card-bg: #1f1f1f;
+    --color-card-hover: #252525;
+    --color-white: #f0f0f0;
+    --color-gray: #646464;
+    --color-light-gray: #b0b0b0;
+    --color-primary-orange: orange;
+    --color-primary-dark-orange: rgb(217, 121, 4);
+    --color-blue: #00aaff;
+    --color-error: #ff4d4d;
+    --color-error-hover: #ae0a0a;
+    --color-success:#4caf50 ;
+    --color-success-hover: #2f7131; 
+    --color-primary-dark-purple: #4839a1;
+    --color-primary-teal: #01c4a4;
+    --colour-primary-light-teal:#08fbd2;
+    --color-primary-purple: #6c5ce7; 
+    /*--color-primary-blue: #0984e3; */   
+    --color-primary-blue: #0767b3; 
+    --color-primary-light-purple: #a29bfe; 
+}
 .modal-content {
     width: 50%;
-    color: black;
-    background-color: #f0f0f0;
+    background-color: var(--color-dark-bg);
     padding: 20px;
     border-radius: 10px;
 }
 
 .modal-header {
-    color: black;;
-    font-size: 18px;
+    color: var(--color-white);
+    font-size: 17px;
     margin-bottom: 10px;
+    margin-left: 5px;
 }
 
 .modal-label {
     display: block;
     margin-bottom: 5px;
-    color: black;
+    color: var(--color-white);
+    font-size: 16px;
+    margin-left: 5px;
+
 }
 
 .modal-input {
     padding: 8px;
     font-size: 16px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
+    border: 1px solid var(--color-primary-dark-purple);
+    width: 67.5%;
     margin-bottom: 10px;
+    margin-left: 5px;
+    background-color: #323232;
+    color: white;
+    font-weight: 600;
 }
 
 .modal-button {
     padding: 10px 20px;
     margin-left: 5px;
     border: none;
-    border-radius: 1rem;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .modal-button-new-date {
-    background-color: #4caf50;
+    background-color: var(--color-primary-teal);
     color: white;
+    font-weight: bold;
 }
 
 .modal-button-update-status {
-    background-color: #ff9800;
+    background-color: var(--color-primary-blue);
     color: white;
+    font-weight: bold;
 }
 
 .modal-button-cancel {
-    background-color: #f44336;
+    background-color: var(--color-primary-dark-purple);
     color: white;
+    font-weight: bold;
 }
 
 .modal-button-new-date:hover {
-    background-color: #2f7131;
+    background-color: var(--colour-primary-light-teal);
     color: white;
 }
 
 .modal-button-update-status:hover {
-    background-color:  #f46801;
+    background-color:  var(--color-blue);
     color: white;
 }
 
 .modal-button-cancel:hover {
-    background-color: #ae0a0a;
+    background-color: var(--color-primary-light-purple);
     color: white;
 }
+
+
