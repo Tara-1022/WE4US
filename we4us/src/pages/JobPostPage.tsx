@@ -22,8 +22,13 @@ export default function JobPostPage() {
     const isDeadlinePassed = (deadline: string): boolean => {
         const deadlineDate = new Date(deadline);
         const currentDate = new Date();
+    
+        deadlineDate.setHours(0, 0, 0, 0);
+        currentDate.setHours(0, 0, 0, 0);
+    
         return deadlineDate < currentDate;
     };
+    
     
     const checkAndCloseExpiredJob = async (post: PostView) => {
         try {
