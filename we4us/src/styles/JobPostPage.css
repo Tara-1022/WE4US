@@ -199,6 +199,7 @@
 .job-post-card.job-closed .job-description,
 .job-post-card.job-closed .job-meta,
 .job-post-card.job-closed .detail-value,
+.job-post-card.job-closed .detail-label,
 .job-post-card.job-closed .job-company,
 .job-post-card.job-closed .job-description h3,
 .job-post-card.job-closed .markdown-content
@@ -206,6 +207,10 @@
     color: #555;
 }
 
+.job-post-card.job-closed .job-type{
+    color: #555;
+    border-color: #555;
+}
 
 
 
