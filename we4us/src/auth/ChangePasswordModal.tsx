@@ -35,6 +35,7 @@ export function ChangePasswordModal({
 
         if (newPassword.length < 10 || newPassword.length > 60) {
             setError("Password length should be between 10 to 60 char");
+            return;
         }
 
         if (!oldPassword || !newPassword || !confirmPassword) {
