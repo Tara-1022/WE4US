@@ -41,6 +41,9 @@ export default function PgPostPage() {
     const [postView, setPostView] = useState<PostView | null>(null);
     const [reviews, setReviews] = useState<CommentView[]>([]);
     const [isEditing, setIsEditing] = useState(false);
+    const usersWithReviews = reviews
+        .filter(review => !review.comment.deleted)
+        .map((reviewView) => reviewView.creator.id)
     const { profileInfo } = useProfileContext();
 
     const filteredReviews = reviews.filter((review) => !review.comment.deleted)
@@ -75,7 +78,7 @@ export default function PgPostPage() {
 
     if (!postView) return <Loader />;
 
-    let list = reviews.map(
+    let list = filteredReviews.map(
         (review) => <li key={review.comment.id} >
             <Review review={review} />
         </li>
@@ -108,7 +111,11 @@ export default function PgPostPage() {
                 </>
             }
             {/* Reviews */}
-            <ReviewCreator postId={postView.post.id} />
+            {profileInfo &&
+                !usersWithReviews.some((value) => value == profileInfo.lemmyId)
+                &&
+                <ReviewCreator postId={postView.post.id} />
+            }
             <ul style={{
                 listStyleType: "none",
                 margin: 0,

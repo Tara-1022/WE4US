@@ -43,10 +43,11 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
                 <input name="cleanlinessRating" type="number" min="1" max="5" required
                     defaultValue={defaultContent?.ratings.cleanliness || undefined} />
                 <br />
+                <label htmlFor="content">Review: </label>
                 <textarea name="content" defaultValue={defaultContent?.content || undefined} />
                 <br />
                 <button type="submit">{task}</button>
-                <button type="reset">Clear</button>
+                <button type="reset">Reset</button>
             </form>
         </Collapsible>
     )
