@@ -5,17 +5,18 @@
 }
 
 .search-icon {
-  margin-top: 13px;
+  margin-top: 24px;
   margin-left: 10px;
   position: absolute;
   color: var(--color-gray);
 }
 
 .search-input {
+  margin-top: 13px;
+  margin-bottom: 13px;
   padding: 8px;
   width: 100%;
   height: 3rem;
-  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: large;
