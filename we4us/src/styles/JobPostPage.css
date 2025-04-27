@@ -139,7 +139,8 @@
 
 .deadline-passed {
     color:#b50404;
-    font-weight: bold;
+    font-style: italic;
+    font-weight: 500;
   }
 
 
@@ -169,6 +170,42 @@
 .markdown-content a:hover {
     text-decoration: underline;
 }
+
+.job-post-card.job-closed {
+    opacity: 0.85;
+    background-color: var(--color-card-bg);
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+
+.job-post-card.job-closed::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(220, 53, 70, 0) 0%, rgba(128, 128, 128, 0.1) 100%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: inherit;
+    border-radius: 4px;
+}
+
+
+.job-post-card.job-closed .job-title,
+.job-post-card.job-closed .job-description,
+.job-post-card.job-closed .job-meta,
+.job-post-card.job-closed .detail-value,
+.job-post-card.job-closed .job-company,
+.job-post-card.job-closed .job-description h3,
+.job-post-card.job-closed .markdown-content
+ {
+    color: #555;
+}
+
 
 
 

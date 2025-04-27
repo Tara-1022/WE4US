@@ -4,7 +4,7 @@ import { JobPostBody } from './JobTypes';
 import "../../styles/JobBoardPage.css";
 
 export default function JobPostSnippet({ postView }: { postView: PostView }) {
-    // Parse the post body
+    
     let postBody: Partial<JobPostBody> = {};
     
     try {
@@ -13,8 +13,10 @@ export default function JobPostSnippet({ postView }: { postView: PostView }) {
         console.error("Error parsing post body:", error);
     }
 
+    const isClosed = postBody.open === false;
+
     return (
-        <div className="job-post-item">
+        <div className={`job-post-item ${isClosed ? "job-closed" : ""}`}>
             <div className="job-header">
                 <h3 className="job-title">
                     {postView.post.name}

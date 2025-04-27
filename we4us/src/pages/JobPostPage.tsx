@@ -1,6 +1,6 @@
 import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
-import { getPostById } from '../library/LemmyApi';
+import { getPostById, editPost } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
@@ -13,15 +13,56 @@ import "../styles/JobPostPage.css";
 import JobStatusChanger from '../components/JobBoard/JobStatusChanger';
 import { Link } from 'react-router-dom';
 
-
 export default function JobPostPage() {
     const jobId = Number(useParams().jobId);
     const [postView, setPostView] = useState<PostView | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const { profileInfo } = useProfileContext();
     
+    const isDeadlinePassed = (deadline: string): boolean => {
+        const deadlineDate = new Date(deadline);
+        const currentDate = new Date();
+        return deadlineDate < currentDate;
+    };
+    
+    const checkAndCloseExpiredJob = async (post: PostView) => {
+        try {
+            const jobDetails: JobPostBody = JSON.parse(post.post.body || "{}") as JobPostBody;
+            
+            if (jobDetails.open && jobDetails.deadline && isDeadlinePassed(jobDetails.deadline)) {
+                console.log("Auto-closing job because deadline has passed:", jobDetails.deadline);
+                
+                const updatedJobDetails = {
+                    ...jobDetails,
+                    open: false
+                };
+                
+                const response = await editPost({
+                    post_id: post.post.id,
+                    body: JSON.stringify(updatedJobDetails)
+                });
+                
+                if (response) {
+                    setPostView(response);
+                }
+            }
+        } catch (error) {
+            console.error("Failed in checkAndCloseExpiredJob:", error);
+        }
+    };
+
     useEffect(() => {
-        getPostById(jobId).then(response => setPostView(response ? response.post_view : null));
+        const fetchPostAndCheckDeadline = async () => {
+            const response = await getPostById(jobId);
+            const post = response ? response.post_view : null;
+            setPostView(post);
+            
+            if (post) {
+                await checkAndCloseExpiredJob(post);
+            }
+        };
+        
+        fetchPostAndCheckDeadline();
     }, [jobId]);
 
     if (!postView) {
@@ -34,6 +75,9 @@ export default function JobPostPage() {
 
     const jobDetails: JobPostBody = JSON.parse(postView.post.body || "{}");
 
+    
+    const isJobClosed = !jobDetails.open;
+
     return (
         <div className="job-post-container">
             {isEditing ? (
@@ -43,7 +87,7 @@ export default function JobPostPage() {
                     onPostUpdated={setPostView}
                 />
             ) : (
-                <article className="job-post-card">
+                <article className={`job-post-card ${isJobClosed ? 'job-closed' : ''}`}>
                     <header className="job-post-header">
                         <h1 className="job-title">{postView.post.name}</h1>
                         <div className="job-meta">
@@ -70,19 +114,21 @@ export default function JobPostPage() {
                         </div>
                         <div className="detail-item">
                             <span className="detail-label">Status</span>
-                            <span className="detail-value">{jobDetails.open ? "Open" : "Closed"}</span>
+                            <span className={`detail-value ${isJobClosed ? 'status-closed' : 'status-open'}`}>
+                                {jobDetails.open ? "Open" : "Closed"}
+                            </span>
                         </div>
                         <div className="detail-item">
                             <span className="detail-label">Deadline</span>
                             <span className="detail-value deadline">
                                 {jobDetails.deadline ? (
-                                    new Date(jobDetails.deadline).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0) ? (
+                                    isDeadlinePassed(jobDetails.deadline) ? (
                                         <span className="deadline-passed">Deadline Passed</span>
                                     ) : (
                                         jobDetails.deadline
                                     )
                                 ) : (
-                                    "Job Closed"
+                                    "No deadline set"
                                 )}
                             </span>
                         </div>
@@ -123,8 +169,6 @@ export default function JobPostPage() {
                             />
 
                             <PostDeletor postId={postView.post.id} />
-                            
-                           
                         </div>
                     )}
                 </article>
