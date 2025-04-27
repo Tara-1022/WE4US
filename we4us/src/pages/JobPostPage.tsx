@@ -34,7 +34,7 @@ export default function JobPostPage() {
         try {
             const jobDetails: JobPostBody = JSON.parse(post.post.body || "{}") as JobPostBody;
             
-            if (jobDetails.open && jobDetails.deadline && isDeadlinePassed(jobDetails.deadline)) {
+            if (jobDetails.open && jobDetails.deadline && isDeadlinePassed(jobDetails.deadline) && !jobDetails.statusManuallySet) {
                 console.log("Auto-closing job because deadline has passed:", jobDetails.deadline);
                 
                 const updatedJobDetails = {

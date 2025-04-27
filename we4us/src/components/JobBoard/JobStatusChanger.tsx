@@ -12,8 +12,6 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
     const jobBody = JSON.parse(initialView.post.body || "{}") as JobPostBody;
 
     const [deadline, setDeadline] = useState<string | undefined>(jobBody.deadline || undefined);
-    
-
 
     function changeStatus(updateDeadline = false) {
         if (!confirm("Changing job status from \"" +
@@ -26,7 +24,8 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
         const newJobBody = {
             ...jobBody,
             open: !jobBody.open,
-            ...(updateDeadline && deadline && { deadline: deadline.toString() })
+            ...(updateDeadline && deadline && { deadline: deadline.toString() }),
+            statusManuallySet: !jobBody.open
         }
 
         editPost({
