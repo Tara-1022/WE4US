@@ -53,11 +53,11 @@
 }
 
 .empty-star {
-    color: var(--color-gray);
+    color: var(--color-white);
 }
 
 .rating-number {
     margin-left: 8px;
     font-size: 0.85rem;
-    color: var(--color-gray);
+    color: var(--color-white);
 }
