@@ -93,13 +93,11 @@ export default function PgPostPage() {
                     </div>
 
                     {postView.creator.id === profileInfo?.lemmyId && (
-                        <div className="pg-delete-box">
+                        <div className="pg-delete-edit-box">
                             <PostDeletor postId={postView.post.id} />
-                            <b style={{ cursor: "pointer", marginLeft: "10px" }}
-                                onClick={() => setIsEditing(true)}
-                            >
+                            <button className="pg-edit-box" onClick={() => setIsEditing(true)}>
                                 Edit
-                            </b>
+                            </button>
                         </div>
                     )}
 
