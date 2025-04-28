@@ -37,6 +37,7 @@ const formatMessageDate = (date: Date): string => {
 }
 
 export async function initializeSocket(sender: string, recipient: string): Promise<{channel: Channel | null, messages: Message[]}> {
+  console.log(sender, recipient)
   if (!sender || !recipient) {
     console.error("Username is undefined. Cannot initialize socket.");
     return { channel: null, messages: [] };
@@ -122,14 +123,14 @@ const Chat: React.FC = () => {
   useEffect(() => {
     
     const initialize = async () => {
-      if (!profileInfo?.userName || !to_user) {
+      if (!profileInfo?.username || !to_user) {
         console.error("Profile info is not available. Cannot initialize socket.");
         return;
       }
   
       try {
         const { channel, messages: historicalMessages } = await initializeSocket(
-          profileInfo.userName, 
+          profileInfo.username, 
           to_user
         );
         
@@ -204,7 +205,7 @@ const handleSendMessage = async (): Promise<void> => {
     }
   };
   
-  const currentUser = profileInfo?.userName;
+  const currentUser = profileInfo?.username;
 
 
     return (
