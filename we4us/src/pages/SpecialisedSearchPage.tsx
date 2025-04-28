@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, PostView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
-import { Loader, Search as SearchIcon } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import AnnouncementPostSnippet from '../components/Announcements/AnnouncementPostSnippet';
 import MeetUpPostSnippet from '../components/MeetUp/MeetUpSnippet';
 import PgPostSnippet from '../components/PgFinder/PgPostSnippet';
@@ -132,7 +132,6 @@ const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) =
 
   return (
     <>
-      <SearchIcon />
       <LemmySearchBar handleSearch={handleSearch} communityName={community} />
 
       {isResultPresent &&

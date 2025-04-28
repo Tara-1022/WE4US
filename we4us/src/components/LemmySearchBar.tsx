@@ -1,5 +1,7 @@
 import { SearchType, Search } from "lemmy-js-client"
 import CommunitySelector from "./CommunitySelector";
+import { Search as SearchIcon } from "lucide-react";
+import "../styles/LemmySearchBar.css"
 
 export default function LemmySearchBar({ handleSearch, communityName }:
     { handleSearch: (result: Search) => void, communityName?: string }) {
@@ -19,29 +21,37 @@ export default function LemmySearchBar({ handleSearch, communityName }:
             });
     }
     return (
-        <form onSubmit={passParamsOut}>
-            <input name="query" placeholder="Search query" />
-            <label htmlFor="type">Type</label>
-            <select name="type">
-                <option value="All">All</option>
-                <option value="Comments">Comments</option>
-                <option value="Posts">Posts</option>
-                {
-                    communityName ||
-                    <option value="Communities">Communities</option>
-                }
-            </select>
+        <form onSubmit={passParamsOut} className="search-bar">
+            <SearchIcon className="search-icon" />
+            <input name="query" placeholder="Search query" className="search-input" />
+
+            <div className="field">
+                <label htmlFor="type">Type:</label>
+                <select name="type" >
+                    <option value="All">All</option>
+                    <option value="Comments">Comments</option>
+                    <option value="Posts">Posts</option>
+                    {
+                        communityName ||
+                        <option value="Communities">Communities</option>
+                    }
+                </select>
+            </div>
+
             {
                 communityName ? <></>
                     :
-                    <>
-                        <label htmlFor="communityId">Within community</label>
+                    <div className="field">
+                        <label htmlFor="communityId">Within community:</label>
                         <CommunitySelector name="communityId" />
-                    </>
+                    </div>
             }
-            <label htmlFor="checkOnlyPostTitles">Check only titles?</label>
-            <input type="checkbox" name="checkOnlyPostTitles" />
-            <button type="submit">Search</button>
+
+            <div className="field">
+                <label htmlFor="checkOnlyPostTitles">Check only titles?</label>
+                <input type="checkbox" name="checkOnlyPostTitles" className="checkbox"/>
+            </div>
+            <button type="submit" className="search-button">Search</button>
         </form>
     )
 }

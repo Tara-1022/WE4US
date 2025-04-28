@@ -78,7 +78,7 @@ export default function CommunitySelector({ name, isRequired = false }:
     )
 
     return (
-        <div className="dropdown">
+        <div className="community-selector">
             <div className="control" onClick={() => setIsOpen(!isOpen)}>
                 <input
                     className="search-value"
