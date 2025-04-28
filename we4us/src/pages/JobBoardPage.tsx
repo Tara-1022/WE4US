@@ -41,9 +41,8 @@ export default function JobBoardPage() {
           
           <div className="search-container" style={{ marginBottom: '20px' }}>
              <Link to="/job-board/search"><Search /></Link>
-                      </div>
-            <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-      
+             <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+          </div>
           {postViews.length > 0 ? (
             <JobPostList postViews={postViews} />
           ) : (
