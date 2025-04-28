@@ -36,11 +36,30 @@
 .meet-up .dateTimeTopRight {
   position: absolute;
   top: 16px;
-  right: 20px;
+  right: 24px;
   font-size: 13px;
   color: #bbbbbb;
-  font-style: bold;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.card.meet-up p.detail:last-child {
+  margin-bottom: 0; 
+}
+
+@media (max-width: 600px) {
+  .card.meet-up {
+    padding: 16px 20px; 
+  }
+
+  .meet-up .title {
+    font-size: 18px; 
+  }
+
+  .meet-up .dateTimeTopRight {
+    font-size: 12px; 
+    right: 16px;
+  }
 }
