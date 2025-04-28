@@ -2,13 +2,13 @@ import '../styles/ProfilePage.css';
 import LemmyPersonDetails from './LemmyPersonDetails';
 import { Pencil } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
+import { Link } from 'react-router-dom';
 import { constructImageUrl } from "../library/ImageHandling";
 import profile_duck from "../assets/profile_duck.png";
 import UploadsModal from './UploadsModal';
 import Modal from "react-modal";
 
 Modal.setAppElement('#root');
-
 
 interface ProfileViewProps {
   profile: Profile;
@@ -34,6 +34,7 @@ const ProfileView = ({ profile, onEdit, isOfCurrentUser = false }: ProfileViewPr
       </div>
       <h1>{profile.display_name}</h1>
       <p className="username">@{profile.username}</p>
+      <Link to={`/chat/${profile.username}`}>Talk to me</Link>
       <div className="profile-details">
         {profile.cohort && (
           <div className="detail-item">

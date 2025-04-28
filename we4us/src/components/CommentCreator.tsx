@@ -1,12 +1,12 @@
 import { createComment } from "../library/LemmyApi";
 import { useCommentsContext } from "./CommentsContext";
-import { useState} from "react";
+import { useState } from "react";
 import Collapsible from "./Collapsible";
 
 export default function CommentCreator({ parentId, actionName = "Comment" }: { parentId?: number, actionName?: string }) {
     const { postId, setComments, comments } = useCommentsContext();
     const [content, setContent] = useState("");
-    
+
     const styles = {
         form: {
             marginBottom: "16px"
@@ -61,7 +61,7 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
             alignItems: "center",
             borderRadius: "6px",
             transition: "background-color 0.2s"
-        }        
+        }
     };
 
     function handleCreate() {
@@ -83,58 +83,58 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
                     newComments = [...comments.slice(0, parentIndex), updatedParent, ...comments.slice(parentIndex + 1)]
                 }
                 setComments([commentView, ...newComments]);
-                // Auto-close form after submission
+                window.alert("Comment created!")
                 setContent("");
             }
         );
     }
 
-    function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>){
+    function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         event.preventDefault();
         setContent(event.target.value);
     }
 
-    function CollapsedIcon(){
+    function CollapsedIcon() {
         return (
             <b style={styles.actionButton}>
-            {actionName}
+                {actionName}
             </b>
         )
     }
-    
-    function OpenIcon(){
+
+    function OpenIcon() {
         return (
             <b style={styles.actionButton}>
-            Cancel
+                Cancel
             </b>
         )
     }
 
 
     return (
-        <Collapsible 
-            CollapsedIcon={CollapsedIcon} 
-            OpenIcon={OpenIcon} 
+        <Collapsible
+            CollapsedIcon={CollapsedIcon}
+            OpenIcon={OpenIcon}
             initiallyExpanded={false}
-            onToggle={() => {}}
+            onToggle={() => { }}
         >
             <div style={styles.form}>
-                <textarea 
+                <textarea
                     style={styles.textarea}
-                    name="content" 
-                    value={content} 
+                    name="content"
+                    value={content}
                     onChange={handleChange}
                     placeholder={`Write your ${actionName.toLowerCase()}...`}
                 />
                 <div style={styles.formActions}>
-                    <button 
+                    <button
                         onClick={handleCreate}
                         style={styles.submitButton}
                     >
                         {actionName}
                     </button>
-                    <button 
-                        onClick={() => {setContent("");}}
+                    <button
+                        onClick={() => { setContent(""); }}
                         style={styles.cancelButton}
                     >
                         Clear

@@ -1,8 +1,5 @@
 /* Base Tailwind imports */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import "tailwindcss";
 /* Color Palette - App-wide Colors
 ----------------------------------
 Primary Colors:
@@ -10,6 +7,7 @@ Primary Colors:
 - Primary Blue: #3a7ffc - Used for buttons, links, and active states
 - Primary Orange: #f46801 - Used for danger/warning buttons and alerts
 - Primary Teal: #01c4a4 - Used for accents and success states
+- Profile Green: #4CAF50 - Used for profile page highlights
 
 Background Colors:
 - Dark Background: #1e1e1e - Main background color
@@ -42,6 +40,7 @@ Gradients:
   --color-black: black;
   --color-gray: #a0a0a0;
   --color-light-gray: #ccc;
+  --profile-green: #4CAF50;
 }
 
 /* Basic styles */
