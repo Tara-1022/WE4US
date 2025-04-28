@@ -8,7 +8,7 @@
   --accent-hover: #2a6fec;
   --error-color: #e74c3c;
   --error-hover: #c0392b;
-  --warning-color:#3b2e7f;
+  --warning-color:#f46801;
   --bg-light: #f5f7fa;
   --bg-dark: #1e1e1e;
   --bg-white: #ffffff;
@@ -117,6 +117,32 @@ a:hover {
 .cancel-button:hover {
   background-color: var(--error-hover);
 }
+.pg-delete-edit-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem auto;
+}
+
+.pg-edit-box {
+  background-color: var(--secondary-color);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+  color: var(--text-light);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  text-align: center;
+  border: none;
+}
+
+.pg-edit-box:hover {
+  background-color: var(--warning-color);
+  transform: translateY(-2px);
+}
+
 
 .pg-delete-box {
   background-color: var(--secondary-color);
