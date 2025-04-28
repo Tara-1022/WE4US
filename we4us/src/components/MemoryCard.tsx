@@ -16,11 +16,14 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ memory }) => {
   return (
     <div className="memory-card">
       <div className="memory-card-inner">
-        <img 
-          src={imageUrl} 
-          alt={title} 
-          className="memory-image"
-        />
+      <a href={imageUrl} target="_blank" rel="noopener noreferrer">
+          <img 
+            src={imageUrl} 
+            alt={title || "Memory Image"} 
+            className="memory-image"
+            title="Click to view full image"
+          />
+        </a>
         <h3 className="memory-title">{title}</h3>
         <p className="memory-description">{description}</p>
       </div>

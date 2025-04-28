@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -136,7 +136,7 @@ export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, 
 }
 
 export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH }:
-   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
+  { postId?: number, parentId?: number, maxDepth?: number }): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
@@ -227,14 +227,14 @@ export async function getJobPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): 
   try {
     const response = await getClient().getPosts(
       {
-      type_: "All",
-      limit: limit,
-      page: page,
-      community_name: JOB_BOARD_COMMUNITY_NAME,
-      show_nsfw: true,
-      sort: "New"
-    }
-  );
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: JOB_BOARD_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
     postCollection = response.posts.slice();
   }
   catch (error) {
@@ -250,21 +250,21 @@ export async function getPgPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): P
   try {
     const response = await getClient().getPosts(
       {
-      type_: "All",
-      limit: limit,
-      page: page,
-      community_name: PG_FINDER_COMMUNITY_NAME,
-      show_nsfw: true,
-      sort: "New"
-    }
-  );
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: PG_FINDER_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
     postCollection = response.posts.slice();
   }
-   catch (error) {
+  catch (error) {
     console.error(error);
   }
   finally {
-  return postCollection;
+    return postCollection;
   }
 }
 
@@ -273,20 +273,20 @@ export async function getMeetUpPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE
   try {
     const response = await getClient().getPosts(
       {
-      type_: "All",
-      limit: limit,
-      page: page,
-      community_name: MEET_UP_COMMUNITY_NAME,
-      show_nsfw: true,
-      sort: "New"
-    }
-  );
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: MEET_UP_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
     postCollection = response.posts.slice();
   } catch (error) {
     console.error("Failed to fetch meet-up posts:", error);
   }
   finally {
-  return postCollection;
+    return postCollection;
   }
 }
 
@@ -382,4 +382,33 @@ export async function updateDisplayName(displayName: string) {
     }
   );
   return response.success
+}
+
+export async function changeUserPassword(
+  oldPassword: string,
+  newPassword: string,
+  confirmPassword: string,
+  previousJwt: string | undefined
+): Promise<{ success: boolean; jwt?: string }> {
+  try {
+    const response = await getClient().changePassword({
+      old_password: oldPassword,
+      new_password: newPassword,
+      new_password_verify: confirmPassword,
+    });
+
+    // Check the JWT from the response
+    const newJwt = response.jwt;
+
+    // Compare the new JWT with the previous JWT
+    const success = newJwt != previousJwt;
+
+    return {
+      success,
+      jwt: newJwt,
+    };
+  } catch (error) {
+    console.error("Changing password failed:", error);
+    return { success: false };
+  }
 }

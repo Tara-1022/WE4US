@@ -1,8 +1,5 @@
 /* Base Tailwind imports */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import "tailwindcss";
 /* Color Palette - App-wide Colors
 ----------------------------------
 Primary Colors:
@@ -10,6 +7,7 @@ Primary Colors:
 - Primary Blue: #3a7ffc - Used for buttons, links, and active states
 - Primary Orange: #f46801 - Used for danger/warning buttons and alerts
 - Primary Teal: #01c4a4 - Used for accents and success states
+- Profile Green: #4CAF50 - Used for profile page highlights
 
 Background Colors:
 - Dark Background: #1e1e1e - Main background color
@@ -22,7 +20,7 @@ Gradients:
 - Blue to Teal: linear-gradient(to right, #3a7ffc, #01c4a4)
 */
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -40,6 +38,7 @@ Gradients:
   --color-card-bg: #2a2a2a;
   --color-white: #ffffff;
   --color-gray: #a0a0a0;
+  --profile-green: #4CAF50;
 }
 
 /* Basic styles */
@@ -97,23 +96,24 @@ a:hover {
   background-color: var(--color-primary-blue);
 }
 
-.btn-danger {
+.modal-container .btn-danger {
   background-color: var(--color-primary-orange);
   width: 100%;
   padding: 1rem;
-  font-size:1rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
 }
 
-.btn-danger:hover {
+.modal-container .btn-danger:hover {
   background-color: #d55a00;
 }
+
 /* Back button */
 .btn-back {
   position: fixed;
   top: 1rem;
-  left: 10rem; 
+  left: 10rem;
   z-index: 50;
   background-color: var(--color-dark-bg);
   border-radius: 0.5rem;
@@ -141,6 +141,20 @@ a:hover {
   background-color: var(--color-dark-bg);
 }
 
+/* Change-password */
+.text-link-orange {
+  color: var(--color-primary-orange);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 3rem;
+}
+
+.text-link-orange:hover {
+  text-decoration: underline;
+  color: #d55a00;
+}
+
 /* Main content area */
 .main-content {
   padding: 1rem;
@@ -155,7 +169,7 @@ a:hover {
 
 @media (max-width: 600px) {
   .btn-back {
-    left: auto; 
-    right: 1rem; 
+    left: auto;
+    right: 1rem;
   }
 }
