@@ -19,7 +19,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       padding: "6px 12px", 
       borderRadius: "25px", 
       border: "1px solid rgba(52, 152, 219, 0.7)", 
-      backgroundColor: "rgba(52, 152, 219, 0.2)", 
+      background: "linear-gradient(135deg, #3a66d0, #2b5aa0)", // Blue gradient
       color: "#fff",
       fontSize: "0.85rem", 
       fontWeight: "500", 
@@ -29,7 +29,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       outline: "none",
     },
     buttonHover: {
-      backgroundColor: "rgba(52, 152, 219, 0.4)", 
+      background: "linear-gradient(135deg, #2b5aa0, #3a66d0)", // Hover gradient
       transform: "scale(1.05)", 
       boxShadow: "0 6px 8px rgba(0, 0, 0, 0.2)",
       opacity: "1",
