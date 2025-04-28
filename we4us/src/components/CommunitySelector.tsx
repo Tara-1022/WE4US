@@ -3,11 +3,9 @@ import { CommunityView } from "lemmy-js-client";
 import { useEffect, useState } from "react";
 import { DEFAULT_COMMUNITY_LIST_LIMIT } from "../constants";
 import { search } from "../library/LemmyApi";
+import { formatToN } from "../library/Utils";
 
-function formatTo50(s: string) {
-    if (s.length <= 50) return s;
-    return s.slice(0, 50 - 2) + "..";
-}
+const formatTo50 = (s: string) => formatToN(s, 50);
 
 // referring https://github.com/LemmyNet/lemmy-ui/blob/129fb5b2f994e02bfecc36e3f6884bdbf485b87a/src/shared/components/post/post-form.tsx#L681C16-L681C32
 // and https://codesandbox.io/p/sandbox/searchable-dropdown-forked-krtmc5?file=%2Fsrc%2FSearchableDropdown.js%3A7%2C3-7%2C14
