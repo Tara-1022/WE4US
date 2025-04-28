@@ -24,7 +24,7 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
     }
 
     return (
-        <Collapsible CollapsedIcon={() => <b>Cancel</b>} OpenIcon={() => <b>{task}</b>} initiallyExpanded={false}>
+        <Collapsible CollapsedIcon={() => <b>Add Review</b>} OpenIcon={() => <b>{task}</b>} initiallyExpanded={false}>
             <form onSubmit={handleSubmit}>
                 <label>Ratings (1-5):</label>
                 <br />
