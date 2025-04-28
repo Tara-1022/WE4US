@@ -63,33 +63,33 @@
 
 .post-form button[type="submit"] {
     background-color: var(--color-primary-teal);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .post-form button[type="reset"] {
     background-color: var(--color-primary-blue);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .post-form button[type="button"] {
     background-color: var(--color-primary-dark-purple);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 .post-form button[type="submit"]:hover {
     background-color: var(--colour-primary-light-teal);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .post-form button[type="reset"]:hover {
     background-color: var(--color-blue);
-    color: white;
+    color: var(--color-white);
 }
 
 .post-form button[type="button"]:hover {
     background-color: var(--color-primary-light-purple);
-    color: white;
+    color: var(--color-white);
 }

@@ -53,7 +53,7 @@
     margin-bottom: 10px;
     margin-left: 5px;
     background-color: #323232;
-    color: white;
+    color: var(--color-white);
     font-weight: 600;
 }
 
@@ -68,35 +68,35 @@
 
 .modal-button-new-date {
     background-color: var(--color-primary-teal);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .modal-button-update-status {
     background-color: var(--color-primary-blue);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .modal-button-cancel {
     background-color: var(--color-primary-dark-purple);
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .modal-button-new-date:hover {
     background-color: var(--colour-primary-light-teal);
-    color: white;
+    color: var(--color-white);
 }
 
 .modal-button-update-status:hover {
     background-color:  var(--color-blue);
-    color: white;
+    color: var(--color-white);
 }
 
 .modal-button-cancel:hover {
     background-color: var(--color-primary-light-purple);
-    color: white;
+    color: var(--color-white);
 }
 
 

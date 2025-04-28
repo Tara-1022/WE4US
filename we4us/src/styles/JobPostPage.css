@@ -9,7 +9,7 @@
     --color-primary-orange: orange;
     --color-primary-dark-orange: darkorange;
     --color-blue: #00aaff;
-    --color-error: #910303;
+    --color-error: #b50404 ;
     --color-success: #4caf50;
     --color-primary-dark-purple: #4839a1;
     --color-primary-orange: #f46801;
@@ -17,7 +17,8 @@
     --color-primary-purple: #6c5ce7; 
     /*--color-primary-blue: #0984e3; */   
     --color-primary-blue: #0767b3; 
-    --color-primary-light-purple: #a29bfe; 
+    --color-primary-light-purple: #a29bfe;
+    --color-fade-out-grey: #555; 
     
 }
 .job-post-container {
@@ -38,7 +39,7 @@
 .job-post-header {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid #FFFFFF1A;
 }
 
 .job-title {
@@ -91,10 +92,10 @@
     margin-bottom: -10px;
     background-color:var(--color-card-hover);
     font-weight: bold;
-    color: white;
+    color: var(--color-white);
     padding: 7px 25px;
     border-radius: 1rem;
-    border-color:#0767b3;
+    border-color:var(--color-primary-blue);
     transition: background-color 0.2s ease;
     margin-right: 3px;
   }
@@ -138,7 +139,7 @@
 }
 
 .deadline-passed {
-    color:#b50404;
+    color: var(--color-error);
     font-style: italic;
     font-weight: 500;
   }
@@ -152,7 +153,7 @@
     font-size: 1.2rem;
     margin-bottom: 1rem;
     color: var(--color-white);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid #FFFFFF1A;
     padding-bottom: 0.5rem;
 }
 
@@ -187,7 +188,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(220, 53, 70, 0) 0%, rgba(128, 128, 128, 0.1) 100%);
+    background: linear-gradient(135deg, #DC354600 0%, #8080801A 100%);
     pointer-events: none;
     z-index: 1;
     border-radius: inherit;
@@ -204,19 +205,14 @@
 .job-post-card.job-closed .job-description h3,
 .job-post-card.job-closed .markdown-content
  {
-    color: #555;
+    color: var(--color-fade-out-grey);
 }
 
 .job-post-card.job-closed .job-type{
-    color: #555;
-    border-color: #555;
+    color: var(--color-fade-out-grey);
+    border-color:var(--color-fade-out-grey);
 }
 
-
-
-
-  
-  /* Responsive adjustments */
 @media (max-width: 768px) {
     .job-post-card {
         padding: 1.5rem;

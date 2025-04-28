@@ -25,7 +25,6 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
             ...jobBody,
             open: !jobBody.open,
             ...(updateDeadline && deadline && { deadline: deadline.toString() }),
-            statusManuallySet: !jobBody.open
         }
 
         editPost({
@@ -87,7 +86,7 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
             margin: 'auto',   
         },
         overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)' 
+            backgroundColor: '#000000BF' 
         }
     }}
 >

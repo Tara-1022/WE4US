@@ -1,6 +1,6 @@
 import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
-import { getPostById, editPost } from '../library/LemmyApi';
+import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
@@ -29,42 +29,13 @@ export default function JobPostPage() {
         return deadlineDate < currentDate;
     };
     
-    
-    const checkAndCloseExpiredJob = async (post: PostView) => {
-        try {
-            const jobDetails: JobPostBody = JSON.parse(post.post.body || "{}") as JobPostBody;
-            
-            if (jobDetails.open && jobDetails.deadline && isDeadlinePassed(jobDetails.deadline) && !jobDetails.statusManuallySet) {
-                console.log("Auto-closing job because deadline has passed:", jobDetails.deadline);
-                
-                const updatedJobDetails = {
-                    ...jobDetails,
-                    open: false
-                };
-                
-                const response = await editPost({
-                    post_id: post.post.id,
-                    body: JSON.stringify(updatedJobDetails)
-                });
-                
-                if (response) {
-                    setPostView(response);
-                }
-            }
-        } catch (error) {
-            console.error("Failed in checkAndCloseExpiredJob:", error);
-        }
-    };
+
 
     useEffect(() => {
         const fetchPostAndCheckDeadline = async () => {
             const response = await getPostById(jobId);
             const post = response ? response.post_view : null;
             setPostView(post);
-            
-            if (post) {
-                await checkAndCloseExpiredJob(post);
-            }
         };
         
         fetchPostAndCheckDeadline();
@@ -166,12 +137,13 @@ export default function JobPostPage() {
                             >
                                 Edit
                             </button>
-                
+                            
                             <JobStatusChanger
                                 postId={postView.post.id}
                                 initialView={postView}
                                 onUpdate={setPostView}
                             />
+                          
 
                             <PostDeletor postId={postView.post.id} />
                         </div>
