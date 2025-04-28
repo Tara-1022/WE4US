@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProfiles, Profile } from "../library/PostgresAPI"; 
-import { Loader } from 'lucide-react';
+import { fetchProfiles, Profile } from "../library/PostgresAPI";
+import { Loader, Search } from 'lucide-react';
 import ProfileSnippet from "../components/ProfileSnippet";
+import Carousel from '../components/Carousel';
 import "../styles/WhosWhoPage.css"
 
 const WhosWhoPage: React.FC = () => {
@@ -24,7 +25,7 @@ const WhosWhoPage: React.FC = () => {
       } finally {
         setIsLoading(false);
       }
-    }; 
+    };
 
     getProfiles();
   }, []);
@@ -50,7 +51,7 @@ const WhosWhoPage: React.FC = () => {
       (profile.company_or_university?.toLowerCase().trim() ?? "").includes(query)
       // (profile.current_role?.toLowerCase().trim() ?? "").includes(query)
     );
-  }); 
+  });
 
   // Group profiles by cohort
   const groupedProfiles: { [key: string]: Profile[] } = {};
@@ -67,39 +68,42 @@ const WhosWhoPage: React.FC = () => {
     .sort((a, b) => a - b)
     .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
 
-    return (
-      <div className='whoswho-container'>
-        <h1>Who's Who</h1>
-  
-        {/* Search Box */}
-        <input
-          type="text"
-          placeholder="Search by name, company..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className='search-input'
-        />
-  
-        {/* Cohort-wise Profile Display */}
-        {sortedCohorts.length > 0 ? (
-          sortedCohorts.map((cohort) => (
-            <div key={cohort} className='cohort-section'>
-              <h2>Cohort {cohort}</h2>
-              <div className='profile-list'>
-                {groupedProfiles[cohort].map((profile) => (
+  return (
+    <div className='whoswho-container'>
+      <h1>Who's Who?</h1>
+
+      {/* Search Box */}
+      <Search className='search-icon'/>
+      <input
+        type="text"
+        placeholder="Search by name, company..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className='search-input'
+      />
+
+      {/* Cohort-wise Profile Display */}
+      {sortedCohorts.length > 0 ? (
+        sortedCohorts.map((cohort) => (
+          <div key={cohort} className='cohort-section'>
+            <h2>Cohort {cohort}</h2>
+              <Carousel
+                items={groupedProfiles[cohort].map((profile) => (
                   <ProfileSnippet
-                    key = {profile.username}
-                    profile = {profile}
+                    key={profile.username}
+                    profile={profile}
                   />
                 ))}
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No profiles found.</p>
-        )}
-      </div>
-    );
-  };  
+                scrollBy={300}
+                classPrefix={"C" + cohort}
+              />
+          </div>
+        ))
+      ) : (
+        <p>No profiles found.</p>
+      )}
+    </div>
+  );
+};
 
-  export default WhosWhoPage;
+export default WhosWhoPage;

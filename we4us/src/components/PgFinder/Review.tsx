@@ -7,6 +7,7 @@ import { ReviewEditor } from './ReviewLibrary';
 import RatingsView from './RatingsView';
 import { getReviewContent } from './Types';
 import ReactMarkdown from "react-markdown";
+import { useState } from 'react';
 
 // A more restrictive comment
 
@@ -40,18 +41,38 @@ export default function Review({ review }: { review: CommentView }) {
         }
     }
     const { profileInfo } = useProfileContext();
+    const [isEditing, setIsEditing] = useState(false)
 
     return (
         <div style={styles.container}>
-            <ReviewSnippet review={review} />
-            <LikeHandler forPost={false} isInitiallyLiked={review.my_vote == 1} initialLikes={review.counts.score} id={review.comment.id} />
+            {
+                isEditing ?
+                    <ReviewEditor initialReview={review} onClose={() => setIsEditing(false)} />
+                    :
+                    <>
+                        <ReviewSnippet review={review} />
+                        <LikeHandler forPost={false} isInitiallyLiked={review.my_vote == 1} initialLikes={review.counts.score} id={review.comment.id} />
 
-            {(!review.comment.deleted && review.creator.id == profileInfo?.lemmyId) &&
-                <>
-                    <ReviewEditor initialReview={review} />
-                    <CommentDeletor commentId={review.comment.id} />
-                </>}
-
+                        {(!review.comment.deleted && review.creator.id == profileInfo?.lemmyId) &&
+                            <>
+                                <CommentDeletor commentId={review.comment.id} />
+                                <b style={{
+                                    background: "none",
+                                    border: "none",
+                                    color: "#a0a8b0",
+                                    cursor: "pointer",
+                                    fontWeight: "500" as const,
+                                    padding: 0,
+                                    fontSize: "13px",
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}
+                                    onClick={() => setIsEditing(true)}>
+                                    Edit
+                                </b>
+                            </>}
+                    </>
+            }
         </div>
     );
 }

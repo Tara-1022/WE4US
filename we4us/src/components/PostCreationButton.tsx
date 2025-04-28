@@ -6,11 +6,34 @@ import CommunitySelector from "./CommunitySelector";
 import { PostBodyType } from "../library/PostBodyType";
 import ImageUploader from "./ImageUploader";
 import "../styles/PostImageUploader.css"
+// Temporary, can be removed any time
+import "../styles/UploadsModal.css"
+import { PostView } from "lemmy-js-client";
 
 interface PostCreationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onPostCreated: (newPost: any) => void;
+  communityId?: number;
+}
+
+export default function PostCreationButton({ handlePostCreated, communityId }:
+  {
+    handlePostCreated: (newPost: PostView) => void;
+    communityId?: number
+  }) {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <>
+      <button onClick={() => setShowModal(true)}>Create Post</button>
+      <PostCreationModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onPostCreated={handlePostCreated}
+        communityId={communityId}
+      />
+    </>
+  )
 }
 
 function addPostLinkToPostBody(postBody: PostBodyType, postId: number): PostBodyType {
@@ -29,7 +52,7 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
   )
 }
 
-const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
+const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated, communityId }) => {
   const [loading, setLoading] = useState(false);
   const [uploadedImageCopies, setUploadedImageCopies] = useState<ImageDetailsType[] | undefined>(undefined);
 
@@ -114,23 +137,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       isOpen={isOpen}
       onRequestClose={handleCancel}
       contentLabel="Create Post"
-      style={{
-        overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
-        content: {
-          top: "50%",
-          left: "50%",
-          right: "auto",
-          bottom: "auto",
-          marginRight: "-50%",
-          transform: "translate(-50%, -50%)",
-          padding: "20px",
-          background: "white",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          color: "black"
-          // TODO: Update color from theme, not hardcoded
-        },
-      }}
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Post Title: </label>
@@ -142,9 +148,15 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         <label htmlFor="url">URL</label>
         <input type="url" name="url" placeholder="URL" />
         <br />
-        <label htmlFor="communityId">Choose Community: </label>
-        <CommunitySelector name="communityId" isRequired={true} />
-        <br />
+        {communityId ?
+          <input type="hidden" name="communityId" value={communityId} />
+          :
+          <>
+            <label htmlFor="communityId">Choose Community: </label>
+            <CommunitySelector name="communityId" isRequired={true} />
+            <br />
+          </>}
+
         <label>Upload image: </label>
         <ImageUploader
           originalImage={undefined}
@@ -169,5 +181,3 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     </Modal>
   );
 };
-
-export default PostCreationModal;
