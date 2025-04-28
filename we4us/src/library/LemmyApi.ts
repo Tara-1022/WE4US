@@ -1,4 +1,4 @@
-import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME,  DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME , PG_FINDER_COMMUNITY_NAME } from "../constants";
+import { LEMMY_INSTANCE_URL, ANNOUNCEMENTS_COMMUNITY_NAME, DEFAULT_POSTS_PER_PAGE, JOB_BOARD_COMMUNITY_NAME, DEFAULT_COMMENTS_DEPTH, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from "../constants";
 import {
   LemmyHttp, PostView, GetPostResponse, Search,
   CommentView, CreateComment, SearchType, MyUserInfo, CreatePost,
@@ -136,7 +136,7 @@ export async function getAnnouncementPostList({ limit = DEFAULT_POSTS_PER_PAGE, 
 }
 
 export async function getComments({ postId, parentId, maxDepth = DEFAULT_COMMENTS_DEPTH }:
-   { postId?: number, parentId?: number, maxDepth?: number}): Promise<CommentView[]> {
+  { postId?: number, parentId?: number, maxDepth?: number }): Promise<CommentView[]> {
   // Fetches and returns a list of comments for a post
   // or an empty list if fetch fails
   let commentCollection: CommentView[] = [];
@@ -219,7 +219,7 @@ export async function getPostList(
   return postCollection;
 }
 
-export async function getJobPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+export async function getJobPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
   // Fetches and returns a list of recent PostViews
   // or an empty list if fetch fails
   let postCollection: PostView[] = [];
@@ -228,6 +228,7 @@ export async function getJobPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<Po
       {
         type_: "All",
         limit: limit,
+        page: page,
         community_name: JOB_BOARD_COMMUNITY_NAME,
         show_nsfw: true,
         sort: "New"
@@ -242,15 +243,15 @@ export async function getJobPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<Po
     return postCollection;
   }
 }
-export async function getPgPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
-  // Fetches and returns a list of recent PostViews
-  // or an empty list if fetch fails
+
+export async function getPgPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
   let postCollection: PostView[] = [];
   try {
     const response = await getClient().getPosts(
       {
         type_: "All",
         limit: limit,
+        page: page,
         community_name: PG_FINDER_COMMUNITY_NAME,
         show_nsfw: true,
         sort: "New"
@@ -265,6 +266,29 @@ export async function getPgPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<Pos
     return postCollection;
   }
 }
+
+export async function getMeetUpPostList(page = 1, limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
+  let postCollection: PostView[] = [];
+  try {
+    const response = await getClient().getPosts(
+      {
+        type_: "All",
+        limit: limit,
+        page: page,
+        community_name: MEET_UP_COMMUNITY_NAME,
+        show_nsfw: true,
+        sort: "New"
+      }
+    );
+    postCollection = response.posts.slice();
+  } catch (error) {
+    console.error("Failed to fetch meet-up posts:", error);
+  }
+  finally {
+    return postCollection;
+  }
+}
+
 
 export async function getCurrentUserDetails(): Promise<MyUserInfo | undefined> {
   const response = await getClient().getSite();
@@ -358,20 +382,32 @@ export async function updateDisplayName(displayName: string) {
   );
   return response.success
 }
-export async function getMeetUpPostList(limit = DEFAULT_POSTS_PER_PAGE): Promise<PostView[]> {
-  // Fetches and returns a list of recent Meet-Up PostViews
-  let postCollection: PostView[] = [];
+
+export async function changeUserPassword(
+  oldPassword: string,
+  newPassword: string,
+  confirmPassword: string,
+  previousJwt: string | undefined
+): Promise<{ success: boolean; jwt?: string }> {
   try {
-    const response = await getClient().getPosts({
-      type_: "All",
-      limit: limit,
-      sort: "New",
-      community_name: MEET_UP_COMMUNITY_NAME,
-      show_nsfw: true,
+    const response = await getClient().changePassword({
+      old_password: oldPassword,
+      new_password: newPassword,
+      new_password_verify: confirmPassword,
     });
-    postCollection = response.posts.slice();
+
+    // Check the JWT from the response
+    const newJwt = response.jwt;
+
+    // Compare the new JWT with the previous JWT
+    const success = newJwt != previousJwt;
+
+    return {
+      success,
+      jwt: newJwt,
+    };
   } catch (error) {
-    console.error("Failed to fetch meet-up posts:", error);
+    console.error("Changing password failed:", error);
+    return { success: false };
   }
-  return postCollection;
 }

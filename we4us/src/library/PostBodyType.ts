@@ -1,5 +1,5 @@
 import { PostView } from "lemmy-js-client"
-import { ImageDetailsType } from "./LemmyImageHandling"
+import { ImageDetailsType } from "./ImageHandling"
 
 export type PostBodyType = {
     body: string,
