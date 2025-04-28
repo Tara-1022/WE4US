@@ -98,8 +98,9 @@ const ProfilePage = () => {
         : (
           <ProfileView
             profile={profile}
-            onEdit={
-              (profileInfo?.username == profile.username) ? handleEditToggle : undefined}
+            isOfCurrentUser={
+              (profileInfo?.username == profile.username) ? true : false}
+              onEdit={handleEditToggle}
           />)
       }
     </div>

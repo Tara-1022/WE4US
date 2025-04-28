@@ -6,25 +6,66 @@ import CommentSnippet from './CommentSnippet';
 import { useProfileContext } from './ProfileContext';
 import LikeHandler from './LikeHandler';
 
-// TODO: Add more information to the comment
 export default function Comment({ commentView, depth }: { commentView: CommentView, depth: number }) {
-    let styles = {
-        container: {
-            backgroundColor: "rgba(255,255,255,0.3)",
-            marginLeft: 10 * depth + "%",
-            padding: "1%"
-        }
-    }
     const { profileInfo } = useProfileContext();
+    
+    const styles = {
+        container: {
+            backgroundColor: "#1a1a1b",
+            borderRadius: "0px",
+            marginBottom: "16px",
+            padding: "12px 16px 12px 24px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            border: "1px solid #343536",
+            borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "1px solid #343536",
+            marginLeft: depth * 18 + "px"
+        },        
+        
+        actionsContainer: {
+            display: "flex",
+            gap: "16px",
+            marginTop: "12px",
+            fontSize: "13px",
+            alignItems: "center"
+        },
+        actionButton: {
+            background: "none",
+            border: "none",
+            color: "#a0a8b0",
+            cursor: "pointer",
+            fontWeight: "500",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            transition: "background-color 0.2s",
+            "&:hover": {
+                backgroundColor: "#252830"
+            }
+        }
+    };
 
     return (
         <div style={styles.container}>
             <CommentSnippet commentView={commentView} />
-            <LikeHandler forPost={false} isInitiallyLiked={commentView.my_vote == 1} initialLikes={commentView.counts.score} id={commentView.comment.id} />
-            <CommentCreator parentId={commentView.comment.id} actionName={"Reply"} />
-            <CommentEditor commentId={commentView.comment.id} initialText={commentView.comment.content} />
-            {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
-                <CommentDeletor commentId={commentView.comment.id} />}
+            
+            <div style={styles.actionsContainer}>
+                <LikeHandler 
+                    forPost={false} 
+                    isInitiallyLiked={commentView.my_vote == 1} 
+                    initialLikes={commentView.counts.score} 
+                    id={commentView.comment.id} 
+                />
+                
+                <CommentCreator parentId={commentView.comment.id} actionName={"Reply"} />
+                
+                <CommentEditor 
+                    commentId={commentView.comment.id} 
+                    initialText={commentView.comment.content} 
+                />
+                
+                {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
+                    <CommentDeletor commentId={commentView.comment.id} />
+                }
+            </div>
         </div>
     );
 }
