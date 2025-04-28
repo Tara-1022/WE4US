@@ -4,6 +4,7 @@ import Collapsible from "../Collapsible";
 import { createComment, editComment } from "../../library/LemmyApi";
 import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
+import StarRatingInput from "./StarRatingInput";
 
 export function ReviewFormHandler({ task, handleTask, defaultContent }:
     { task: string, handleTask: (newContent: ReviewContent) => void, defaultContent?: ReviewContent }) {
@@ -28,20 +29,28 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
                 <label>Ratings (1-5):</label>
                 <br />
                 <label htmlFor="costRating">Cost : </label>
-                <input name="costRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.cost || undefined} />
+                <StarRatingInput 
+                  name="costRating" 
+                  defaultValue={defaultContent?.ratings.cost} 
+                />
                 <br />
                 <label htmlFor="safetyRating">Safety : </label>
-                <input name="safetyRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.safety || undefined} />
+                <StarRatingInput 
+                  name="safetyRating" 
+                  defaultValue={defaultContent?.ratings.safety} 
+                />
                 <br />
                 <label htmlFor="foodRating">Food : </label>
-                <input name="foodRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.food || undefined} />
+                <StarRatingInput 
+                  name="foodRating" 
+                  defaultValue={defaultContent?.ratings.food} 
+                />
                 <br />
                 <label htmlFor="cleanlinessRating">Cleanliness : </label>
-                <input name="cleanlinessRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.cleanliness || undefined} />
+                <StarRatingInput 
+                  name="cleanlinessRating" 
+                  defaultValue={defaultContent?.ratings.cleanliness} 
+                />
                 <br />
                 <label htmlFor="content">Review: </label>
                 <textarea name="content" defaultValue={defaultContent?.content || undefined} />
