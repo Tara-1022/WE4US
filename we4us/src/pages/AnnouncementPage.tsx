@@ -7,38 +7,24 @@ import PostCreationModal from "../components/Announcements/AnnouncementCreationM
 import { useProfileContext } from "../components/ProfileContext";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import PaginationControls from "../components/PaginationControls";
+import "../styles/announcements.css"
 import { Link } from "react-router-dom";
-
-let styles = {
-  list: {
-    listStyleType: "none",
-    margin: 0,
-    padding: 0
-  },
-  listItem: {
-
-  },
-  text: {
-    marginTop: "5%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  }
-}
 
 function PostCreationButton({ handlePostCreated }:
   { handlePostCreated: (newPost: PostView) => void }) {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <button onClick={() => setShowModal(true)}>New Announcement</button>
+      <button className="new-announcement-button" onClick={() => setShowModal(true)}>
+        New Announcement
+      </button>
       <PostCreationModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onPostCreated={handlePostCreated}
       />
     </>
-  )
+  );
 }
 
 export default function AnnouncementsPage() {
@@ -53,30 +39,35 @@ export default function AnnouncementsPage() {
     );
   }, [page]);
 
-
   if (!postViews) return <Loader />;
   else {
-    const list = postViews.map(
-      postView => <li key={postView.post.id} style={styles.listItem}>
+    const list = postViews.map(postView => (
+      <li key={postView.post.id} className="announcement-list-item">
         <AnnouncementPostSnippet postView={postView} />
       </li>
-    );
+    ));
+
     return (
-      <>
-        <h1>Announcements</h1>
-        <Link to="/announcements/search"><Search /></Link>
-        {
-          profileInfo?.isAdmin &&
+      <div className="announcements-page">
+        <div className="announcement-header">
+          <h1>Announcements</h1>
+          <Link to="/announcements/search"><Search /></Link>
+        </div>
+
+        {profileInfo?.isAdmin && (
           <PostCreationButton handlePostCreated={(newPost: PostView) => setPostViews([newPost, ...postViews])} />
-        }
+        )}
+
         <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-        {postViews.length > 0 ?
-          <ul style={styles.list}>{list}</ul>
-          :
-          <h3 style={styles.text}>No announcements yet!</h3>
-        }
+
+        {postViews.length > 0 ? (
+          <ul className="announcement-list">{list}</ul>
+        ) : (
+          <h3 className="no-announcement-text">No announcements yet!</h3>
+        )}
+
         <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-      </>
+      </div>
     );
   }
 }
