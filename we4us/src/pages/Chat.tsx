@@ -3,6 +3,7 @@ import { useProfileContext } from '../components/ProfileContext';
 import { useParams } from 'react-router-dom';
 import { Socket, Channel } from "phoenix";
 import { Link } from 'react-router-dom';
+import RedirectPage from './RedirectPage';
 
 interface Message {
   id: string;
@@ -61,8 +62,8 @@ export async function initializeSocket(sender: string, recipient: string): Promi
           resolve(response);
         })
         .receive("error", (error: any) => {
-          console.error("Failed to join the channel:", error);
-          reject(error);
+          if (error.reason === "Profile does not exist") reject(new Error("ProfileNotFound"));
+          else reject(new Error("SocketJoinFailed"));
         });
     });
 
@@ -70,7 +71,7 @@ export async function initializeSocket(sender: string, recipient: string): Promi
   } catch (error) {
     console.error("Error during socket initialization:", error);
     socketInitialized = false;
-    return { channel: null, messages: [] };
+    throw error;
   }
 }
 
@@ -111,6 +112,8 @@ const Chat: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [redirect, setRedirect] = useState(false)
+
   const { profileInfo } = useProfileContext();
   const { to_user } = useParams<{ to_user: string }>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -150,6 +153,10 @@ const Chat: React.FC = () => {
         }
       } catch (error) {
         console.error("Error initializing socket:", error);
+        if (error instanceof Error && error.message === "ProfileNotFound") {
+          window.alert("Profile does not exist!")
+          setRedirect(true);
+        }
       }
     };
   
@@ -207,6 +214,7 @@ const handleSendMessage = async (): Promise<void> => {
   
   const currentUser = profileInfo?.username;
 
+  if (redirect) return <RedirectPage />
 
     return (
       <div className="flex flex-col">
