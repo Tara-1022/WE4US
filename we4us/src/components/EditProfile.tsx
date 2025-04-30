@@ -66,7 +66,10 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   };
 
   const handleCancel = () => {
-    if (!uploadedImage) return;
+    if (!uploadedImage) {
+      onCancel();
+      return;
+    }
     // Remove pending image
     deleteImage(uploadedImage)
     setUploadedImage(undefined);
