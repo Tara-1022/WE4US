@@ -37,7 +37,9 @@ Gradients:
   --color-dark-bg: #1e1e1e;
   --color-card-bg: #2a2a2a;
   --color-white: #ffffff;
+  --color-black: black;
   --color-gray: #a0a0a0;
+  --color-light-gray: #ccc;
   --profile-green: #4CAF50;
 }
 
