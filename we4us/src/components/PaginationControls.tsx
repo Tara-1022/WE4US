@@ -17,10 +17,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
     },
     button: {
       padding: "8px 16px",
-      minWidth: "100px", // Ensures same size
+      minWidth: "100px", 
       borderRadius: "25px",
       border: "1px solid #000",
-      backgroundColor: "#000", // black bg
+      backgroundColor: "#000", 
       color: "#fff",
       fontSize: "0.95rem",
       fontWeight: "500",
@@ -30,7 +30,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       outline: "none",
     },
     buttonHover: {
-      backgroundColor: "#555", // gray hover
+      backgroundColor: "#555", 
     },
     buttonDisabled: {
       backgroundColor: "#333",
@@ -44,7 +44,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       color: "#fff",
     },
     pageNumber: {
-      fontWeight: "bold", // Bold for the page number
+      fontWeight: "bold", 
     },
   };
 
