@@ -2,7 +2,7 @@ import { useState } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 import { useProfileContext } from "./ProfileContext";
-import ImageUploader from "./ImageUploader";
+import ImageUploader, { handleStateChange } from "./ImageUploader";
 import { ImageDetailsType, deleteImage } from "../library/ImageHandling";
 
 interface ProfileEditFormProps {
@@ -49,20 +49,11 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   }
 
   const handleImageChange = (newImageDetails: ImageDetailsType[] | undefined) => {
-    if (newImageDetails === undefined) {
-      setUploadedImage(undefined);
-      setDeleteOldImage(false);
-    }
-    else {
-      if (newImageDetails.length == 0) {
-        setUploadedImage(undefined)
-        setDeleteOldImage(true)
-      }
-      else {
-        setUploadedImage(newImageDetails[0])
-        setDeleteOldImage(true);
-      }
-    }
+    handleStateChange({
+      newImageDetails,
+      setDeleteOldImage,
+      setUploadedImage
+    })
   };
 
   const handleCancel = () => {
@@ -135,6 +126,8 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             onUploadChange={handleImageChange}
             copiesCount={1}
             purpose="profile"
+            loading={isProcessing}
+            setLoading={setIsProcessing}
           />
         </div>
 
