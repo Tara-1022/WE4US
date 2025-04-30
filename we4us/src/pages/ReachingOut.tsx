@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useProfileContext } from '../components/ProfileContext';
 import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 import PaginationControls from "../components/PaginationControls";
+import '../styles/ReachingOut.css';
 
 function CommunityCreationButton({ handleCommunityCreated }:
    { handleCommunityCreated: (newCommunity: CommunityView) => void }) {
@@ -35,38 +36,52 @@ function ReachingOut() {
   useEffect(() => {
     getPostList({ page, limit: DEFAULT_POSTS_PER_PAGE }).then(setPostViews);
   }, [page]);
-  
-  
-
+   
   function handlePostCreated(newPost: PostView) {
     setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
   }
 
-  function handleCommunityCreated(newCommunity: CommunityView) {
+  function handleCommunityCreated(newCommunity: CommunityView): void {
     navigate("/community/" + newCommunity.community.id);
   }
 
   if (!postViews) {
-    return <Loader />;
+    return (
+      <div className="reaching-out-container loader-container">
+        <Loader className="loader-icon" size={40} />
+      </div>
+    );
   }
 
   return (
-    <>
-      <h1>Recent Posts</h1>
-      <Link to="/search"><Search /></Link>
-      <PostCreationButton handlePostCreated={handlePostCreated} />
-      {profileInfo?.isAdmin && <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />}
-
-      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-
+    <div className="reaching-out-container">
+      <div className="reaching-out-header">
+        <h1 className="reaching-out-title">Recent Posts</h1>
+        <div className="reaching-out-actions">
+          <Link to="/search" className="search-link">
+            <Search size={24} />
+          </Link>
+          <PostCreationButton handlePostCreated={handlePostCreated} />
+          {profileInfo?.isAdmin && (
+            <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />
+          )}
+        </div>
+      </div>
+      
+      <div className="pagination-controls">
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+      </div>
+      
       {postViews.length === 0 ? (
-        <h3>No posts to see!</h3>
+        <h3 className="empty-posts">No posts to see!</h3>
         ) : (
         <PostList postViews={postViews} />
         )}
-
-      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-    </>
+      
+      <div className="pagination-controls">
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+      </div>
+    </div>
   );
 }
 
