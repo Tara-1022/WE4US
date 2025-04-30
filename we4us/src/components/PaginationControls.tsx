@@ -12,40 +12,40 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: "5px", 
-      margin: "15px 0", 
+      gap: "8px", // Smaller gap between elements
+      margin: "15px 0", // Adjusted margin
     },
     button: {
-      padding: "6px 12px", 
-      borderRadius: "25px", 
-      border: "1px solid rgba(52, 152, 219, 0.7)", 
-      background: "linear-gradient(135deg, #3a66d0, #2b5aa0)", // Blue gradient
-      color: "#fff",
-      fontSize: "0.85rem", 
-      fontWeight: "500", 
-      cursor: "pointer",
+      padding: "6px 12px", // Smaller padding for a more compact button
+      borderRadius: "25px", // Rounded edges
+      border: "1px solid rgba(255, 255, 255, 0.3)", // Light transparent border
+      background: "rgba(255, 255, 255, 0.2)", // Soft frosted grey background
+      color: "#fff", // White text
+      fontSize: "0.9rem", // Smaller font size for a compact look
+      fontWeight: "500", // Slightly bold text
+      cursor: "pointer", // Pointer on hover
       transition: "all 0.3s ease-out, transform 0.2s ease-in-out, opacity 0.3s",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+      backdropFilter: "blur(12px)", // Frosted glass effect
       outline: "none",
     },
     buttonHover: {
-      background: "linear-gradient(135deg, #2b5aa0, #3a66d0)", // Hover gradient
-      transform: "scale(1.05)", 
-      boxShadow: "0 6px 8px rgba(0, 0, 0, 0.2)",
-      opacity: "1",
+      background: "rgba(255, 255, 255, 0.3)", // Slightly more opaque on hover
+      transform: "scale(1.05)", // Slightly larger on hover
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", // Slightly stronger shadow on hover
     },
     buttonDisabled: {
-      backgroundColor: "rgba(211, 211, 211, 0.5)", 
-      color: "#A9A9A9",
-      cursor: "not-allowed",
+      backgroundColor: "rgba(211, 211, 211, 0.5)", // Disabled state with more opacity
+      color: "#A9A9A9", // Grey text for disabled
+      cursor: "not-allowed", // Disabled pointer
       boxShadow: "none",
-      opacity: "0.5", 
+      opacity: "0.5", // Faded look for disabled button
     },
     pageIndicator: {
-      fontSize: "1rem", 
-      fontWeight: "700", 
-      color: "rgba(44, 62, 80, 0.9)",
-      margin: "0 4px",
+      fontSize: "0.9rem", // Smaller font size for page number
+      fontWeight: "500", // Bold text for readability
+      color: "rgba(255, 255, 255, 0.8)", // Light grey text color
+      margin: "0 8px", // Adjusted space around page number
     },
   };
 
@@ -54,7 +54,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       <button
         style={{
           ...styles.button,
-          ...(page === 1 && styles.buttonDisabled), 
+          ...(page === 1 && styles.buttonDisabled), // Disable the button when on the first page
         }}
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
@@ -67,7 +67,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       <button
         style={{
           ...styles.button,
-          ...(hasMore ? styles.buttonHover : styles.buttonDisabled),
+          ...(hasMore ? styles.buttonHover : styles.buttonDisabled), // Hover effect based on `hasMore`
         }}
         disabled={!hasMore}
         onClick={() => setPage(page + 1)}
