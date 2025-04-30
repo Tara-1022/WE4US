@@ -14,7 +14,7 @@
 
 .profile-snippet:hover {
     background-color: var(--color-white);
-    color: var(--profile-green);
+    color: var(--color-profile-green);
     text-decoration: none;
 }
 

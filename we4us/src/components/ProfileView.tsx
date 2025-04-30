@@ -1,6 +1,6 @@
 import '../styles/ProfilePage.css';
 import LemmyPersonDetails from './LemmyPersonDetails';
-import { Pencil } from 'lucide-react';
+import { Pencil, MessagesSquare } from 'lucide-react';
 import { Profile } from '../library/PostgresAPI';
 import { Link } from 'react-router-dom';
 import { constructImageUrl } from "../library/ImageHandling";
@@ -33,9 +33,16 @@ const ProfileView = ({ profile, onEdit, isOfCurrentUser = false }: ProfileViewPr
           className="profile-image"
         />
       </div>
-      <h1>{profile.display_name}</h1>
-      <p className="username">@{profile.username}</p>
-      <Link to={`/chat/${profile.username}`}>Talk to me</Link>
+
+      <div className='profile-header'>
+        <h1>{profile.display_name}</h1>
+        <p className="username">@{profile.username}</p>
+        <Link to={`/chat/${profile.username}`} className='chat-text'>
+          <MessagesSquare className='icon' />
+          <span className='text'>Talk to me!</span>
+        </Link>
+      </div>
+
       <div className="profile-details">
         {profile.cohort && (
           <div className="detail-item">

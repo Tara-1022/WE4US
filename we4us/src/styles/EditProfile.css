@@ -13,9 +13,14 @@
   max-width: 500px;
   margin: 0 auto;
   padding: 30px;
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: var(--color-darker-gray);
+}
+
+.edit-profile-container h1{
+  color: var(--color-dark-bg);
 }
 
 .edit-profile-form {
@@ -31,7 +36,7 @@
   display: block;
   margin-bottom: 5px;
   font-weight: 600;
-  color: #333;
+  color: var(--color-dark-bg);
 }
 
 .edit-profile-form .form-group input,
@@ -51,7 +56,7 @@
 .edit-profile-form .form-group input:focus, 
 .edit-profile-form .form-group textarea:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--color-profile-green);
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
@@ -74,17 +79,17 @@
 }
 
 .edit-profile-form .save-button {
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--color-profile-green);
+  color: var(--color-white);
 }
 
 .edit-profile-form .save-button:hover {
-  background-color: #45a049;
+  background-color: var(--color-secondary-profile-green);
 }
 
 .edit-profile-form .cancel-button {
   background-color: #f44336;
-  color: white;
+  color: var(--color-white);
 }
 
 .edit-profile-form .cancel-button:hover {

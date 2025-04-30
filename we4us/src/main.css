@@ -18,6 +18,9 @@ Background Colors:
 Gradients:
 - Purple to Dark: linear-gradient(to bottom, #3b2f7f, #1e1e1e)
 - Blue to Teal: linear-gradient(to right, #3a7ffc, #01c4a4)
+
+Secondary Colors:
+Colours to display for actions such as hover.
 */
 
 * {
@@ -38,7 +41,11 @@ Gradients:
   --color-card-bg: #2a2a2a;
   --color-white: #ffffff;
   --color-gray: #a0a0a0;
-  --profile-green: #4CAF50;
+  --color-profile-green: #4CAF50;
+
+  --color-secondary-blue: #5174b6;
+  --color-secondary-profile-green: #458b47;
+  --color-darker-gray: #7f7a7a;
 }
 
 /* Basic styles */
