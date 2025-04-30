@@ -7,7 +7,7 @@ import PostCreationModal from "../components/Announcements/AnnouncementCreationM
 import { useProfileContext } from "../components/ProfileContext";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import PaginationControls from "../components/PaginationControls";
-import "../styles/announcements.css"
+import "../styles/Announcements.css"
 import { Link } from "react-router-dom";
 
 function PostCreationButton({ handlePostCreated }:
@@ -51,7 +51,9 @@ export default function AnnouncementsPage() {
       <div className="announcements-page">
         <div className="announcement-header">
           <h1>Announcements</h1>
-          <Link to="/announcements/search"><Search /></Link>
+          <Link to="/announcements/search">
+            <Search size="30" />
+          </Link>
         </div>
 
         {profileInfo?.isAdmin && (
