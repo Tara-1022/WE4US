@@ -23,19 +23,19 @@
   flex-direction: column;
 }
 
-.form-group {
+.edit-profile-form .form-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.edit-profile-form .form-group label {
   display: block;
   margin-bottom: 5px;
   font-weight: 600;
   color: #333;
 }
 
-.form-group input,
-.form-group textarea {
+.edit-profile-form .form-group input,
+.edit-profile-form .form-group textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -44,25 +44,25 @@
   font-size: 16px;
 }
 
-.form-group textarea{
+.edit-profile-form .form-group textarea{
   height: 200px;
 }
 
-.form-group input:focus, 
-.form-group textarea:focus {
+.edit-profile-form .form-group input:focus, 
+.edit-profile-form .form-group textarea:focus {
   outline: none;
   border-color: #4CAF50;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
-.button-group {
+.edit-profile-form .button-group {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.save-button,
-.cancel-button {
+.edit-profile-form .save-button,
+.edit-profile-form .cancel-button {
   flex: 1;
   padding: 12px;
   margin: 0 5px;
@@ -73,31 +73,31 @@
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.save-button {
+.edit-profile-form .save-button {
   background-color: #4CAF50;
   color: white;
 }
 
-.save-button:hover {
+.edit-profile-form .save-button:hover {
   background-color: #45a049;
 }
 
-.cancel-button {
+.edit-profile-form .cancel-button {
   background-color: #f44336;
   color: white;
 }
 
-.cancel-button:hover {
+.edit-profile-form .cancel-button:hover {
   background-color: #d32f2f;
 }
 
-.save-button:disabled,
-.cancel-button:disabled {
+.edit-profile-form .save-button:disabled,
+.edit-profile-form .cancel-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
 
-.error-message {
+.edit-profile-form .error-message {
   color: rgb(68, 11, 202);
   margin-bottom: 15px;
   padding: 10px;
@@ -105,13 +105,13 @@
   border-radius: 4px;
 }
 
-.loading {
+.edit-profile-form .loading {
   text-align: center;
   padding: 20px;
   font-size: 18px;
 }
 
-.error-container {
+.edit-profile-form .error-container {
   text-align: center;
   padding: 20px;
   background-color: #ffebee;
@@ -125,12 +125,12 @@
     padding: 20px;
   }
 
-  .button-group {
+  .edit-profile-form .button-group {
     flex-direction: column;
   }
 
-  .save-button,
-  .cancel-button {
+  .edit-profile-form .save-button,
+  .edit-profile-form .cancel-button {
     margin: 5px 0;
   }
 }

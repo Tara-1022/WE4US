@@ -21,7 +21,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.profile-header {
+.profile-container .profile-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -29,17 +29,17 @@
   margin-bottom: 20px;
 }
 
-.profile-content {
+.profile-container .profile-content {
   text-align: center;
   position: relative;
 }
 
-.profile-content h1 {
+.profile-container .profile-content h1 {
   margin-bottom: 10px;
   color: #333;
 }
 
-.edit-button {
+.profile-container .edit-button {
   position: absolute;
   top: 0;
   right: 0;
@@ -50,16 +50,16 @@
   color: white;
 }
 
-.edit-button:hover {
+.profile-container .edit-button:hover {
   background-color: #45a049;
 }
 
-.username {
-  color: #666;
-  margin-bottom: 20px;
+.profile-container .username {
+  color: var(--color-card-bg);
+  margin-bottom: 10px;
 }
 
-.profile-details {
+.profile-container .profile-details {
   text-align: left;
   background-color: white;
   padding: 20px;
@@ -67,47 +67,47 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.detail-item {
+.profile-container .detail-item {
   margin-bottom: 10px;
   display: flex;
 }
 
-.detail-label {
+.profile-container .detail-label {
   font-weight: 600;
   margin-right: 10px;
-  min-width: 150px;
+  min-width: 190px;
   color: #333;
 }
 
-.detail-value {
+.profile-container .detail-value {
   color: #666;
 }
 
-.large-detail {
+.profile-container .large-detail {
   margin-top: 20px;
 }
 
-.large-detail h3 {
+.profile-container .large-detail h3 {
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
   margin-bottom: 10px;
   color: #333;
 }
 
-.large-detail .description {
+.profile-container .large-detail .description {
   background-color: #f0f0f0;
   color: #666;
   min-height: 60px;
   padding: 15px;
 }
 
-.large-detail ul {
+.profile-container .large-detail ul {
   list-style-type: none;
   padding: 0;
   color: #333;
 }
 
-.large-detail li {
+.profile-container .large-detail li {
   background-color: #f0f0f0;
   margin: 5px 0;
   padding: 8px;
@@ -115,7 +115,7 @@
   color: #666;
 }
 
-.success-message {
+.profile-container .success-message {
   background-color: #4CAF50;
   color: white;
   padding: 10px;
@@ -124,8 +124,8 @@
   text-align: center;
 }
 
-.loading,
-.error {
+.profile-container .loading,
+.profile-container .error {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,7 +133,7 @@
   height: 100vh;
 }
 
-.loading-spinner {
+.profile-container .loading-spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #3498db;
   border-radius: 50%;
@@ -152,20 +152,20 @@
   }
 }
 
-.button-group {
+.profile-container .button-group {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.profile-image-section {
+.profile-container .profile-image-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.profile-image-uploader {
+.profile-container .profile-image-uploader {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,7 +173,7 @@
   width: 100%;
 }
 
-.image-preview {
+.profile-container .image-preview {
   position: relative;
   width: 150px;
   height: 150px;
@@ -182,13 +182,13 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.image-preview img {
+.profile-container .image-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.image-controls {
+.profile-container .image-controls {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -196,7 +196,7 @@
   max-width: 300px;
 }
 
-.profile-image-container {
+.profile-container .profile-image-container {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -205,23 +205,24 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.profile-image {
+.profile-container .profile-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.posts-comments-container{
+.profile-container .posts-comments-container{
    color: var(--color-dark-bg);
    text-align: left; 
 }
-.posts-comments-toggle{
-  margin: auto;
-  text-align: center;
+
+.profile-container .posts-comments-toggle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.posts-comments-toggle .toggler {
+.profile-container .posts-comments-toggle .toggler {
   position: relative;
-  top: 6px;
   cursor: pointer;
 }
