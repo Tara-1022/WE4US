@@ -12,40 +12,39 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: "8px",
-      margin: "15px 0", 
+      gap: "12px",
+      margin: "20px 0",
     },
     button: {
-      padding: "6px 12px",
+      padding: "8px 16px",
+      minWidth: "100px", // Ensures same size
       borderRadius: "25px",
-      border: "1px solid rgba(255, 255, 255, 0.3)",
-      background: "rgba(255, 255, 255, 0.2)", 
-      color: "#fff", 
-      fontSize: "0.9rem", 
+      border: "1px solid #000",
+      backgroundColor: "#000", // black bg
+      color: "#fff",
+      fontSize: "0.95rem",
       fontWeight: "500",
       cursor: "pointer",
-      transition: "all 0.3s ease-out, transform 0.2s ease-in-out, opacity 0.3s",
-      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", 
-      backdropFilter: "blur(12px)",
+      transition: "all 0.3s ease, transform 0.2s",
+      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
       outline: "none",
     },
     buttonHover: {
-      background: "rgba(255, 255, 255, 0.3)", 
-      transform: "scale(1.05)", 
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", 
+      backgroundColor: "#555", // gray hover
     },
     buttonDisabled: {
-      backgroundColor: "rgba(211, 211, 211, 0.5)", 
-      color: "#A9A9A9", 
-      cursor: "not-allowed", 
+      backgroundColor: "#333",
+      color: "#888",
+      cursor: "not-allowed",
       boxShadow: "none",
-      opacity: "0.5",
+      opacity: "0.6",
     },
     pageIndicator: {
-      fontSize: "0.9rem", 
-      fontWeight: "500", 
-      color: "rgba(255, 255, 255, 0.8)",
-      margin: "0 8px",
+      fontSize: "1rem",
+      color: "#fff",
+    },
+    pageNumber: {
+      fontWeight: "bold", // Bold for the page number
     },
   };
 
@@ -54,22 +53,36 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       <button
         style={{
           ...styles.button,
-          ...(page === 1 && styles.buttonDisabled), 
+          ...(page === 1 ? styles.buttonDisabled : {}),
         }}
         disabled={page === 1}
+        onMouseOver={(e) => {
+          if (page !== 1) e.currentTarget.style.backgroundColor = "#555";
+        }}
+        onMouseOut={(e) => {
+          if (page !== 1) e.currentTarget.style.backgroundColor = "#000";
+        }}
         onClick={() => setPage(page - 1)}
       >
         Previous
       </button>
 
-      <span style={styles.pageIndicator}>Page {page}</span>
+      <span style={styles.pageIndicator}>
+        Page <span style={styles.pageNumber}>{page}</span>
+      </span>
 
       <button
         style={{
           ...styles.button,
-          ...(hasMore ? styles.buttonHover : styles.buttonDisabled), 
+          ...(!hasMore ? styles.buttonDisabled : {}),
         }}
         disabled={!hasMore}
+        onMouseOver={(e) => {
+          if (hasMore) e.currentTarget.style.backgroundColor = "#555";
+        }}
+        onMouseOut={(e) => {
+          if (hasMore) e.currentTarget.style.backgroundColor = "#000";
+        }}
         onClick={() => setPage(page + 1)}
       >
         Next
