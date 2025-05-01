@@ -16,13 +16,12 @@ export default function CommentsSection({ postId }: { postId: number }) {
             color: "#e0e0e0",
             margin: 0,
             padding: "0px",
-            backgroundColor: "#1a1a1b",
         },        
         heading: {
             fontSize: "18px",
             fontWeight: "600",
             marginBottom: "16px",
-            color: "#ffffff"
+            color: "#ffffff",
         },
         loadingText: {
             color: "#9da5b0",

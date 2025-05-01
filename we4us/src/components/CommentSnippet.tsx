@@ -30,13 +30,13 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
             marginRight: "12px"
         },
         userLink: {
-            color: "#ff9a40",
+            color: "#03a9f4",
             textDecoration: "none"
         },
         postLink: {
             fontSize: "small",
             margin: "2%",
-            color: "#ff9a40",
+            color: "#03a9f4",
             textDecoration: "none"
         }
     };

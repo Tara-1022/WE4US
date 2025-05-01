@@ -39,7 +39,7 @@ export default function CommentEditor({
         },
         saveButton: {
             padding: "6px 16px",
-            backgroundColor: "#ff7b00",
+            backgroundColor: "#03a9f4",
             color: "white",
             border: "none",
             borderRadius: "4px",

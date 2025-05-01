@@ -29,5 +29,5 @@
 }
 
 .announcement-snippet:hover {
-    background-color: #363535;
+    background-color: var(--color-dark-gray);
 }

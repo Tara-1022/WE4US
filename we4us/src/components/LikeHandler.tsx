@@ -47,7 +47,7 @@ export default function LikeHandler({ forPost, isInitiallyLiked, id, initialLike
             <Plus 
                 onClick={handleClick} 
                 style={styles.icon} 
-                color={isLiked? "#ff7b00": "#a0a8b0"}
+                color={isLiked? "#03a9f4": "#a0a8b0"}
                 size={18}
             />
         </div>

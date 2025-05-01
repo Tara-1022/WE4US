@@ -14,11 +14,11 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
     const styles = {
         container: {
             backgroundColor: "#1a1a1b",
-            borderRadius: "0px",
+            borderRadius: "10px",
             marginBottom: "16px",
             padding: "12px 16px 12px 24px",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-            border: "1px solid #343536",
+            border: "1px solid white",
             borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "1px solid #343536",
             marginLeft: depth * 18 + "px"
         },
@@ -33,7 +33,7 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
         actionButton: {
             background: "none",
             border: "none",
-            color: "#a0a8b0",
+            color: "white",
             cursor: "pointer",
             fontWeight: "500",
             padding: "4px 8px",
@@ -65,20 +65,21 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
                             id={commentView.comment.id}
                         />
 
-                        <CommentCreator parentId={commentView.comment.id} actionName={"Reply"} />
+                        <CommentCreator parentId={commentView.comment.id} actionName={"Reply"}  />
 
                         {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
 
                             <>
                                 <CommentDeletor commentId={commentView.comment.id} />
                                 <b style={{
-                                    background: "none",
+                                    background: "#3e4041",
                                     border: "none",
-                                    color: "#a0a8b0",
+                                    color: "#ffffff",
                                     cursor: "pointer",
-                                    fontWeight: "500" as const,
-                                    padding: 0,
-                                    fontSize: "13px",
+                                    fontWeight: "600",
+                                    padding: "6px 16px",
+                                    fontSize: "14px",
+                                    borderRadius: "6px",
                                     display: "flex",
                                     alignItems: "center"
                                 }}

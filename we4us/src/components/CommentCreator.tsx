@@ -31,7 +31,7 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
         },
         submitButton: {
             padding: "6px 16px",
-            backgroundColor: "#ff7b00",
+            backgroundColor: "#03a9f4",
             color: "white",
             border: "none",
             borderRadius: "4px",
@@ -41,8 +41,8 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
         },
         cancelButton: {
             padding: "6px 16px",
-            backgroundColor: "#32343a",
-            color: "#a0a8b0",
+            backgroundColor: "#FF4500",
+            color: "white",
             border: "1px solid #444",
             borderRadius: "4px",
             cursor: "pointer",
@@ -50,7 +50,7 @@ export default function CommentCreator({ parentId, actionName = "Comment" }: { p
             transition: "background-color 0.2s"
         },
         actionButton: {
-            backgroundColor: "#ff7b00",
+            backgroundColor: "#03a9f4",
             border: "none",
             color: "white",  // Light text color for dark theme
             cursor: "pointer",
