@@ -1,24 +1,16 @@
 "https://mv-gh.github.io/lemmy_openapi_spec/#tag/Site/paths/~1site/get"
 
 import requests
-import json
 import time
 import pandas as pd
 import os
+from user_management import UserManager
 
 BASE_URL = "http://localhost:10633/api/v3"
 
 ADMIN_USERNAME = "cohort2_user2"
 ADMIN_PASSWORD = "nishita123"
 EMAIL = "admin@localhost"
-
-# Standard communities to create
-COMMUNITIES = [
-    {"name": "job_board", "title": "Job Board", "description": "List job and internship openings"},
-    {"name": "announcements", "title": "Announcements", "description": "Important announcements and updates"},
-    {"name": "pg_finder", "title": "PG Finder", "description": "PG recommendations with reviews"},
-    {"name": "meet_up", "title": "Meet Up", "description": "Upcoming meet-up events and activities"}
-]
 
 SITE_CONFIG = {
     "name": "WE4US",
@@ -28,8 +20,16 @@ SITE_CONFIG = {
     "community_creation_admin_only": True,
     "require_email_verification": False,
     "application_question": "",
-    "private_instance": False
+    "private_instance": True,
+    "federation_enabled": False
 }
+
+COMMUNITIES = [
+    {"name": "job_board", "title": "Job Board", "description": "List job and internship openings"},
+    {"name": "announcements", "title": "Announcements", "description": "Important announcements and updates"},
+    {"name": "pg_finder", "title": "PG Finder", "description": "PG recommendations with reviews"},
+    {"name": "meet_up", "title": "Meet Up", "description": "Upcoming meet-up events and activities"}
+]
 
 def register_or_login():
     # Try login
@@ -61,14 +61,6 @@ def register_or_login():
 def setup_site(jwt_token):
     headers = {"Authorization": f"Bearer {jwt_token}"}
     
-    get_site_res = requests.get(f"{BASE_URL}/site", headers=headers)
-    if get_site_res.status_code != 200:
-        print(f"[-] Failed to get site config: {get_site_res.status_code} - {get_site_res.text}")
-        return
-    
-    site_data = get_site_res.json()
-    print("[+] Retrieved current site configuration")
-    
     site_config = {
         "name": SITE_CONFIG["name"],
         "sidebar": SITE_CONFIG["description"],
@@ -78,13 +70,31 @@ def setup_site(jwt_token):
         "community_creation_admin_only": SITE_CONFIG["community_creation_admin_only"],
         "require_email_verification": SITE_CONFIG["require_email_verification"],
         "application_question": SITE_CONFIG["application_question"],
-        "private_instance": SITE_CONFIG["private_instance"]
+        "private_instance": SITE_CONFIG["private_instance"],
+        "federation_enabled": SITE_CONFIG["federation_enabled"]
     }
     
     res = requests.put(f"{BASE_URL}/site", headers=headers, json={"site": site_config})
     
     if res.status_code == 200:
         print("[+] Site configured successfully.")
+        
+        # Verify settings were applied correctly
+        verify_res = requests.get(f"{BASE_URL}/site", headers=headers)
+        if verify_res.status_code == 200:
+            verify_data = verify_res.json()
+            site_view = verify_data.get("site_view", {}).get("site", {})
+            
+            if site_view.get("name") == SITE_CONFIG["name"] and \
+               site_view.get("private_instance") == SITE_CONFIG["private_instance"] and \
+               site_view.get("federation_enabled", None) == SITE_CONFIG.get("federation_enabled", None):
+                print("[+] Site configuration verified.")
+            else:
+                print("[-] Site configuration verification failed! Settings don't match requested values.")
+                print(f"    Expected: {SITE_CONFIG}")
+                print(f"    Actual: {site_view}")
+        else:
+            print(f"[-] Failed to verify site config: {verify_res.status_code} - {verify_res.text}")
     else:
         print(f"[-] Failed to configure site: {res.status_code} - {res.text}")
 
@@ -97,7 +107,7 @@ def create_communities(jwt_token):
                 "name": comm["name"],
                 "title": comm["title"],
                 "description": comm["description"],
-                "nsfw": False,
+                "nsfw": True,  
                 "icon": None,
                 "banner": None
             })
@@ -109,51 +119,37 @@ def create_communities(jwt_token):
         except Exception as e:
             print(f"[!] Error creating community {comm['name']}: {str(e)}")
 
-def create_test_users(jwt_token, excel_path):
-    try:
-        df = pd.read_excel(excel_path)
-        headers = {"Authorization": f"Bearer {jwt_token}"}
-        
-        for _, row in df.iterrows():
-            email = row.get('Email', '')
-            username = email.split('@')[0].replace('.', '_')
-            password = "WE4US_Password!123"  
-            
-            try:
-                res = requests.post(f"{BASE_URL}/user/register", json={
-                    "username": username,
-                    "password": password,
-                    "password_verify": password,
-                    "email": email,
-                    "show_nsfw": False
-                })
-                
-                if res.status_code == 200:
-                    print(f"[+] Created test user: {username} / {email}")
-                else:
-                    print(f"[!] Failed to create user {username}: {res.status_code} - {res.text}")
-            except Exception as e:
-                print(f"[!] Error creating user {username}: {str(e)}")
-            
-            time.sleep(0.5)
-            
-    except Exception as e:
-        print(f"[!] Error processing Excel file: {str(e)}")
-
 if __name__ == "__main__":
     print("[*] Starting Lemmy setup...")
     
     try:
         jwt = register_or_login()
+        
         print("[*] Setting up site configuration...")
         setup_site(jwt)
         
         print("[*] Creating standard communities...")
         create_communities(jwt)
         
-        excel_path = "/home/nishita-katepallewar/work/projects/BIG PROJECTS/WE4US/lemmy_docker_server/test_users.xlsx"
+        excel_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_users.xlsx")
         print("[*] Creating test users from Excel file...")
-        create_test_users(jwt, excel_path)
+        
+        # Use the UserManager to create users
+        user_manager = UserManager(BASE_URL, jwt)
+        successful, errors = user_manager.create_users_from_excel(excel_path)
+        print(f"[*] User creation completed: {successful} successful, {errors} with errors")
+        if errors > 0:
+            print("[!] Check error_users_*.csv file for details on failed users")
+        
+        # Final verification of site settings
+        headers = {"Authorization": f"Bearer {jwt}"}
+        final_check = requests.get(f"{BASE_URL}/site", headers=headers)
+        if final_check.status_code == 200:
+            site_data = final_check.json().get("site_view", {}).get("site", {})
+            print("\n[*] Final site configuration check:")
+            print(f"    Site name: {site_data.get('name')}")
+            print(f"    Private instance: {site_data.get('private_instance')}")
+            print(f"    Federation enabled: {site_data.get('federation_enabled', 'Not available')}")
         
         print("[+] Setup complete!")
     except Exception as e:

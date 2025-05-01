@@ -32,6 +32,18 @@ services:
     logging: *default-logging
     environment:
       - RUST_LOG="warn"
+      - LEMMY_SETUP_ADMIN_USERNAME=cohort2_user2
+      - LEMMY_SETUP_ADMIN_PASSWORD=nishita123
+      - LEMMY_SETUP_ADMIN_EMAIL=admin@localhost
+      - LEMMY_SETUP_SITE_NAME=WE4US
+      - LEMMY_SETUP_SITE_DESCRIPTION=A platform for students to connect, share, and grow.
+      - LEMMY_SETUP_ENABLE_DOWNVOTES=true
+      - LEMMY_SETUP_ENABLE_NSFW=true
+      - LEMMY_SETUP_COMMUNITY_CREATION_ADMIN_ONLY=true
+      - LEMMY_SETUP_REQUIRE_EMAIL_VERIFICATION=false
+      - LEMMY_SETUP_PRIVATE_INSTANCE=true
+      - LEMMY_SETUP_FEDERATION_ENABLED=false
+      - LEMMY_SETUP_COMMUNITIES=job_board:Job Board:List job and internship openings,announcements:Announcements:Important announcements and updates,pg_finder:PG Finder:PG recommendations with reviews,meet_up:Meet Up:Upcoming meet-up events and activities
     volumes:
       - ./lemmy.hjson:/config/config.hjson:Z
     depends_on:
@@ -92,3 +104,4 @@ services:
       - POSTFIX_myhostname=lemmy:8765
     restart: "always"
     logging: *default-logging
+s
