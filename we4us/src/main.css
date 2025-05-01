@@ -40,12 +40,13 @@ Colours to display for actions such as hover.
   --color-dark-bg: #1e1e1e;
   --color-card-bg: #2a2a2a;
   --color-white: #ffffff;
+  --color-black: black;
   --color-gray: #a0a0a0;
   --color-profile-green: #4CAF50;
-
   --color-secondary-blue: #5174b6;
   --color-secondary-profile-green: #458b47;
   --color-darker-gray: #7f7a7a;
+  --color-light-gray: #ccc;
 }
 
 /* Basic styles */

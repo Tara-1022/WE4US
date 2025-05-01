@@ -4,6 +4,11 @@ import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
 import { Loader, Search as SearchIcon } from 'lucide-react';
+import AnnouncementPostSnippet from '../components/Announcements/AnnouncementPostSnippet';
+import MeetUpPostSnippet from '../components/MeetUp/MeetUpSnippet';
+import PgPostSnippet from '../components/PgFinder/PgPostSnippet';
+import JobPostSnippet from '../components/JobBoard/JobPostSnippet';
+import CommentSnippet from '../components/CommentSnippet';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { DEFAULT_POSTS_PER_PAGE, isSpecialCommunity } from '../constants';
 import { commentToGenericView, GenericView, GenericViewList, postToGenericView } from '../library/GenericView';
@@ -76,7 +81,6 @@ const SpecialisedSearchPage: React.FC<{ community: string }> = ({ community }) =
 
   return (
     <>
-      <SearchIcon />
       <LemmySearchBar handleSearch={handleSearch} communityName={community} />
 
       {isResultPresent && filteredResult &&
