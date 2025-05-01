@@ -2,15 +2,15 @@
    
     --color-dark-bg: #1e1e1e;
     --color-card-bg: #1f1f1f;
-    --color-card-hover: #434343;
+    --color-card-hover: #252525;
     --color-white: #f0f0f0;
     --color-gray: #646464;
     --color-light-gray: #b0b0b0;
     --color-primary-orange: orange;
     --color-primary-dark-orange: rgb(217, 121, 4);
     --color-blue: #00aaff;
-    --color-error: #ff4d4d;
-    --color-error-hover: #ae0a0a;
+    --color-error:  #ae0a0a ;
+    --color-error-hover: #ff4d4d;
     --color-success:#4caf50 ;
     --color-success-hover: #2f7131; 
     --color-primary-dark-purple: #4839a1;
@@ -20,7 +20,6 @@
     /*--color-primary-blue: #0984e3; */   
     --color-primary-blue: #0767b3; 
     --color-primary-light-purple: #a29bfe; 
-    
 }
 .post-form {
     color: var(--color-primary-dark-purple);
@@ -35,12 +34,11 @@
 .post-form select,
 .post-form textarea {
     font-weight: bold;
-    background-color: #323232;
+    background-color: var(--color-card-hover);
     border: "none";
-    border-color: var(--color-primary-light-purple);
     padding: 10px;
     border-radius: 5px;
-    width: 104%;
+    width: 110%;
     margin: 1px 0 5px;
     
 }
@@ -54,42 +52,44 @@
 }
 
 .post-form button {
-    margin: 5px;
-    padding: 8px 12px;
+    margin-left: 15px;
+    padding: 8px 13px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    justify-content: center;
+
 }
 
 .post-form button[type="submit"] {
-    background-color: var(--color-primary-teal);
-    color: var(--color-white);
-    font-weight: bold;
-}
-
-.post-form button[type="reset"] {
     background-color: var(--color-primary-blue);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.post-form button[type="button"] {
+.post-form button[type="reset"] {
     background-color: var(--color-primary-dark-purple);
     color: var(--color-white);
     font-weight: bold;
 }
+
+.post-form button[type="button"] {
+    background-color: var(--color-error);
+    color: var(--color-white);
+    font-weight: bold;
+}
 .post-form button[type="submit"]:hover {
-    background-color: var(--colour-primary-light-teal);
+    background-color: var(--color-blue);
     color: var(--color-white);
     font-weight: bold;
 }
 
 .post-form button[type="reset"]:hover {
-    background-color: var(--color-blue);
+    background-color: var(--color-primary-purple);
     color: var(--color-white);
 }
 
 .post-form button[type="button"]:hover {
-    background-color: var(--color-primary-light-purple);
+    background-color: var(--color-error-hover);
     color: var(--color-white);
 }

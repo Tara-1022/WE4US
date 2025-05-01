@@ -99,7 +99,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-.search-container {
+.search-pagination-container {
   margin-top: 20px;
 }
 
@@ -145,10 +145,10 @@ h1, h2, h3, h4, h5, h6 {
   gap: var(--spacing-md);
 }
 
-.apply-now-button {
+.more-info-button {
   display: inline-block;
-  background-color: var(--color-primary-accent);
-  color: var(--color-primary-light-purple);
+  background-color: var(--color-primary-blue);
+  color: var(--color-white);
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: var(--radius-md);
   text-decoration: none;
@@ -161,20 +161,19 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: auto; 
 }
 
-.apply-now-button:hover {
-  background-color: var(--color-card-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-  color: var(--color-primary-purple);
+.more-info-button:hover {
+  background-color: var(--color-blue);
+  color: var(--color-white)
 } 
 
 .job-post-item.job-closed  {
 color: var(--color-fade-out-grey) ;   
 }
 
-.job-post-item.job-closed .apply-now-button  {
-color: var(--color-fade-out-grey) ;
-border-color: (var(--color-gray));
+.job-post-item.job-closed .more-info-button  {
+color: var(--color-card-bg) ;
+background-color: var(--color-fade-out-grey);
+border-color: var(--color-fade-out-grey);
 }
 
 .job-post-item.job-closed .job-title {
@@ -194,7 +193,7 @@ color: var(--color-fade-out-grey);
       gap: var(--spacing-sm);
   }
   
-  .apply-now-button {
+  .more-info-button {
       align-self: flex-end;
       margin-top: var(--spacing-xs);
   }

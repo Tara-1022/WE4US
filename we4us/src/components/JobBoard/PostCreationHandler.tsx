@@ -45,7 +45,7 @@ export default function PostCreationHandler({
                 className="new-post-button"
                 style={buttonStyle}
             >
-                 +New Post
+                 New Post
             </button>
             <Modal 
                 isOpen={isOpen}
@@ -55,8 +55,8 @@ export default function PostCreationHandler({
                 style={{
                     content: {
                         backgroundColor: ' #1e1e1e', 
-                        color: 'white',             
-                        borderColor: ' #4839a1',    
+                        color: 'white', 
+                        border: 'None'                
                     },
                     overlay: {
                         backgroundColor: 'rgba(0, 0, 0, 0.75)' 

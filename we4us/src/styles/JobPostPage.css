@@ -47,6 +47,7 @@
     margin: 0 0 0.5rem 0;
     color: var(--color-primary-blue);
     font-weight: 600;
+    text-align: center;
 }
 
 .job-meta {
@@ -59,16 +60,16 @@
 .job-company {
     color: var(--color-white);
     font-weight: 500;
-    font-size: 1.20rem;
+    font-size: 1.2rem;
 }
 
 .job-type {
     background: var(--color-dark-bg);
     color: var(--color-primary-accent);
-    padding: 0.1rem 1.2rem;
+    padding: 0rem 1.2rem;
     border-radius: 15px;
-    font-size: 0.9rem;
-    border: 2px solid var(--color-primary-dark-purple);
+    font-size: 1.2rem;
+    margin-left: -13pt;
 }
 
 .job-details-grid {
@@ -90,7 +91,7 @@
     cursor: pointer;
     margin-left: 0rem;
     margin-bottom: -10px;
-    background-color:var(--color-card-hover);
+    background-color:var(--color-primary-blue);
     font-weight: bold;
     color: var(--color-white);
     padding: 7px 25px;
@@ -101,7 +102,16 @@
   }
   
   .job-controls > button:hover {
-    background-color:var(--color-dark-bg);
+    background-color:var(--color-blue);
+  }
+
+  .job-controls > button:first-child{
+    background-color: var(--color-primary-dark-purple);
+    border-color: var(--color-primary-dark-purple);
+  }
+
+  .job-controls > button:first-child:hover {
+    background-color: var(--color-primary-purple);
   }
 
   .job-controls > button:last-child,

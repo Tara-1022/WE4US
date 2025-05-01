@@ -2,7 +2,7 @@ import { PostView } from 'lemmy-js-client';
 import { useEffect, useState } from 'react';
 import { getPostById } from '../library/LemmyApi';
 import { Loader } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CommentsSection from '../components/CommentsSection';
 import PostDeletor from '../components/PostDeletor';
 import JobPostEditor from '../components/JobBoard/JobPostEditor';
@@ -11,7 +11,7 @@ import { JobPostBody } from '../components/JobBoard/JobTypes';
 import ReactMarkDown from "react-markdown";
 import "../styles/JobPostPage.css";
 import JobStatusChanger from '../components/JobBoard/JobStatusChanger';
-import { Link } from 'react-router-dom';
+import { isDateInFuture } from "../library/Utils";
 
 export default function JobPostPage() {
     const jobId = Number(useParams().jobId);
@@ -19,26 +19,8 @@ export default function JobPostPage() {
     const [isEditing, setIsEditing] = useState(false);
     const { profileInfo } = useProfileContext();
     
-    const isDeadlinePassed = (deadline: string): boolean => {
-        const deadlineDate = new Date(deadline);
-        const currentDate = new Date();
-    
-        deadlineDate.setHours(0, 0, 0, 0);
-        currentDate.setHours(0, 0, 0, 0);
-    
-        return deadlineDate < currentDate;
-    };
-    
-
-
     useEffect(() => {
-        const fetchPostAndCheckDeadline = async () => {
-            const response = await getPostById(jobId);
-            const post = response ? response.post_view : null;
-            setPostView(post);
-        };
-        
-        fetchPostAndCheckDeadline();
+        getPostById(jobId).then(response =>setPostView(response ? response.post_view : null))
     }, [jobId]);
 
     if (!postView) {
@@ -67,7 +49,7 @@ export default function JobPostPage() {
                     <header className="job-post-header">
                         <h1 className="job-title">{postView.post.name}</h1>
                         <div className="job-meta">
-                            <span className="job-company">{jobDetails.company}</span>
+                            <span className="job-company">{jobDetails.company} :</span>
                             <span className="job-type">{jobDetails.job_type}</span>
                         </div>
                     </header>
@@ -98,7 +80,7 @@ export default function JobPostPage() {
                             <span className="detail-label">Deadline</span>
                             <span className="detail-value deadline">
                                 {jobDetails.deadline ? (
-                                    isDeadlinePassed(jobDetails.deadline) ? (
+                                    !isDateInFuture(jobDetails.deadline) ? (
                                         <span className="deadline-passed">Deadline Passed</span>
                                     ) : (
                                         jobDetails.deadline

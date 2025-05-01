@@ -4,7 +4,7 @@ export function isDateInFuture(dateString: string): boolean {
     const selectedDate = new Date(dateString);
     const today = new Date();
 
-    today.setHours(0, 0, 0, 0);
+    today.setHours(23, 59, 59, 999);
 
     return selectedDate >= today;
 }

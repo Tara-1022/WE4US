@@ -39,7 +39,7 @@ export default function JobBoardPage() {
             />
           </div>
           
-          <div className="search-container" style={{ marginBottom: '20px' }}>
+          <div className="search-pagination-container" style={{ marginBottom: '20px' }}>
              <Link to="/job-board/search"><Search /></Link>
              <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
           </div>

@@ -78,22 +78,22 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
     onRequestClose={() => setIsOpen(false)}
     style={{
         content: {
-            backgroundColor: ' #1e1e1e', 
-            color: 'white',             
-            borderColor: ' #4839a1', 
-            width: '550px',          
-            height: '220px',         
-            margin: 'auto',   
+            backgroundColor: '#1e1e1e',
+            color: 'white',
+            border: 'None',
+            width: '550px',
+            height: '220px',
+            margin: 'auto',
         },
         overlay: {
-            backgroundColor: '#000000BF' 
+            backgroundColor: '#000000BF'
         }
     }}
 >
     <h4 className="modal-header">
         You're trying to mark the job open, but the deadline has passed. Would you like to set a future date?
     </h4>
-    
+
     <label htmlFor="deadline" className="modal-label">
         Deadline
     </label>
@@ -106,26 +106,29 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
     />
     <br />
 
-    <button
-        onClick={handleNewDate}
-        className="modal-button modal-button-new-date"
-    >
-        Set New Date
-    </button>
-    
-    <button
-        onClick={handleJustUpdate}
-        className="modal-button modal-button-update-status"
-    >
-        Just Update Status
-    </button>
-    
-    <button
-        onClick={() => setIsOpen(false)}
-        className="modal-button modal-button-cancel"
-    >
-        Cancel
-    </button>
+    <div className="modal-button-group">
+        <button
+            onClick={handleNewDate}
+            className="modal-button modal-button-new-date"
+        >
+            Set New Date
+        </button>
+
+        <button
+            onClick={handleJustUpdate}
+            className="modal-button modal-button-update-status"
+        >
+            Just Update Status
+        </button>
+
+        <button
+            onClick={() => setIsOpen(false)}
+            className="modal-button modal-button-cancel"
+        >
+            Cancel
+        </button>
+    </div>
 </Modal>
+
 </>
     }

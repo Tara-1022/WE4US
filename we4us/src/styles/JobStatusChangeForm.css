@@ -9,8 +9,8 @@
     --color-primary-orange: orange;
     --color-primary-dark-orange: rgb(217, 121, 4);
     --color-blue: #00aaff;
-    --color-error: #ff4d4d;
-    --color-error-hover: #ae0a0a;
+    --color-error:  #ae0a0a ;
+    --color-error-hover: #ff4d4d;
     --color-success:#4caf50 ;
     --color-success-hover: #2f7131; 
     --color-primary-dark-purple: #4839a1;
@@ -32,42 +32,53 @@
     color: var(--color-white);
     font-size: 17px;
     margin-bottom: 10px;
-    margin-left: 5px;
+    margin-left: 10px;
+    margin-top: 10px;
+    text-align: center;
+    
 }
 
 .modal-label {
     display: block;
+    margin-top: 5px;
     margin-bottom: 5px;
     color: var(--color-white);
-    font-size: 16px;
-    margin-left: 5px;
+    font-size: 14px;
+    margin-left: 94px;
+    
 
 }
 
 .modal-input {
     padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid var(--color-primary-dark-purple);
+    font-size: 14px;
+    border: none;
     width: 67.5%;
-    margin-bottom: 10px;
-    margin-left: 5px;
-    background-color: #323232;
+    margin-left: 93px;
+    background-color: var(--color-card-hover);
     color: var(--color-white);
     font-weight: 600;
+    
+}
+
+.modal-button-group {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    justify-content: center;
 }
 
 .modal-button {
     padding: 10px 20px;
-    margin-left: 5px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
+
 .modal-button-new-date {
-    background-color: var(--color-primary-teal);
+    background-color: var(--color-primary-dark-purple);
     color: var(--color-white);
     font-weight: bold;
 }
@@ -79,13 +90,13 @@
 }
 
 .modal-button-cancel {
-    background-color: var(--color-primary-dark-purple);
+    background-color: var(--color-error);
     color: var(--color-white);
     font-weight: bold;
 }
 
 .modal-button-new-date:hover {
-    background-color: var(--colour-primary-light-teal);
+    background-color: var(--color-primary-light-purple);
     color: var(--color-white);
 }
 
@@ -95,7 +106,7 @@
 }
 
 .modal-button-cancel:hover {
-    background-color: var(--color-primary-light-purple);
+    background-color: var(--color-error-hover);
     color: var(--color-white);
 }
 

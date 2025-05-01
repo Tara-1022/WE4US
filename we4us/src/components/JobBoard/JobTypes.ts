@@ -19,5 +19,4 @@ export type JobPostBody = {
     deadline?: string,
     job_type: JobType; 
     description: string;
-    statusManuallySet?: boolean;
 }

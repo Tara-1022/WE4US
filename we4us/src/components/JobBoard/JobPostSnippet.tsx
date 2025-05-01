@@ -23,7 +23,7 @@ export default function JobPostSnippet({ postView }: { postView: PostView }) {
                 </h3>
                 <Link 
                     to={`/job-board/${postView.post.id}`} 
-                    className="apply-now-button"
+                    className="more-info-button"
                 >
                     More Info
                 </Link>

@@ -1,21 +1,35 @@
+:root {
+    --color-dark-bg: #080808;
+    --color-card-bg: #3c3c3c;
+    --color-card-hover: #252525;
+    --color-white: #f0f0f0;
+    --color-light-gray: #b0b0b0;
+    --color-primary-orange: orange;
+    --color-primary-dark-orange: darkorange;
+    --color-blue: #00aaff;
+    --color-primary-purple: #3b2f7f;
+    --color-primary-blue: #3a7ffc;
+    --color-primary-teal: #01c4a4;
+    --color-primary-blue: #0767b3; 
+    --color-primary-light-purple: #a29bfe;
+    --color-primary-dark-purple: #503fb0; 
+    --color-fade-out-grey: #444;
+}
+
 .new-post-button {
-    background-color: #1e1e1e;
-    color: rgb(198, 195, 195);
+    background-color: var(--color-primary-dark-purple);
+    color: var(--color-white);
     padding: 9px 25px;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 8px;
-    border: 1px solid #6c5ce7;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s;
-    font-weight: 600;
-    font-family:'Inter', system-ui, -apple-system, sans-serif;
+    border-color: var(--color-primary-dark-purple);
     font-size: 14px;
     margin-left: 10px;
 }
 
 
 .new-post-button:hover {
-    background-color:#3c3c3c;
+    background-color:var(--color-primary-purple);
 }
 
