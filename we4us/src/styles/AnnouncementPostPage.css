@@ -1,0 +1,123 @@
+/* AnnouncementPostPage.css */
+.announcement-post {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 0 12px rgba(255, 165, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .announcement-post h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    color: #4FBCFF;
+    margin-bottom: 1rem;
+  }
+  
+  .announcement-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .announcement-author {
+    font-style: italic;
+    color: #90caf9;
+  }
+  
+  .announcement-actions {
+    margin-top: 1rem;
+  }
+  
+  .announcement-actions b {
+    cursor: pointer;
+    color: #03a9f4;
+    font-weight: 500;
+  }
+  
+  .announcement-actions b:hover {
+    text-decoration: underline;
+  }
+  
+
+  .announcement-post {
+    /* background: #fff; */
+    border-radius: 8px;
+    border: 1px solid #474747;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.announcement-header h3 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.bell-icon {
+    color: #4a90e2;
+}
+
+.announcement-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+    background-color: #292828;
+    color: #4a90e2;
+}
+
+.announcement-content {
+    margin: 16px 0;
+    line-height: 1.6;
+}
+
+.announcement-editor-container {
+    /* background: #fff; */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Add these styles if you're using a custom delete button in PostDeletor */
+.delete-button {
+    background: #dc3545;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.delete-button:hover {
+    background-color: #fff5f5;
+}
