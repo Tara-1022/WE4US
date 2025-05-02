@@ -16,7 +16,7 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
             backgroundColor: "#1a1a1b",
             borderRadius: "0px",
             marginBottom: "16px",
-            padding: "12px 16px 12px 24px",
+            padding: "12px 16px 12px 16px",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
             border: "1px solid #343536",
             borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "1px solid #343536",
@@ -72,13 +72,14 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
                             <>
                                 <CommentDeletor commentId={commentView.comment.id} />
                                 <b style={{
-                                    background: "none",
+                                    background: "#333",
                                     border: "none",
-                                    color: "#a0a8b0",
+                                    color: "#ffffff",
                                     cursor: "pointer",
-                                    fontWeight: "500" as const,
-                                    padding: 0,
-                                    fontSize: "13px",
+                                    fontWeight: "600" ,
+                                    padding: "6px 16px",
+                                    borderRadius: "6px",
+                                    fontSize: "15px",
                                     display: "flex",
                                     alignItems: "center"
                                 }}

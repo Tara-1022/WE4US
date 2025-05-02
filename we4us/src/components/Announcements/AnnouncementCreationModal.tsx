@@ -27,28 +27,97 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="title">Title: </label>
-            <input type="text" name="title" placeholder="Title" required
-                defaultValue={initialData?.title || undefined} />
-            <br />
-            <label htmlFor="body">Body: </label>
-            <textarea name="body" placeholder="Body" required
-                defaultValue={initialData?.body || undefined} />
-            <div>
-                <button type="submit" disabled={loading}>
-                    {loading ? "Submitting..." : task}
-                </button>
-                <button type="reset">
-                    Reset
-                </button>
-                <button onClick={onClose}>
-                    Cancel
-                </button>
-            </div>
-        </form>
-    )
-}
+        <div
+            style={{
+                backgroundColor: "rgb(32 32 32)", // dark card background
+                borderRadius: "12px",
+                padding: "2rem",
+                maxWidth: "600px",
+                margin: "auto",
+                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.3)",
+                border: "1px solid #374151",
+                color: "white",
+            }}
+        >
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <label htmlFor="title" style={{ fontWeight: "bold" }}>Title:</label>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    required
+                    defaultValue={initialData?.title || undefined}
+                    style={{
+                        padding: "0.5rem 1rem",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                        fontSize: "1rem"
+                    }}
+                />
+    
+                <label htmlFor="body" style={{ fontWeight: "bold" }}>Body:</label>
+                <textarea
+                    name="body"
+                    placeholder="Body"
+                    required
+                    defaultValue={initialData?.body || undefined}
+                    style={{
+                        padding: "0.5rem 1rem",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                        fontSize: "1rem",
+                        resize: "vertical"
+                    }}
+                />
+    
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        style={{
+                            backgroundColor: "#2563eb",
+                            color: "white",
+                            border: "none",
+                            padding: "0.5rem 1rem",
+                            borderRadius: "6px",
+                            fontWeight: "bold",
+                            cursor: "pointer"
+                        }}
+                    >
+                        {loading ? "Submitting..." : task}
+                    </button>
+    
+                    <button
+                        type="reset"
+                        style={{
+                            color: "white",
+                            border: "none",
+                            padding: "0.5rem 1rem",
+                            borderRadius: "6px",
+                            cursor: "pointer"
+                        }}
+                    >
+                        Reset
+                    </button>
+    
+                    <button
+                        onClick={onClose}
+                        type="button"
+                        style={{
+                            color: "white",
+                            border: "none",
+                            padding: "0.5rem 1rem",
+                            borderRadius: "6px",
+                            cursor: "pointer"
+                        }}
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+    }    
 
 interface PostCreationModalProps {
     isOpen: boolean;
@@ -62,11 +131,9 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     if (!lemmyInfo) return <h3>Could not fetch Announcements community!</h3>
 
     async function handleSubmit(data: AnnouncementData) {
-        // Adding a check to please TypeScript. Because of other checks,
-        // Lemmy info will always be defined here
         if (!lemmyInfo) {
             console.error("Error creating post: Lemmy details not available");
-            return
+            return;
         }
 
         createPost({
@@ -74,11 +141,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
             body: data.body.toString(),
             community_id: lemmyInfo.announcements_details.community.id
         })
-            .then(
-                (createdPost) => {
-                    onPostCreated(createdPost);
-                    onClose();
-                })
+            .then((createdPost) => {
+                onPostCreated(createdPost);
+                onClose();
+            })
             .catch((error) =>
                 console.error("Error creating post:", error))
     };
@@ -102,7 +168,6 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
                     borderRadius: "8px",
                     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                     color: "black"
-                    // TODO: Update color from theme, not hardcoded
                 },
             }}
         >

@@ -68,7 +68,8 @@ Colours to display for actions such as hover.
   --color-secondary-profile-green: #458b47;
   --color-darker-gray: #7f7a7a;
   --color-light-gray: #ccc;
-
+  --profile-green: #4CAF50;
+  --hover-gray: #363535;
 }
 
 /* Basic styles */
