@@ -12,39 +12,39 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: "12px",
-      margin: "20px 0",
+      gap: "10px",
+      margin: "16px 0",
     },
     button: {
-      padding: "8px 16px",
-      minWidth: "100px", 
-      borderRadius: "25px",
-      border: "1px solid #000",
-      backgroundColor: "#000", 
+      padding: "6px 12px",
+      minWidth: "70px",
+      borderRadius: "20px",
+      border: "1px solid #2f2f2f;",
+      backgroundColor: "#2f2f2f;",
       color: "#fff",
-      fontSize: "0.95rem",
-      fontWeight: "500",
+      fontSize: "0.8rem",
+      fontWeight: 500,
       cursor: "pointer",
       transition: "all 0.3s ease, transform 0.2s",
-      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
+      boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
       outline: "none",
     },
     buttonHover: {
-      backgroundColor: "#555", 
+      backgroundColor: "#444",
     },
     buttonDisabled: {
-      backgroundColor: "#333",
-      color: "#888",
+      backgroundColor: "#2a2a2a",
+      color: "#777",
       cursor: "not-allowed",
       boxShadow: "none",
-      opacity: "0.6",
+      opacity: 0.5,
     },
     pageIndicator: {
-      fontSize: "1rem",
-      color: "#fff",
+      fontSize: "0.85rem",
+      color: "#ccc",
     },
     pageNumber: {
-      fontWeight: "bold", 
+      fontWeight: "bold",
     },
   };
 
@@ -57,10 +57,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
         }}
         disabled={page === 1}
         onMouseOver={(e) => {
-          if (page !== 1) e.currentTarget.style.backgroundColor = "#555";
+          if (page !== 1) e.currentTarget.style.backgroundColor = "#444";
         }}
         onMouseOut={(e) => {
-          if (page !== 1) e.currentTarget.style.backgroundColor = "#000";
+          if (page !== 1) e.currentTarget.style.backgroundColor = "#1a1a1a";
         }}
         onClick={() => setPage(page - 1)}
       >
@@ -78,10 +78,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, 
         }}
         disabled={!hasMore}
         onMouseOver={(e) => {
-          if (hasMore) e.currentTarget.style.backgroundColor = "#555";
+          if (hasMore) e.currentTarget.style.backgroundColor = "#444";
         }}
         onMouseOut={(e) => {
-          if (hasMore) e.currentTarget.style.backgroundColor = "#000";
+          if (hasMore) e.currentTarget.style.backgroundColor = "#1a1a1a";
         }}
         onClick={() => setPage(page + 1)}
       >
