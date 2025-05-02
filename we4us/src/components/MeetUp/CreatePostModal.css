@@ -4,8 +4,7 @@
   gap: 0.6rem;
   max-width: 840px;
   width: 100%;
-  max-height: 80vh;
-  overflow-y: auto;
+  height: auto;
   padding: 2rem 2.5rem;
   background-color: #1e1e1e;
   color: #f0f0f0;
@@ -51,8 +50,8 @@
 
 .meet-up-additional-textarea {
   resize: none;
-  height: 200%; /* Increased height for additional details field */
-  font-size: 1rem; /* Adjust font size if needed */
+  height: 100px;
+  font-size: 1rem;
 }
 
 .meet-up-input:focus,
