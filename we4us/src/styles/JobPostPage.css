@@ -1,26 +1,4 @@
-:root {
-   
-    --color-dark-bg: #1e1e1e;
-    --color-card-bg: #1f1f1f;
-    --color-card-hover: #252525;
-    --color-white: #f0f0f0;
-    --color-gray: #888;
-    --color-light-gray: #b0b0b0;
-    --color-primary-orange: orange;
-    --color-primary-dark-orange: darkorange;
-    --color-blue: #00aaff;
-    --color-error: #b50404 ;
-    --color-success: #4caf50;
-    --color-primary-dark-purple: #4839a1;
-    --color-primary-orange: #f46801;
-    --color-primary-teal: #01c4a4;
-    --color-primary-purple: #6c5ce7; 
-    /*--color-primary-blue: #0984e3; */   
-    --color-primary-blue: #0767b3; 
-    --color-primary-light-purple: #a29bfe;
-    --color-fade-out-grey: #555; 
-    
-}
+
 .job-post-container {
     max-width: 900px;
     margin: 0 auto;
@@ -29,7 +7,7 @@
 }
 
 .job-post-card {
-    background-color: var(--color-card-bg);
+    background-color: #1f1f1f;
     border-radius: var(--radius-lg);
     padding: 2rem;
     box-shadow: var(--shadow-lg);

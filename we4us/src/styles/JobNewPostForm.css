@@ -1,20 +1,4 @@
-:root {
-    --color-dark-bg: #080808;
-    --color-card-bg: #3c3c3c;
-    --color-card-hover: #252525;
-    --color-white: #f0f0f0;
-    --color-light-gray: #b0b0b0;
-    --color-primary-orange: orange;
-    --color-primary-dark-orange: darkorange;
-    --color-blue: #00aaff;
-    --color-primary-purple: #3b2f7f;
-    --color-primary-blue: #3a7ffc;
-    --color-primary-teal: #01c4a4;
-    --color-primary-blue: #0767b3; 
-    --color-primary-light-purple: #a29bfe;
-    --color-primary-dark-purple: #503fb0; 
-    --color-fade-out-grey: #444;
-}
+
 
 .new-post-button {
     background-color: var(--color-primary-dark-purple);
