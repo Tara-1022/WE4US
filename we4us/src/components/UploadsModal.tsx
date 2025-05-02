@@ -92,6 +92,8 @@ export default function UploadsModal() {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={() => setIsOpen(false)}
+                className="uploads-modal-content"
+                overlayClassName="uploads-modal-overlay"
             >
                 <div className="header" >
                     <h3>Uploads</h3>
