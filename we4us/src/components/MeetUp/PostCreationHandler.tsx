@@ -6,6 +6,8 @@ import { PostView } from "lemmy-js-client";
 import { MeetUpPostType } from "./MeetUpPostTypes";
 import Modal from "react-modal";
 
+Modal.setAppElement("#root");
+
 export default function PostCreationHandler({
   handleCreatedPost,
 }: {
@@ -16,7 +18,6 @@ export default function PostCreationHandler({
   const { lemmyInfo } = useLemmyInfo();
 
   async function handleCreation(data: MeetUpPostType): Promise<void> {
-    console.log(data);
     setErrorMessage(null);
 
     if (!lemmyInfo) {
@@ -50,15 +51,37 @@ export default function PostCreationHandler({
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
         contentLabel="Create Meet-Up Post"
-        ariaHideApp={false}
-        className="meet-up-modal-content"
-        overlayClassName="meet-up-modal-overlay"
+        style={{
+          overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+          content: {
+            position: "relative",
+            backgroundColor: "transparent",
+            border: "none",
+            padding: 0,
+            inset: "unset",
+            maxWidth: "800px",
+            width: "100%",
+            maxHeight: "90vh",
+            overflowY: "auto",
+          },
+        }}
       >
         <PostForm
           handleSubmit={handleCreation}
           errorMessage={errorMessage}
           onClose={() => setIsOpen(false)}
-          task="Create Meet-Up Post"
+          task="Create"
         />
       </Modal>
     </>
