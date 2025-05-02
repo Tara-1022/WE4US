@@ -4,9 +4,18 @@ import { useCommentsContext } from "./CommentsContext";
 
 export default function CommentDeletor({ commentId }: { commentId: number }) {
     const { setComments, comments } = useCommentsContext();
-    let styles = {
+    
+    const styles = {
         actionText: {
-            cursor:'pointer'
+            cursor: 'pointer',
+            color: '#dc3545',
+            fontWeight: '500' as const,
+            fontSize: '13px',
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            display: 'inline-flex',
+            alignItems: 'center'
         }
     }
     
