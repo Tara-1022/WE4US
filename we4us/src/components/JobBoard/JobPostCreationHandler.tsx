@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PostForm from "./PostForm";
+import PostForm from "./JobPostForm";
 import { createPost } from "../../library/LemmyApi";
 import { PostView } from "lemmy-js-client";
 import { useLemmyInfo } from "../LemmyContextProvider";
@@ -42,7 +42,7 @@ export default function PostCreationHandler({
         <>
             <button 
                 onClick={() => setIsOpen(!isOpen)}
-                className="new-post-button"
+                className="new-job-post-button"
                 style={buttonStyle}
             >
                  New Post

@@ -151,6 +151,26 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-white)
 } 
 
+.job-snippet-detail-value {
+  color: var(--color-white);
+}
+.job-snippet-detail-item {
+  color: var(--color-white);
+}
+
+.job-post-item.job-closed .job-snippet-detail-value {
+  color: var(--color-fade-out-grey);
+}
+
+.job-post-item.job-closed .job-snippet-detail-item {
+  color: var(--color-fade-out-grey);
+}
+
+
+.job-post-item.job-closed.job-snippet-details{
+  color: var(--color-fade-out-grey);
+}
+
 .job-post-item.job-closed  {
 color: var(--color-fade-out-grey) ;   
 }

@@ -90,11 +90,11 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
         }
     }}
 >
-    <h4 className="modal-header">
+    <h4 className="job-status-change-modal-header">
         You're trying to mark the job open, but the deadline has passed. Would you like to set a future date?
     </h4>
 
-    <label htmlFor="deadline" className="modal-label">
+    <label htmlFor="deadline" className="job-status-change-modal-label">
         Deadline
     </label>
     <input
@@ -102,28 +102,28 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
         type="date"
         value={deadline}
         onChange={handleChange}
-        className="modal-input"
+        className="job-status-change-modal-input"
     />
     <br />
 
-    <div className="modal-button-group">
+    <div className="job-status-change-modal-button-group">
         <button
             onClick={handleNewDate}
-            className="modal-button modal-button-new-date"
+            className="job-status-change-modal-button job-status-change-modal-button-new-date"
         >
             Set New Date
         </button>
 
         <button
             onClick={handleJustUpdate}
-            className="modal-button modal-button-update-status"
+            className="job-status-change-modal-button job-status-change-modal-button-update-status"
         >
             Just Update Status
         </button>
 
         <button
             onClick={() => setIsOpen(false)}
-            className="modal-button modal-button-cancel"
+            className="job-status-change-modal-button job-status-change-modal-button-cancel"
         >
             Cancel
         </button>

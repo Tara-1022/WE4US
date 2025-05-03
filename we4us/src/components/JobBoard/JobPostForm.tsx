@@ -43,7 +43,7 @@ export default function PostForm({ onClose, handleSubmit, task, initialData }:
     }
 
     return (
-        <form onSubmit={handleClick} className="post-form">
+        <form onSubmit={handleClick} className="job-post-form">
 
             <label htmlFor="name">Title</label>
             <input name="name" 

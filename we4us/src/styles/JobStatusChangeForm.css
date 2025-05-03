@@ -1,12 +1,12 @@
 
-.modal-content {
+.job-status-change-modal-content {
     width: 50%;
     background-color: var(--color-dark-bg);
     padding: 20px;
     border-radius: 10px;
 }
 
-.modal-header {
+.job-status-change-modal-header {
     color: var(--color-white);
     font-size: 17px;
     margin-bottom: 10px;
@@ -16,7 +16,7 @@
     
 }
 
-.modal-label {
+.job-status-change-modal-label {
     display: block;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -27,7 +27,7 @@
 
 }
 
-.modal-input {
+.job-status-change-modal-input {
     padding: 8px;
     font-size: 14px;
     border: none;
@@ -39,14 +39,14 @@
     
 }
 
-.modal-button-group {
+.job-status-change-modal-button-group {
     display: flex;
     gap: 10px;
     margin-left: 10px;
     justify-content: center;
 }
 
-.modal-button {
+.job-status-change-modal-button {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
@@ -55,35 +55,35 @@
 }
 
 
-.modal-button-new-date {
+.job-status-change-modal-button-new-date {
     background-color: var(--color-primary-dark-purple);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.modal-button-update-status {
+.job-status-change-modal-button-update-status {
     background-color: var(--color-primary-blue);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.modal-button-cancel {
+.job-status-change-modal-button-cancel {
     background-color: var(--color-error);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.modal-button-new-date:hover {
+.job-status-change-modal-button-new-date:hover {
     background-color: var(--color-primary-light-purple);
     color: var(--color-white);
 }
 
-.modal-button-update-status:hover {
+.job-status-change-modal-button-update-status:hover {
     background-color:  var(--color-blue);
     color: var(--color-white);
 }
 
-.modal-button-cancel:hover {
+.job-status-change-modal-button-cancel:hover {
     background-color: var(--color-error-hover);
     color: var(--color-white);
 }

@@ -1,5 +1,5 @@
 
-.post-form {
+.job-post-form {
     color: var(--color-primary-dark-purple);
     font-family: sans-serif;
     max-width: 500px;
@@ -8,9 +8,9 @@
     background-color: var(--color-dark-bg);
 }
 
-.post-form input,
-.post-form select,
-.post-form textarea {
+.job-post-form input,
+.job-post-form select,
+.job-post-form textarea {
     font-weight: bold;
     background-color: var(--color-card-hover);
     border: "none";
@@ -21,7 +21,7 @@
     
 }
 
-.post-form label {
+.job-post-form label {
     font-weight: bold;
     display: block;
     margin-top: 10px;
@@ -29,7 +29,7 @@
     font-size: large;
 }
 
-.post-form button {
+.job-post-form button {
     margin-left: 15px;
     padding: 8px 13px;
     border: none;
@@ -39,35 +39,35 @@
 
 }
 
-.post-form button[type="submit"] {
+.job-post-form button[type="submit"] {
     background-color: var(--color-primary-blue);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.post-form button[type="reset"] {
+.job-post-form button[type="reset"] {
     background-color: var(--color-primary-dark-purple);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.post-form button[type="button"] {
+.job-post-form button[type="button"] {
     background-color: var(--color-error);
     color: var(--color-white);
     font-weight: bold;
 }
-.post-form button[type="submit"]:hover {
+.job-post-form button[type="submit"]:hover {
     background-color: var(--color-blue);
     color: var(--color-white);
     font-weight: bold;
 }
 
-.post-form button[type="reset"]:hover {
+.job-post-form button[type="reset"]:hover {
     background-color: var(--color-primary-purple);
     color: var(--color-white);
 }
 
-.post-form button[type="button"]:hover {
+.job-post-form button[type="button"]:hover {
     background-color: var(--color-error-hover);
     color: var(--color-white);
 }

@@ -49,39 +49,39 @@ export default function JobPostPage() {
                     <header className="job-post-header">
                         <h1 className="job-title">{postView.post.name}</h1>
                         <div className="job-meta">
-                            <span className="job-company">{jobDetails.company} :</span>
+                            <span className="job-company">{jobDetails.company} </span>
                             <span className="job-type">{jobDetails.job_type}</span>
                         </div>
                     </header>
 
                     <div className="job-details-grid">
-                        <div className="detail-item">
-                            <span className="detail-label">Posted by</span>
-                               <Link className="detail-value" to={"/profile/" + postView.creator.name}>
+                        <div className="job-detail-item">
+                            <span className="job-detail-label">Posted by</span>
+                               <Link className="job-detail-value" to={"/profile/" + postView.creator.name}>
                                 {postView.creator.display_name || postView.creator.name}
                                </Link>
                         </div>
 
-                        <div className="detail-item">
-                            <span className="detail-label">Location</span>
-                            <span className="detail-value">{jobDetails.location || "Remote"}</span>
+                        <div className="job-detail-item">
+                            <span className="job-detail-label">Location</span>
+                            <span className="job-detail-value">{jobDetails.location || "Remote"}</span>
                         </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Role</span>
-                            <span className="detail-value">{jobDetails.role}</span>
+                        <div className="job-detail-item">
+                            <span className="job-detail-label">Role</span>
+                            <span className="job-detail-value">{jobDetails.role}</span>
                         </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Status</span>
-                            <span className={`detail-value ${isJobClosed ? 'status-closed' : 'status-open'}`}>
+                        <div className="job-detail-item">
+                            <span className="job-detail-label">Status</span>
+                            <span className={`job-detail-value ${isJobClosed ? 'status-closed' : 'status-open'}`}>
                                 {jobDetails.open ? "Open" : "Closed"}
                             </span>
                         </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Deadline</span>
-                            <span className="detail-value deadline">
+                        <div className="job-detail-item">
+                            <span className="job-detail-label">Deadline</span>
+                            <span className="job-detail-value job-deadline">
                                 {jobDetails.deadline ? (
                                     !isDateInFuture(jobDetails.deadline) ? (
-                                        <span className="deadline-passed">Deadline Passed</span>
+                                        <span className="job-deadline-passed">Deadline Passed</span>
                                     ) : (
                                         jobDetails.deadline
                                     )
@@ -91,11 +91,11 @@ export default function JobPostPage() {
                             </span>
                         </div>
                         {postView.post.url && (
-                            <div className="detail-item">
-                                <span className="detail-label">Link</span>
+                            <div className="job-detail-item">
+                                <span className="job-detail-label">Link</span>
                                 <a
                                     href={postView.post.url}
-                                    className="detail-value"
+                                    className="job-detail-value"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -107,7 +107,7 @@ export default function JobPostPage() {
 
                     <div className="job-description">
                         <h3>Job Description</h3>
-                        <div className="markdown-content">
+                        <div className="job-markdown-content">
                             <ReactMarkDown>{jobDetails.description || "No description provided"}</ReactMarkDown>
                         </div>
                     </div>

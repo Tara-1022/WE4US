@@ -53,8 +53,8 @@ Gradients:
   /* Additional Colors */
   --color-primary-dark-orange: rgb(217, 121, 4);
   --color-blue: #00aaff;
-  --color-error: #ae0a0a;
-  --color-error-hover: #ff4d4d;
+  --color-error: #f44336;
+  --color-error-hover: #d32f2f;
   --color-success: #4caf50;
   --color-success-hover: #2f7131;
   --color-primary-dark-purple: #4839a1;

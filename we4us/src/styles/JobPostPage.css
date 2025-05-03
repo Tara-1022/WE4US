@@ -42,12 +42,12 @@
 }
 
 .job-type {
-    background: var(--color-dark-bg);
+    background: var(--color-primary-dark-purple);
     color: var(--color-primary-accent);
     padding: 0rem 1.2rem;
     border-radius: 15px;
-    font-size: 1.2rem;
-    margin-left: -13pt;
+    font-size: 1.1rem;
+    margin-left: -5pt;
 }
 
 .job-details-grid {
@@ -100,13 +100,12 @@
     
   }
 
-
-.detail-item {
+.job-detail-item {
     display: flex;
     flex-direction: column;
 }
 
-.detail-label {
+.job-detail-label {
     font-size: 0.95rem;
     color:#5242b2;
     margin-bottom: 0.25rem;
@@ -114,19 +113,19 @@
     letter-spacing: 0.5px;
 }
 
-.detail-value {
+.job-detail-value {
     font-size: 1rem;
     font-weight: 500;
     color: var(--color-light-gray);
    
 }
 
-.deadline {
+.job-deadline {
     color: var(--color-light-gray);
     font-weight: 600;
 }
 
-.deadline-passed {
+.job-deadline-passed {
     color: var(--color-error);
     font-style: italic;
     font-weight: 500;
@@ -145,18 +144,18 @@
     padding-bottom: 0.5rem;
 }
 
-.markdown-content {
+.job-markdown-content {
     line-height: 1.6;
     color: var(--color-light-gray);
     
 }
 
-.markdown-content a {
+.job-markdown-content a {
     color: var(--color-light-gray);
     text-decoration: none;
 }
 
-.markdown-content a:hover {
+.job-markdown-content a:hover {
     text-decoration: underline;
 }
 
@@ -187,11 +186,11 @@
 .job-post-card.job-closed .job-title,
 .job-post-card.job-closed .job-description,
 .job-post-card.job-closed .job-meta,
-.job-post-card.job-closed .detail-value,
-.job-post-card.job-closed .detail-label,
+.job-post-card.job-closed .job-detail-value,
+.job-post-card.job-closed .job-detail-label,
 .job-post-card.job-closed .job-company,
 .job-post-card.job-closed .job-description h3,
-.job-post-card.job-closed .markdown-content
+.job-post-card.job-closed .job-markdown-content
  {
     color: var(--color-fade-out-grey);
 }
@@ -199,6 +198,7 @@
 .job-post-card.job-closed .job-type{
     color: var(--color-fade-out-grey);
     border-color:var(--color-fade-out-grey);
+    background-color: var(--color-card-bg);
 }
 
 @media (max-width: 768px) {

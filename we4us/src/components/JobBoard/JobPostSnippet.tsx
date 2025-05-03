@@ -29,32 +29,32 @@ export default function JobPostSnippet({ postView }: { postView: PostView }) {
                 </Link>
             </div>
             
-            <div className="job-details">
+            <div className="job-snippet-details">
                 <div className="job-details-row">
-                    <div className="job-detail-item">
-                        <strong className="job-detail-label">Posted by: </strong>
-                        <span className="job-detail-value">
+                    <div className="job-snippet-detail-item">
+                        <strong className="job-snippet-detail-label">Posted by: </strong>
+                        <span className="job-snippet-detail-value">
                             {postView.creator.display_name || postView.creator.name}
                         </span>
                     </div>
                     
-                    <div className="job-detail-item">
-                        <strong className="job-detail-label">Company: </strong>
-                        <span className="job-detail-value">
+                    <div className="job-snippet-detail-item">
+                        <strong className="job-snippet-detail-label">Company: </strong>
+                        <span className="job-snippet-detail-value">
                             {postBody.company || "Not specified"}
                         </span>
                     </div>
                     
-                    <div className="job-detail-item">
-                        <strong className="job-detail-label">Type: </strong>
-                        <span className="job-detail-value">
+                    <div className="job-snippet-detail-item">
+                        <strong className="job-snippet-detail-label">Type: </strong>
+                        <span className="job-snippet-detail-value">
                             {postBody.job_type || "Not specified"}
                         </span>
                     </div>
                     
-                    <div className="job-detail-item">
-                        <strong className="job-detail-label">Role: </strong>
-                        <span className="job-detail-value">
+                    <div className="job-snippet-detail-item">
+                        <strong className="job-snippet-detail-label">Role: </strong>
+                        <span className="job-snippet-detail-value">
                             {postBody.role || "Not mentioned"}
                         </span>
                     </div>

@@ -1,6 +1,4 @@
-
-
-.new-post-button {
+.new-job-post-button {
     background-color: var(--color-primary-dark-purple);
     color: var(--color-white);
     padding: 9px 25px;
@@ -13,7 +11,7 @@
 }
 
 
-.new-post-button:hover {
+.new-job-post-button:hover {
     background-color:var(--color-primary-purple);
 }
 

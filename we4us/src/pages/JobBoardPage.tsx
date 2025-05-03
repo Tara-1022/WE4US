@@ -4,7 +4,7 @@ import JobPostList from "../components/JobBoard/JobPostList";
 import { Loader, Search } from 'lucide-react';
 import { getJobPostList } from "../library/LemmyApi";
 import { Link } from "react-router-dom";
-import PostCreationHandler from "../components/JobBoard/PostCreationHandler";
+import PostCreationHandler from "../components/JobBoard/JobPostCreationHandler";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import "../styles/JobBoardPage.css";
