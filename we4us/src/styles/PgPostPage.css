@@ -2,7 +2,7 @@
 :root {
   --primary-color: #01c4a4;
   --primary-hover: #019f86;
-  --secondary-color: #B0B0B0;
+  --secondary-color: #ffffff;
   --secondary-hover: #2a1e6b;
   --accent-color: #3a7ffc;
   --accent-hover: #2a6fec;
@@ -61,19 +61,20 @@
 }
 
 .label {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.2rem; 
   color: var(--secondary-color);
 }
 
 /* ===== Links & Buttons ===== */
-a {
+.pg-post-page a {
   color: var(--accent-color);
   text-decoration: none;
   transition: var(--transition);
   font-weight: 500;
 }
 
-a:hover {
+.pg-post-page a:hover {
   color: var(--accent-hover);
   text-decoration: underline;
 }
@@ -126,7 +127,7 @@ a:hover {
 }
 
 .pg-edit-box {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius-sm);
   color: var(--text-light);
@@ -139,7 +140,7 @@ a:hover {
 }
 
 .pg-edit-box:hover {
-  background-color: var(--warning-color);
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
 }
 
@@ -167,7 +168,7 @@ a:hover {
 
 /* ===== Content Sections ===== */
 .pg-rating {
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
   padding: 1.5rem;
   background-color: var(--bg-black);
   border-radius: var(--border-radius-md);
@@ -225,13 +226,19 @@ a:hover {
   gap: 2rem;
 }
 
-.pg-comments-section {
-  background-color: var(--bg-black);
-  border-radius: 10px;
-  padding: 1.5rem;
+.pg-section-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
   margin-top: 2rem;
-  border-left: 4px solid var(--primary-color);
-  box-shadow: var(--box-shadow-sm);
+  color: var(--secondary-color);
+}
+
+.pg-comments-section {
+  background-color: transparent;
+  border-radius: none;
+  padding: 0;
+  margin-top: 2rem;
+  box-shadow: none;
 }
 
 .pg-comments-section p,

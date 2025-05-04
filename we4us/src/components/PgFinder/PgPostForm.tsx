@@ -1,10 +1,5 @@
 import { PgPostData } from "./Types";
-
-let styles = {
-    form: {
-        color: "black"
-    }
-}
+import "../styles/PgFinderPage.css";
 
 export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
     { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData }) {
@@ -27,7 +22,7 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
     }
 
     return (
-        <form onSubmit={handleClick} style={styles.form}>
+        <form onSubmit={handleClick} className="pg-modal-form">
             <label htmlFor="name"> Name of the PG: </label>
             <input name="name" required defaultValue={initialData?.name || undefined} />
             <br />
@@ -61,7 +56,7 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
             <br />
             <button type="submit">{task}</button>
             <button type="reset">Reset</button>
-            <button onClick={onClose}>Cancel</button>
+            <button className="cancel-button" onClick={onClose}>    Cancel</button>
         </form>
     )
 }

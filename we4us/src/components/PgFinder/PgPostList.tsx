@@ -1,6 +1,6 @@
 import PgPostSnippet from './PgPostSnippet';
 import { PostView } from 'lemmy-js-client';
-import "./PgFinderPage.css";
+import "../styles/PgFinderPage.css";
 
 export default function PgPostList({ postViews }: { postViews: PostView[] }) {
     // Simply return a styled list of PostSnippets

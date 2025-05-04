@@ -1,6 +1,6 @@
 import { PgPostData } from "./Types";
 import Modal from "react-modal";
-import "./PgFinderPage.css";
+import "../styles/PgFinderPage.css";
 
 export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, handleCreation: (data: PgPostData) => void }) {
@@ -27,33 +27,24 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
             isOpen={isOpen}
             onRequestClose={() => setIsOpen(false)}
             className="pg-modal-form-wrapper"
-            overlayClassName="pg-modal-overlay"
             contentLabel="Create PG Entry"
             >
             <form onSubmit={handleClick} className="pg-modal-form">
                 <label htmlFor="name"> Name of the PG: </label>
                 <input name="name" required />
-                <br />
                 <label htmlFor="location">Location: </label>
                 <input name="location" required />
-                <br />
                 <label htmlFor="mapUrl"> Map URL : </label>
                 <input name="mapUrl" type="url" required />
-                <br />
                 <label>Ratings (1-5):</label>
-                <br />
                 <label htmlFor="costRating">Cost : </label>
                 <input name="costRating" type="number" min="1" max="5" required />
-                <br />
                 <label htmlFor="safetyRating">Safety : </label>
                 <input name="safetyRating" type="number" min="1" max="5" required />
-                <br />
                 <label htmlFor="foodRating">Food : </label>
                 <input name="foodRating" type="number" min="1" max="5" required />
-                <br />
                 <label htmlFor="cleanlinessRating">Cleanliness : </label>
                 <input name="cleanlinessRating" type="number" min="1" max="5" required />
-                <br />
                 <label htmlFor="acAvailable">
                     <input
                         type="checkbox"
@@ -61,7 +52,6 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                         id="acAvailable"
                     />{" "}AC Available
                 </label>
-                <br />
                 <label htmlFor="foodType">Food Type Available: </label>
                 <select name="foodType" required>
                     <option value="">Select Food Type</option>
@@ -69,10 +59,8 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                     <option value="Non-vegetarian">Non-Vegetarian</option>
                     <option value="both">Both</option>
                 </select>
-                <br />
                 <label htmlFor="description"> Additional Information: </label>
                 <textarea name="description" rows={4} cols={50}></textarea>
-                <br />
                 <div className="pg-form-button-group">
                 <button type="submit">Add New PG</button>
                 <button type="reset" className="cancel-button" onClick={() => setIsOpen(false)}>Cancel</button>

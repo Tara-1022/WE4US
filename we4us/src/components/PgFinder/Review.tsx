@@ -33,12 +33,6 @@ export function ReviewSnippet({ review }: { review: CommentView }) {
 }
 
 export default function Review({ review }: { review: CommentView }) {
-    let styles = {
-        container: {
-            backgroundColor: "rgba(255,255,255,0.3)",
-            padding: "1%"
-        }
-    }
     const { profileInfo } = useProfileContext();
 
     return (

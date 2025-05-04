@@ -5,7 +5,7 @@ import { Loader, Search } from 'lucide-react';
 import { getPgPostList } from "../library/LemmyApi";
 import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
-import "../components/PgFinder/PgFinderPage.css";
+import "../styles/PgFinderPage.css";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import "../styles/PgPostPage.css"
@@ -24,9 +24,15 @@ export default function PgFinderPage() {
     else {
         return (
             <>
-                <h3 style={{textAlign: "center"}}>PG FINDER</h3>
-                <Link to="/pg-finder/search"><Search /></Link>
-                <PostCreationHandler handleCreatedPost={(newPost) => { setPostViews([newPost, ...postViews]) }} />
+                <h2 style={{ textAlign: "center" }}>PG Finder</h2>
+                <div className="pg-header-actions">
+                <Link to="/pg-finder/search">
+                    <Search className="search-icon" />
+                </Link>
+                <PostCreationHandler handleCreatedPost={(newPost) => {
+                    setPostViews([newPost, ...postViews])
+                }} />
+                </div>
                 <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
                 {postViews.length > 0 ?
                     <PgPostList postViews={postViews} />

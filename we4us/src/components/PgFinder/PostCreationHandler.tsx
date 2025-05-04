@@ -3,7 +3,7 @@ import CreatePostModal from "./PgPostCreationModal";
 import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
-import "./PgFinderPage.css";
+import "../styles/PgFinderPage.css";
 import { PgPostData  } from "./Types";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {

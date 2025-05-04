@@ -79,16 +79,16 @@ export default function PgPostPage() {
                     </div>
 
                     <RatingsView ratings={avgRatings} />
-
+                    
+                    <h3 className="pg-section-heading" >Additional Information: </h3>
                     <div className="pg-description">
-                        <h5>Additional Information: </h5>
                         <ReactMarkdown>{pgDetails.description || 'No description provided'}</ReactMarkdown>
                     </div>
 
                     <div className="pg-profile">
-                        Added by @
-                        <Link to={`/profile/${postView.creator.name}`}>
-                            {postView.creator.display_name || postView.creator.name}
+                        Added by : 
+                        <Link to={`/profile/${postView.creator.display_name}`}>
+                            {postView.creator.display_name}
                         </Link>
                     </div>
 
@@ -101,7 +101,7 @@ export default function PgPostPage() {
                         </div>
                     )}
 
-                    {/* Reviews */}
+                   <div className="pg-comments-section">
                     {profileInfo && !usersWithReviews.includes(profileInfo.lemmyId) && (
                         <ReviewCreator postId={postView.post.id} />
                     )}
@@ -110,6 +110,7 @@ export default function PgPostPage() {
                         {reviewList}
                     </ul>
                 </div>
+            </div>
             )}
         </CommentsContext.Provider>
     );
