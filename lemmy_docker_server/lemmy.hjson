@@ -15,9 +15,9 @@
   }
   email: {
   smtp_server: "smtp.gmail.com:587"
-  smtp_login: "maanasarare@gmail.com"
-  smtp_password: "wjwxeculzopyojio"
-  smtp_from_address: "maanasarare@gmail.com"
+  smtp_login: "YOUR-MAIL@gmail.com"
+  smtp_password: "YOUR-APP-PWD"
+  smtp_from_address: "YOUR-MAIL@gmail.com"
   tls_type: "starttls"
 }
 }
