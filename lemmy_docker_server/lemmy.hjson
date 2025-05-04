@@ -8,14 +8,16 @@
     # Alternative way:
     #uri: "postgresql://lemmy:lemmy_pwd@postgres/lemmy"
   }
-  hostname: "localhost:8765"
+  hostname: "localhost:10633"
   pictrs: {
     url: "http://pictrs:8080/"
     api_key: "lemmy_pwd"
   }
   email: {
-    smtp_server: "postfix:25"
-    smtp_from_address: "noreply@localhost:8765"
-    tls_type: "none"
-  }
+  smtp_server: "smtp.gmail.com:587"
+  smtp_login: "maanasarare@gmail.com"
+  smtp_password: "wjwxeculzopyojio"
+  smtp_from_address: "maanasarare@gmail.com"
+  tls_type: "starttls"
+}
 }

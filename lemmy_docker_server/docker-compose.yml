@@ -15,10 +15,12 @@ services:
     ports:
       # Listen for outside connections on port 10633. You can freely change the left-side
       # number to a different port, eg using port 80 if you don't need a reverse proxy.
-      - "10633:8536"
+      - "10633:10633"
     volumes:
       - ./nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
       - ./proxy_params:/etc/nginx/proxy_params:ro,Z
+      - ./nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt:ro
+      - ./nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key:ro
     restart: always
     logging: *default-logging
     depends_on:
