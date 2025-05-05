@@ -25,17 +25,6 @@ export default function MeetUpPostPage() {
       setPostView(response ? response.post_view : null);
     });
 
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        setIsEditing(false);  
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, [meetUpId]);
 
   if (!postView)
