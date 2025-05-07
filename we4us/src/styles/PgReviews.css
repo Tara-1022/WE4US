@@ -1,0 +1,78 @@
+:root {
+    --primary-color: #01c4a4;
+    --primary-hover: #019a86;
+    --error-color: #e74c3c;
+    --error-hover: #c0392b;
+    --bg-dark: #1e1e1e;
+    --text-light: #f0f0f0;
+    --border-radius: 8px;
+    --box-shadow: 0 0 10px rgba(1, 196, 164, 0.3);
+    --transition: all 0.3s ease;
+}
+
+/* Main review container */
+.pg_review-container {
+    margin-left: 1%;
+    padding: 1%;
+    margin-bottom: 16px;
+}
+
+
+/* Review form styling */
+.pg_review-form {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+}
+
+/* Labels */
+.pg_review-form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-light);
+}
+
+/* Inputs and textarea */
+.pg_review-form input[type="number"],
+.pg_review-form textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+/* Buttons */
+.pg_review-form button {
+    margin-right: 10px;
+    padding: 8px 14px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* Edit  */
+.pg_review-form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.pg_review-form button[type="submit"]:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Reset */
+.pg_review-form button[type="reset"] {
+    background-color: #333333; 
+    color: var(--primary-color); 
+    border: none;
+}
+
+.pg_review-form button[type="reset"]:hover {
+    background-color: #444444; 
+    color: var(--primary-hover); 
+}

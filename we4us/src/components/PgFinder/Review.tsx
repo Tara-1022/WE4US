@@ -7,20 +7,12 @@ import { ReviewEditor } from './ReviewLibrary';
 import RatingsView from './RatingsView';
 import { getReviewContent } from './Types';
 import ReactMarkdown from "react-markdown";
-
-// A more restrictive comment
-
-let styles = {
-    container: {
-        marginLeft: "1%",
-        padding: "1%"
-    }
-}
+import "../../styles/PgReviews.css";
 
 export function ReviewSnippet({ review }: { review: CommentView }) {
 
     return (
-        <div style={styles.container}>
+        <div className="pg_review-container">
             {review.comment.deleted ?
                 "Review deleted" :
                 <>
@@ -36,7 +28,7 @@ export default function Review({ review }: { review: CommentView }) {
     const { profileInfo } = useProfileContext();
 
     return (
-        <div style={styles.container}>
+        <div className="pg_review-container">
             <ReviewSnippet review={review} />
             <LikeHandler forPost={false} isInitiallyLiked={review.my_vote == 1} initialLikes={review.counts.score} id={review.comment.id} />
 
