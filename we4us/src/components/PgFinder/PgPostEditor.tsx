@@ -2,7 +2,7 @@ import { PostView } from "lemmy-js-client";
 import { editPost } from "../../library/LemmyApi";
 import { PgPostBody, PgPostData } from "./Types";
 import PgPostForm from "./PgPostForm";
-import "../styles/PgFinderPage.css";
+import "../../styles/PgFinderPage.css";
 
 export default function PgPostEditor({ postView, onPostUpdated, onClose }:
     { postView: PostView, onPostUpdated: (updatedPostView: PostView) => void, onClose: () => void }) {

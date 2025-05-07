@@ -1,5 +1,5 @@
 import { PgPostData } from "./Types";
-import "../styles/PgFinderPage.css";
+import "../../styles/PgFinderPage.css";
 
 export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
     { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData }) {

@@ -1,6 +1,6 @@
 import { PgPostData } from "./Types";
 import Modal from "react-modal";
-import "../styles/PgFinderPage.css";
+import "../../styles/PgFinderPage.css";
 
 export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, handleCreation: (data: PgPostData) => void }) {
