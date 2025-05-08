@@ -34,7 +34,7 @@ export default function Review({ review }: { review: CommentView }) {
 
             {(!review.comment.deleted && review.creator.id == profileInfo?.lemmyId) &&
                 <>
-                    <ReviewEditor initialReview={review} />
+                    <ReviewEditor initialReview={review} onClose={() => {}}/>
                     <CommentDeletor commentId={review.comment.id} />
                 </>}
 

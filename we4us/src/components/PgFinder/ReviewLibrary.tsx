@@ -6,8 +6,11 @@ import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
 import "../../styles/PgReviews.css";
 
-export function ReviewFormHandler({ task, handleTask, defaultContent }:
-    { task: string, handleTask: (newContent: ReviewContent) => void, defaultContent?: ReviewContent }) {
+export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
+    {
+        task: string, handleTask: (newContent: ReviewContent) => void,
+        onClose: () => void, defaultContent?: ReviewContent
+    }) {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -65,23 +68,33 @@ export function ReviewCreator({ postId }: { postId: number }) {
             })
     }
 
-    return <ReviewFormHandler task="Add Review" handleTask={handleCreate} />
+    return <Collapsible
+        CollapsedIcon={() => <b>Add Review</b>}
+        OpenIcon={() => <b>Cancel</b>}
+        initiallyExpanded={false}>
+        <ReviewFormHandler task="Add Review" handleTask={handleCreate} onClose={() => { }} />
+    </Collapsible>
 }
 
-export function ReviewEditor({ initialReview }: { initialReview: CommentView }) {
+export function ReviewEditor({ initialReview, onClose }:
+    { initialReview: CommentView, onClose: () => void }) {
     const { setComments } = useCommentsContext();
     const initialContent = getReviewContent(initialReview);
 
     async function handleEdit(newContent: ReviewContent) {
+        console.log("Trying to edit", newContent)
         editComment(
             initialReview.comment.id,
             JSON.stringify(newContent)
         )
             .then(
-                (updatedReview) => setComments(prevReviews => prevReviews.map(
-                    (element: CommentView) =>
-                        element.comment.id === updatedReview.comment.id ? updatedReview : element
-                ))
+                (updatedReview) => {
+                    setComments(prevReviews => prevReviews.map(
+                        (element: CommentView) =>
+                            element.comment.id === updatedReview.comment.id ? updatedReview : element
+                    ));
+                    onClose();
+                }
             )
             .catch(
                 (error: Error) => {
@@ -91,5 +104,6 @@ export function ReviewEditor({ initialReview }: { initialReview: CommentView }) 
             )
     }
 
-    return <ReviewFormHandler task="Edit" handleTask={handleEdit} defaultContent={initialContent} />
+    return <ReviewFormHandler task="Edit" handleTask={handleEdit}
+        onClose={onClose} defaultContent={initialContent} />
 }

@@ -1,98 +1,98 @@
 /* Sidebar styles */
 .sidebar {
-    background-color: var(--color-dark-bg);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 16rem;
-    transition: transform 0.3s ease;
-    z-index: 40;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  .sidebar.closed {
-    transform: translateX(-100%);
-  }
-  
-  /* Toggle button */
-  .sidebar-toggle {
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    z-index: 50;
-    background-color: var(--color-primary-blue);
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .sidebar-toggle:hover {
-    background-color: var(--color-primary-teal);
-  }
-  
-  .sidebar-toggle.sidebar-open {
-    left: 17rem;
-  }
-  
-  /* User profile section */
-  .user-profile {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .user-avatar {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50%;
-  }
-  
-  
-  .user-info {
-    text-align: center;
-  }
-  
-  .user-display-name {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--color-white);
-  }
-  
-  .user-name {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-white);
-  }
-  
-  /* Navigation items */
-  .nav-items {
-    flex: 1;
-    overflow-y: auto;
-  }
-  
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem;
-    color: var(--color-white);
-    transition: all 0.2s;
-    border-left: 3px solid transparent;
-  }
-  
-  .nav-item:hover {
-    background-color: var(--color-card-bg);
-  }
-  
-  .nav-item.active {
-    background-color: var(--color-card-bg);
-    border-left-color: var(--color-primary-blue);
-  }
+  background-color: var(--color-dark-bg);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 16rem;
+  transition: transform 0.3s ease;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+/* Toggle button */
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  background-color: var(--color-primary-blue);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--color-primary-teal);
+}
+
+.sidebar-toggle.sidebar-open {
+  left: 17rem;
+}
+
+/* User profile section */
+.user-profile {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info {
+  text-align: center;
+}
+
+.user-display-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.user-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+/* Navigation items */
+.nav-items {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  color: var(--color-white);
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background-color: var(--color-card-bg);
+}
+
+.nav-item.active {
+  background-color: var(--color-card-bg);
+  border-left-color: var(--color-primary-blue);
+}
