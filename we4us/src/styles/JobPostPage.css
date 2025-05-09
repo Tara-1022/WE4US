@@ -116,12 +116,12 @@
 .job-detail-value {
     font-size: 1rem;
     font-weight: 500;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
    
 }
 
 .job-deadline {
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     font-weight: 600;
 }
 
@@ -151,7 +151,7 @@
 }
 
 .job-markdown-content a {
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     text-decoration: none;
 }
 
