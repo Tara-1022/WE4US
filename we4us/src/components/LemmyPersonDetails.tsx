@@ -2,8 +2,7 @@ import '../styles/ProfilePage.css';
 import { useEffect, useState } from "react";
 import { getPersonDetails } from "../library/LemmyApi";
 import { CommentView, PostView } from "lemmy-js-client";
-import PostList from "./PostList";
-import CommentList from "./CommentList";
+import { commentToGenericView, GenericViewList, postToGenericView } from '../library/GenericView';
 import { Loader, ToggleLeft, ToggleRight } from "lucide-react";
 
 type OverviewDetails = {
@@ -57,6 +56,21 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
         </div>
     }
 
+    function PostCommentToggle() {
+        return <div className="posts-comments-toggle">
+            <span style={{ margin: "0 10px" }}>Top Posts</span>
+            <span onClick={() => setPostsToggle(!isPostsToggle)}
+                className='toggler'>
+                {isPostsToggle ?
+                    <ToggleLeft />
+                    :
+                    <ToggleRight />
+                }
+            </span>
+            <span style={{ margin: "0 10px" }}>Comments</span>
+        </div>
+    }
+
     return (
         <>
             <div className="profile-details" style={{ textAlign: "left" }}>
@@ -76,22 +90,21 @@ export default function LemmyPersonDetails({ username }: { username: string }) {
                 </div>
             </div>
 
-            <div style={{ color: "black", textAlign: "left" }}>
-                <span style={{ margin: "0 10px" }}>Posts</span>
-                <span onClick={() => setPostsToggle(!isPostsToggle)} >
-                    {isPostsToggle ?
-                        <ToggleLeft color='black' />
-                        :
-                        <ToggleRight color='black' />
-                    }
-                </span>
-                <span style={{ margin: "0 10px" }}>Comments</span>
+            <div className="posts-comments-container" >
+                <PostCommentToggle />
                 {
                     isPostsToggle ?
-                        personDetails.posts.length > 0 ? <PostList postViews={personDetails.posts} /> : <><br /><h4>No posts yet!</h4></>
+                        personDetails.posts.length > 0 ?
+                            <GenericViewList
+                                views={personDetails.posts.map((p) => postToGenericView(p))} />
+                            : <><br /><h4>No posts yet!</h4></>
                         :
-                        personDetails.comments.length > 0 ? <CommentList commentViews={personDetails.comments} /> : <><br /><h4>No comments yet!</h4></>
+                        personDetails.comments.length > 0 ?
+                            <GenericViewList
+                                views={personDetails.comments.map((c) => commentToGenericView(c))} />
+                            : <><br /><h4>No comments yet!</h4></>
                 }
+                <PostCommentToggle />
             </div>
         </>
     )

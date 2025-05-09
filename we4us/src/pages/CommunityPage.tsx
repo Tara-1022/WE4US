@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { CommunityView, PostView } from "lemmy-js-client";
 import PostList from '../components/PostList';
 import { Loader } from 'lucide-react';
+import PostCreationButton from '../components/PostCreationButton';
 import { getCommunityDetailsFromId, getPostList } from "../library/LemmyApi";
 import CommunitySnippet from "../components/CommunitySnippet";
 import PaginationControls from "../components/PaginationControls";
@@ -18,10 +19,10 @@ export default function CommunityPage() {
 
     useEffect(
         () => {
-                getCommunityDetailsFromId(
-                    communityId).then(
-                (communityView) => setCommunityView(communityView)
-            );
+            getCommunityDetailsFromId(
+                communityId).then(
+                    (communityView) => setCommunityView(communityView)
+                );
 
             setPostViews(null);
             getPostList({ communityId: communityId, page: page, limit: DEFAULT_POSTS_PER_PAGE }).then(
@@ -33,10 +34,15 @@ export default function CommunityPage() {
         }, [communityId, page]
     );
 
+    function handlePostCreated(newPost: PostView) {
+        // Don't display the copy of a post in another community
+        if (newPost.community.id == communityId) setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
+    }
+
     if (!postViews) return <Loader />;
     if (!communityView) return <h3>Looks like this community doesn't exist!</h3>
     else if (postViews.length == 0) {
-    return (<>
+        return (<>
             <CommunitySnippet communityView={communityView} />
             <h3>No posts to see!</h3></>
         )
@@ -46,6 +52,9 @@ export default function CommunityPage() {
         return (
             <>
                 <CommunitySnippet communityView={communityView} />
+                <PostCreationButton
+                    handlePostCreated={handlePostCreated}
+                    communityId={communityId} />
                 <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
                 <PostList postViews={postViews} />
                 <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />

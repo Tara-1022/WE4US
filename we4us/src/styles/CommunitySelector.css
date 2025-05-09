@@ -1,10 +1,10 @@
-.dropdown {
+.community-selector {
     position: relative;
     max-width:max-content;
 }
 
-.dropdown .arrow {
-    border-color: white transparent transparent;
+.community-selector .arrow {
+    border-color: var(--color-white) transparent transparent;
     border-style: solid;
     border-width: 5px 5px 0;
     display: block;
@@ -16,16 +16,16 @@
     top: 14px;
 }
 
-.dropdown .arrow.open {
-    border-color: transparent transparent white;
+.community-selector .arrow.open {
+    border-color: transparent transparent var(--color-white);
     border-width: 0 5px 5px;
 }
 
-.search-value {
-    background-color: #1e1e1e;
+.community-selector .control .search-value {
+    background-color: var(--color-dark-bg);
     line-height: 1.5;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-light-gray);
     border-radius: 2px;
     box-sizing: border-box;
     outline: none;
@@ -34,12 +34,11 @@
     width: 100%;
 }
 
-.dropdown .options {
+.community-selector .options {
     display: none;
     opacity: 100%;
-    background-color: #1e1e1e;
-    border: 1px solid #ccc;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+    background-color: var(--color-dark-bg);
+    border: 1px solid var(--color-light-gray);
     box-sizing: border-box;
     margin-top: -1px;
     max-height: 200px;
@@ -51,20 +50,20 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.dropdown .options.open {
+.community-selector .options.open {
     display: block;
 }
 
-.dropdown .option {
+.community-selector .option {
     box-sizing: border-box;
-    color: white;
+    color: var(--color-white);
     cursor: pointer;
     display: block;
     padding: 8px 10px;
 }
 
-.dropdown .option.selected,
-.dropdown .option:hover {
-    background-color: #f2f9fc;
-    color: black;
+.community-selector .option.selected,
+.community-selector .option:hover {
+    background-color: var( --color-light-gray);
+    color: var(--color-black);
 }
