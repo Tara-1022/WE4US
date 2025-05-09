@@ -36,15 +36,6 @@ export default function CreatePostModal({ isOpen, setIsOpen, handleCreation }:
                 <input name="location" required />
                 <label htmlFor="mapUrl"> Map URL : </label>
                 <input name="mapUrl" type="url" required />
-                <label>Ratings (1-5):</label>
-                <label htmlFor="costRating">Cost : </label>
-                <input name="costRating" type="number" min="1" max="5" required />
-                <label htmlFor="safetyRating">Safety : </label>
-                <input name="safetyRating" type="number" min="1" max="5" required />
-                <label htmlFor="foodRating">Food : </label>
-                <input name="foodRating" type="number" min="1" max="5" required />
-                <label htmlFor="cleanlinessRating">Cleanliness : </label>
-                <input name="cleanlinessRating" type="number" min="1" max="5" required />
                 <label htmlFor="acAvailable">
                     <input
                         type="checkbox"
