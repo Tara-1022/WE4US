@@ -17,3 +17,25 @@ export const JOB_BOARD_COMMUNITY_NAME = "job_board";
 export const MEET_UP_COMMUNITY_NAME = "meet_up";
 export const PG_FINDER_COMMUNITY_NAME = "pg_finder";
 export const ANNOUNCEMENTS_COMMUNITY_NAME = "announcements";
+export function isSpecialCommunity(communityName: string) {
+    return [ANNOUNCEMENTS_COMMUNITY_NAME,
+        MEET_UP_COMMUNITY_NAME,
+        PG_FINDER_COMMUNITY_NAME,
+        JOB_BOARD_COMMUNITY_NAME].some(
+            (name) => name == communityName
+        )
+}
+export function getCommunityPath(communityName: string) {
+    switch (communityName) {
+        case ANNOUNCEMENTS_COMMUNITY_NAME:
+            return "announcements"
+        case JOB_BOARD_COMMUNITY_NAME:
+            return "job-board"
+        case PG_FINDER_COMMUNITY_NAME:
+            return "pg-finder"
+        case MEET_UP_COMMUNITY_NAME:
+            return "meetup"
+        default:
+            return null
+    }
+}

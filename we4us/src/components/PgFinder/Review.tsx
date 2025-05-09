@@ -15,10 +15,15 @@ let styles = {
     container: {
         marginLeft: "1%",
         padding: "1%"
+    },
+    postLink: {
+        fontSize: "small",
+        margin: "2%"
     }
 }
 
-export function ReviewSnippet({ review }: { review: CommentView }) {
+export function ReviewSnippet({ review, withPostLink = false }:
+    { review: CommentView, withPostLink?: boolean }) {
 
     return (
         <div style={styles.container}>
@@ -29,6 +34,12 @@ export function ReviewSnippet({ review }: { review: CommentView }) {
                     <ReactMarkdown>{getReviewContent(review).content}</ReactMarkdown>
                 </>} <br />
             <Link to={"/profile/" + review.creator.name}>{review.creator.display_name ? review.creator.display_name : review.creator.name}</Link>
+            {
+                withPostLink &&
+                <Link to={"/pg-finder/" + review.post.id} style={styles.postLink}>
+                    Go to Post
+                </Link>
+            }
         </div>
     )
 }
