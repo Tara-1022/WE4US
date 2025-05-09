@@ -25,7 +25,10 @@ export default function PostEditor({ postView, onPostUpdated, onClose }:
     };
 
     const handleCancel = () => {
-        if (!uploadedImage) return;
+        if (!uploadedImage) {
+            onClose();
+            return;
+        }
         // Remove pending image
         deleteImage(uploadedImage)
         setUploadedImage(undefined);
