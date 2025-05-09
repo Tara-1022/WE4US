@@ -1,7 +1,7 @@
 import { PostView } from "lemmy-js-client";
 import { editPost } from "../library/LemmyApi";
 import { getPostBody, PostBodyType } from "../library/PostBodyType";
-import ImageUploader from "./ImageUploader";
+import ImageUploader, { handleStateChange } from "./ImageUploader";
 import { useState } from "react";
 import { ImageDetailsType, deleteImage } from "../library/ImageHandling";
 import "../styles/PostImageUploader.css"
@@ -12,28 +12,23 @@ export default function PostEditor({ postView, onPostUpdated, onClose }:
     const postBody = getPostBody(postView);
     const originalImage = postBody.imageData;
 
+    const [loading, setLoading] = useState(false);
     const [uploadedImage, setUploadedImage] = useState<ImageDetailsType | undefined>(undefined);
     const [deleteOldImage, setDeleteOldImage] = useState(false);
 
     const handleImageChange = (newImageDetails: ImageDetailsType[] | undefined) => {
-        if (newImageDetails === undefined) {
-            setUploadedImage(undefined);
-            setDeleteOldImage(false);
-        }
-        else {
-            if (newImageDetails.length == 0) {
-                setUploadedImage(undefined)
-                setDeleteOldImage(true)
-            }
-            else {
-                setUploadedImage(newImageDetails[0])
-                setDeleteOldImage(true);
-            }
-        }
+        handleStateChange({
+            newImageDetails,
+            setDeleteOldImage,
+            setUploadedImage
+        })
     };
 
     const handleCancel = () => {
-        if (!uploadedImage) return;
+        if (!uploadedImage) {
+            onClose();
+            return;
+        }
         // Remove pending image
         deleteImage(uploadedImage)
         setUploadedImage(undefined);
@@ -91,6 +86,8 @@ export default function PostEditor({ postView, onPostUpdated, onClose }:
                 onUploadChange={handleImageChange}
                 originalImage={originalImage}
                 purpose="post"
+                loading={loading}
+                setLoading={setLoading}
             />
             <input type="url" defaultValue={postView.post.url} name="url" />
             <textarea
@@ -98,9 +95,9 @@ export default function PostEditor({ postView, onPostUpdated, onClose }:
                 style={{ width: "100%", minHeight: "100px" }}
                 name="body"
             />
-            <button type="submit">Save</button>
-            <button type="reset">Reset</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button type="submit" disabled={loading}>Save</button>
+            <button type="reset" disabled={loading}>Reset</button>
+            <button onClick={handleCancel} disabled={loading}>Cancel</button>
         </form>
     )
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { GraduationCap } from 'lucide-react';
-import WE from "../assets/We.png";
+import WordPoem from "../assets/word_poem.png"
 import '../styles/LandingPage.css';
 import MemoriesGallery from '../components/MemoriesGallery';
 import { memories } from '../assets/memories/MemoriesData';
@@ -28,7 +28,7 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
         <div className="landing-right">
-          <img src={WE} alt="Women in Tech" className="landing-image" />
+          <img src={WordPoem} alt="Women in Tech" className="landing-image" />
         </div>
       </div>
       <div className="memories-section">

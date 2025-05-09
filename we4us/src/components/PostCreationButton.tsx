@@ -58,7 +58,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
   function handleCancel() {
     // Clean up any pending image copies
-    if (!uploadedImageCopies) return;
+    if (!uploadedImageCopies) {
+      onClose();
+      return;
+    }
     uploadedImageCopies.forEach(
       img => deleteImage(img)
         .catch(err => console.error("Error cleaning up pending image copy:", err))
@@ -163,6 +166,8 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           onUploadChange={handleImageChange}
           copiesCount={2}
           purpose="post"
+          loading={loading}
+          setLoading={setLoading}
         />
         <br />
         <label htmlFor="secondCommunityId">Create a copy of this post in: </label>

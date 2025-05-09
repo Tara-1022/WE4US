@@ -5,10 +5,12 @@ import CommentEditor from "./CommentEditor";
 import CommentSnippet from './CommentSnippet';
 import { useProfileContext } from './ProfileContext';
 import LikeHandler from './LikeHandler';
+import { useState } from 'react';
 
 export default function Comment({ commentView, depth }: { commentView: CommentView, depth: number }) {
     const { profileInfo } = useProfileContext();
-    
+    const [isEditing, setIsEditing] = useState(false);
+
     const styles = {
         container: {
             backgroundColor: "#1a1a1b",
@@ -19,8 +21,8 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
             border: "1px solid #343536",
             borderLeft: depth > 0 ? `3px solid hsl(${(depth * 30) % 360}, 60%, 40%)` : "1px solid #343536",
             marginLeft: depth * 18 + "px"
-        },        
-        
+        },
+
         actionsContainer: {
             display: "flex",
             gap: "16px",
@@ -45,27 +47,50 @@ export default function Comment({ commentView, depth }: { commentView: CommentVi
 
     return (
         <div style={styles.container}>
-            <CommentSnippet commentView={commentView} />
-            
-            <div style={styles.actionsContainer}>
-                <LikeHandler 
-                    forPost={false} 
-                    isInitiallyLiked={commentView.my_vote == 1} 
-                    initialLikes={commentView.counts.score} 
-                    id={commentView.comment.id} 
+            {isEditing ?
+                <CommentEditor
+                    commentId={commentView.comment.id}
+                    initialText={commentView.comment.content}
+                    onClose={() => setIsEditing(false)}
                 />
-                
-                <CommentCreator parentId={commentView.comment.id} actionName={"Reply"} />
-                
-                <CommentEditor 
-                    commentId={commentView.comment.id} 
-                    initialText={commentView.comment.content} 
-                />
-                
-                {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
-                    <CommentDeletor commentId={commentView.comment.id} />
-                }
-            </div>
+                :
+                <>
+                    <CommentSnippet commentView={commentView} />
+
+                    <div style={styles.actionsContainer}>
+                        <LikeHandler
+                            forPost={false}
+                            isInitiallyLiked={commentView.my_vote == 1}
+                            initialLikes={commentView.counts.score}
+                            id={commentView.comment.id}
+                        />
+
+                        <CommentCreator parentId={commentView.comment.id} actionName={"Reply"} />
+
+                        {(!commentView.comment.deleted && commentView.creator.id == profileInfo?.lemmyId) &&
+
+                            <>
+                                <CommentDeletor commentId={commentView.comment.id} />
+                                <b style={{
+                                    background: "none",
+                                    border: "none",
+                                    color: "#a0a8b0",
+                                    cursor: "pointer",
+                                    fontWeight: "500" as const,
+                                    padding: 0,
+                                    fontSize: "13px",
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}
+                                onClick={() => setIsEditing(true)}>
+                                    Edit
+                                </b>
+                            </>
+
+                        }
+                    </div>
+                </>
+            }
         </div>
     );
 }

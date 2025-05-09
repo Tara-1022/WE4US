@@ -123,7 +123,6 @@ body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-
 .meetup-post-footer-actions b:active,
 .meetup-post-footer-actions .meetup-post-comments-button:active {
   transform: scale(0.98);
@@ -185,24 +184,11 @@ body {
   }
 }
 
-.post-delete-top-right {
+.meetup-post-delete {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-}
-.post-delete-top-right button {
-  background: linear-gradient(135deg, #ff4d4d, #c2552a);
-  color: #fff;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
   border: none;
-  font-size: 2rem;       
-  border-radius: 12px;
-  font-weight: 800;     
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.post-delete-top-right button:hover {
-  background: linear-gradient(135deg, #e14a4c, #da6767);
-  transform: scale(1.08);
 }

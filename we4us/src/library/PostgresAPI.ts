@@ -6,10 +6,11 @@ export interface Profile {
   cohort?: string;
   current_role?: string;
   company_or_university?: string;
-  years_of_experience?: number | null;
+  working_since?: string;
   areas_of_interest?: string[];
   image_filename?: string | null;
   image_delete_token?: string | null;
+  description?: string;
 }
 
 export const fetchProfiles = async () => {
@@ -38,8 +39,8 @@ export const fetchProfiles = async () => {
 export const fetchProfileByUsername = async (username: string) => {
   try {
     const response = await fetch(`${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${encodeURIComponent(username)}`
-);
-    
+    );
+
     if (response.status === 404) {
       return null;
     }
@@ -57,7 +58,7 @@ export const fetchProfileByUsername = async (username: string) => {
     return jsonData.profile as Profile;
   } catch (error) {
     console.error("Error fetching profile by username:", error);
-    return null; 
+    return null;
   }
 };
 
@@ -66,7 +67,7 @@ export const updateProfile = async (username: string, profileData: Profile) => {
     const url = `${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${username}`;
 
     const response = await fetch(url, {
-      method: 'PUT', 
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

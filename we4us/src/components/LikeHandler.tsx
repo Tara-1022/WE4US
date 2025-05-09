@@ -32,12 +32,11 @@ export default function LikeHandler({ forPost, isInitiallyLiked, id, initialLike
     function handleClick(event: React.MouseEvent<SVGSVGElement>) {
         event.preventDefault();
         const task = isLiked ? likeRemover : likeAdder;
-        console.log(task);
+
         task(id).then(
             (_response) => {
                 setLikes(isLiked? likes-1: likes+1)
                 setIsLiked(!isLiked);
-                console.log(isLiked)
             }
         )
     }
