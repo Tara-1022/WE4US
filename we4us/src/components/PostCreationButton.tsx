@@ -58,7 +58,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
 
   function handleCancel() {
     // Clean up any pending image copies
-    if (!uploadedImageCopies) return;
+    if (!uploadedImageCopies) {
+      onClose();
+      return;
+    }
     uploadedImageCopies.forEach(
       img => deleteImage(img)
         .catch(err => console.error("Error cleaning up pending image copy:", err))
