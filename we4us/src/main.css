@@ -33,20 +33,42 @@ Colours to display for actions such as hover.
 :root {
   color-scheme: dark;
 
+  /* Primary Colors */
   --color-primary-purple: #3b2f7f;
   --color-primary-blue: #3a7ffc;
   --color-primary-orange: #f46801;
   --color-primary-teal: #01c4a4;
+
+  /* Backgrounds */
   --color-dark-bg: #1e1e1e;
   --color-card-bg: #2a2a2a;
+  --color-card-hover: #252525;
+  
+
+  /* Grayscale */
   --color-white: #ffffff;
   --color-black: black;
   --color-gray: #a0a0a0;
+  --color-lighter-gray: #b0b0b0;
+  --color-fade-out-grey: #555; 
+
+  /* Additional Colors */
+  --color-primary-dark-orange: rgb(217, 121, 4);
+  --color-blue: #00aaff;
+  --color-error: #f44336;
+  --color-error-hover: #d32f2f;
+  --color-success: #4caf50;
+  --color-success-hover: #2f7131;
+  --color-primary-dark-purple: #4839a1;
+  --color-primary-light-teal: #08fbd2; 
+  --color-primary-light-purple: #a29bfe;
+
   --color-profile-green: #4CAF50;
   --color-secondary-blue: #5174b6;
   --color-secondary-profile-green: #458b47;
   --color-darker-gray: #7f7a7a;
   --color-light-gray: #ccc;
+
 }
 
 /* Basic styles */
