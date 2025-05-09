@@ -1,17 +1,3 @@
-/* ===== CSS Variables ===== */
-:root {
-    --primary-color: #01c4a4;
-    --primary-hover: #019a86;
-    --error-color: #e74c3c;
-    --error-hover: #c0392b;
-    --bg-dark: #1e1e1e;
-    --text-light: #f0f0f0;
-    --text-muted: #cccccc;
-    --border-radius: 8px;
-    --box-shadow: 0 0 10px rgba(1, 196, 164, 0.3);
-    --transition: all 0.3s ease;
-  }
-  
   /* ===== Base Styles ===== */
   .pg-post-list {
     list-style-type: none;
@@ -30,7 +16,7 @@
     align-items: center;
     justify-content: center;
     padding: 1.25rem;
-    background-color: var(--bg-dark);
+    background-color: var(--color-dark-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     color: var(--text-light);
@@ -49,7 +35,7 @@
   }
   
   .pg-post h3 {
-    color: var(--primary-color);
+    color: var(--color-primary-teal);
     margin-bottom: 0.625rem;
     font-size: 1.5rem;
   }
@@ -83,7 +69,7 @@
   }
   
   .pg-post a:hover {
-    color: var(--primary-hover);
+    color: var(--primary-teal-hover);
     text-decoration: underline;
   }
   
@@ -102,7 +88,7 @@
   
   /* Form Styles */
   .pg-modal-form {
-    background-color: var(--bg-dark); 
+    background-color: var(--color-dark-bg); 
     padding: 2rem;
     border-radius: var(--border-radius);
     max-height: 90vh;
@@ -142,7 +128,7 @@
   }
   
   .pg-modal-form button {
-    background-color: var(--primary-color);
+    background-color: var(--color-primary-teal);
     color: white;
     padding: 0.625rem 1rem;
     border: none;
@@ -153,7 +139,7 @@
   }
   
   .pg-modal-form button:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--primary-teal-hover);
   }
   
   .cancel-button {
@@ -165,7 +151,7 @@
   }
 
   .new-pg-btn {
-    background-color: var(--primary-color); 
+    background-color: var(--color-primary-teal); 
     color: white;
     padding: 8px 20px;
     border: none;
@@ -178,7 +164,7 @@
   }
 
 .new-pg-btn:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--primary-teal-hover);
 }
 
 .pg-header-actions {

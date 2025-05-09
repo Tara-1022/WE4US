@@ -1,0 +1,243 @@
+[33m054948a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpg_finder_css[m[33m)[m Merge branch 'main' into pg_finder_css
+[33m478a42f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Profile page fixes + CSS (#144)
+[33m79d0df5[m modified modal form
+[33m6df0d7d[m Fix pagination button CSS and style conflicts (#156)
+[33mfb3af2c[m Fix bug where cancel button doesn't work if image is not uploaded (#157)
+[33m9926c56[m[33m ([m[1;31morigin/pg_finder_css[m[33m)[m made changes
+[33m2b4dd14[m made all the changes mentioned , changed the modal form , editted the edit form , chnaged the button coulrs , changed the allingment
+[33md586fe9[m Cleanup: Uploads & Auth modals (#154)
+[33m4e14db1[m Add word poem to landing page (#155)
+[33m692a19b[m Move out loading state & common logic. (#146)
+[33m4bc0e17[m Search bar CSS (#149)
+[33me216ed1[m Throw error if profile not found. On error, show the redirect page. (#151)
+[33m8752412[m Whos who CSS (#142)
+[33m51ccfed[m Pm/UI (#111)
+[33mfd8b625[m changed the delete button and edit button
+[33m3b1ab85[m Fixes for commets & reviews (#145)
+[33m4269674[m Create post in community (#147)
+[33ma819c0a[m Add change password in the edit profile section (#115)
+[33m94d7054[m Added Inline CSS to Comments. (#122)
+[33mc983dc1[m Updated the memory gallery  (#119)
+[33m6e13800[m resolved merge conflict in pgfinderpage
+[33mc836d3c[m resolved merge conflict in pgpostpage
+[33m6cf1652[m resolved merge conflicts
+[33m029e882[m changes colour from orange to greyish-white
+[33m75971a3[m Pagination for Job Board, Meet Up and PG Finder Features. (#138)
+[33m4d3b001[m changed colour of text from violet to orange
+[33m8603926[m  changes New PG button , css and included space
+[33mf214ac2[m Image uploads (#120)
+[33m64ffafa[m Cleanup (#140)
+[33m7c461d5[m Add a button to flip job status (#124)
+[33m3c17567[m Repurpose PG comments for reviews : Cleanup (#110)
+[33m71447a0[m Edit post image (#125)
+[33m47ff565[m changed the colour to a lighter shade of purple
+[33m67958fa[m Enhancement of UI for Meet-Up Page (#109)
+[33mc2da6d0[m Implement Profile Image Handling (#89)
+[33m7b44a0b[m Edit pg post (#117)
+[33m8c7a169[m Edit Job Post (#116)
+[33mb549549[m changing the colour theme
+[33m95f1297[m Add CSS for the PostPage. (#112)
+[33m932ae50[m Enable edition of meet-up posts (#113)
+[33m186efa0[m Private messaging - Basic additions (#87)
+[33m24127c5[m Merge branch 'main' into pg_finder_css
+[33m738c84b[m worked on the changes
+[33m19c3b65[m Edit announcement (#114)
+[33m664b33f[m resolved merge conflicts
+[33m511f706[m css code cleanup
+[33m78b5de4[m the new pg modal form ui
+[33md842a90[m Landing page component (#83)
+[33m3fc827f[m pg post form is working
+[33m3d64e70[m changes cleanliness rating
+[33m7e60882[m made changes with pg post page
+[33mb46e700[m Add post edition logic (#97)
+[33ma906bb1[m Add search to new pages (#104)
+[33m5bcf537[m made changes to post page ui
+[33m0501ebc[m Edit Comment (#96)
+[33m1723c97[m made the changes in the pg post list , removed the ratings and added emojis
+[33mc523e66[m Improve Comments handling (#79)
+[33m0194a62[m  ui for the post page of the pg
+[33m8f4e320[m changed the color , and modified the code for the ui
+[33m97b394d[m resolved merge conflicts
+[33m5ef4479[m Set a timer for logging user out (#90)
+[33m9fd3ffb[m[33m ([m[1;31morigin/logout-timer[m[33m)[m Merge remote-tracking branch 'origin/logout-timer' into logout-timer
+[33mbbc4b6a[m Fix warnings count
+[33m277ee57[m Delete et HEAD~2
+[33ma1be9e9[m  the basic ui of the pg posy list is working
+[33m5aab7b2[m Search filtering (#95)
+[33m8f3447d[m Merge remote-tracking branch 'origin/main' into logout-timer
+[33m63d36f6[m Pg finder (#72)
+[33m170903d[m Merge with main branch
+[33m77f4266[m[33m ([m[1;31morigin/pg_finder[m[33m, [m[1;32mpg_finder[m[33m)[m Merge branch 'main' into pg_finder
+[33mf322bd5[m Job board (#67)
+[33m1b31e06[m Update button text
+[33mc87b0b4[m add text when no posts, wrap description as markdown
+[33mbdbb1a7[m move url to post.url, other cleanup
+[33m30f51da[m rename folder, use lemmy context, and remove 'create first post'
+[33mf88734d[m Reverted changes in LoginModal.tsx and kept other changes
+[33m5b1223d[m[33m ([m[1;31morigin/Pg_finder_css[m[33m)[m worked on the comments
+[33m72f70fa[m resolved merge conflict in LemmyApi
+[33m1b9e32e[m worked on the other changes
+[33mdd5249e[m modifed the code again to base , it is working now
+[33m2d0133d[m Added Pagination to Community View and Search (#94)
+[33m9370d5f[m Cleanup (#82)
+[33m26dd264[m added pg_id
+[33m68ea00e[m reverted few changes
+[33m722ae17[m Fix issue cause by git missing the case sensitive dir name change
+[33m111a660[m Revert unintentional changes to modified
+[33mf1fe0f2[m Revert unintentional changes to docker-compose.yml
+[33m3e2c21c[m resolved merge conflicts
+[33ma722d36[m Set up announcements page (#81)
+[33mbd7a10c[m  changes made , resolved merge conflicts
+[33m476a6f3[m Merge branch 'main' into pg_finder
+[33m4ef2f70[m Improve failure responses (#74)
+[33m01c3ca9[m resolved App.tsx
+[33m0110d13[m resolved merge conflicts
+[33m9d57c22[m pulled main
+[33mdfb72c2[m made the recent changes , the map url
+[33m33b6656[m Meet up (#73)
+[33mbaf019e[m Add preview of the image during post creation (#84)
+[33m8cdc59a[m Cleanup sidebar (#85)
+[33m96e2e34[m List user posts on profile (#62)
+[33m92ec8e3[m Update Lemmy context: remove community list, add special communities (#75)
+[33m096c453[m Add release and comparison link for 0.20.0-alpha.5 from our current version (0.19.8) of lemmy (#86)
+[33m93f9718[m Update default post image (#65)
+[33me36de1a[m worked on the changes other than those files
+[33mff38613[m Add url to post (#64)
+[33m6595a4d[m Made the changes , added profile/username link, modified the post snippet , modified the display names
+[33mf74926d[m ammend
+[33m34d91d8[m add changes for PG finder
+[33m923972d[m Added Pagination For Posts. (#68)
+[33m4583084[m Multi community post (#69)
+[33m6c3ff07[m Created sidebar component and updated appwide css (#53)
+[33me03c6bd[m Cleanup (#61)
+[33madfcd7c[m Incorporate image handling within posts (#49)
+[33m5a13d22[m Trigger display name change in lemmy if one happens in profile (#60)
+[33mf167ac3[m Preserve profile order after update by sorting by username (#63)
+[33mdb147c6[m There is no actual need for a separate community list. Simple enabled query-less searches; now, on selecting the 'Communities' drop down, all communities will be pulled up
+[33mdbe07f7[m[33m ([m[1;31morigin/Pg_finder[m[33m)[m Added private messaging doc
+[33mf7b3482[m Change Primary Key to 'username' in Profiles (#48)
+[33mf1ececc[m Update docs (#55)
+[33m7461646[m Add support for Create community (#52)
+[33m6f62cf5[m Add community selector, improve form layout (#47)
+[33m1245cc3[m Add edit profile functionality (#54)
+[33mb500487[m Link to profile page of a user wherever they appear
+[33m903b612[m Update Profile Navigation & Context Management (#46)
+[33m8e3f0e1[m Merge branch 'main' into profile-context
+[33ma45367a[m Cleanup
+[33m0c1efbf[m Cleanup
+[33md7a091a[m Cleanup
+[33mf068f9c[m Improve navigation (#37)
+[33m3a04d0e[m Cleanup
+[33mc4afe47[m cleanup
+[33mce5374d[m Refactor profile fetching
+[33mdfcf027[m Add 'upvote/like' functionality (#36)
+[33mbc5c90f[m[33m ([m[1;31morigin/profile-context[m[33m)[m Preserve lemmy id
+[33meeb50e8[m Display logged-in user's details at /profile
+[33m76c0adb[m Redirect profile card click to profiles/<username>
+[33m0a93f47[m Pull profile info into profileContext
+[33m474f739[m[33m ([m[1;31morigin/Upvote[m[33m)[m Display number of likes in relevant places
+[33m0d206f1[m Add 'like' functionality to posts and comments
+[33m215a31d[m Merge pull request #32 from Tara-1022/Search_
+[33m9d06258[m[33m ([m[1;31morigin/Search_[m[33m)[m Display relevant message when search has no results. Make use of derived states (https://medium.com/comsystoreply/totally-in-sync-using-derived-state-in-react-applications-98cbd5acaa91)
+[33m294692c[m Add CommentList to SRP, update Comment to reuse CommentSnippet component
+[33mf8a7380[m Extend SRP to render Community snippets as well. Refactor CommunityPage for better component reuse
+[33m4d10834[m Set up a search bar + page, fetch search result. Display posts fetched
+[33m2297e29[m Merge pull request #43 from Tara-1022/NewPostsCreation
+[33m87a4a9e[m Merge pull request #39 from kajal-jotwani/kajal
+[33m77129bb[m cleanup
+[33ma6a0af6[m Merge pull request #41 from Tara-1022/Documentation
+[33m1e252bf[m cleanup
+[33md36b2a4[m Updated the PostCreationModal
+[33m3abd240[m Added Post Creation Functionality
+[33mba1b6cd[m alligned the headings to the center
+[33me780f1e[m removed comments
+[33m13e3374[m Resolved the bug for inconsistent formating of screen
+[33m536cdc7[m Add Search Box + Cleanup (#31)
+[33md61b893[m Update Contribution.md
+[33m9f7c41c[m - Add contribution guidelines for reference. - Move API samples file into the dev docs.
+[33m3342910[m Merge pull request #22 from Tara-1022/Cleanup
+[33m8283af9[m Convert library files from tsx to ts. This makes sure we don't create components here, and keeps separation of concerns clear
+[33me6ab790[m Merge pull request #26 from Tara-1022/CommunityPage
+[33mf512300[m Cleanup: Simplify appwide contexts into an umbrella component
+[33m44c6627[m Implement and link to Community Page
+[33mcfac68c[m Add LemmyContext to store regularly used information. Create basic CommunityPage.
+[33m29bfcd9[m Whos Who UI + Database Connection (#13)
+[33m224c322[m Merge pull request #21 from Tara-1022/Delete
+[33m208a29e[m Merge pull request #24 from Tara-1022/Documentation
+[33mafbfb1b[m Merge pull request #27 from Tara-1022/CommentIssue
+[33mfd586b9[m Fix code issue; some changes of a previous merge did not persist
+[33mf1eb06d[m Change bulky buttons into clickable text
+[33m4b81add[m Update useSafeContext to provide more informative messages
+[33m2e0eec9[m Hide deleted posts from all list views (unless the request explicitly sets show_hidden to true). Not sure why lemmy behaves like this, but deleted posts are not hidden by default, simply marked 'deleted'.
+[33m3920495[m Show delete action only to the creator of the post/comment
+[33m75c5140[m Create ProfileContext to store relevant user info. Enable synced changes by having a singleton client. Ensure client header is updated whenever the token is.
+[33m8a4ac44[m Implement Deletors for post & comment
+[33m3b81421[m Merge pull request #14 from Tara-1022/Comments
+[33m567d918[m Store backups of the design docs since they are not currently subject to change, and may not be perpetually available in Google Drive. Remove unused doc link from README.
+[33m52edf02[m Increase amount of posts and comments fetched (#16)
+[33mf9adb04[m Make the CommentCreator collapsible, so it is only rendered as required. To achieve this, the Collapsible component has been generalised.
+[33m14ee881[m Render the created comment. Avoid prop drilling by moving required inforation into CommentsContext
+[33m6772dd1[m Add functional CommentCreator component to respective locations
+[33m509acd4[m Merge pull request #12 from Tara-1022/Cleanup
+[33m4cb39ee[m Move logout button into sidebar for cleaner UI
+[33m18d3f54[m Move LoginModal to a dedicated route. Enable Who'sWho devs to see their pages without lemmy. Since LoginModal was in App.tsx, it was applied on all pages. Remove it from the sidebar
+[33mdfa8ef4[m Add references to help with lemmy client
+[33m695f901[m Merge pull request #8 from Tara-1022/Auth_2
+[33m4df31f6[m Merge pull request #6 from Tara-1022/Comments
+[33m3415c88[m Merge branch 'Auth_2' of https://github.com/Tara-1022/WE4US into Auth_2
+[33mc1af842[m Cleanup: minor fixes, have LoginModal across app, rather than just on the home page
+[33mac67bfb[m Cleanup: minor fixes, have LoginModal across app, rather than just on the home page
+[33mca020a3[m Add logout button. Ensures that the jwt is invalidated and cannot be used again
+[33mff27c0e[m Implement login modal that updates auth token. Ensure client with auth header is created when logged in
+[33m699d378[m Create AuthContext and components to enforce rerouting unauthenticated persons to home
+[33mcfb37e7[m Fix issue causing requests without jwt to have no header
+[33mb3a37ad[m Cleanup
+[33mbe27678[m Update OIDC set-up findings
+[33m01f7b5b[m Merge branch 'Comments' of https://github.com/Tara-1022/WE4US into Comments
+[33mbda8d44[m Add collapse functionality
+[33m14c8792[m Add collapse functionality
+[33maa992db[m Set up comment tree to organise comments
+[33mf19c281[m Fetch and render basic comment info
+[33m7a0765d[m Merge pull request #4 from Tara-1022/landing_page
+[33m95a9206[m Update notes based on solution
+[33mee247ff[m Display post body
+[33mb8d0b04[m Move feed to the appropriate page
+[33m5e2fb9b[m Cleanup
+[33m287bbd6[m Cleanup
+[33mb61d909[m Cleanup
+[33m45fde50[m Cleanup
+[33m0ebc182[m Move PostPage to Pages folder
+[33mfa3b728[m Merge branch 'landing_page' of https://github.com/Tara-1022/WE4US into landing_page
+[33m9c38dae[m Replace loader with one from lucide-react library
+[33m2c2dbf2[m Add basic route logic for post page
+[33mc060dd3[m Rename 'Post' to 'PostSnippet' to better reflect intent. Improve styling.
+[33m82ab2e6[m Follow up on previous commit
+[33m43fe000[m Set up barebones landing page
+[33m011345e[m Merge pull request #3 from Tara-1022/reactsetup
+[33ma4b8df0[m[33m ([m[1;31morigin/reactsetup[m[33m)[m Added Pages and Routed from Home
+[33m49d46b9[m Rename 'Post' to 'PostSnippet' to better reflect intent. Improve styling.
+[33m814badd[m Follow up on previous commit
+[33me835a2f[m Set up barebones landing page
+[33m14f982d[m Update notes
+[33m118d6c0[m Update UI dev notes
+[33m27ab90e[m remove irrelevant .obsidian files
+[33m4250576[m Add .gitignore
+[33m117e65f[m Merge pull request #2 from Tara-1022/reactsetup
+[33m511d4ea[m Added React Setup
+[33mdf7a7f2[m update ui notes
+[33m7d8fb5e[m update notes
+[33m1192683[m Add notes
+[33m0db1b75[m Merge remote-tracking branch 'origin/main'
+[33m28d4649[m Add UI dev notes
+[33me5d0edb[m Update README.md
+[33m905dc5c[m Add docker files
+[33m9deff9f[m Formatting change
+[33m71ec206[m vault backup: 2025-01-30 19:39:07
+[33m5cb70a9[m Add guides
+[33m7b149ce[m Update README.md
+[33mcb54d41[m Update README.md
+[33mcca8238[m Update README.md
+[33maa3090d[m Update README.md
+[33m13d7b75[m Update README.md
+[33m5612738[m Add files via upload
+[33m0302db8[m Initial commit
