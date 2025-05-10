@@ -4,7 +4,8 @@ import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
 import "../../styles/PgFinderPage.css";
-import { PgPostData  } from "./Types";
+import "../../styles/PgPostPage.css";
+import { PgPostData } from "./Types";
 import PgPostForm from "./PgPostForm";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
@@ -12,9 +13,9 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     const { lemmyInfo } = useLemmyInfo();
 
     function handleCreation(data: PgPostData) {
-        console.log(data)
+        console.log(data);
         if (!lemmyInfo) {
-            window.alert("Cannot create post; Community not found!")
+            window.alert("Cannot create post; Community not found!");
             console.error("Could not fetch PG Finder community!");
             return;
         }
@@ -25,14 +26,15 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
             url: data.url,
             community_id: lemmyInfo.pg_finder_details.community.id
         }).then(
-            (newPost) => { handleCreatedPost(newPost);
-            window.alert("PG added successfully!");
+            (newPost) => {
+                handleCreatedPost(newPost);
+                window.alert("PG added successfully!");
             }
         ).catch(error => {
             window.alert("Failed to create post: " + error.message);
             console.error("Post creation failed:", error);
         });
-    
+
         setIsOpen(false);
     }
 
@@ -43,7 +45,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
                 <Modal
                     isOpen={isOpen}
                     onRequestClose={() => setIsOpen(false)}
-                    className="pg-modal-form-wrapper"
+                    className="pg-modal-form"
                     contentLabel="Create PG"
                 >
                     <PgPostForm

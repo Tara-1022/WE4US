@@ -1,5 +1,7 @@
 import { PgPostData } from "./Types";
-import "../../styles/PgFinderPage.css";
+// import "../../styles/PgFinderPage.css";
+import "../../styles/PgPostPage.css";
+import React from "react";
 
 export default function PgPostForm({ handleSubmit, onClose, task, initialData,mode = "edit",}:
     { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData,  mode?: "edit" | "create";}) {
@@ -32,14 +34,10 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData,mo
             <label htmlFor="mapUrl"> Map URL : </label>
             <input name="mapUrl" type="url" required defaultValue={initialData?.url || undefined} />
             <br />
-            <label htmlFor="acAvailable">
-                <input
-                    type="checkbox"
-                    name="acAvailable"
-                    id="acAvailable"
-                    defaultValue={initialData?.body.acAvailable ? 'on' : undefined}
-                /> AC Available
-            </label>
+            <div className="form-checkbox">
+                <input type="checkbox" id="acAvailable" name="acAvailable" />
+                <label htmlFor="acAvailable">AC Available</label>
+            </div>
             <br />
             <label htmlFor="foodType">Food Type Available: </label>
             <select name="foodType" required

@@ -103,7 +103,7 @@
   .pg-modal-form label {
     color: white;
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: bold;
     margin-bottom: 0.5rem;
   }
   
@@ -117,6 +117,15 @@
     margin-bottom: 0.5rem;
   }
   
+  .pg-modal-form select {
+    background-color: var(--color-dark-bg); 
+    color: var(--text-light);               
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    padding: 0.4rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
   .pg-modal-form textarea {
     resize: vertical;
     min-height: 100px;
