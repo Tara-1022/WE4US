@@ -94,9 +94,9 @@
     padding: 2rem;
     border-radius: var(--border-radius);
     max-height: 90vh;
-    overflow-y: auto;
     color: var(--text-light);
     box-shadow: var(--box-shadow); 
+    
   }
   
   .pg-modal-overlay {
@@ -106,9 +106,6 @@
     right: 0;
     bottom: 0;
     background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 1000;
 }
   
