@@ -34,14 +34,23 @@ export default function PgPostPage() {
         postId: postId
     };
 
+    useEffect(
+        () => {
+            getPostById(postId).then(
+                response => setPostView(response ? response.post_view : null)
+            );
+            getComments({ postId: postId }).then(
+                comments => setReviews(comments)
+            );
+            commentsContextValue = { ...commentsContextValue, postId: postId };
+        },
+        [postId]
+    )
+
     useEffect(() => {
-        getPostById(postId).then(
-            response => setPostView(response ? response.post_view : null)
-        );
-        getComments({ postId: postId }).then(
-            comments => setReviews(comments)
-        );
-    }, [postId]);
+        commentsContextValue = { ...commentsContextValue, comments: reviews };
+    }, [reviews]);
+
 
     if (!postView) return <Loader />;
 

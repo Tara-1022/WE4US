@@ -41,22 +41,22 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     return (
         <>
             <button className="new-pg-btn" onClick={() => setIsOpen(true)}>New PG</button>
-            {isOpen && (
-                <Modal
-                    isOpen={isOpen}
-                    onRequestClose={() => setIsOpen(false)}
-                    className="pg-modal-form"
-                    contentLabel="Create PG"
-                >
-                    <PgPostForm
-                        handleSubmit={handleCreation}
-                        onClose={() => setIsOpen(false)}
-                        task="Add New PG"
-                        initialData={undefined}  
-                        mode="create"  
-                    />
-                </Modal>
-            )}
+            <Modal
+                isOpen={isOpen}
+                onRequestClose={() => setIsOpen(false)}
+                className="pg-modal-form"
+                contentLabel="Create PG"
+            >
+                <PgPostForm
+                    handleSubmit={handleCreation}
+                    onClose={() => setIsOpen(false)}
+                    task="Add New PG"
+                />
+            </Modal>
         </>
     );
 }
+
+
+
+

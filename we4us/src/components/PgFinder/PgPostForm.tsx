@@ -1,10 +1,9 @@
 import { PgPostData } from "./Types";
-// import "../../styles/PgFinderPage.css";
 import "../../styles/PgPostPage.css";
 import React from "react";
 
-export default function PgPostForm({ handleSubmit, onClose, task, initialData,mode = "edit",}:
-    { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData,  mode?: "edit" | "create";}) {
+export default function PgPostForm({ handleSubmit, onClose, task, initialData}:
+    { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData;}) {
 
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -52,11 +51,15 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData,mo
             <label htmlFor="description"> Additional Information: </label>
             <textarea name="description" rows={4} cols={50} defaultValue={initialData?.body.description || undefined} />
             <br />
-            <div className="pg-modal-form-buttons">
+             <div className="pg-modal-form-buttons">
                 <button type="submit">{task}</button>
-                {mode === "edit" && <button type="reset">Reset</button>}
                 <button className="cancel-button" onClick={onClose}>Cancel</button>
             </div>
         </form>
-    )
+    );
 }
+
+
+
+
+
