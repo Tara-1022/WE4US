@@ -28,7 +28,7 @@ export default function PgFinderPage() {
                 <div className="pg-header-actions">
                     <div className="pg-search-wrapper">
                         <Link to="/pg-finder/search">
-                        <Search className="search-icon" />
+                        <Search />
                         </Link>
                     </div>
                         <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />

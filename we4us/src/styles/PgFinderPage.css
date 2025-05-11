@@ -186,18 +186,6 @@
     display: flex;
     align-items: left;  
 }
-
-
-/* Lucide React icon styles */
- .search-icon {
-  color: #4db8ff; 
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .new-pg-btn {
   background-color: var(--color-primary-teal);  
   color: #fff;
