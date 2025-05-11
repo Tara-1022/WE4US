@@ -38,19 +38,25 @@ Colours to display for actions such as hover.
   --color-primary-blue: #3a7ffc;
   --color-primary-orange: #f46801;
   --color-primary-teal: #01c4a4;
+  --primary-orange: #ff7b00; /* From ReachingOut.css */
 
   /* Backgrounds */
   --color-dark-bg: #1e1e1e;
   --color-card-bg: #2a2a2a;
   --color-card-hover: #252525;
-  
+  --dark-bg: #121212; /* From ReachingOut.css */
+  --dark-surface: #1a1a1b; /* From PostPage.css */
+  --dark-surface-hover: #252525; /* From ReachingOut.css */
+  --dark-border: #343536; /* From PostPage.css */
 
   /* Grayscale */
   --color-white: #ffffff;
   --color-black: black;
   --color-gray: #a0a0a0;
   --color-lighter-gray: #b0b0b0;
-  --color-fade-out-grey: #555; 
+  --color-fade-out-grey: #555;
+  --text-primary: #d7dadc; /* From PostPage.css */
+  --text-secondary: #818384; /* From PostPage.css */
 
   /* Additional Colors */
   --color-primary-dark-orange: rgb(217, 121, 4);
@@ -60,15 +66,40 @@ Colours to display for actions such as hover.
   --color-success: #4caf50;
   --color-success-hover: #2f7131;
   --color-primary-dark-purple: #4839a1;
-  --color-primary-light-teal: #08fbd2; 
+  --color-primary-light-teal: #08fbd2;
   --color-primary-light-purple: #a29bfe;
-
   --color-profile-green: #4CAF50;
   --color-secondary-blue: #5174b6;
   --color-secondary-profile-green: #458b47;
   --color-darker-gray: #7f7a7a;
   --color-light-gray: #ccc;
-
+  
+  /* Button colors */
+  --button-bg: var(--primary-orange);
+  --button-text: var(--dark-bg);
+  --button-hover-bg: #ff9a40; /* From ReachingOut.css */
+  --button-hover-text: #ffffff; /* Changed to white as requested */
+  --button-active-bg: #e06e00; /* From ReachingOut.css */
+  
+  /* Link colors */
+  --link-color: #4fbcff; /* From PostPage.css */
+  --link-hover-color: var(--primary-orange);
+  
+  /* Pagination colors */
+  --pagination-color: #444; /* From ReachingOut.css */
+  --pagination-hover: #555; /* From ReachingOut.css */
+  --pagination-active: #333; /* From ReachingOut.css */
+  --pagination-disabled-bg: #333;
+  --pagination-disabled-text: #666;
+  
+  /* Modal styles */
+  --modal-bg: var(--dark-surface);
+  --modal-border: var(--dark-border);
+  --input-bg: #2c2c2d;
+  --input-border: #444;
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-secondary);
+  --form-spacing: 16px;
 }
 
 /* Basic styles */
@@ -197,9 +228,128 @@ a:hover {
   margin-left: 16rem;
 }
 
+/* Modal styles */
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content {
+  background-color: var(--dark-surface) !important;
+  border: 1px solid var(--dark-border) !important;
+  border-radius: 8px !important;
+  max-width: 600px !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+  padding: 24px !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  color: var(--text-primary) !important;
+}
+
+/* Form styling for modals */
+.ReactModal__Content form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-spacing);
+}
+
+.ReactModal__Content form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.ReactModal__Content form input,
+.ReactModal__Content form textarea,
+.ReactModal__Content form select {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  color: var(--input-text);
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.ReactModal__Content form input:focus,
+.ReactModal__Content form textarea:focus,
+.ReactModal__Content form select:focus {
+  outline: none;
+  border-color: var(--primary-orange);
+}
+
+.ReactModal__Content form input::placeholder,
+.ReactModal__Content form textarea::placeholder {
+  color: var(--input-placeholder);
+}
+
+.ReactModal__Content form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.ReactModal__Content form div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ReactModal__Content form button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ReactModal__Content form button:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--button-hover-text);
+}
+
+.ReactModal__Content form button:active {
+  background-color: var(--button-active-bg);
+}
+
+.ReactModal__Content form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ReactModal__Content form button[type="reset"] {
+  background-color: transparent;
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+}
+
+.ReactModal__Content form button[type="reset"]:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 @media (max-width: 600px) {
   .btn-back {
     left: auto;
     right: 1rem;
+  }
+  
+  .ReactModal__Content {
+    width: 95% !important;
+    padding: 16px !important;
   }
 }
