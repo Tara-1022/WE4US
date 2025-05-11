@@ -99,6 +99,18 @@
     box-shadow: var(--box-shadow); 
   }
   
+  .pg-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
   
   .pg-modal-form label {
     color: white;
@@ -161,33 +173,45 @@
     background-color: var(--error-hover) !important;
   }
 
-  .new-pg-btn {
-    background-color: var(--color-primary-teal); 
-    color: white;
-    padding: 8px 20px;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 20px; 
-    margin-top: 10px;
-  }
-
-.new-pg-btn:hover {
-    background-color: var(--primary-teal-hover);
+.pg-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    justify-content: left;
 }
 
-.pg-header-actions {
+.pg-search-wrapper,
+.pg-new-post-wrapper {
+    display: flex;
+    align-items: left;  
+}
+
+
+/* Lucide React icon styles */
+ .search-icon {
+  color: #4db8ff; 
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
-  justify-content: flex-start; 
-  gap: 10px;
-  margin: 10px 0 20px 20px; 
+  justify-content: center;
 }
 
-.search-icon {
-  color: #4db8ff; 
-  width: 32px;
-  height: 32px;
+.new-pg-btn {
+  background-color: var(--color-primary-teal);  
+  color: #fff;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  height: 36px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+
+.new-pg-btn:hover {
+  background-color: var(--primary-teal-hover);
+}  

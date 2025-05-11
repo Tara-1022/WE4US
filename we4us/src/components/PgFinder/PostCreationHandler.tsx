@@ -39,12 +39,13 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
     }
 
     return (
-        <>
+        <>  
             <button className="new-pg-btn" onClick={() => setIsOpen(true)}>New PG</button>
             <Modal
                 isOpen={isOpen}
                 onRequestClose={() => setIsOpen(false)}
                 className="pg-modal-form"
+                overlayClassName="pg-modal-overlay"
                 contentLabel="Create PG"
             >
                 <PgPostForm

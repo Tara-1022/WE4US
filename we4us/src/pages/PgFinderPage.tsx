@@ -26,13 +26,15 @@ export default function PgFinderPage() {
             <>
                 <h2 style={{ textAlign: "center" }}>PG Finder</h2>
                 <div className="pg-header-actions">
-                <Link to="/pg-finder/search">
-                    <Search className="search-icon" />
-                </Link>
-                <PostCreationHandler handleCreatedPost={(newPost) => {
-                    setPostViews([newPost, ...postViews])
-                }} />
-                </div>
+                    <div className="pg-search-wrapper">
+                        <Link to="/pg-finder/search">
+                        <Search className="search-icon" />
+                        </Link>
+                    </div>
+                        <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
+                    </div>
+                
+
                 <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
                 {postViews.length > 0 ?
                     <PgPostList postViews={postViews} />
