@@ -13,8 +13,8 @@
 }
 
 .profile-snippet:hover {
-    background-color: var(--color-white);
-    color: var(--profile-green);
+    background-color: var(--color-profile-green);
+    color: var(--color-white);
     text-decoration: none;
 }
 
@@ -23,6 +23,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     object-fit: cover;
+    margin: auto;
 }
 
 

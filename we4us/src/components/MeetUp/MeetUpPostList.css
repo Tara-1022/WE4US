@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  padding: 2rem 1rem;
   max-width: 800px;
   margin: 0 auto;
+  padding-bottom: 10px;
 }
 
 .meetup-post-list-item {

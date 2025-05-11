@@ -18,5 +18,5 @@ export type JobPostBody = {
     open: boolean,
     deadline?: string,
     job_type: JobType; 
-    description: string
+    description: string;
 }
