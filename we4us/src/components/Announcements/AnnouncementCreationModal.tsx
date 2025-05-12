@@ -26,80 +26,109 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
         setLoading(false);
     };
 
-    return (
-        <div className="modal-container">
-            <form onSubmit={handleSubmit} >  
-              <div className="">
-                <label htmlFor="title" className="modal-label">Title:</label>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    required
-                    defaultValue={initialData?.title || undefined}
-                    className="modal-input"
-                />
-              </div>
-              <div>
-                <label htmlFor="body" className="modal-label">Body:</label>
-                <textarea
-                    name="body"
-                    placeholder="Body"
-                    required
-                    defaultValue={initialData?.body || undefined}
-                    className="modal-input"
-                />
-              </div>
-                <div style={{ display: "flex", justifyContent: "flex-center", gap: "1rem" }}>
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        style={{
-                            backgroundColor: "#2563eb",
-                            color: "white",
-                            border: "none",
-                            padding: "0.5rem 1rem",
-                            borderRadius: "6px",
-                            fontWeight: "bold",
-                            cursor: "pointer"
-                        }}
-                    >
-                        {loading ? "Submitting..." : task}
-                    </button>
-    
-                    <button
-                        type="reset"
-                        style={{
-                            backgroundColor: "#374151",
-                            color: "white",
-                            border: "none",
-                            padding: "0.5rem 1rem",
-                            borderRadius: "6px",
-                            cursor: "pointer"
-                        }}
-                    >
-                        Reset
-                    </button>
-    
-                    <button
-                        onClick={onClose}
-                        type="button"
-                        style={{
-                          backgroundColor: "rgb(255, 69, 0)",
-                            color: "white",
-                            border: "none",
-                            padding: "0.5rem 1rem",
-                            borderRadius: "6px",
-                            cursor: "pointer"
-                        }}
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </form>
+  return (
+    <div
+      style={{
+        backgroundColor: "rgb(32 32 32)",
+        borderRadius: "12px",
+        padding: "2rem",
+        maxWidth: "600px",
+        margin: "auto",
+        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.3)",
+        border: "1px solid #374151",
+        color: "white",
+      }}
+    >
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+      >
+        <label htmlFor="title" style={{ fontWeight: "bold" }}>
+          Title:
+        </label>
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          required
+          defaultValue={initialData?.title || undefined}
+          style={{
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+          }}
+        />
+
+        <label htmlFor="body" style={{ fontWeight: "bold" }}>
+          Body:
+        </label>
+        <textarea
+          name="body"
+          placeholder="Body"
+          required
+          defaultValue={initialData?.body || undefined}
+          style={{
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+            resize: "vertical",
+          }}
+        />
+
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}
+        >
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              backgroundColor: "#2563eb",
+              color: "white",
+              border: "none",
+              padding: "0.5rem 1rem",
+              borderRadius: "6px",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            {loading ? "Submitting..." : task}
+          </button>
+
+          <button
+            type="reset"
+            style={{
+              backgroundColor: "rgb(75, 85, 99)",
+              color: "white",
+              border: "none",
+              padding: "0.5rem 1rem",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Reset
+          </button>
+
+          <button
+            onClick={onClose}
+            type="button"
+            style={{
+              backgroundColor: "rgb(255, 69, 0)",
+              color: "white",
+              border: "none",
+              padding: "0.5rem 1rem",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Cancel
+          </button>
         </div>
-    );
-    }    
+      </form>
+    </div>
+  );
+}
 
 interface PostCreationModalProps {
     isOpen: boolean;
@@ -131,22 +160,38 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
                 console.error("Error creating post:", error))
     };
 
-    return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={() => onClose()}
-            contentLabel="Create Announcement"
-            className="ReactModal__Content"
-            overlayClassName="ReactModal__Overlay"
-        
-         >
-            <AnnouncementForm
-                onSubmit={handleSubmit}
-                onClose={onClose}
-                task="Create"
-            />
-        </Modal>
-    );
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={() => onClose()}
+      contentLabel="Create Announcement"
+      style={{
+        overlay: {
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000,
+        },
+        content: {
+          background: "#202020",
+          borderRadius: "12px",
+          padding: "2rem",
+          maxWidth: "600px",
+          width: "90%",
+          margin: "auto",
+          color: "white",
+          inset: "unset",
+        },
+      }}
+    >
+      <AnnouncementForm
+        onSubmit={handleSubmit}
+        onClose={onClose}
+        task="Create"
+      />
+    </Modal>
+  );
 };
 
 export default PostCreationModal;
