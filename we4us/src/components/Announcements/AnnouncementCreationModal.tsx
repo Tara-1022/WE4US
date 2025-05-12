@@ -27,50 +27,30 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
     };
 
     return (
-        <div
-            style={{
-                backgroundColor: "rgb(32 32 32)", // dark card background
-                borderRadius: "12px",
-                padding: "2rem",
-                maxWidth: "600px",
-                margin: "auto",
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.3)",
-                border: "1px solid #374151",
-                color: "white",
-            }}
-        >
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <label htmlFor="title" style={{ fontWeight: "bold" }}>Title:</label>
+        <div className="modal-container">
+            <form onSubmit={handleSubmit} >  
+              <div className="">
+                <label htmlFor="title" className="modal-label">Title:</label>
                 <input
                     type="text"
                     name="title"
                     placeholder="Title"
                     required
                     defaultValue={initialData?.title || undefined}
-                    style={{
-                        padding: "0.5rem 1rem",
-                        borderRadius: "6px",
-                        border: "1px solid #ccc",
-                        fontSize: "1rem"
-                    }}
+                    className="modal-input"
                 />
-    
-                <label htmlFor="body" style={{ fontWeight: "bold" }}>Body:</label>
+              </div>
+              <div>
+                <label htmlFor="body" className="modal-label">Body:</label>
                 <textarea
                     name="body"
                     placeholder="Body"
                     required
                     defaultValue={initialData?.body || undefined}
-                    style={{
-                        padding: "0.5rem 1rem",
-                        borderRadius: "6px",
-                        border: "1px solid #ccc",
-                        fontSize: "1rem",
-                        resize: "vertical"
-                    }}
+                    className="modal-input"
                 />
-    
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}>
+              </div>
+                <div style={{ display: "flex", justifyContent: "flex-center", gap: "1rem" }}>
                     <button
                         type="submit"
                         disabled={loading}
@@ -90,6 +70,7 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
                     <button
                         type="reset"
                         style={{
+                            backgroundColor: "#374151",
                             color: "white",
                             border: "none",
                             padding: "0.5rem 1rem",
@@ -104,6 +85,7 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
                         onClick={onClose}
                         type="button"
                         style={{
+                          backgroundColor: "rgb(255, 69, 0)",
                             color: "white",
                             border: "none",
                             padding: "0.5rem 1rem",
@@ -154,23 +136,10 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
             isOpen={isOpen}
             onRequestClose={() => onClose()}
             contentLabel="Create Announcement"
-            style={{
-                overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
-                content: {
-                    top: "50%",
-                    left: "50%",
-                    right: "auto",
-                    bottom: "auto",
-                    marginRight: "-50%",
-                    transform: "translate(-50%, -50%)",
-                    padding: "20px",
-                    background: "white",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                    color: "black"
-                },
-            }}
-        >
+            className="ReactModal__Content"
+            overlayClassName="ReactModal__Overlay"
+        
+         >
             <AnnouncementForm
                 onSubmit={handleSubmit}
                 onClose={onClose}
