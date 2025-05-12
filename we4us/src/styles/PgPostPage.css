@@ -10,14 +10,6 @@
   box-shadow: var(--box-shadow-md), var(--box-shadow-lg);
 }
 
-/* Loader */
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 /* ===== Typography ===== */
 .pg-post-header h3 {
   font-size: 2.5rem;
@@ -35,12 +27,6 @@
   line-height: 1.6;
 }
 
-.label {
-  font-weight: 700;
-  font-size: 1.2rem; 
-  color: var(--color-white);
-}
-
 /* ===== Links & Buttons ===== */
 .pg-post-page a {
   color: var(--color-primary-blue);
@@ -54,45 +40,7 @@
   text-decoration: underline;
 }
 
-.pg-form-button-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
 
-.pg-form-button-group button {
-  width: 90%;
-  max-width: 600px;
-  padding: 0.8rem 1.2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--border-radius-md);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-}
-
-.pg-form-button-group button[type="submit"] {
-  background-color: var(--color-primary-teal);
-  color: var(--text-light);
-}
-
-.pg-form-button-group button[type="submit"]:hover {
-  background-color: var(--primary-teal-hover);
-}
-
-.cancel-button {
-  background-color: var(--error-color);
-  color: var(--text-light);
-}
-
-.cancel-button:hover {
-  background-color: var(--error-hover);
-}
 
 .pg-delete-edit-box {
   display: flex;
@@ -120,41 +68,10 @@
   transform: translateY(-2px);
 }
 
-.pg-delete-box {
-  background-color: var(--color-primary-blue);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius-sm);
-  color: var(--text-light) !important;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  display: block;
-  width: fit-content;
-  margin: 1rem auto;
-  font-size: 0.9rem;
-  text-align: center;
-  border: none;
-}
 
-.pg-delete-box:hover {
-  background-color: var(--warning-color);
-  transform: translateY(-2px);
-}
 
 /* ===== Content Sections ===== */
-.pg-rating {
-  margin-top: 2.5rem;
-  padding: 1.5rem;
-  background-color: var(--bg-black);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--box-shadow-sm);
-}
 
-.pg-rating p {
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-left: 3px solid var(--color-primary-teal);
-}
 
 .pg-description {
   margin-top: 2rem;
@@ -258,7 +175,15 @@
   max-width: 600px;
   margin: 0 auto;
 }
-
+.pg-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    z-index: 1000;
+}
 /* ===== Form Inputs & Labels ===== */
 .pg-modal-form label {
   color: white;
@@ -278,7 +203,15 @@
   font-size: 1rem;
   margin-bottom: 1rem;
 }
-
+.pg-modal-form select {
+    background-color: var(--color-dark-bg); 
+    color: var(--text-light);               
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    padding: 0.4rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
 .pg-modal-form textarea {
   resize: vertical;
   min-height: 100px;
