@@ -27,6 +27,12 @@
   line-height: 1.6;
 }
 
+.pg-post-page .label {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-white);
+}
+
 /* ===== Links & Buttons ===== */
 .pg-post-page a {
   color: var(--color-primary-blue);
@@ -41,6 +47,36 @@
 }
 
 
+.pg-form-button-group button {
+  width: 90%;
+  max-width: 600px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.pg-form-button-group button[type="submit"] {
+  background-color: var(--color-primary-teal);
+  color: var(--text-light);
+}
+
+.pg-form-button-group button[type="submit"]:hover {
+  background-color: var(--primary-teal-hover);
+}
+
+.pg-modal-form .cancel-button {
+  background-color: var(--error-color);
+  color: var(--text-light);
+}
+
+.pg-modal-form .cancel-button:hover {
+  background-color: var(--error-hover);
+}
 
 .pg-delete-edit-box {
   display: flex;
@@ -133,19 +169,13 @@
   box-shadow: none;
 }
 
-.pg-comments-section p,
-.pg-comments-section span,
-.pg-comments-section div {
-  color: var(--text-light);
-}
-
-.form-checkbox {
+.pg-post-page .form-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.form-checkbox input[type="checkbox"] {
+.pg-post-page .form-checkbox input[type="checkbox"] {
   width: 16px;
   height: 16px;
 }
@@ -218,14 +248,14 @@
 }
 
 /* ===== Checkbox Fix ===== */
-.checkbox-container {
+.pg-post-page .checkbox-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.checkbox-container input[type="checkbox"] {
+.pg-post-page .checkbox-container input[type="checkbox"] {
   margin: 0;
 }
 
@@ -251,15 +281,6 @@
   background-color: var(--primary-teal-hover);
 }
 
-.cancel-button {
-  background-color: var(--error-color) !important;
-}
-
-.cancel-button:hover {
-  background-color: var(--error-hover) !important;
-}
-
-
 /* Adjust layout for small screens */
 @media (max-width: 768px) {
   .pg-post-form {
@@ -270,17 +291,18 @@
     font-size: 1.8rem;
   }
 }
+
 .pg-post-form label {
-    font-size: 1rem;
-  }
-  
-  .pg-post-form input,
-  .pg-post-form textarea {
-    padding: 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .pg-post-form button {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
+  font-size: 1rem;
+}
+
+.pg-post-form input,
+.pg-post-form textarea {
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.pg-post-form button {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+}

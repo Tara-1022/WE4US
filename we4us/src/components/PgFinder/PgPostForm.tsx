@@ -2,8 +2,8 @@ import { PgPostData } from "./Types";
 import "../../styles/PgPostPage.css";
 import React from "react";
 
-export default function PgPostForm({ handleSubmit, onClose, task, initialData}:
-    { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData;}) {
+export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
+    { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData; }) {
 
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -34,7 +34,12 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData}:
             <input name="mapUrl" type="url" required defaultValue={initialData?.url || undefined} />
             <br />
             <div className="form-checkbox">
-                <input type="checkbox" id="acAvailable" name="acAvailable" />
+                <input
+                    type="checkbox"
+                    id="acAvailable"
+                    name="acAvailable"
+                    defaultValue={initialData?.body.acAvailable ? 'on' : undefined}
+                />
                 <label htmlFor="acAvailable">AC Available</label>
             </div>
             <br />
@@ -51,15 +56,10 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData}:
             <label htmlFor="description"> Additional Information: </label>
             <textarea name="description" rows={4} cols={50} defaultValue={initialData?.body.description || undefined} />
             <br />
-             <div className="pg-modal-form-buttons">
+            <div className="pg-modal-form-buttons">
                 <button type="submit">{task}</button>
                 <button className="cancel-button" onClick={onClose}>Cancel</button>
             </div>
         </form>
     );
 }
-
-
-
-
-

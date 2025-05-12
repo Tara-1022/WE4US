@@ -1,0 +1,218 @@
+
+.job-post-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    color: var(--color-white);
+}
+
+.job-post-card {
+    background-color: #1f1f1f;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+}
+
+.job-post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #FFFFFF1A;
+}
+
+.job-title {
+    font-size: 2.0rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-primary-blue);
+    font-weight: 600;
+    text-align: center;
+}
+
+.job-meta {
+    padding-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.job-company {
+    color: var(--color-white);
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.job-type {
+    background: var(--color-primary-dark-purple);
+    color: var(--color-primary-accent);
+    padding: 0rem 1.2rem;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    margin-left: -5pt;
+}
+
+.job-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding-bottom: -0.5rem; 
+    margin-bottom: -1.0rem;
+}
+
+.job-controls {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+  
+.job-controls > button {
+    cursor: pointer;
+    margin-left: 0rem;
+    margin-bottom: -10px;
+    background-color:var(--color-primary-blue);
+    font-weight: bold;
+    color: var(--color-white);
+    padding: 7px 25px;
+    border-radius: 1rem;
+    border-color:var(--color-primary-blue);
+    transition: background-color 0.2s ease;
+    margin-right: 3px;
+  }
+  
+  .job-controls > button:hover {
+    background-color:var(--color-blue);
+  }
+
+  .job-controls > button:first-child{
+    background-color: var(--color-primary-dark-purple);
+    border-color: var(--color-primary-dark-purple);
+  }
+
+  .job-controls > button:first-child:hover {
+    background-color: var(--color-primary-purple);
+  }
+
+  .job-controls > button:last-child,
+  .job-controls > div:last-child {
+    margin-right: 10px;
+    margin-left: auto; 
+    
+    
+  }
+
+.job-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.job-detail-label {
+    font-size: 0.95rem;
+    color:#5242b2;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.job-detail-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-lighter-gray);
+   
+}
+
+.job-deadline {
+    color: var(--color-lighter-gray);
+    font-weight: 600;
+}
+
+.job-deadline-passed {
+    color: var(--color-error);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+
+.job-description {
+    margin-top: 2rem;
+}
+
+.job-description h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--color-white);
+    border-bottom: 1px solid #FFFFFF1A;
+    padding-bottom: 0.5rem;
+}
+
+.job-markdown-content {
+    line-height: 1.6;
+    color: var(--color-light-gray);
+    
+}
+
+.job-markdown-content a {
+    color: var(--color-lighter-gray);
+    text-decoration: none;
+}
+
+.job-markdown-content a:hover {
+    text-decoration: underline;
+}
+
+.job-post-card.job-closed {
+    opacity: 0.85;
+    background-color: var(--color-card-bg);
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+
+.job-post-card.job-closed::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #DC354600 0%, #8080801A 100%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: inherit;
+    border-radius: 4px;
+}
+
+
+.job-post-card.job-closed .job-title,
+.job-post-card.job-closed .job-description,
+.job-post-card.job-closed .job-meta,
+.job-post-card.job-closed .job-detail-value,
+.job-post-card.job-closed .job-detail-label,
+.job-post-card.job-closed .job-company,
+.job-post-card.job-closed .job-description h3,
+.job-post-card.job-closed .job-markdown-content
+ {
+    color: var(--color-fade-out-grey);
+}
+
+.job-post-card.job-closed .job-type{
+    color: var(--color-fade-out-grey);
+    border-color:var(--color-fade-out-grey);
+    background-color: var(--color-card-bg);
+}
+
+@media (max-width: 768px) {
+    .job-post-card {
+        padding: 1.5rem;
+    }
+    
+    .job-title {
+        font-size: 1.5rem;
+    }
+    
+    .job-details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+
+}
