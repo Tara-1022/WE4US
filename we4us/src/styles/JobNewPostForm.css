@@ -1,0 +1,17 @@
+.new-job-post-button {
+    background-color: var(--color-primary-dark-purple);
+    color: var(--color-white);
+    padding: 9px 25px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    border-color: var(--color-primary-dark-purple);
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+
+.new-job-post-button:hover {
+    background-color:var(--color-primary-purple);
+}
+
