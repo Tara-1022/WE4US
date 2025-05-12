@@ -10,14 +10,6 @@
   box-shadow: var(--box-shadow-md), var(--box-shadow-lg);
 }
 
-/* Loader */
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 /* ===== Typography ===== */
 .pg-post-header h3 {
   font-size: 2.5rem;
@@ -35,9 +27,9 @@
   line-height: 1.6;
 }
 
-.label {
+.pg-post-page .label {
   font-weight: 700;
-  font-size: 1.2rem; 
+  font-size: 1.2rem;
   color: var(--color-white);
 }
 
@@ -85,12 +77,12 @@
   background-color: var(--primary-teal-hover);
 }
 
-.cancel-button {
+.pg-post-page .cancel-button {
   background-color: var(--error-color);
   color: var(--text-light);
 }
 
-.cancel-button:hover {
+.pg-post-page .cancel-button:hover {
   background-color: var(--error-hover);
 }
 
@@ -216,19 +208,13 @@
   box-shadow: none;
 }
 
-.pg-comments-section p,
-.pg-comments-section span,
-.pg-comments-section div {
-  color: var(--text-light);
-}
-
-.form-checkbox {
+.pg-post-page .form-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.form-checkbox input[type="checkbox"] {
+.pg-post-page .form-checkbox input[type="checkbox"] {
   width: 16px;
   height: 16px;
 }
@@ -285,14 +271,14 @@
 }
 
 /* ===== Checkbox Fix ===== */
-.checkbox-container {
+.pg-post-page .checkbox-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.checkbox-container input[type="checkbox"] {
+.pg-post-page .checkbox-container input[type="checkbox"] {
   margin: 0;
 }
 
@@ -318,15 +304,6 @@
   background-color: var(--primary-teal-hover);
 }
 
-.cancel-button {
-  background-color: var(--error-color) !important;
-}
-
-.cancel-button:hover {
-  background-color: var(--error-hover) !important;
-}
-
-
 /* Adjust layout for small screens */
 @media (max-width: 768px) {
   .pg-post-form {
@@ -337,17 +314,18 @@
     font-size: 1.8rem;
   }
 }
+
 .pg-post-form label {
-    font-size: 1rem;
-  }
-  
-  .pg-post-form input,
-  .pg-post-form textarea {
-    padding: 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .pg-post-form button {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
+  font-size: 1rem;
+}
+
+.pg-post-form input,
+.pg-post-form textarea {
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.pg-post-form button {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+}
