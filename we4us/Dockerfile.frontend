@@ -1,0 +1,14 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# Copy the rest of the code
+COPY . .
+
+EXPOSE 5173
+
+# Use a different command since 'start' script doesn't exist
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

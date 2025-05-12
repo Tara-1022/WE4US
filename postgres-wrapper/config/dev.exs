@@ -1,10 +1,12 @@
 import Config
 
+
+
 # Configure your database
 config :we4us, We4us.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "postgres-wrapper-db",
   database: "we4us_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
