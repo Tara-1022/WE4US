@@ -23,7 +23,7 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
     }
 
     return (
-        <form onSubmit={handleClick} className="pg-modal-form">
+        <form onSubmit={handleClick} className="pg-post-form">
             <label htmlFor="name"> Name of the PG: </label>
             <input name="name" required defaultValue={initialData?.name || undefined} />
             <br />
@@ -56,7 +56,7 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
             <label htmlFor="description"> Additional Information: </label>
             <textarea name="description" rows={4} cols={50} defaultValue={initialData?.body.description || undefined} />
             <br />
-            <div className="pg-modal-form-buttons">
+            <div className="pg-post-form-buttons">
                 <button type="submit">{task}</button>
                 <button type="reset">Reset</button>
                 <button className="cancel-button" onClick={onClose}>Cancel</button>
