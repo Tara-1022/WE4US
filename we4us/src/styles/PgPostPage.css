@@ -46,38 +46,6 @@
   text-decoration: underline;
 }
 
-
-.pg-form-button-group button {
-  width: 90%;
-  max-width: 600px;
-  padding: 0.8rem 1.2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--border-radius-md);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-}
-
-.pg-form-button-group button[type="submit"] {
-  background-color: var(--color-primary-teal);
-  color: var(--text-light);
-}
-
-.pg-form-button-group button[type="submit"]:hover {
-  background-color: var(--primary-teal-hover);
-}
-
-.pg-modal-form .cancel-button {
-  background-color: var(--error-color);
-  color: var(--text-light);
-}
-
-.pg-modal-form .cancel-button:hover {
-  background-color: var(--error-hover);
-}
-
 .pg-delete-edit-box {
   display: flex;
   justify-content: center;
@@ -104,10 +72,7 @@
   transform: translateY(-2px);
 }
 
-
-
 /* ===== Content Sections ===== */
-
 
 .pg-description {
   margin-top: 2rem;
@@ -146,14 +111,6 @@
 }
 
 /* ===== Layout Components ===== */
-.pg-actions-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 3rem;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
 .pg-section-heading {
   font-size: 1.4rem;
   font-weight: 700;
@@ -169,104 +126,87 @@
   box-shadow: none;
 }
 
-.pg-post-page .form-checkbox {
+/* ==== Post Creation Modal === */
+
+.pg-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.pg-post-page .form-checkbox input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-}
-
-.pg-modal-form-wrapper.ReactModal__Content {
-  background-color: transparent !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: none !important;
-  overflow: visible !important;
-  box-shadow: none !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-direction: column !important;
-}
-
-.pg-modal-form {
+.pg-modal-content {
   background-color: var(--color-dark-bg);
+  color: var(--text-light);
+  width: 85%;
   padding: 2rem;
-  border-radius: var(--border-radius);
   max-height: 90vh;
   overflow-y: auto;
-  color: var(--text-light);
+  inset: auto;
+  border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
 }
-.pg-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: transparent;
-    z-index: 1000;
-}
+
 /* ===== Form Inputs & Labels ===== */
-.pg-modal-form label {
+.pg-post-form label {
   color: white;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   display: block;
+  font-size: 1rem;
 }
 
-.pg-modal-form input,
-.pg-modal-form select,
-.pg-modal-form textarea {
+.pg-post-form input,
+.pg-post-form select,
+.pg-post-form textarea {
   width: 100%;
   padding: 0.4rem;
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
   font-size: 1rem;
   margin-bottom: 1rem;
+  padding: 0.8rem;
+  font-size: 0.9rem;
 }
-.pg-modal-form select {
-    background-color: var(--color-dark-bg); 
-    color: var(--text-light);               
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    padding: 0.4rem;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-.pg-modal-form textarea {
+
+.pg-post-form select {
+  background-color: var(--color-dark-bg);
+  color: var(--text-light);
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  padding: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pg-post-form textarea {
   resize: vertical;
   min-height: 100px;
 }
 
-/* ===== Checkbox Fix ===== */
-.pg-post-page .checkbox-container {
+.pg-post-form .form-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
-.pg-post-page .checkbox-container input[type="checkbox"] {
-  margin: 0;
+.pg-post-form .form-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
 }
-
 /* ===== Form Buttons ===== */
-.pg-modal-form-buttons {
+
+.pg-post-form-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 0.75rem;
 }
 
-.pg-modal-form button {
+.pg-post-form button {
   background-color: var(--color-primary-teal);
   color: white;
   padding: 0.625rem 1rem;
@@ -275,10 +215,21 @@
   font-size: 1rem;
   cursor: pointer;
   transition: var(--transition);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
 }
 
-.pg-modal-form button:hover {
+.pg-post-form button:hover {
   background-color: var(--primary-teal-hover);
+}
+
+.pg-post-form .cancel-button {
+  background-color: var(--error-color);
+  color: var(--text-light);
+}
+
+.pg-post-form .cancel-button:hover {
+  background-color: var(--error-hover);
 }
 
 /* Adjust layout for small screens */
@@ -290,19 +241,4 @@
   .pg-post-form h3 {
     font-size: 1.8rem;
   }
-}
-
-.pg-post-form label {
-  font-size: 1rem;
-}
-
-.pg-post-form input,
-.pg-post-form textarea {
-  padding: 0.8rem;
-  font-size: 0.9rem;
-}
-
-.pg-post-form button {
-  padding: 0.6rem 1rem;
-  font-size: 0.9rem;
 }

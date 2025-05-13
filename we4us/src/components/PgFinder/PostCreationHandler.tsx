@@ -44,7 +44,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
             <Modal
                 isOpen={isOpen}
                 onRequestClose={() => setIsOpen(false)}
-                className="pg-modal-form"
+                className="pg-modal-content"
                 overlayClassName="pg-modal-overlay"
                 contentLabel="Create PG"
             >
