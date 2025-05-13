@@ -43,8 +43,6 @@ services:
       dockerfile: Dockerfile.phoenix
     ports:
       - "4000:4000"
-    volumes:
-      - ./postgres-wrapper:/app
     environment:
       - MIX_ENV=dev
       - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
@@ -56,6 +54,7 @@ services:
       - we4us-network
     restart: unless-stopped
     logging: *default-logging
+    mem_limit: 2g
 
   # PHOENIX DB
   postgres-wrapper-db:
