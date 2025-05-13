@@ -39,11 +39,11 @@
 .meet-up-input,
 .meet-up-additional-textarea {
   background-color: #272727;
+  color: #f1f1f1;
   border: 1px solid #3a3a3a;
   border-radius: 6px;
   padding: 0.55rem 0.75rem;
   font-size: 0.92rem;
-  width: 100%;
   transition: all 0.2s ease;
   height: 200%;
 }
@@ -81,6 +81,7 @@
   background-color: transparent;
   border: 1px solid #4a4a4a;
   color: #aaa;
+  margin-top: -0.4rem;
 }
 
 .meet-up-button[type="reset"]:hover,
