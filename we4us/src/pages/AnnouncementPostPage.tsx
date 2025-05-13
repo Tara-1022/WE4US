@@ -17,11 +17,13 @@ export default function AnnouncementPostPage() {
   const { profileInfo } = useProfileContext();
 
   useEffect(() => {
-    getPostById(announcementId).then((response) => {
-      setPostView(response ? response.post_view : null);
-      console.log(response);
-    });
+    getPostById(announcementId).then(
+      (response) => {
+        setPostView(response ? response.post_view : null);
+        console.log(response);
+      });
   }, [announcementId]);
+
   if (!postView) return <Loader />;
 
   return (
@@ -55,6 +57,7 @@ export default function AnnouncementPostPage() {
                 </div>
               )}
             </div>
+
             <div className="announcement-content">
               <ReactMarkdown>{postView.post.body}</ReactMarkdown>
             </div>
@@ -64,6 +67,7 @@ export default function AnnouncementPostPage() {
               </p>
             </Link>
           </div>
+
           <CommentsSection postId={postView.post.id} />
         </>
       )}

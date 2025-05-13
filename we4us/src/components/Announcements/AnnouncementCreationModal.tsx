@@ -4,27 +4,27 @@ import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../../components/LemmyContextProvider";
 
 export type AnnouncementData = {
-    title: string,
-    body: string
+  title: string,
+  body: string
 }
 
 export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
-    {
-        onSubmit: (data: AnnouncementData) => void, onClose: () => void, initialData?: AnnouncementData,
-        task: string
-    }) {
-    const [loading, setLoading] = useState(false);
+  {
+    onSubmit: (data: AnnouncementData) => void, onClose: () => void, initialData?: AnnouncementData,
+    task: string
+  }) {
+  const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        setLoading(true);
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
 
-        const formData = new FormData(event.currentTarget);
-        const { title, body } = Object.fromEntries(formData);
+    const formData = new FormData(event.currentTarget);
+    const { title, body } = Object.fromEntries(formData);
 
-        onSubmit({ title, body } as AnnouncementData);
-        setLoading(false);
-    };
+    onSubmit({ title, body } as AnnouncementData);
+    setLoading(false);
+  };
 
   return (
     <div
@@ -131,34 +131,36 @@ export function AnnouncementForm({ onSubmit, onClose, initialData, task }:
 }
 
 interface PostCreationModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onPostCreated: (newPost: any) => void;
+  isOpen: boolean;
+  onClose: () => void;
+  onPostCreated: (newPost: any) => void;
 }
 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated }) => {
-    const { lemmyInfo } = useLemmyInfo();
+  const { lemmyInfo } = useLemmyInfo();
 
-    if (!lemmyInfo) return <h3>Could not fetch Announcements community!</h3>
+  if (!lemmyInfo) return <h3>Could not fetch Announcements community!</h3>
 
-    async function handleSubmit(data: AnnouncementData) {
-        if (!lemmyInfo) {
-            console.error("Error creating post: Lemmy details not available");
-            return;
-        }
+  async function handleSubmit(data: AnnouncementData) {
+    // Adding a check to please TypeScript. Because of other checks,
+    // Lemmy info will always be defined here
+    if (!lemmyInfo) {
+      console.error("Error creating post: Lemmy details not available");
+      return;
+    }
 
-        createPost({
-            name: data.title.toString(),
-            body: data.body.toString(),
-            community_id: lemmyInfo.announcements_details.community.id
-        })
-            .then((createdPost) => {
-                onPostCreated(createdPost);
-                onClose();
-            })
-            .catch((error) =>
-                console.error("Error creating post:", error))
-    };
+    createPost({
+      name: data.title.toString(),
+      body: data.body.toString(),
+      community_id: lemmyInfo.announcements_details.community.id
+    })
+      .then((createdPost) => {
+        onPostCreated(createdPost);
+        onClose();
+      })
+      .catch((error) =>
+        console.error("Error creating post:", error))
+  };
 
   return (
     <Modal

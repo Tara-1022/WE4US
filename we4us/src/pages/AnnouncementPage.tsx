@@ -40,18 +40,19 @@ export default function AnnouncementsPage() {
   const hasMore = postViews?.length === DEFAULT_POSTS_PER_PAGE;
 
   useEffect(() => {
-    getAnnouncementPostList({ page: page }).then((posts) =>
-      setPostViews(posts)
+    getAnnouncementPostList({ page: page }).then(
+      (posts) => setPostViews(posts)
     );
   }, [page]);
 
   if (!postViews) return <Loader />;
   else {
-    const list = postViews.map((postView) => (
-      <li key={postView.post.id} className="announcement-list-item">
-        <AnnouncementPostSnippet postView={postView} />
-      </li>
-    ));
+    const list = postViews.map(
+      (postView) => (
+        <li key={postView.post.id} className="announcement-list-item">
+          <AnnouncementPostSnippet postView={postView} />
+        </li>
+      ));
     return (
       <div className="announcements-page">
         <div className="announcement-header">
