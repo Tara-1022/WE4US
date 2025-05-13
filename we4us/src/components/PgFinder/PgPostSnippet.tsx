@@ -21,7 +21,7 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 <div className="pg-post-location">
                     ⚲ Location: {pgData.location || "Not specified"}
                 </div>
+            </div>
         </div>
-       </div> 
     );
 }

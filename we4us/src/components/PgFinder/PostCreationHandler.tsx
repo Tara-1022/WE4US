@@ -34,6 +34,7 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
             window.alert("Failed to create post: " + error.message);
             console.error("Post creation failed:", error);
         });
+
         setIsOpen(false);
     }
 
