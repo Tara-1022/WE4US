@@ -8,20 +8,17 @@ export default function PostDeletor({ postId, imageData }: { postId: number, ima
    
     let styles = {
         actionText: {
-            backgroundColor: "#FF4500",
-            border: "none",
-            color: "white",
-            cursor: "pointer",
-            fontWeight: 600,
-            padding: "6px 16px",
-            fontSize: "14px",
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "6px",
-            transition: "background-color 0.2s"
+            cursor: 'pointer',
+            color: '#FF4500',
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '12px',
+            padding: '8px',
+            background: 'none',
+            border: 'none'
         },
         icon: {
-            marginRight: "6px"
+            marginRight: '6px'
         }
     }
     

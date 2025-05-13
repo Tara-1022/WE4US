@@ -36,8 +36,10 @@ Colours to display for actions such as hover.
   /* Primary Colors */
   --color-primary-purple: #3b2f7f;
   --color-primary-blue: #3a7ffc;
+  --color-primary-blue-hover: #2a6fec;
   --color-primary-orange: #f46801;
   --color-primary-teal: #01c4a4;
+  --primary-teal-hover: #019a86;
 
   /* Backgrounds */
   --color-dark-bg: #1e1e1e;
@@ -64,12 +66,27 @@ Colours to display for actions such as hover.
   --color-primary-light-purple: #a29bfe;
 
   --color-profile-green: #4CAF50;
+  --error-color: #e74c3c;
+  --error-hover: #c0392b;
+  --warning-color:#f46801;
+  --bg-black:  #171717;
   --color-secondary-blue: #5174b6;
   --color-secondary-profile-green: #458b47;
   --color-darker-gray: #7f7a7a;
   --color-light-gray: #ccc;
-  --profile-green: #4CAF50;
-  --hover-gray: #363535;
+  
+  --text-light: #f0f0f0;
+  --text-dark: #1e1e1e;
+  --text-muted: #cccccc;
+  --border-radius: 8px;
+  --box-shadow: 0 0 10px rgba(1, 196, 164, 0.3);
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --box-shadow-sm:  0 2px 4px rgba(235, 235, 235, 0.05);
+  --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow-lg: 0 0 20px rgba(1, 247, 235, 0.913);
+  --transition: all 0.3s ease;
 }
 
 /* Basic styles */

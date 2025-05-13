@@ -15,8 +15,8 @@ export default function CommentsSection({ postId }: { postId: number }) {
             fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
             color: "#e0e0e0",
             margin: 0,
-            padding: "20px",
-            backgroundColor: "rgb(35 35 35)",
+            padding: "0px",
+            backgroundColor: "#1a1a1b",
         },        
         heading: {
             fontSize: "18px",

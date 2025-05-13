@@ -5,18 +5,19 @@ import { useCommentsContext } from "./CommentsContext";
 export default function CommentDeletor({ commentId }: { commentId: number }) {
     const { setComments, comments } = useCommentsContext();
     
-    const styles = {      
-        cancelButton: {
-            padding: "6px 16px",
-            backgroundColor: "#FF4500",
-            color: "#FFFFFF",
-            border: "1px solid #444",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontWeight: "600",
-            transition: "background-color 0.2s"
-        },
-    };
+    const styles = {
+        actionText: {
+            cursor: 'pointer',
+            color: '#dc3545',
+            fontWeight: '500' as const,
+            fontSize: '13px',
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            display: 'inline-flex',
+            alignItems: 'center'
+        }
+    }
     
     function handleDelete() {
         if (confirm("Do you want to delete this comment?")) {
@@ -37,9 +38,5 @@ export default function CommentDeletor({ commentId }: { commentId: number }) {
         }
     }
 
-    return (
-        <button onClick={handleDelete} style={styles.cancelButton} className="DeleteButton">
-            Delete
-        </button>
-    );
+    return <b onClick={handleDelete} style={styles.actionText}>Delete</b>
 }
