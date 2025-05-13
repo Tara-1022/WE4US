@@ -20,11 +20,10 @@ export default function PgPostPage() {
     const [reviews, setReviews] = useState<CommentView[]>([]);
     const [isEditing, setIsEditing] = useState(false);
 
-    const filteredReviews = reviews.filter((review) => !review.comment.deleted);
-    const usersWithReviews = filteredReviews.map((reviewView) => reviewView.creator.id);
-
+    const usersWithReviews = reviews.filter(review => !review.comment.deleted).map((reviewView) => reviewView.creator.id)
+    const filteredReviews = reviews.filter((review) => !review.comment.deleted)
     const { profileInfo } = useProfileContext();
-
+    
     const avgRatings: Ratings | null =
         filteredReviews.length === 0 ? null :
             Average(filteredReviews.map((review) => getReviewContent(review).ratings));
