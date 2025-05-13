@@ -51,7 +51,7 @@
 
 .reaching-out-container button {
   background-color: var(--button-bg);
-  color: #ffffff;
+  color: var(--color-white);
   border: none;
   border-radius: 0;
   padding: 8px 14px;
@@ -64,7 +64,7 @@
 
 .reaching-out-container button:hover {
   background-color: var(--button-hover-bg);
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .reaching-out-container button:active {
@@ -159,8 +159,8 @@
   color: var(--button-bg);
 }
 
-/* Modal styles moved from main.css as requested */
-.modal-overlay {
+/* Modal styles with specific naming for ReachingOut */
+.ro-modal-overlay {
   opacity: 0;
   transition: opacity 200ms ease-in-out;
   background-color: rgba(0, 0, 0, 0.75);
@@ -172,15 +172,15 @@
   z-index: 1000;
 }
 
-.modal-overlay--after-open {
+.ro-modal-overlay--after-open {
   opacity: 1;
 }
 
-.modal-overlay--before-close {
+.ro-modal-overlay--before-close {
   opacity: 0;
 }
 
-.modal-content {
+.ro-modal-content {
   background-color: var(--dark-surface);
   border: 1px solid var(--dark-border);
   border-radius: 8px;
@@ -193,23 +193,23 @@
   color: var(--text-primary);
 }
 
-/* Modal form styling */
-.modal-content form {
+/* ReachingOut Modal form styling */
+.ro-modal-content form {
   display: flex;
   flex-direction: column;
   gap: var(--form-spacing);
 }
 
-.modal-content form label {
+.ro-modal-content form label {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
   color: var(--text-primary);
 }
 
-.modal-content form input,
-.modal-content form textarea,
-.modal-content form select {
+.ro-modal-content form input,
+.ro-modal-content form textarea,
+.ro-modal-content form select {
   width: 100%;
   padding: 12px;
   background-color: var(--input-bg);
@@ -220,33 +220,33 @@
   transition: border-color 0.2s;
 }
 
-.modal-content form input:focus,
-.modal-content form textarea:focus,
-.modal-content form select:focus {
+.ro-modal-content form input:focus,
+.ro-modal-content form textarea:focus,
+.ro-modal-content form select:focus {
   outline: none;
   border-color: var(--primary-orange);
 }
 
-.modal-content form input::placeholder,
-.modal-content form textarea::placeholder {
+.ro-modal-content form input::placeholder,
+.ro-modal-content form textarea::placeholder {
   color: var(--input-placeholder);
 }
 
-.modal-content form textarea {
+.ro-modal-content form textarea {
   min-height: 120px;
   resize: vertical;
 }
 
-.modal-content form div:last-child {
+.ro-modal-content form div:last-child {
   display: flex;
   justify-content: center;
   gap: 12px;
   margin-top: 12px;
 }
 
-.modal-content form button {
+.ro-modal-content form button {
   background-color: var(--button-bg);
-  color: #ffffff;
+  color: var(--color-white);
   border: none;
   border-radius: 4px;
   padding: 10px 20px;
@@ -256,26 +256,26 @@
   margin: 0 auto;
 }
 
-.modal-content form button:hover {
+.ro-modal-content form button:hover {
   background-color: var(--button-hover-bg);
-  color: #ffffff;
+  color: var(--color-white);
 }
 
-.modal-content form button:active {
+.ro-modal-content form button:active {
   background-color: var(--button-active-bg);
 }
 
-.modal-content form button:disabled {
+.ro-modal-content form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.modal-content form button[type="reset"] {
+.ro-modal-content form button[type="reset"] {
   background-color: transparent;
   border: 1px solid var(--input-border);
   color: var(--text-primary);
 }
 
-.modal-content form button[type="reset"]:hover {
+.ro-modal-content form button[type="reset"]:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }

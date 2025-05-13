@@ -77,24 +77,14 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
             isOpen={isOpen}
             onRequestClose={onClose}
             contentLabel="Create Community"
-            style={{
-                overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
-                content: {
-                    top: "50%",
-                    left: "50%",
-                    right: "auto",
-                    bottom: "auto",
-                    marginRight: "-50%",
-                    transform: "translate(-50%, -50%)",
-                    padding: "20px",
-                    background: "white",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                    color: 'black'
-                },
+            className="ro-modal-content"
+            overlayClassName={{
+                base: "ro-modal-overlay",
+                afterOpen: "ro-modal-overlay--after-open",
+                beforeClose: "ro-modal-overlay--before-close"
             }}
         >
-            <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", border: "1px solid #ddd", borderRadius: "8px" }}>
+            <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
                 <h3>Create Community</h3>
                 {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -105,13 +95,14 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
                     <label htmlFor="title">Community Title (treat as description):  </label>
                     <textarea name="title" required />
                     <br />
-                    <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer" }}>
-                        {loading ? "Creating..." : "Create"}
-                    </button>
-
-                    <button onClick={onClose} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", background: "#ccc", color: "black" }}>
-                        Cancel
-                    </button>
+                    <div>
+                        <button type="submit" disabled={loading}>
+                            {loading ? "Creating..." : "Create"}
+                        </button>
+                        <button type="reset" onClick={onClose}>
+                            Cancel
+                        </button>
+                    </div>
                 </form>
             </div>
         </Modal>

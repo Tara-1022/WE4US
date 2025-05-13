@@ -140,6 +140,12 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       isOpen={isOpen}
       onRequestClose={handleCancel}
       contentLabel="Create Post"
+      className="ro-modal-content"
+      overlayClassName={{
+        base: "ro-modal-overlay",
+        afterOpen: "ro-modal-overlay--after-open",
+        beforeClose: "ro-modal-overlay--before-close"
+      }}
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Post Title: </label>
