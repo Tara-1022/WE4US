@@ -9,7 +9,8 @@ import { getReviewContent } from './Types';
 import ReactMarkdown from "react-markdown";
 import "../../styles/PgReviews.css";
 
-export function ReviewSnippet({ review }: { review: CommentView }) {
+export function ReviewSnippet({ review, withPostLink = false }:
+    { review: CommentView, withPostLink?: boolean }) {
 
     return (
         <div className="pg_review-container">
@@ -20,6 +21,12 @@ export function ReviewSnippet({ review }: { review: CommentView }) {
                     <ReactMarkdown>{getReviewContent(review).content}</ReactMarkdown>
                 </>} <br />
             <Link to={"/profile/" + review.creator.name}>{review.creator.display_name ? review.creator.display_name : review.creator.name}</Link>
+            {
+                withPostLink &&
+                <Link to={"/pg-finder/" + review.post.id}>
+                    Go to Post
+                </Link>
+            }
         </div>
     )
 }

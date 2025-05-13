@@ -1,4 +1,5 @@
 import React from "react";
+import "./PaginationControls.css";
 
 interface PaginationControlsProps {
   page: number;
@@ -8,12 +9,24 @@ interface PaginationControlsProps {
 
 const PaginationControls: React.FC<PaginationControlsProps> = ({ page, setPage, hasMore }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", gap: "10px", margin: "10px 0" }}>
-      <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+    <div className="pagination-container">
+      <button
+        className="pagination-button"
+        onClick={() => setPage(page - 1)}
+        disabled={page === 1}
+      >
         Previous
       </button>
-      <span> Page {page} </span>
-      <button disabled={!hasMore} onClick={() => setPage(page + 1)}>
+
+      <span className="pagination-indicator">
+        Page <span className="pagination-number">{page}</span>
+      </span>
+
+      <button
+        className="pagination-button"
+        onClick={() => setPage(page + 1)}
+        disabled={!hasMore}
+      >
         Next
       </button>
     </div>

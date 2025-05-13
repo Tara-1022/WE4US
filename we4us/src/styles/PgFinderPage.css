@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ===== CSS Variables ===== */
 :root {
     --primary-color: #01c4a4;
@@ -12,25 +13,39 @@
     --transition: all 0.3s ease;
   }
   
+=======
+>>>>>>> origin/main
   /* ===== Base Styles ===== */
   .pg-post-list {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> origin/main
   /* Post List Item */
   .pg-post-list-item {
     margin-bottom: 2rem;
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> origin/main
   /* Post Snippet */
   .pg-post {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1.25rem;
+<<<<<<< HEAD
     background-color: var(--bg-dark);
+=======
+    background-color: var(--color-dark-bg);
+>>>>>>> origin/main
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     color: var(--text-light);
@@ -38,11 +53,16 @@
     margin: 1rem 0;
     transition: var(--transition);
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> origin/main
   .pg-post:hover {
     transform: scale(1.01);
     box-shadow: 0 4px 10px rgba(1, 196, 164, 0.4);
   }
+<<<<<<< HEAD
   
   .pg-post-details {
     flex: 4;
@@ -54,6 +74,19 @@
     font-size: 1.5rem;
   }
   
+=======
+
+  .pg-post-details {
+    flex: 4;
+  }
+
+  .pg-post h3 {
+    color: var(--color-primary-teal);
+    margin-bottom: 0.625rem;
+    font-size: 1.5rem;
+  }
+
+>>>>>>> origin/main
   .pg-post-location,
   .pg-post-details span {
     display: block;
@@ -61,6 +94,7 @@
     font-size: 1rem;
   }
   
+<<<<<<< HEAD
   .pg-post-ratings {
     display: flex;
     align-items: center;
@@ -74,6 +108,8 @@
     color: var(--text-muted);
     font-style: italic;
   }
+=======
+>>>>>>> origin/main
   
   /* Links */
   .pg-post a {
@@ -81,6 +117,7 @@
     text-decoration: none;
     transition: var(--transition);
   }
+<<<<<<< HEAD
   
   .pg-post a:hover {
     color: var(--primary-hover);
@@ -167,10 +204,35 @@
   .new-pg-btn {
     background-color: var(--primary-color); 
     color: white;
+=======
+
+  .pg-post a:hover {
+    color: var(--primary-teal-hover);
+    text-decoration: underline;
+  }
+  
+.pg-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    justify-content: left;
+  }
+
+  .pg-search-wrapper{
+    display: flex;
+    align-items: left;
+  }
+
+  .new-pg-btn {
+    background-color: var(--color-primary-teal);
+    color: #fff;
+>>>>>>> origin/main
     padding: 8px 20px;
     border: none;
     border-radius: 4px;
     font-weight: 600;
+<<<<<<< HEAD
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-left: 20px; 
@@ -194,3 +256,14 @@
   width: 32px;
   height: 32px;
 }
+=======
+    font-size: 14px;
+    height: 36px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .new-pg-btn:hover {
+    background-color: var(--primary-teal-hover);
+  }
+>>>>>>> origin/main

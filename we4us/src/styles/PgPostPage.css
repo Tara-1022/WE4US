@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ===== CSS Variables ===== */
 :root {
   --primary-color: #01c4a4;
@@ -24,11 +25,17 @@
   --transition: all 0.2s ease;
 }
 
+=======
+>>>>>>> origin/main
 /* ===== Base Styles ===== */
 .pg-post-page {
   padding: 2rem;
   font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+<<<<<<< HEAD
   background-color: var(--bg-dark);
+=======
+  background-color: var(--color-dark-bg);
+>>>>>>> origin/main
   color: var(--text-light);
   max-width: 1200px;
   margin: 0 auto;
@@ -36,6 +43,7 @@
   box-shadow: var(--box-shadow-md), var(--box-shadow-lg);
 }
 
+<<<<<<< HEAD
 .loader {
   display: flex;
   justify-content: center;
@@ -47,6 +55,12 @@
 .pg-post-header h3 {
   font-size: 2.5rem;
   color: var(--primary-color);
+=======
+/* ===== Typography ===== */
+.pg-post-header h3 {
+  font-size: 2.5rem;
+  color: var(--color-primary-teal);
+>>>>>>> origin/main
   text-align: center;
   margin-bottom: 1.5rem;
   font-weight: 700;
@@ -60,21 +74,33 @@
   line-height: 1.6;
 }
 
+<<<<<<< HEAD
 .label {
   font-weight: 700;
   font-size: 1.2rem; 
   color: var(--secondary-color);
+=======
+.pg-post-page .label {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-white);
+>>>>>>> origin/main
 }
 
 /* ===== Links & Buttons ===== */
 .pg-post-page a {
+<<<<<<< HEAD
   color: var(--accent-color);
+=======
+  color: var(--color-primary-blue);
+>>>>>>> origin/main
   text-decoration: none;
   transition: var(--transition);
   font-weight: 500;
 }
 
 .pg-post-page a:hover {
+<<<<<<< HEAD
   color: var(--accent-hover);
   text-decoration: underline;
 }
@@ -118,6 +144,12 @@
 .cancel-button:hover {
   background-color: var(--error-hover);
 }
+=======
+  color: var(--color-primary-blue-hover);
+  text-decoration: underline;
+}
+
+>>>>>>> origin/main
 .pg-delete-edit-box {
   display: flex;
   justify-content: center;
@@ -127,7 +159,11 @@
 }
 
 .pg-edit-box {
+<<<<<<< HEAD
   background-color: var(--primary-color);
+=======
+  background-color: var(--color-primary-teal);
+>>>>>>> origin/main
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius-sm);
   color: var(--text-light);
@@ -140,6 +176,7 @@
 }
 
 .pg-edit-box:hover {
+<<<<<<< HEAD
   background-color: var(--primary-hover);
   transform: translateY(-2px);
 }
@@ -163,10 +200,14 @@
 
 .pg-delete-box:hover {
   background-color: var(--warning-color);
+=======
+  background-color: var(--primary-teal-hover);
+>>>>>>> origin/main
   transform: translateY(-2px);
 }
 
 /* ===== Content Sections ===== */
+<<<<<<< HEAD
 .pg-rating {
   margin-top: 2.5rem;
   padding: 1.5rem;
@@ -180,6 +221,8 @@
   padding: 0.5rem;
   border-left: 3px solid var(--primary-color);
 }
+=======
+>>>>>>> origin/main
 
 .pg-description {
   margin-top: 2rem;
@@ -197,7 +240,11 @@
 .pg-description h5 {
   font-size: 1.4rem;
   font-weight: 600;
+<<<<<<< HEAD
   color: var(--secondary-color);
+=======
+  color: var(--color-white);
+>>>>>>> origin/main
   margin-bottom: 1rem;
 }
 
@@ -218,6 +265,7 @@
 }
 
 /* ===== Layout Components ===== */
+<<<<<<< HEAD
 .pg-actions-container {
   display: flex;
   justify-content: space-between;
@@ -226,11 +274,17 @@
   gap: 2rem;
 }
 
+=======
+>>>>>>> origin/main
 .pg-section-heading {
   font-size: 1.4rem;
   font-weight: 700;
   margin-top: 2rem;
+<<<<<<< HEAD
   color: var(--secondary-color);
+=======
+  color: var(--color-white);
+>>>>>>> origin/main
 }
 
 .pg-comments-section {
@@ -241,6 +295,7 @@
   box-shadow: none;
 }
 
+<<<<<<< HEAD
 .pg-comments-section p,
 .pg-comments-section span,
 .pg-comments-section div {
@@ -260,5 +315,121 @@
   .pg-actions-container {
     flex-direction: column;
     gap: 1rem;
+=======
+/* ==== Post Creation Modal === */
+
+.pg-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.pg-modal-content {
+  background-color: var(--color-dark-bg);
+  color: var(--text-light);
+  width: 85%;
+  padding: 2rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  inset: auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+/* ===== Form Inputs & Labels ===== */
+.pg-post-form label {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 1rem;
+}
+
+.pg-post-form input,
+.pg-post-form select,
+.pg-post-form textarea {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.pg-post-form select {
+  background-color: var(--color-dark-bg);
+  color: var(--text-light);
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  padding: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pg-post-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.pg-post-form .form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pg-post-form .form-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+/* ===== Form Buttons ===== */
+
+.pg-post-form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+}
+
+.pg-post-form button {
+  background-color: var(--color-primary-teal);
+  color: white;
+  padding: 0.625rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+}
+
+.pg-post-form button:hover {
+  background-color: var(--primary-teal-hover);
+}
+
+.pg-post-form .cancel-button {
+  background-color: var(--error-color);
+  color: var(--text-light);
+}
+
+.pg-post-form .cancel-button:hover {
+  background-color: var(--error-hover);
+}
+
+/* Adjust layout for small screens */
+@media (max-width: 768px) {
+  .pg-post-form {
+    padding: 1.5rem;
+  }
+
+  .pg-post-form h3 {
+    font-size: 1.8rem;
+>>>>>>> origin/main
   }
 }

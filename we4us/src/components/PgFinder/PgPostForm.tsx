@@ -1,8 +1,9 @@
 import { PgPostData } from "./Types";
-import "../../styles/PgFinderPage.css";
+import "../../styles/PgPostPage.css";
+import React from "react";
 
 export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
-    { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData }) {
+    { handleSubmit: (data: PgPostData) => void, onClose: () => void, task: string, initialData?: PgPostData; }) {
 
     function handleClick(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -22,7 +23,7 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
     }
 
     return (
-        <form onSubmit={handleClick} className="pg-modal-form">
+        <form onSubmit={handleClick} className="pg-post-form">
             <label htmlFor="name"> Name of the PG: </label>
             <input name="name" required defaultValue={initialData?.name || undefined} />
             <br />
@@ -32,14 +33,15 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
             <label htmlFor="mapUrl"> Map URL : </label>
             <input name="mapUrl" type="url" required defaultValue={initialData?.url || undefined} />
             <br />
-            <label htmlFor="acAvailable">
+            <div className="form-checkbox">
                 <input
                     type="checkbox"
-                    name="acAvailable"
                     id="acAvailable"
+                    name="acAvailable"
                     defaultValue={initialData?.body.acAvailable ? 'on' : undefined}
-                /> AC Available
-            </label>
+                />
+                <label htmlFor="acAvailable">AC Available</label>
+            </div>
             <br />
             <label htmlFor="foodType">Food Type Available: </label>
             <select name="foodType" required
@@ -54,9 +56,11 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
             <label htmlFor="description"> Additional Information: </label>
             <textarea name="description" rows={4} cols={50} defaultValue={initialData?.body.description || undefined} />
             <br />
-            <button type="submit">{task}</button>
-            <button type="reset">Reset</button>
-            <button className="cancel-button" onClick={onClose}>    Cancel</button>
+            <div className="pg-post-form-buttons">
+                <button type="submit">{task}</button>
+                <button type="reset">Reset</button>
+                <button className="cancel-button" onClick={onClose}>Cancel</button>
+            </div>
         </form>
-    )
+    );
 }

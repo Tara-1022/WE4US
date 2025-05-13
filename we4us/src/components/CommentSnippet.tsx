@@ -1,10 +1,11 @@
 import { CommentView } from "lemmy-js-client";
 import { Link } from "react-router-dom";
+import { getCommunityPath } from "../constants";
 import ReactMarkdown from "react-markdown";
 
-export default function CommentSnippet({ commentView, withPostLink = false }: 
+export default function CommentSnippet({ commentView, withPostLink = false }:
     { commentView: CommentView, withPostLink?: boolean }) {
-    
+
     const styles = {
         content: {
             fontSize: "14px",
@@ -12,7 +13,7 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
             marginBottom: "8px",
             wordBreak: "break-word" as const,
             color: "#e0e0e0",
-            paddingLeft: "12px" 
+            paddingLeft: "12px"
         },
         deleted: {
             color: "#888888",
@@ -22,7 +23,7 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
             display: "flex",
             alignItems: "center",
             fontSize: "12px",
-            color: "#9da5b0", 
+            color: "#9da5b0",
             marginBottom: "8px"
         },
         metaItem: {
@@ -52,21 +53,24 @@ export default function CommentSnippet({ commentView, withPostLink = false }:
                     </ReactMarkdown>
                 )}
             </div>
-            
+
             <div style={styles.meta}>
                 <p style={styles.metaItem}>Created: {new Date(commentView.comment.published).toLocaleString()}</p>
-                
+
                 {commentView.comment.updated && (
                     <p style={styles.metaItem}>Edited: {new Date(commentView.comment.updated).toLocaleString()}</p>
                 )}
-                
+
                 <Link to={"/profile/" + commentView.creator.name} style={styles.userLink}>
                     {commentView.creator.display_name || commentView.creator.name}
                 </Link>
             </div>
-            
+
             {withPostLink && (
-                <Link to={"/post/" + commentView.post.id} style={styles.postLink}>
+                <Link to={
+                    `/${getCommunityPath(commentView.community.name) || "post"}/`
+                    + commentView.post.id
+                } style={styles.postLink}>
                     Go to Post
                 </Link>
             )}

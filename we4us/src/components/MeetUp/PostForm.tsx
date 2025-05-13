@@ -40,62 +40,62 @@ export default function PostForm({
   }
 
   return (
-    <form onSubmit={handleClick}>
+    <form onSubmit={handleClick} className="meet-up-form-container">
       <h2>{task} Meet Up Post</h2>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {errorMessage && <p className="meet-up-error-message">{errorMessage}</p>}
 
-      <label htmlFor="title">Title</label>
+      <label htmlFor="title" className="meet-up-label">Title</label>
       <input
         name="title"
         required
-        className="input"
+        className="meet-up-input"
         defaultValue={initialData?.title || ""}
       />
 
-      <label htmlFor="location">Location</label>
+      <label htmlFor="location" className="meet-up-label">Location</label>
       <input
         name="location"
         required
-        className="input"
+        className="meet-up-input"
         defaultValue={initialData?.body.location || ""}
       />
 
-      <label htmlFor="url">URL (Optional)</label>
+      <label htmlFor="url" className="meet-up-label">URL (Optional)</label>
       <input
         name="url"
         type="url"
-        className="input"
+        className="meet-up-input"
         defaultValue={initialData?.url || ""}
       />
 
-      <label htmlFor="datetime">Time & Date</label>
+      <label htmlFor="datetime" className="meet-up-label">Time & Date</label>
       <input
         name="datetime"
         type="datetime-local"
         required
-        className="input"
+        className="meet-up-input"
         defaultValue={initialData?.body.datetime || ""}
       />
 
-      <label htmlFor="open_to">Open To</label>
+      <label htmlFor="open_to" className="meet-up-label">Open To</label>
       <input
         name="open_to"
-        className="input"
+        className="meet-up-input"
         defaultValue={initialData?.body.open_to || "All"}
       />
 
-      <label htmlFor="additional_details">Additional Details (Optional)</label>
+      <label htmlFor="additional_details" className="meet-up-label">Additional Details (Optional)</label>
       <textarea
         name="additional_details"
-        rows={3}
-        className="input textarea"
+        rows={5}
+        className="meet-up-additional-textarea"  
         defaultValue={initialData?.body.additional_details || ""}
       />
-
-      <button type="submit" className="primary-button">{task}</button>
-      <button type="reset" className="secondary-button">Reset</button>
-      <button type="button" className="secondary-button" onClick={onClose}>Cancel</button>
+    
+      <button type="submit" className="meet-up-button">{task}</button>
+      <button type="reset" className="meet-up-button">Reset</button>
+      <button type="button" className="meet-up-button" onClick={onClose}>Cancel</button>
     </form>
   );
 }
