@@ -1,20 +1,21 @@
 import { useState } from "react";
-import PgPostForm from "./PgPostForm";
+import Modal from "react-modal";
 import { PostView } from "lemmy-js-client";
 import { createPost } from "../../library/LemmyApi";
 import { useLemmyInfo } from "../LemmyContextProvider";
+import "../../styles/PgFinderPage.css";
+import "../../styles/PgPostPage.css";
 import { PgPostData } from "./Types";
-import Modal from "react-modal";
+import PgPostForm from "./PgPostForm";
 
 export default function PostCreationHandler({ handleCreatedPost }: { handleCreatedPost: (newPost: PostView) => void }) {
     const [isOpen, setIsOpen] = useState(false);
     const { lemmyInfo } = useLemmyInfo();
 
     function handleCreation(data: PgPostData) {
-        console.log(data)
-
+        console.log(data);
         if (!lemmyInfo) {
-            window.alert("Cannot create post; Community not found!")
+            window.alert("Cannot create post; Community not found!");
             console.error("Could not fetch PG Finder community!");
             return;
         }
@@ -25,22 +26,32 @@ export default function PostCreationHandler({ handleCreatedPost }: { handleCreat
             url: data.url,
             community_id: lemmyInfo.pg_finder_details.community.id
         }).then(
-            (newPost) => handleCreatedPost(newPost)
-        )
+            (newPost) => {
+                handleCreatedPost(newPost);
+                window.alert("PG added successfully!");
+            }
+        ).catch(error => {
+            window.alert("Failed to create post: " + error.message);
+            console.error("Post creation failed:", error);
+        });
+
         setIsOpen(false);
     }
 
     return (
-        <>
-            <button onClick={() => setIsOpen(true)}>New PG</button>
-
+        <>  
+            <button className="new-pg-btn" onClick={() => setIsOpen(true)}>New PG</button>
             <Modal
                 isOpen={isOpen}
-                contentLabel="Add new PG">
+                onRequestClose={() => setIsOpen(false)}
+                className="pg-modal-content"
+                overlayClassName="pg-modal-overlay"
+                contentLabel="Create PG"
+            >
                 <PgPostForm
                     handleSubmit={handleCreation}
                     onClose={() => setIsOpen(false)}
-                    task="Add PG"
+                    task="Add New PG"
                 />
             </Modal>
         </>

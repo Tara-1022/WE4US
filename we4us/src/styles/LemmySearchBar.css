@@ -69,9 +69,13 @@
 
 
 .search-bar .search-button {
+    width: 100%;
+    height: 30px;
     background-color: var(--color-bg);
     color: var(--color-white);
     border: 1px solid var(--color-light-gray);
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .search-bar .search-button:hover {

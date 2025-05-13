@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
-import "../styles/PgPost.css"
+import "../styles/PgPostPage.css"
+import "../styles/PgFinderPage.css";
 
 export default function PgFinderPage() {
     const [postViews, setPostViews] = useState<PostView[]>([]);
@@ -16,25 +17,32 @@ export default function PgFinderPage() {
 
     useEffect(
         () => {
-        getPgPostList(page).then(setPostViews);
-    }, [page]);
+            getPgPostList(page).then(setPostViews);
+        }, [page]);
     if (!postViews) return <Loader />;
+    else {
+        return (
+            <>
+                <h2 style={{ textAlign: "center" }}>PG Finder</h2>
+                <div className="pg-header-actions">
+                    <div className="pg-search-wrapper">
+                        <Link to="/pg-finder/search">
+                            <Search />
+                        </Link>
+                    </div>
+                    <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
+                </div>
 
-    return (
-        <>
-            <h3>PG FINDER</h3>
-            <Link to="/pg-finder/search"><Search /></Link>
-            <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
-            
-            <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-            
-            {postViews.length > 0 ? (
-                <PgPostList postViews={postViews} />
-            ) : (
-                <h3>No PGs yet!</h3>
-            )}
-            
-            <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-        </>
-    )
+
+                <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+                {postViews.length > 0 ?
+                    <PgPostList postViews={postViews} />
+                    : (
+                        <h3>No PGs yet!</h3>
+                    )}
+
+                <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+            </>
+        )
+    }
 }
