@@ -68,8 +68,7 @@
     justify-content: left;
   }
 
-  .pg-search-wrapper,
-  .pg-new-post-wrapper {
+  .pg-search-wrapper{
     display: flex;
     align-items: left;
   }

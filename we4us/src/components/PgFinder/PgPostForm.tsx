@@ -58,6 +58,7 @@ export default function PgPostForm({ handleSubmit, onClose, task, initialData }:
             <br />
             <div className="pg-modal-form-buttons">
                 <button type="submit">{task}</button>
+                <button type="reset">Reset</button>
                 <button className="cancel-button" onClick={onClose}>Cancel</button>
             </div>
         </form>
