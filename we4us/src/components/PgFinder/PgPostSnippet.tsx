@@ -1,6 +1,6 @@
 import { PostView } from 'lemmy-js-client';
 import { Link } from 'react-router-dom';
-import "./PgFinderPage.css";
+import "../../styles/PgFinderPage.css";
 
 export default function PgPostSnippet({ postView }: { postView: PostView }) {
     // A succint display of primary information of the pg post
@@ -19,15 +19,9 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
                 </Link>
 
                 <div className="pg-post-location">
-                ⚲ Location: {pgData.location || "Not specified"}
-                </div>
-                {/* <div className="pg-post-ratings">
-                    <span className="pg-post-rating-item">Cost: {pgData.ratings?.cost || "N/A"}</span>
-                    <span className="pg-post-rating-item">Safety: {pgData.ratings?.safety || "N/A"}</span>
-                    <span className="pg-post-rating-item">Food: {pgData.ratings?.food || "N/A"}</span>
-                    <span className="pg-post-rating-item">Cleanliness: {pgData.ratings?.cleanliness || "N/A"}</span>
-                </div> */}
+                    ⚲ Location: {pgData.location || "Not specified"}
                 </div>
         </div>
+       </div> 
     );
 }

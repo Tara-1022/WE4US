@@ -1,6 +1,6 @@
 import { PostView } from "lemmy-js-client";
 import { JobPostBody, JobPostData } from "./JobTypes";
-import PostForm from "./PostForm";
+import PostForm from "./JobPostForm";
 import { editPost } from "../../library/LemmyApi";
 
 export default function JobPostEditor({ postView, onPostUpdated, onClose }:

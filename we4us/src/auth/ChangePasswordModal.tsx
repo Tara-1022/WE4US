@@ -73,8 +73,8 @@ export function ChangePasswordModal({
         <Modal
             isOpen={isOpen}
             onRequestClose={handleClose}
-            className="modal-content"
-            overlayClassName="modal-overlay"
+            className="auth-modal-content"
+            overlayClassName="auth-modal-overlay"
             contentLabel="Change Password"
             shouldCloseOnOverlayClick={true}
         >

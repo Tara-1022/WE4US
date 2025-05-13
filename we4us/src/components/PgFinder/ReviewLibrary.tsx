@@ -6,8 +6,11 @@ import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
 import StarRatingInput from "./StarRatingInput";
 
-export function ReviewFormHandler({ task, handleTask, defaultContent }:
-    { task: string, handleTask: (newContent: ReviewContent) => void, defaultContent?: ReviewContent }) {
+export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
+    {
+        task: string, handleTask: (newContent: ReviewContent) => void,
+        onClose: () => void, defaultContent?: ReviewContent
+    }) {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -24,8 +27,7 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
     }
 
     return (
-        <Collapsible CollapsedIcon={() => <b>Add Review</b>} OpenIcon={() => <b>{task}</b>} initiallyExpanded={false}>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={defaultContent? "review-edit-form": "review-create-form"}>
                 <label>Ratings (1-5):</label>
                 <br />
                 <label htmlFor="costRating">Cost : </label>
@@ -57,8 +59,8 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
                 <br />
                 <button type="submit">{task}</button>
                 <button type="reset">Reset</button>
+                <button onClick={onClose}>Cancel</button>
             </form>
-        </Collapsible>
     )
 }
 
@@ -79,23 +81,33 @@ export function ReviewCreator({ postId }: { postId: number }) {
             })
     }
 
-    return <ReviewFormHandler task="Add Review" handleTask={handleCreate} />
+    return <Collapsible
+        CollapsedIcon={() => <b>Add Review</b>}
+        OpenIcon={() => <b>Cancel</b>}
+        initiallyExpanded={false}>
+        <ReviewFormHandler task="Add Review" handleTask={handleCreate} onClose={() => { }} />
+    </Collapsible>
 }
 
-export function ReviewEditor({ initialReview }: { initialReview: CommentView }) {
+export function ReviewEditor({ initialReview, onClose }:
+    { initialReview: CommentView, onClose: () => void }) {
     const { setComments } = useCommentsContext();
     const initialContent = getReviewContent(initialReview);
 
     async function handleEdit(newContent: ReviewContent) {
+        console.log("Trying to edit", newContent)
         editComment(
             initialReview.comment.id,
             JSON.stringify(newContent)
         )
             .then(
-                (updatedReview) => setComments(prevReviews => prevReviews.map(
-                    (element: CommentView) =>
-                        element.comment.id === updatedReview.comment.id ? updatedReview : element
-                ))
+                (updatedReview) => {
+                    setComments(prevReviews => prevReviews.map(
+                        (element: CommentView) =>
+                            element.comment.id === updatedReview.comment.id ? updatedReview : element
+                    ));
+                    onClose();
+                }
             )
             .catch(
                 (error: Error) => {
@@ -105,5 +117,6 @@ export function ReviewEditor({ initialReview }: { initialReview: CommentView }) 
             )
     }
 
-    return <ReviewFormHandler task="Edit" handleTask={handleEdit} defaultContent={initialContent} />
+    return <ReviewFormHandler task="Edit" handleTask={handleEdit}
+        onClose={onClose} defaultContent={initialContent} />
 }

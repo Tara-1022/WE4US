@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PostView } from "lemmy-js-client";
 import { getPostById } from "../library/LemmyApi";
 import { Loader } from "lucide-react";
@@ -17,11 +17,14 @@ export default function MeetUpPostPage() {
   const [commentsVisible, setCommentsVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { profileInfo } = useProfileContext();
+  
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     getPostById(meetUpId).then((response) => {
       setPostView(response ? response.post_view : null);
     });
+
   }, [meetUpId]);
 
   if (!postView)
@@ -74,18 +77,20 @@ export default function MeetUpPostPage() {
 
   return (
     <div className="meetup-post-container">
-      {postView.creator.id === profileInfo?.lemmyId && (
-        <div className="post-delete-top-right">
+      {postView.creator.id === profileInfo?.lemmyId && !isEditing && (
+        <div className="meetup-post-delete">
           <PostDeletor postId={postView.post.id} />
         </div>
       )}
 
       {isEditing ? (
-        <PostEditor
-          postView={postView}
-          onPostUpdated={setPostView}
-          onClose={() => setIsEditing(false)}
-        />
+        <div ref={modalRef} className="modal">
+          <PostEditor
+            postView={postView}
+            onPostUpdated={setPostView}
+            onClose={() => setIsEditing(false)}
+          />
+        </div>
       ) : (
         <>
           <h4 className="meetup-post-title">{MeetUpDetails.title}</h4>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { updateProfile, Profile } from "../library/PostgresAPI";
 import '../styles/EditProfile.css';
 import { useProfileContext } from "./ProfileContext";
-import ImageUploader from "./ImageUploader";
+import ImageUploader, { handleStateChange } from "./ImageUploader";
 import { ImageDetailsType, deleteImage } from "../library/ImageHandling";
 
 interface ProfileEditFormProps {
@@ -49,24 +49,18 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
   }
 
   const handleImageChange = (newImageDetails: ImageDetailsType[] | undefined) => {
-    if (newImageDetails === undefined) {
-      setUploadedImage(undefined);
-      setDeleteOldImage(false);
-    }
-    else {
-      if (newImageDetails.length == 0) {
-        setUploadedImage(undefined)
-        setDeleteOldImage(true)
-      }
-      else {
-        setUploadedImage(newImageDetails[0])
-        setDeleteOldImage(true);
-      }
-    }
+    handleStateChange({
+      newImageDetails,
+      setDeleteOldImage,
+      setUploadedImage
+    })
   };
 
   const handleCancel = () => {
-    if (!uploadedImage) return;
+    if (!uploadedImage) {
+      onCancel();
+      return;
+    }
     // Remove pending image
     deleteImage(uploadedImage)
     setUploadedImage(undefined);
@@ -78,7 +72,8 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
     setIsProcessing(true);
     setError(null);
     const formData = new FormData(e.currentTarget);
-    const { display_name, current_role, company_or_university, years_of_experience, areas_of_interest }
+    const { display_name, current_role, company_or_university,
+      working_since, areas_of_interest, description }
       = Object.fromEntries(formData);
 
     const areas: string[] = areas_of_interest.toString().split(",").map((area: string) => area.trim());
@@ -103,12 +98,13 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
         display_name: display_name.toString(),
         current_role: current_role?.toString() || "",
         company_or_university: company_or_university?.toString() || "",
-        years_of_experience: years_of_experience ? Number(years_of_experience) : null,
         areas_of_interest: areas,
         image_filename: uploadedImage?.filename ||
           (deleteOldImage ? null : originalImage?.filename),
         image_delete_token: uploadedImage?.deleteToken ||
-          (deleteOldImage ? null : originalImage?.deleteToken)
+          (deleteOldImage ? null : originalImage?.deleteToken),
+        description: description?.toString() || "",
+        working_since: working_since?.toString() || ""
       });
 
       if (!response.profile) {
@@ -135,6 +131,8 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             onUploadChange={handleImageChange}
             copiesCount={1}
             purpose="profile"
+            loading={isProcessing}
+            setLoading={setIsProcessing}
           />
         </div>
 
@@ -166,11 +164,11 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
           />
         </div>
         <div className="form-group">
-          <label htmlFor="years_of_experience">Years of Experience:</label>
+          <label htmlFor="working_since">Working Since:</label>
           <input
-            type="number"
-            name="years_of_experience"
-            defaultValue={profile.years_of_experience || ''}
+            type="text"
+            name="working_since"
+            defaultValue={profile.working_since || ''}
           />
         </div>
         <div className="form-group">
@@ -179,6 +177,13 @@ const ProfileEditForm = ({ profile, onProfileUpdate, onCancel }: ProfileEditForm
             type="text"
             name="areas_of_interest"
             defaultValue={profile.areas_of_interest?.join(', ') || ''}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description:</label>
+          <textarea
+            name="description"
+            defaultValue={profile.description || ''}
           />
         </div>
 

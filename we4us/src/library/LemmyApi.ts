@@ -178,7 +178,8 @@ export async function getCommunityDetailsFromName(name: string) {
 // https://github.com/LemmyNet/lemmy-ui/blob/main/src/shared/components/person/person-details.tsx#L297
 export async function getPersonDetails(username: string) {
   const response = await getClient().getPersonDetails({
-    username: username
+    username: username,
+    sort: "Hot"
   });
   return response;
 }

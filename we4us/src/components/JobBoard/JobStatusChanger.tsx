@@ -4,6 +4,7 @@ import { JobPostBody } from "./JobTypes";
 import { isDateInFuture } from "../../library/Utils";
 import Modal from "react-modal";
 import { useState } from "react";
+import "../../styles/JobStatusChangeForm.css";
 
 export default function JobStatusChanger({ postId, initialView, onUpdate }:
     { postId: number, initialView: PostView, onUpdate: (updatedPost: PostView) => void }) {
@@ -23,7 +24,7 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
         const newJobBody = {
             ...jobBody,
             open: !jobBody.open,
-            ...(updateDeadline && deadline && { deadline: deadline.toString() })
+            ...(updateDeadline && deadline && { deadline: deadline.toString() }),
         }
 
         editPost({
@@ -67,36 +68,67 @@ export default function JobStatusChanger({ postId, initialView, onUpdate }:
     }
 
     return <>
-        <button onClick={handleMarkJob}>Mark Job {jobBody.open ? "Closed" : "Open"}</button>
+        <button onClick={handleMarkJob}>
+             Mark Job {jobBody.open ? 'Closed' : 'Open'}
+        </button>
+
         <Modal
-            isOpen={isOpen}
-            style={{
-                overlay: {
-                    alignItems: "center",
-                    justifyContent: "center"
-                },
-                content: {
-                    width: "50%",
-                    color: "black"
-                }
-            }
-            }
+    isOpen={isOpen}
+    ariaHideApp={false}
+    onRequestClose={() => setIsOpen(false)}
+    style={{
+        content: {
+            backgroundColor: '#1e1e1e',
+            color: 'white',
+            border: 'None',
+            width: '550px',
+            height: '220px',
+            margin: 'auto',
+        },
+        overlay: {
+            backgroundColor: '#000000BF'
+        }
+    }}
+>
+    <h4 className="job-status-change-modal-header">
+        You're trying to mark the job open, but the deadline has passed. Would you like to set a future date?
+    </h4>
+
+    <label htmlFor="deadline" className="job-status-change-modal-label">
+        Deadline
+    </label>
+    <input
+        name="deadline"
+        type="date"
+        value={deadline}
+        onChange={handleChange}
+        className="job-status-change-modal-input"
+    />
+    <br />
+
+    <div className="job-status-change-modal-button-group">
+        <button
+            onClick={handleNewDate}
+            className="job-status-change-modal-button job-status-change-modal-button-new-date"
         >
-            {/* Note, this is a controlled form since it's only expected to have a single field.
-            If fields increase, shift to an uncontrolled approach to avoid excessive re-rendering and code 
-            bloat. */}
-            <h4>You're trying to mark the job open, but the deadline has passed.
-                Would you like to set a future date?
-            </h4>
-            <label htmlFor="deadline">Deadline</label>
-            <input name="deadline" type="date"
-                value={deadline} onChange={handleChange} />
-            <br />
+            Set New Date
+        </button>
 
-            <button onClick={handleNewDate}>Set New Date</button>
-            <button onClick={handleJustUpdate}>Just Update Status</button>
-            <button onClick={() => setIsOpen(false)}>Cancel</button>
-        </Modal>
-    </>
+        <button
+            onClick={handleJustUpdate}
+            className="job-status-change-modal-button job-status-change-modal-button-update-status"
+        >
+            Just Update Status
+        </button>
 
-}
+        <button
+            onClick={() => setIsOpen(false)}
+            className="job-status-change-modal-button job-status-change-modal-button-cancel"
+        >
+            Cancel
+        </button>
+    </div>
+</Modal>
+
+</>
+    }
