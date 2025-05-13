@@ -24,7 +24,6 @@
 }
 
 /* Inputs and textarea */
-.pg_review-form input[type="number"],
 .pg_review-form textarea {
     width: 100%;
     padding: 8px;
@@ -55,12 +54,12 @@
 
 /* Reset */
 .pg_review-form button[type="reset"] {
-    background-color: #333333; 
+    background-color: var(--color-card-bg); 
     color: var(--color-primary-teal); 
     border: none;
 }
 
 .pg_review-form button[type="reset"]:hover {
-    background-color: #444444; 
+    background-color: var(--color-card-hover); 
     color: var(--primary-teal-hover); 
 }
