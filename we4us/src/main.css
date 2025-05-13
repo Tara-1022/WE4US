@@ -83,6 +83,7 @@ Colours to display for actions such as hover.
   --border-radius-sm: 6px;
   --border-radius-md: 8px;
   --border-radius-lg: 12px;
+  --box-shadow: 0 0 10px rgba(1, 196, 164, 0.3);
   --box-shadow-sm:  0 2px 4px rgba(235, 235, 235, 0.05);
   --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --box-shadow-lg: 0 0 20px rgba(1, 247, 235, 0.913);
