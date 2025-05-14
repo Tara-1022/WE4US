@@ -9,13 +9,13 @@ x-logging: &default-logging
 volumes:
   postgres-lemmy-data:
   postgres-wrapper-data:
+  pictrs-data:
 
 networks:
   we4us-network:
     driver: bridge
 
 services:
-  # FRONTEND
   react-app:
     build:
       context: ./we4us
@@ -70,14 +70,13 @@ services:
     restart: unless-stopped
     logging: *default-logging
 
-  # LEMMY SERVICES - Using your existing config but adding to network
   proxy:
     image: nginx:1-alpine
     ports:
       - "10633:8536"
     volumes:
-      - ../lemmy_docker_server/nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
-      - ../lemmy_docker_server/proxy_params:/etc/nginx/proxy_params:ro,Z
+      - ./lemmy_docker_server/nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
+      - ./lemmy_docker_server/proxy_params:/etc/nginx/proxy_params:ro,Z
     restart: always
     logging: *default-logging
     depends_on:
@@ -94,7 +93,7 @@ services:
     environment:
       - RUST_LOG="warn"
     volumes:
-      - ../lemmy_docker_server/lemmy.hjson:/config/config.hjson:Z
+      - ./lemmy_docker_server/lemmy.hjson:/config/config.hjson:Z
     depends_on:
       - postgres-lemmy
       - pictrs
@@ -108,7 +107,7 @@ services:
       - LEMMY_UI_LEMMY_EXTERNAL_HOST=localhost:10633
       - LEMMY_UI_HTTPS=false
     volumes:
-      - ../lemmy_docker_server/volumes/lemmy-ui/extra_themes:/app/extra_themes
+      - ./lemmy_docker_server/volumes/lemmy-ui/extra_themes:/app/extra_themes
     depends_on:
       - lemmy
     restart: always
@@ -126,9 +125,12 @@ services:
       - PICTRS__MEDIA__ANIMATION__MAX_WIDTH=256
       - PICTRS__MEDIA__ANIMATION__MAX_HEIGHT=256
       - PICTRS__MEDIA__ANIMATION__MAX_FRAME_COUNT=400
+    command: >
+      sh -c "mkdir -p /mnt/files /mnt/exports /mnt/sled-repo &&
+       /usr/local/bin/pict-rs run"
     user: 991:991
     volumes:
-      - ../lemmy_docker_server/volumes/pictrs:/mnt:Z
+      - pictrs-data:/mnt
     restart: always
     logging: *default-logging
     networks:
@@ -144,7 +146,7 @@ services:
     shm_size: 1g
     volumes:
       - postgres-lemmy-data:/var/lib/postgresql/data:Z
-      - ../lemmy_docker_server/customPostgresql.conf:/etc/postgresql.conf
+      - ./lemmy_docker_server/customPostgresql.conf:/etc/postgresql.conf
     restart: always
     logging: *default-logging
     networks:
