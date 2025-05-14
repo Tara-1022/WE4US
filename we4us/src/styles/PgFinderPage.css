@@ -46,8 +46,8 @@
     margin: 0.3125rem 0;
     font-size: 1rem;
   }
-
-
+  
+  
   /* Links */
   .pg-post a {
     color: var(--primary-color);
@@ -59,8 +59,8 @@
     color: var(--primary-teal-hover);
     text-decoration: underline;
   }
-
-  .pg-header-actions {
+  
+.pg-header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -68,7 +68,7 @@
     justify-content: left;
   }
 
-  .pg-search-wrapper {
+  .pg-search-wrapper{
     display: flex;
     align-items: left;
   }

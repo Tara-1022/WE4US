@@ -5,7 +5,6 @@ import { Loader, Search } from 'lucide-react';
 import { getPgPostList } from "../library/LemmyApi";
 import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
-import "../styles/PgFinderPage.css";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import "../styles/PgPostPage.css"
