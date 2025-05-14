@@ -5,6 +5,7 @@ import { createComment, editComment } from "../../library/LemmyApi";
 import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
 import StarRatingInput from "./StarRatingInput";
+import { useState } from "react";
 
 export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
     {
@@ -27,45 +28,47 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
     }
 
     return (
-        <form onSubmit={handleSubmit} className={defaultContent? "review-edit-form": "review-create-form"}>
-                <label>Ratings (1-5):</label>
-                <br />
-                <label htmlFor="costRating">Cost : </label>
-                <StarRatingInput 
-                  name="costRating" 
-                  defaultValue={defaultContent?.ratings.cost} 
-                />
-                <br />
-                <label htmlFor="safetyRating">Safety : </label>
-                <StarRatingInput 
-                  name="safetyRating" 
-                  defaultValue={defaultContent?.ratings.safety} 
-                />
-                <br />
-                <label htmlFor="foodRating">Food : </label>
-                <StarRatingInput 
-                  name="foodRating" 
-                  defaultValue={defaultContent?.ratings.food} 
-                />
-                <br />
-                <label htmlFor="cleanlinessRating">Cleanliness : </label>
-                <StarRatingInput 
-                  name="cleanlinessRating" 
-                  defaultValue={defaultContent?.ratings.cleanliness} 
-                />
-                <br />
-                <label htmlFor="content">Review: </label>
-                <textarea name="content" defaultValue={defaultContent?.content || undefined} />
-                <br />
-                <button type="submit">{task}</button>
-                <button type="reset">Reset</button>
-                <button onClick={onClose}>Cancel</button>
-            </form>
+        <form onSubmit={handleSubmit} className={defaultContent ? "review-edit-form" : "review-create-form"}>
+            <label>Ratings (1-5):</label>
+            <br />
+            <label htmlFor="costRating">Cost : </label>
+            <StarRatingInput
+                name="costRating"
+                defaultValue={defaultContent?.ratings.cost}
+            />
+            <br />
+            <label htmlFor="safetyRating">Safety : </label>
+            <StarRatingInput
+                name="safetyRating"
+                defaultValue={defaultContent?.ratings.safety}
+            />
+            <br />
+            <label htmlFor="foodRating">Food : </label>
+            <StarRatingInput
+                name="foodRating"
+                defaultValue={defaultContent?.ratings.food}
+            />
+            <br />
+            <label htmlFor="cleanlinessRating">Cleanliness : </label>
+            <StarRatingInput
+                name="cleanlinessRating"
+                defaultValue={defaultContent?.ratings.cleanliness}
+            />
+            <br />
+            <label htmlFor="content">Review: </label>
+            <textarea name="content" defaultValue={defaultContent?.content || undefined} />
+            <br />
+            <button type="submit">{task}</button>
+            <button type="reset">Reset</button>
+            <button onClick={onClose}>Cancel</button>
+        </form>
     )
 }
 
 export function ReviewCreator({ postId }: { postId: number }) {
     const { setComments } = useCommentsContext();
+
+    const [isOpen, setIsOpen] = useState(false);
 
     function handleCreate(newContent: ReviewContent) {
         createComment({
@@ -81,12 +84,11 @@ export function ReviewCreator({ postId }: { postId: number }) {
             })
     }
 
-    return <Collapsible
-        CollapsedIcon={() => <b>Add Review</b>}
-        OpenIcon={() => <b>Cancel</b>}
-        initiallyExpanded={false}>
-        <ReviewFormHandler task="Add Review" handleTask={handleCreate} onClose={() => { }} />
-    </Collapsible>
+    return isOpen ?
+        <ReviewFormHandler task="Add Review"
+            handleTask={handleCreate} onClose={() => { setIsOpen(false) }} />
+        : <b onClick={() => { setIsOpen(true) }}>Add Review</b>
+
 }
 
 export function ReviewEditor({ initialReview, onClose }:
