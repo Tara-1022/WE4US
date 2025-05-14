@@ -28,39 +28,47 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
 
     return (
         <form onSubmit={handleSubmit} className="pg_review-form">
-                <label>Ratings (1-5):</label>
-                <br />
+            <label className="large-label">Ratings (1-5):</label>
+
+            <div className="star-input-container">
                 <label htmlFor="costRating">Cost : </label>
-                <StarRatingInput 
-                  name="costRating" 
-                  defaultValue={defaultContent?.ratings.cost} 
+                <StarRatingInput
+                    name="costRating"
+                    defaultValue={defaultContent?.ratings.cost}
                 />
-                <br />
+            </div>
+
+            <div className="star-input-container">
                 <label htmlFor="safetyRating">Safety : </label>
-                <StarRatingInput 
-                  name="safetyRating" 
-                  defaultValue={defaultContent?.ratings.safety} 
+                <StarRatingInput
+                    name="safetyRating"
+                    defaultValue={defaultContent?.ratings.safety}
                 />
-                <br />
+            </div>
+
+            <div className="star-input-container">
                 <label htmlFor="foodRating">Food : </label>
-                <StarRatingInput 
-                  name="foodRating" 
-                  defaultValue={defaultContent?.ratings.food} 
+                <StarRatingInput
+                    name="foodRating"
+                    defaultValue={defaultContent?.ratings.food}
                 />
-                <br />
+            </div>
+
+            <div className="star-input-container">
                 <label htmlFor="cleanlinessRating">Cleanliness : </label>
-                <StarRatingInput 
-                  name="cleanlinessRating" 
-                  defaultValue={defaultContent?.ratings.cleanliness} 
+                <StarRatingInput
+                    name="cleanlinessRating"
+                    defaultValue={defaultContent?.ratings.cleanliness}
                 />
-                <br />
-                <label htmlFor="content">Review: </label>
-                <textarea name="content" defaultValue={defaultContent?.content || undefined} />
-                <br />
-                <button type="submit">{task}</button>
-                <button type="reset">Reset</button>
-                <button onClick={onClose}>Cancel</button>
-            </form>
+            </div>
+
+            <label htmlFor="content" className="large-label">Review: </label>
+            <textarea name="content" defaultValue={defaultContent?.content || undefined} />
+            <br />
+            <button type="submit">{task}</button>
+            <button type="reset">Reset</button>
+            <button onClick={onClose} className="cancel-button">Cancel</button>
+        </form>
     )
 }
 
