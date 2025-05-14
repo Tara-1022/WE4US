@@ -1,17 +1,28 @@
 import { CommentView } from "lemmy-js-client";
 import { ReviewContent, Ratings } from "./Types";
-import Collapsible from "../Collapsible";
 import { createComment, editComment } from "../../library/LemmyApi";
 import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
 import StarRatingInput from "./StarRatingInput";
 import { useState } from "react";
 
+function isReviewContentValid(content: string) {
+    const reviewRegex = /^(.*\S.*)$/;
+    console.log(content, reviewRegex.test(content))
+    return reviewRegex.test(content);
+};
+
 export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
     {
         task: string, handleTask: (newContent: ReviewContent) => void,
         onClose: () => void, defaultContent?: ReviewContent
     }) {
+
+    const [isValid, setIsValid] = useState(false);
+
+    async function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        if (!isReviewContentValid(e.currentTarget.value)) setIsValid(false)
+    }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -56,9 +67,12 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
             />
             <br />
             <label htmlFor="content">Review: </label>
-            <textarea name="content" defaultValue={defaultContent?.content || undefined} />
+            <textarea name="content"
+                defaultValue={defaultContent?.content || undefined}
+                onChange={handleContentChange}
+                required />
             <br />
-            <button type="submit">{task}</button>
+            <button type="submit" disabled={!isValid}>{task}</button>
             <button type="reset">Reset</button>
             <button onClick={onClose}>Cancel</button>
         </form>
