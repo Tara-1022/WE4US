@@ -2,8 +2,18 @@ import requests
 import pandas as pd
 import time
 import logging
+import sys
 from typing import Dict, List, Optional
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("user_management.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 logger = logging.getLogger(__name__)
 
 class UserManagement:
@@ -24,12 +34,10 @@ class UserManagement:
             self.session.headers.update({"Authorization": f"Bearer {self.auth_token}"})
 
     def set_auth_token(self, auth_token: str):
-        """Update the authentication token for the session."""
         self.auth_token = auth_token
         self.session.headers.update({"Authorization": f"Bearer {self.auth_token}"})
 
     def check_user_exists(self, username: str) -> Optional[Dict]:
-        """Check if a user exists by username."""
         try:
             # Try to get user info directly
             response = self.session.get(
@@ -92,7 +100,6 @@ class UserManagement:
             return None
 
     def set_admin_status(self, person_id: int, is_admin: bool) -> bool:
-        """Set or unset admin status for a user."""
         if not self.auth_token:
             logger.error("Auth token required. Please login as admin first.")
             return False
@@ -136,7 +143,6 @@ class UserManagement:
     def register_user(self, username: str, password: str, email: str,
                       admin: bool = False, captcha_uuid: str = None,
                       captcha_answer: str = None) -> Optional[Dict]:
-        """Register a new user or update admin status if user already exists."""
         try:
             logger.info(f"Registering user {username} with admin status: {admin}")
             user_info = self.check_user_exists(username)
@@ -237,7 +243,6 @@ class UserManagement:
             return None
 
     def bulk_register_users_from_csv(self, csv_file: str) -> List[Dict]:
-        """Register multiple users from a CSV file."""
         try:
             df = pd.read_csv(csv_file)
             required_columns = ["name", "cohort", "username", "username2", "email", "is_admin"]
@@ -336,7 +341,6 @@ class UserManagement:
             return []
 
     def login(self, username: str, password: str) -> bool:
-        """Login a user and update the auth token."""
         try:
             logger.info(f"Attempting to login as {username}")
             response = self.session.post(
@@ -360,3 +364,29 @@ class UserManagement:
             if hasattr(e, 'response') and hasattr(e.response, 'text'):
                 logger.error(f"Response: {e.response.text}")
             return False
+
+def main():
+    LEMMY_URL = "http://localhost:10633"
+    ADMIN_USERNAME = "" # left blank intentionally
+    ADMIN_PASSWORD = ""
+    CSV_FILE = "sample_users.csv"  # Path to your users CSV
+
+    logger.info("Starting user management process...")
+
+    # Initialize the user manager
+    user_manager = UserManagement(LEMMY_URL)
+
+    # Login as admin
+    if user_manager.login(ADMIN_USERNAME, ADMIN_PASSWORD):
+        logger.info("Admin login successful")
+
+        # Register users from CSV
+        logger.info(f"Starting bulk registration from {CSV_FILE}")
+        registered_users = user_manager.bulk_register_users_from_csv(CSV_FILE)
+
+        logger.info(f"Registration process completed. Registered {len(registered_users)} users.")
+    else:
+        logger.error("Admin login failed. User registration cannot proceed.")
+
+if __name__ == "__main__":
+    main()

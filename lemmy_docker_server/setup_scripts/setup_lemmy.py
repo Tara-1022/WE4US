@@ -4,9 +4,6 @@ import sys
 import logging
 from typing import Dict, List
 
-# Import the UserManagement class
-from user_management import UserManagement
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -19,19 +16,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class LemmySetup:
-    def __init__(self, base_url: str, admin_username: str = None, admin_password: str = None):
+    def __init__(self, base_url: str):
         self.base_url = base_url
-        self.admin_username = admin_username
-        self.admin_password = admin_password
         self.auth_token = None
         self.session = requests.Session()
         self.session.headers.update({
             "Content-Type": "application/json",
             "User-Agent": "WE4US-Setup-Script/1.0"
         })
-
-        # Initialize the UserManagement instance
-        self.user_manager = UserManagement(base_url, self.session)
 
         self.communities = [
             {"name": "job_board", "title": "Job Board", "description": "List job and internship openings"},
@@ -72,14 +64,29 @@ class LemmySetup:
             return {}
 
     def login(self, username: str, password: str) -> bool:
-        # Use the UserManagement login method
-        login_success = self.user_manager.login(username, password)
+        try:
+            logger.info(f"Attempting to login as {username}")
+            response = self.session.post(
+                f"{self.base_url}/api/v3/user/login",
+                json={"username_or_email": username, "password": password}
+            )
+            response.raise_for_status()
+            data = response.json()
+            self.auth_token = data.get("jwt")
 
-        if login_success:
-            # Update our auth token from the UserManagement instance
-            self.auth_token = self.user_manager.auth_token
-            return True
-        return False
+            if self.auth_token:
+                self.session.headers.update({"Authorization": f"Bearer {self.auth_token}"})
+                logger.info(f"Successfully logged in as {username}")
+                return True
+            else:
+                logger.error(f"Failed to get auth token for {username}")
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Login failed: {str(e)}")
+            if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                logger.error(f"Response: {e.response.text}")
+            return False
 
     def configure_site(self) -> bool:
         if not self.auth_token:
@@ -174,14 +181,19 @@ class LemmySetup:
         return created_communities
 
 def main():
+    # Hardcoded values
     LEMMY_URL = "http://localhost:10633"
     ADMIN_USERNAME = "" # left blank intentionally
     ADMIN_PASSWORD = ""
 
-    setup = LemmySetup(LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD)
+    logger.info("Starting Lemmy setup process...")
 
+    # Initialize the setup
+    setup = LemmySetup(LEMMY_URL)
+
+    # Login as admin
     if not setup.login(ADMIN_USERNAME, ADMIN_PASSWORD):
-        logger.error("Failed to login as admin. Please check your credentials.")
+        logger.error("Failed to login as admin. Setup cannot proceed.")
         return
 
     # Verify site setup first
@@ -200,13 +212,7 @@ def main():
     communities = setup.create_communities()
     logger.info(f"Created/verified {len(communities)} communities")
 
-    csv_path = 'sample_users.csv'
-    if csv_path:
-        logger.info(f"Registering users from {csv_path}...")
-        registered = setup.user_manager.bulk_register_users_from_csv(csv_path)
-        logger.info(f"Registered {len(registered)} users")
-
-    # Verify site after user registration
+    # Verify site after setup
     logger.info("Performing final site verification...")
     setup.verify_site()
 
