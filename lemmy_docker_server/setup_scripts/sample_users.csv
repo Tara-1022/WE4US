@@ -1,0 +1,8 @@
+name,cohort,username,username2,email,is_admin
+Jane Smith,2023,janesmith,jsmith456,jane.smith@example.com,true
+Maria Garcia,2024,mgarcia,maria_g,maria.garcia@example.com,false
+Priya Patel,2023,ppatel,priya.p,priya.patel@example.com,true
+Fatima Khan,2023,fkhan,fatima.k,fatima.khan@example.com,true
+Emily Brown,2023,ebrown,emily.b,emily.brown@example.com,false
+Sarah Johnson,2023,sjohnson,sarah.j,sarah.johnson@example.com,false
+Aisha Patel,2023,apatel,aisha.p,aisha.patel@example.com,true

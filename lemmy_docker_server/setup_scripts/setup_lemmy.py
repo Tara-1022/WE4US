@@ -1,216 +1,216 @@
-"https://mv-gh.github.io/lemmy_openapi_spec/#tag/Site/paths/~1site/get"
-
 import requests
 import time
-import pandas as pd
-import os
+import sys
+import logging
+from typing import Dict, List
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BASE_URL = "http://localhost:10633/api/v3"
+# Import the UserManagement class
+from user_management import UserManagement
 
-ADMIN_USERNAME = "cohort2_user2"
-ADMIN_PASSWORD = "nishita123"
-EMAIL = "admin@localhost"
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("lemmy_setup.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+logger = logging.getLogger(__name__)
 
-# Standard communities to create
-COMMUNITIES = [
-    {"name": "job_board", "title": "Job Board", "description": "List job and internship openings"},
-    {"name": "announcements", "title": "Announcements", "description": "Important announcements and updates"},
-    {"name": "pg_finder", "title": "PG Finder", "description": "PG recommendations with reviews"},
-    {"name": "meet_up", "title": "Meet Up", "description": "Upcoming meet-up events and activities"}
-]
+class LemmySetup:
+    def __init__(self, base_url: str, admin_username: str = None, admin_password: str = None):
+        self.base_url = base_url
+        self.admin_username = admin_username
+        self.admin_password = admin_password
+        self.auth_token = None
+        self.session = requests.Session()
+        self.session.headers.update({
+            "Content-Type": "application/json",
+            "User-Agent": "WE4US-Setup-Script/1.0"
+        })
 
-SITE_CONFIG = {
-    "name": "WE4US",
-    "description": "A platform for students to connect, share, and grow.",
-    "enable_downvotes": True,
-    "enable_nsfw": True,
-    "community_creation_admin_only": True,
-    "require_email_verification": False,
-    "application_question": "",
-    "private_instance": True,
-    "federation_enabled": False
-}
+        # Initialize the UserManagement instance
+        self.user_manager = UserManagement(base_url, self.session)
 
-def register_or_login():
-    # Try login
-    login_res = requests.post(f"{BASE_URL}/user/login", json={
-        "username_or_email": ADMIN_USERNAME,
-        "password": ADMIN_PASSWORD
-    })
+        self.communities = [
+            {"name": "job_board", "title": "Job Board", "description": "List job and internship openings"},
+            {"name": "announcements", "title": "Announcements", "description": "Important announcements and updates"},
+            {"name": "pg_finder", "title": "PG Finder", "description": "PG recommendations with reviews"},
+            {"name": "meet_up", "title": "Meet Up", "description": "Upcoming meet-up events and activities"}
+        ]
 
-    if login_res.status_code == 200 and "jwt" in login_res.json():
-        print("[+] Logged in as admin.")
-        return login_res.json()["jwt"] 
+        self.site_config = {
+            "name": "WE4US",
+            "description": "A platform for students to connect, share, and grow.",
+            "enable_downvotes": True,
+            "enable_nsfw": True,
+            "community_creation_admin_only": True,
+            "require_email_verification": False,
+            "application_question": "",
+            "private_instance": True,
+            "federation_enabled": False
+        }
 
-    # Else register
-    print("[*] Registering new admin...")
-    reg_res = requests.post(f"{BASE_URL}/user/register", json={
-        "username": ADMIN_USERNAME,
-        "password": ADMIN_PASSWORD,
-        "password_verify": ADMIN_PASSWORD,
-        "email": EMAIL,
-        "show_nsfw": True
-    })
-
-    if reg_res.status_code != 200 or "jwt" not in reg_res.json():
-        raise Exception("[-] Failed to register admin: " + reg_res.text)
-
-    print("[+] Admin registered.")
-    return reg_res.json()["jwt"]  
-
-def setup_site(jwt_token):
-    headers = {"Authorization": f"Bearer {jwt_token}"}
-    
-    get_site_res = requests.get(f"{BASE_URL}/site", headers=headers)
-    if get_site_res.status_code != 200:
-        print(f"[-] Failed to get site config: {get_site_res.status_code} - {get_site_res.text}")
-        return False
-    
-    current_site_data = get_site_res.json()
-    
-    if "site" not in current_site_data:
-        print("[-] Invalid site data returned")
-        return False
-    
-    print("[+] Retrieved current site configuration")
-    
-    site_config = {
-        "name": SITE_CONFIG["name"],
-        "sidebar": SITE_CONFIG["description"],
-        "description": SITE_CONFIG["description"],
-        "enable_downvotes": SITE_CONFIG["enable_downvotes"],
-        "enable_nsfw": SITE_CONFIG["enable_nsfw"],
-        "community_creation_admin_only": SITE_CONFIG["community_creation_admin_only"],
-        "require_email_verification": SITE_CONFIG["require_email_verification"],
-        "application_question": SITE_CONFIG["application_question"],
-        "private_instance": SITE_CONFIG["private_instance"],
-        "federation_enabled": SITE_CONFIG["federation_enabled"]
-    }
-    
-    res = requests.put(f"{BASE_URL}/site", headers=headers, json={"site": site_config})
-    
-    if res.status_code != 200:
-        print(f"[-] Failed to configure site: {res.status_code} - {res.text}")
-        return False
-        
-    verify_res = requests.get(f"{BASE_URL}/site", headers=headers)
-    if verify_res.status_code != 200:
-        print(f"[-] Failed to verify site config: {verify_res.status_code}")
-        return False
-        
-    updated_site_data = verify_res.json()
-    
-    if "site" not in updated_site_data:
-        print("[-] Invalid site data returned during verification")
-        return False
-        
-    # Check key settings to ensure they were updated correctly
-    site_settings = updated_site_data["site"]
-    if (site_settings.get("name") != SITE_CONFIG["name"] or
-            site_settings.get("private_instance") != SITE_CONFIG["private_instance"] or
-            site_settings.get("federation_enabled", True) != SITE_CONFIG["federation_enabled"]):
-        print("[-] Site configuration didn't update correctly!")
-        print(f"Expected: {SITE_CONFIG}")
-        print(f"Got: {site_settings}")
-        return False
-        
-    print("[+] Site configured successfully and verified.")
-    return True
-
-def create_communities(jwt_token):
-    headers = {"Authorization": f"Bearer {jwt_token}"}
-
-    for comm in COMMUNITIES:
+    def verify_site(self) -> dict:
         try:
-            res = requests.post(f"{BASE_URL}/community", headers=headers, json={
-                "name": comm["name"],
-                "title": comm["title"],
-                "description": comm["description"],
-                "nsfw": True,
-                "icon": None,
-                "banner": None
-            })
+            logger.info("Verifying site configuration...")
+            response = self.session.get(f"{self.base_url}/api/v3/site")
 
-            if res.status_code == 200:
-                print(f"[+] Created community: {comm['name']}")
+            if response.status_code == 200:
+                site_data = response.json()
+                logger.info(f"Site verification successful. Current site name: {site_data.get('site_view', {}).get('site', {}).get('name')}")
+                return site_data
             else:
-                print(f"[!] Failed to create community {comm['name']}: {res.status_code} - {res.text}")
-        except Exception as e:
-            print(f"[!] Error creating community {comm['name']}: {str(e)}")
+                logger.error(f"Site verification failed with status code: {response.status_code}")
+                return {}
 
-def create_test_users(jwt_token, excel_path):
-    try:
-        df = pd.read_excel(excel_path)
-        
-        for _, row in df.iterrows():
-            email = row.get('Email', '')
-            username = email.split('@')[0].replace('.', '_')
-            password = "WE4US_Password!123"
-            is_admin = row.get('IsAdmin', False)
-            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error verifying site: {str(e)}")
+            if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                logger.error(f"Response: {e.response.text}")
+            return {}
+
+    def login(self, username: str, password: str) -> bool:
+        # Use the UserManagement login method
+        login_success = self.user_manager.login(username, password)
+
+        if login_success:
+            # Update our auth token from the UserManagement instance
+            self.auth_token = self.user_manager.auth_token
+            return True
+        return False
+
+    def configure_site(self) -> bool:
+        if not self.auth_token:
+            logger.error("Auth token required. Please login as admin first.")
+            return False
+
+        try:
+            logger.info("Configuring site settings...")
+
+            site_config = {
+                "name": self.site_config["name"],
+                "description": self.site_config["description"],
+                "enable_downvotes": self.site_config["enable_downvotes"],
+                "enable_nsfw": self.site_config["enable_nsfw"],
+                "community_creation_admin_only": self.site_config["community_creation_admin_only"],
+                "require_email_verification": self.site_config["require_email_verification"],
+                "application_question": "Why would you like to join the WE4US community?",
+                "private_instance": self.site_config["private_instance"],
+                "federation_enabled": self.site_config["federation_enabled"]
+            }
+
+            logger.info(f"Applying site configuration: {site_config}")
+
+            response = self.session.put(
+                f"{self.base_url}/api/v3/site",
+                json=site_config
+            )
+
+            response.raise_for_status()
+            logger.info(f"Site configuration applied successfully: {response.status_code}")
+
+            time.sleep(2)
+            verification = self.verify_site()
+            site_name = verification.get("site_view", {}).get("site", {}).get("name")
+            logger.info(f"Verified site name is now: {site_name}")
+
+            return site_name == self.site_config["name"]
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to configure site: {str(e)}")
+            if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                logger.error(f"Response: {e.response.text}")
+            return False
+
+    def create_communities(self) -> List[Dict]:
+        if not self.auth_token:
+            logger.error("Auth token required. Please login as admin first.")
+            return []
+
+        created_communities = []
+
+        for community in self.communities:
             try:
-                # Register regular user
-                res = requests.post(f"{BASE_URL}/user/register", json={
-                    "username": username,
-                    "password": password,
-                    "password_verify": password,
-                    "email": email,
-                    "show_nsfw": True 
-                })
-                
-                if res.status_code == 200:
-                    print(f"[+] Created test user: {username} / {email}")
-                    
-                    # If this user should be an admin and isn't the main admin, promote them
-                    if is_admin and username != ADMIN_USERNAME:
-                        user_jwt = res.json().get("jwt")
-                        if user_jwt:
-                            # TODO: Add code to make this user an admin if needed
-                            # This would require proper Lemmy API calls to promote a user
-                            pass
-                else:
-                    print(f"[!] Failed to create user {username}: {res.status_code} - {res.text}")
-            except Exception as e:
-                print(f"[!] Error creating user {username}: {str(e)}")
-            
-            time.sleep(0.5)
-            
-    except Exception as e:
-        print(f"[!] Error processing Excel file: {str(e)}")
+                logger.info(f"Creating community: {community['name']}")
+
+                # Check if community already exists
+                search_response = self.session.get(
+                    f"{self.base_url}/api/v3/community",
+                    params={"name": community["name"]}
+                )
+
+                if search_response.status_code == 200 and "community_view" in search_response.json():
+                    logger.info(f"Community {community['name']} already exists")
+                    created_communities.append(search_response.json())
+                    continue
+
+                # Create the community
+                response = self.session.post(
+                    f"{self.base_url}/api/v3/community",
+                    json={
+                        "name": community["name"],
+                        "title": community["title"],
+                        "description": community["description"],
+                        "nsfw": False,
+                        "visibility": "Public"
+                    }
+                )
+
+                response.raise_for_status()
+                result = response.json()
+                logger.info(f"Successfully created community: {community['name']}")
+                created_communities.append(result)
+
+                # Wait between community creations
+                time.sleep(1)
+
+            except requests.exceptions.RequestException as e:
+                logger.error(f"Failed to create community {community['name']}: {str(e)}")
+                if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                    logger.error(f"Response: {e.response.text}")
+
+        return created_communities
+
+def main():
+    LEMMY_URL = "http://localhost:10633"
+    ADMIN_USERNAME = "" # left blank intentionally
+    ADMIN_PASSWORD = ""
+
+    setup = LemmySetup(LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD)
+
+    if not setup.login(ADMIN_USERNAME, ADMIN_PASSWORD):
+        logger.error("Failed to login as admin. Please check your credentials.")
+        return
+
+    # Verify site setup first
+    logger.info("Performing initial site verification...")
+    setup.verify_site()
+
+    # Configure the site with WE4US settings
+    logger.info("Configuring site with WE4US settings...")
+    if setup.configure_site():
+        logger.info("Site configuration successful!")
+    else:
+        logger.error("Site configuration failed!")
+
+    # Create communities
+    logger.info("Creating communities...")
+    communities = setup.create_communities()
+    logger.info(f"Created/verified {len(communities)} communities")
+
+    csv_path = 'sample_users.csv'
+    if csv_path:
+        logger.info(f"Registering users from {csv_path}...")
+        registered = setup.user_manager.bulk_register_users_from_csv(csv_path)
+        logger.info(f"Registered {len(registered)} users")
+
+    # Verify site after user registration
+    logger.info("Performing final site verification...")
+    setup.verify_site()
+
+    logger.info("Setup process completed!")
 
 if __name__ == "__main__":
-    print("[*] Starting Lemmy setup...")
-    
-    try:
-        jwt = register_or_login()
-        
-        print("[*] Setting up site configuration...")
-        site_setup_success = setup_site(jwt)
-        if not site_setup_success:
-            print("[-] Site setup failed, but continuing with other tasks...")
-        
-        print("[*] Creating standard communities...")
-        create_communities(jwt)
-        
-        excel_path = os.path.join(BASE_DIR, "test_users.xlsx")
-	print("[*] Creating test users from Excel file...")
-        create_test_users(jwt, excel_path)
-        
-        # Final verification of site configuration
-        print("[*] Performing final site configuration verification...")
-        headers = {"Authorization": f"Bearer {jwt}"}
-        final_check = requests.get(f"{BASE_URL}/site", headers=headers)
-        if final_check.status_code == 200:
-            site_data = final_check.json()
-            if "site" in site_data and site_data["site"].get("name") == SITE_CONFIG["name"]:
-                print("[+] Final verification successful - site is configured correctly!")
-            else:
-                print("[-] Warning: Final verification shows site may not be configured correctly.")
-                print(f"Current site configuration: {site_data.get('site', {})}")
-        else:
-            print(f"[-] Warning: Could not verify final site configuration: {final_check.status_code}")
-        
-        print("[+] Setup complete!")
-    except Exception as e:
-        print(f"[-] Setup failed: {str(e)}")
+    main()
