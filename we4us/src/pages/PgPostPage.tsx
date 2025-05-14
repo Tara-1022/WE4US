@@ -6,7 +6,6 @@ import { useParams, Link } from 'react-router-dom';
 import PostDeletor from '../components/PostDeletor';
 import PgPostEditor from '../components/PgFinder/PgPostEditor';
 import { useProfileContext } from '../components/ProfileContext';
-import '../styles/PgPostPage.css';
 import { PgPostBody, Ratings, Average, getReviewContent } from '../components/PgFinder/Types';
 import ReactMarkdown from "react-markdown";
 import { CommentsContext, commentsContextValueType } from '../components/CommentsContext';
