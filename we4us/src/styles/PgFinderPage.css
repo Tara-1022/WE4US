@@ -4,10 +4,12 @@
     margin: 0;
     padding: 0;
   }
+
   /* Post List Item */
   .pg-post-list-item {
     margin-bottom: 2rem;
   }
+
   /* Post Snippet */
   .pg-post {
     display: flex;
@@ -22,6 +24,7 @@
     margin: 1rem 0;
     transition: var(--transition);
   }
+
   .pg-post:hover {
     transform: scale(1.01);
     box-shadow: 0 4px 10px rgba(1, 196, 164, 0.4);
@@ -43,8 +46,8 @@
     margin: 0.3125rem 0;
     font-size: 1rem;
   }
-  
-  
+
+
   /* Links */
   .pg-post a {
     color: var(--primary-color);
@@ -56,8 +59,8 @@
     color: var(--primary-teal-hover);
     text-decoration: underline;
   }
-  
-.pg-header-actions {
+
+  .pg-header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -65,7 +68,7 @@
     justify-content: left;
   }
 
-  .pg-search-wrapper{
+  .pg-search-wrapper {
     display: flex;
     align-items: left;
   }
