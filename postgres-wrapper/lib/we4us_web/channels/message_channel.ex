@@ -71,6 +71,19 @@ defmodule We4usWeb.MessageChannel do
         We4usWeb.Endpoint.broadcast(topic, "new_message", formatted_message)
 
         {:reply, {:ok, formatted_message}, socket}
+      {:ok, message} ->
+        formatted_message = %{
+          id: message.id,
+          from_user: from_user,
+          to_user: to_user,
+          body: body,
+          inserted_at: message.inserted_at
+        }
+
+        topic = "message:#{Enum.join(users, "#")}"
+        We4usWeb.Endpoint.broadcast(topic, "new_message", formatted_message)
+
+        {:reply, {:ok, formatted_message}, socket}
 
       {:error, _changeset} ->
         {:reply, {:error, %{reason: "Failed to save message"}}, socket}

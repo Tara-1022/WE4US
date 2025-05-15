@@ -6,8 +6,8 @@ x-logging: &default-logging
 
 # Uncomment this and fix line 83
 # If you're having issues persisting data (especially if on windows/WSL)
-#volumes:
-  #postgres-data:
+# volumes:
+#   postgres-data:
 
 services:
   proxy:
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
       - ./proxy_params:/etc/nginx/proxy_params:ro,Z
-    restart: always
+    #restart: always
     logging: *default-logging
     depends_on:
       - pictrs
@@ -28,7 +28,7 @@ services:
   lemmy:
     image: dessalines/lemmy:0.19.8
     hostname: lemmy
-    restart: always
+    #restart: always
     logging: *default-logging
     environment:
       - RUST_LOG="warn"
@@ -48,7 +48,7 @@ services:
       - ./volumes/lemmy-ui/extra_themes:/app/extra_themes
     depends_on:
       - lemmy
-    restart: always
+    #restart: always
     logging: *default-logging
 
   pictrs:
@@ -68,7 +68,7 @@ services:
     user: 991:991
     volumes:
       - ./volumes/pictrs:/mnt:Z
-    restart: always
+    #restart: always
     logging: *default-logging
 
   postgres:
@@ -83,12 +83,12 @@ services:
       - /var/lib/postgresql/data
       # replace the above line with postgres-data:/var/lib/postgresql/data:Z if needed
       - ./customPostgresql.conf:/etc/postgresql.conf
-    restart: always
+    #restart: always
     logging: *default-logging
 
   postfix:
     image: mwader/postfix-relay
     environment:
       - POSTFIX_myhostname=lemmy:8765
-    restart: "always"
+    #restart: "always"
     logging: *default-logging

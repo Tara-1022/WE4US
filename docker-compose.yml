@@ -1,0 +1,158 @@
+version: '3.8'
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "50m"
+    max-file: "4"
+
+volumes:
+  postgres-lemmy-data:
+  postgres-wrapper-data:
+  pictrs-data:
+
+networks:
+  we4us-network:
+    driver: bridge
+
+services:
+  react-app:
+    image: yashaswinisharma/we4us-react:latest
+    ports:
+      - "5173:5173"
+    #volumes:
+    #  - ./we4us:/app
+    #  - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_PHOENIX_URL=http://localhost:4000
+      - REACT_APP_LEMMY_URL=http://localhost:10633
+    depends_on:
+      - phoenix-api
+    networks:
+      - we4us-network
+    restart: unless-stopped
+    logging: *default-logging
+
+  # PHOENIX API
+  phoenix-api:
+    image: yashaswinisharma/we4us-phoenix:latest
+    ports:
+      - "4000:4000"
+    environment:
+      - MIX_ENV=dev
+      - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
+      - SECRET_KEY_BASE=your_secret_key_here
+      - LEMMY_URL=http://lemmy:8536
+    depends_on:
+      - postgres-wrapper-db
+    networks:
+      - we4us-network
+    restart: unless-stopped
+    logging: *default-logging
+    mem_limit: 2g
+
+  # PHOENIX DB
+  postgres-wrapper-db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=we4us_dev
+    volumes:
+      - postgres-wrapper-data:/var/lib/postgresql/data
+    networks:
+      - we4us-network
+    restart: unless-stopped
+    logging: *default-logging
+
+  proxy:
+    image: nginx:1-alpine
+    ports:
+      - "10633:8536"
+    volumes:
+      - ./lemmy_docker_server/nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
+      - ./lemmy_docker_server/proxy_params:/etc/nginx/proxy_params:ro,Z
+    restart: always
+    logging: *default-logging
+    depends_on:
+      - pictrs
+      - lemmy-ui
+    networks:
+      - we4us-network
+
+  lemmy:
+    image: dessalines/lemmy:0.19.8
+    hostname: lemmy
+    restart: always
+    logging: *default-logging
+    environment:
+      - RUST_LOG="warn"
+    volumes:
+      - ./lemmy_docker_server/lemmy.hjson:/config/config.hjson:Z
+    depends_on:
+      - postgres-lemmy
+      - pictrs
+    networks:
+      - we4us-network
+
+  lemmy-ui:
+    image: dessalines/lemmy-ui:0.19.8
+    environment:
+      - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
+      - LEMMY_UI_LEMMY_EXTERNAL_HOST=localhost:10633
+      - LEMMY_UI_HTTPS=false
+    volumes:
+      - ./lemmy_docker_server/volumes/lemmy-ui/extra_themes:/app/extra_themes
+    depends_on:
+      - lemmy
+    restart: always
+    logging: *default-logging
+    networks:
+      - we4us-network
+
+  pictrs:
+    image: asonix/pictrs:0.5.16
+    hostname: pictrs
+    environment:
+      - PICTRS__SERVER__API_KEY=lemmy_pwd
+      - RUST_BACKTRACE=full
+      - PICTRS__MEDIA__VIDEO__VIDEO_CODEC=vp9
+      - PICTRS__MEDIA__ANIMATION__MAX_WIDTH=256
+      - PICTRS__MEDIA__ANIMATION__MAX_HEIGHT=256
+      - PICTRS__MEDIA__ANIMATION__MAX_FRAME_COUNT=400
+    command: >
+      sh -c "mkdir -p /mnt/files /mnt/exports /mnt/sled-repo &&
+       /usr/local/bin/pict-rs run"
+    user: 991:991
+    volumes:
+      - pictrs-data:/mnt
+    restart: always
+    logging: *default-logging
+    networks:
+      - we4us-network
+
+  postgres-lemmy:
+    image: pgautoupgrade/pgautoupgrade:17-alpine
+    hostname: postgres
+    environment:
+      - POSTGRES_USER=lemmy
+      - POSTGRES_PASSWORD=lemmy_pwd
+      - POSTGRES_DB=lemmy
+    shm_size: 1g
+    volumes:
+      - postgres-lemmy-data:/var/lib/postgresql/data:Z
+      - ./lemmy_docker_server/customPostgresql.conf:/etc/postgresql.conf
+    restart: always
+    logging: *default-logging
+    networks:
+      - we4us-network
+
+  postfix:
+    image: mwader/postfix-relay
+    environment:
+      - POSTFIX_myhostname=lemmy
+    restart: always
+    logging: *default-logging
+    networks:
+      - we4us-network
