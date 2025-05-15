@@ -82,6 +82,12 @@
     background-color: var(--primary-teal-hover);
 }
 
+.pg_review-form button[type="submit"]:disabled {
+    background-color: var(--color-light-gray);
+    color: white;
+}
+
+
 /* Reset */
 .pg_review-form button[type="reset"] {
     background-color: var(--color-card-bg);
