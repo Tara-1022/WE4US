@@ -8,7 +8,6 @@ import { useState } from "react";
 
 function isReviewContentValid(content: string) {
     const reviewRegex = /^(.*\S.*)$/;
-    console.log(content, reviewRegex.test(content))
     return reviewRegex.test(content);
 };
 
