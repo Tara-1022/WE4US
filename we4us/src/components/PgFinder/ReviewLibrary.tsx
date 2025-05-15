@@ -20,8 +20,7 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
     const [isValid, setIsValid] = useState(false);
 
     async function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-        if (!isReviewContentValid(e.currentTarget.value)) setIsValid(false);
-        else setIsValid(true);
+        setIsValid(isReviewContentValid(e.currentTarget.value));
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
