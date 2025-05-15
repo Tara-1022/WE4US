@@ -8,25 +8,14 @@ import RatingsView from './RatingsView';
 import { getReviewContent } from './Types';
 import ReactMarkdown from "react-markdown";
 import { useState } from 'react';
+import "../../styles/PgReviews.css";
 
 // A more restrictive comment
-
-let styles = {
-    container: {
-        marginLeft: "1%",
-        padding: "1%"
-    },
-    postLink: {
-        fontSize: "small",
-        margin: "2%"
-    }
-}
-
 export function ReviewSnippet({ review, withPostLink = false }:
     { review: CommentView, withPostLink?: boolean }) {
 
     return (
-        <div style={styles.container}>
+        <div className="pg_review-snippet">
             {review.comment.deleted ?
                 "Review deleted" :
                 <>
@@ -36,7 +25,7 @@ export function ReviewSnippet({ review, withPostLink = false }:
             <Link to={"/profile/" + review.creator.name}>{review.creator.display_name ? review.creator.display_name : review.creator.name}</Link>
             {
                 withPostLink &&
-                <Link to={"/pg-finder/" + review.post.id} style={styles.postLink}>
+                <Link to={"/pg-finder/" + review.post.id}>
                     Go to Post
                 </Link>
             }
@@ -49,7 +38,7 @@ export default function Review({ review }: { review: CommentView }) {
     const [isEditing, setIsEditing] = useState(false)
 
     return (
-        <div style={styles.container}>
+        <div className='pg_review-container'>
             {
                 isEditing ?
                     <ReviewEditor initialReview={review} onClose={() => setIsEditing(false)} />
@@ -61,17 +50,7 @@ export default function Review({ review }: { review: CommentView }) {
                         {(!review.comment.deleted && review.creator.id == profileInfo?.lemmyId) &&
                             <>
                                 <CommentDeletor commentId={review.comment.id} />
-                                <b style={{
-                                    background: "none",
-                                    border: "none",
-                                    color: "#a0a8b0",
-                                    cursor: "pointer",
-                                    fontWeight: "500" as const,
-                                    padding: 0,
-                                    fontSize: "13px",
-                                    display: "flex",
-                                    alignItems: "center"
-                                }}
+                                <b className='edit-button'
                                     onClick={() => setIsEditing(true)}>
                                     Edit
                                 </b>
