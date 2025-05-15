@@ -1,3 +1,9 @@
+# **This file is now rendered irrelevant**
+
+**Setting up from scratch is hard + we are using docker in prod anyway. See `docs/dev/Setting up lemmy via docker.md` to setup Lemmy**
+
+---------------------------------------------
+
 Tweaked from the steps at https://join-lemmy.org/docs/administration/from_scratch.html
 
 Rewritten below, with the changed segments highlighted.
