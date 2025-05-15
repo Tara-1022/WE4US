@@ -54,9 +54,13 @@ export default function PostCreationHandler({
                 ariaHideApp={false}
                 style={{
                     content: {
+                        height: '700px',
+                        width:'700px',
                         backgroundColor: ' #1e1e1e', 
                         color: 'white', 
-                        border: 'None'                
+                        border: 'None',
+                        margin: '0 auto',
+
                     },
                     overlay: {
                         backgroundColor: 'rgba(0, 0, 0, 0.75)' 
