@@ -5,26 +5,57 @@ import default_post_image from "../assets/default_post_image.png";
 
 interface ImageUploaderProps {
   onUploadChange: (imageDetails: ImageDetailsType[] | undefined) => void;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  purpose: 'profile' | 'post';
   originalImage?: ImageDetailsType;
   copiesCount?: number;
-  purpose?: 'profile' | 'post';
   className?: string;
 }
 
-/*
-Handle image upload & deletion of uploaded images, as needed
+/**
+Utility function. Use when originalImage is set; i.e, there is a previous image that needs to be handled
+*/
+export function handleStateChange({ newImageDetails, setUploadedImage, setDeleteOldImage }:
+  {
+    newImageDetails: ImageDetailsType[] | undefined;
+    setUploadedImage: React.Dispatch<React.SetStateAction<ImageDetailsType | undefined>>;
+    setDeleteOldImage: React.Dispatch<React.SetStateAction<boolean>>
+  }
+) {
+  if (newImageDetails === undefined) {
+    setUploadedImage(undefined);
+    setDeleteOldImage(false);
+  }
+  else {
+    if (newImageDetails.length == 0) {
+      setUploadedImage(undefined)
+      setDeleteOldImage(true)
+    }
+    else {
+      setUploadedImage(newImageDetails[0])
+      setDeleteOldImage(true);
+    }
+  }
+}
+
+
+/**
+Handle image upload & deletion of uploaded images, as needed.
+If OriginalImage is set, use handleStateChange
 Will return copiesCount copies of the *same* image
 If undefined, no image uploaded
 If an empty list, delete the existing image
 */
 const ImageUploader: React.FC<ImageUploaderProps> = ({
   onUploadChange,
+  loading,
+  setLoading,
+  purpose,
   originalImage,
   copiesCount = 1,
-  purpose = 'profile',
   className = ''
 }) => {
-  const [loading, setLoading] = useState(false);
   const [uploadedCopies, setUploadedCopies] = useState<ImageDetailsType[] | undefined>(undefined);
   const hasUploaded = uploadedCopies != undefined;
 
@@ -113,12 +144,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           disabled={loading}
         />
 
-        <button
+        {originalImage && <button
           onClick={handleRemoveImage}
           disabled={loading}
         >
           Remove Image
-        </button>
+        </button>}
 
         <button onClick={handleReset}>Reset</button>
         {loading && <span>Processing...</span>}

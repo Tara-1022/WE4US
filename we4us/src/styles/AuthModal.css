@@ -1,0 +1,73 @@
+.auth-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.auth-modal-content {
+  /* position: fixed; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24rem !important;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-card-bg);
+  transition: transform 0.3s ease;
+}
+
+.auth-modal-content .modal-container {
+  width: 100%;
+}
+
+.auth-modal-content .modal-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: white;
+}
+
+.auth-modal-content .modal-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #d1d5db;
+  /* text-gray-300 */
+  margin-bottom: 0.35rem;
+}
+
+.auth-modal-content .modal-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-dark-bg);
+  color: white;
+  border: 1px solid #4b5563;
+  /* border-gray-600 */
+  outline: none;
+}
+
+.auth-modal-content .modal-input:focus {
+  border-color: var(--color-primary-blue);
+  box-shadow: 0 0 0 2px var(--color-primary-blue);
+}
+
+.btn-danger {
+  background-color: var(--color-primary-orange);
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btn-danger:hover {
+  background-color: #d55a00;
+}

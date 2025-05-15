@@ -4,9 +4,13 @@ import Collapsible from "../Collapsible";
 import { createComment, editComment } from "../../library/LemmyApi";
 import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
+import StarRatingInput from "./StarRatingInput";
 
-export function ReviewFormHandler({ task, handleTask, defaultContent }:
-    { task: string, handleTask: (newContent: ReviewContent) => void, defaultContent?: ReviewContent }) {
+export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
+    {
+        task: string, handleTask: (newContent: ReviewContent) => void,
+        onClose: () => void, defaultContent?: ReviewContent
+    }) {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -23,32 +27,48 @@ export function ReviewFormHandler({ task, handleTask, defaultContent }:
     }
 
     return (
-        <Collapsible CollapsedIcon={() => <b>Cancel</b>} OpenIcon={() => <b>{task}</b>} initiallyExpanded={false}>
-            <form onSubmit={handleSubmit}>
-                <label>Ratings (1-5):</label>
-                <br />
+        <form onSubmit={handleSubmit} className="pg_review-form">
+            <label className="large-label">Ratings (1-5):</label>
+
+            <div className="star-input-container">
                 <label htmlFor="costRating">Cost : </label>
-                <input name="costRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.cost || undefined} />
-                <br />
+                <StarRatingInput
+                    name="costRating"
+                    defaultValue={defaultContent?.ratings.cost}
+                />
+            </div>
+
+            <div className="star-input-container">
                 <label htmlFor="safetyRating">Safety : </label>
-                <input name="safetyRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.safety || undefined} />
-                <br />
+                <StarRatingInput
+                    name="safetyRating"
+                    defaultValue={defaultContent?.ratings.safety}
+                />
+            </div>
+
+            <div className="star-input-container">
                 <label htmlFor="foodRating">Food : </label>
-                <input name="foodRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.food || undefined} />
-                <br />
+                <StarRatingInput
+                    name="foodRating"
+                    defaultValue={defaultContent?.ratings.food}
+                />
+            </div>
+
+            <div className="star-input-container">
                 <label htmlFor="cleanlinessRating">Cleanliness : </label>
-                <input name="cleanlinessRating" type="number" min="1" max="5" required
-                    defaultValue={defaultContent?.ratings.cleanliness || undefined} />
-                <br />
-                <textarea name="content" defaultValue={defaultContent?.content || undefined} />
-                <br />
-                <button type="submit">{task}</button>
-                <button type="reset">Clear</button>
-            </form>
-        </Collapsible>
+                <StarRatingInput
+                    name="cleanlinessRating"
+                    defaultValue={defaultContent?.ratings.cleanliness}
+                />
+            </div>
+
+            <label htmlFor="content" className="large-label">Review: </label>
+            <textarea name="content" defaultValue={defaultContent?.content || undefined} />
+            <br />
+            <button type="submit">{task}</button>
+            <button type="reset">Reset</button>
+            <button onClick={onClose} className="cancel-button">Cancel</button>
+        </form>
     )
 }
 
@@ -69,23 +89,33 @@ export function ReviewCreator({ postId }: { postId: number }) {
             })
     }
 
-    return <ReviewFormHandler task="Add Review" handleTask={handleCreate} />
+    return <Collapsible
+        CollapsedIcon={() => <b>Add Review</b>}
+        OpenIcon={() => <b>Cancel</b>}
+        initiallyExpanded={false}>
+        <ReviewFormHandler task="Add Review" handleTask={handleCreate} onClose={() => { }} />
+    </Collapsible>
 }
 
-export function ReviewEditor({ initialReview }: { initialReview: CommentView }) {
+export function ReviewEditor({ initialReview, onClose }:
+    { initialReview: CommentView, onClose: () => void }) {
     const { setComments } = useCommentsContext();
     const initialContent = getReviewContent(initialReview);
 
     async function handleEdit(newContent: ReviewContent) {
+        console.log("Trying to edit", newContent)
         editComment(
             initialReview.comment.id,
             JSON.stringify(newContent)
         )
             .then(
-                (updatedReview) => setComments(prevReviews => prevReviews.map(
-                    (element: CommentView) =>
-                        element.comment.id === updatedReview.comment.id ? updatedReview : element
-                ))
+                (updatedReview) => {
+                    setComments(prevReviews => prevReviews.map(
+                        (element: CommentView) =>
+                            element.comment.id === updatedReview.comment.id ? updatedReview : element
+                    ));
+                    onClose();
+                }
             )
             .catch(
                 (error: Error) => {
@@ -95,5 +125,6 @@ export function ReviewEditor({ initialReview }: { initialReview: CommentView }) 
             )
     }
 
-    return <ReviewFormHandler task="Edit" handleTask={handleEdit} defaultContent={initialContent} />
+    return <ReviewFormHandler task="Edit" handleTask={handleEdit}
+        onClose={onClose} defaultContent={initialContent} />
 }

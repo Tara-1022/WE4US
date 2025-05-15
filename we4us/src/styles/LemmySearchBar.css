@@ -1,0 +1,85 @@
+.search-bar {
+    width: 100%;
+}
+
+.search-bar .search-icon {
+    margin-top: 24px;
+    margin-left: 10px;
+    position: absolute;
+    color: var(--color-gray);
+}
+
+.search-bar .search-input {
+    padding: 8px;
+    width: 100%;
+    height: 3rem;
+    margin-bottom: 10px;
+    border: 1px solid var(--color-light-gray);
+    border-radius: 8px;
+    font-size: large;
+    padding-left: 50px;
+}
+
+.search-bar .filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.search-bar .field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 10px;
+}
+
+.search-bar .field label {
+    margin-right: 15px;
+    font-size: 1rem;
+    color: var(--color-white);
+}
+
+.search-bar .field select {
+    background-color: var(--color-dark-bg);
+    line-height: 1.5;
+    font-size: 1rem;
+    border: 1px solid var(--color-light-gray);
+    border-radius: 2px;
+    box-sizing: border-box;
+    outline: none;
+    padding: 8px 52px 8px 10px;
+}
+
+.search-bar .field input[type="checkbox"] {
+    width: 1rem;
+    aspect-ratio: 1;
+    accent-color: var(--color-primary-teal);
+}
+
+.search-bar .field .community-selector {
+   
+}
+
+.search-bar .search-input:focus,
+.search-bar .field select:focus,
+.search-bar .field .community-selector .search-value:focus {
+    border: 1px solid var(--color-primary-teal);
+}
+
+
+.search-bar .search-button {
+    width: 100%;
+    height: 30px;
+    background-color: var(--color-bg);
+    color: var(--color-white);
+    border: 1px solid var(--color-light-gray);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-bar .search-button:hover {
+    background-color: var(--color-primary-teal);
+    color: var(--color-dark-bg);
+    border: 1px solid var(--color-dark-bg);
+}

@@ -11,7 +11,6 @@ import { getPostBody, PostBodyType } from '../library/PostBodyType';
 import { constructImageUrl } from '../library/ImageHandling';
 import ReactMarkdown from "react-markdown"
 import PostEditor from '../components/PostEditor';
-import "../styles/FullImageView.css";
 import "../styles/PostPage.css";
 
 function FullPostView({ postView, postBody }: { postView: PostView, postBody: PostBodyType }) {

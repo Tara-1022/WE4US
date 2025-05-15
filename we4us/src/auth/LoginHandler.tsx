@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import { logIn } from "../library/LemmyApi";
 import { useAuth } from "./AuthProvider";
 import { useState } from "react";
-import "../styles/LoginModal.css";
+import "../styles/AuthModal.css";
 
 export function LoginButton() {
   const [showModal, setShowModal] = useState(false);
@@ -45,8 +45,8 @@ export function LoginModal({ isOpen, handleClose }: { isOpen: boolean, handleClo
     <Modal
       isOpen={isOpen}
       onRequestClose={handleClose}
-      className="modal-content"
-      overlayClassName="modal-overlay"
+      className="auth-modal-content"
+      overlayClassName="auth-modal-overlay"
       contentLabel="Login"
       shouldCloseOnOverlayClick={true}
     >

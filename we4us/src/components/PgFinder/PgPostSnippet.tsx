@@ -1,31 +1,6 @@
 import { PostView } from 'lemmy-js-client';
 import { Link } from 'react-router-dom';
-
-let styles: { [key: string]: React.CSSProperties } = {
-    post: {
-        display: "flex",
-        flexFlow: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2%"
-    },
-    details: {
-        flex: 4
-    },
-    ratings: {
-        display: "flex",
-        flexDirection: "row",
-        gap: "10px",
-        marginTop: "5px"
-    },
-    ratingItem: {
-        marginRight: "10px"
-    },
-    location: {
-        color: "#666",
-        marginTop: "5px"
-    }
-}
+import "../../styles/PgFinderPage.css";
 
 export default function PgPostSnippet({ postView }: { postView: PostView }) {
     // A succint display of primary information of the pg post
@@ -37,21 +12,14 @@ export default function PgPostSnippet({ postView }: { postView: PostView }) {
     }
 
     return (
-        <div style={styles.post}>
-            <div style={styles.details}>
+        <div className="pg-post">
+            <div className="pg-post-details">
                 <Link to={"/pg-finder/" + postView.post.id}>
-                    <h3>{postView.post.name}</h3>
+                    <h3>{"🏠︎   " + postView.post.name}</h3>
                 </Link>
 
-                <div style={styles.location}>
-                    Location: {pgData.location || "Not specified"}
-                </div>
-
-                <div style={styles.ratings}>
-                    <span style={styles.ratingItem}>Cost: {pgData.ratings?.cost || "N/A"}</span>
-                    <span style={styles.ratingItem}>Safety: {pgData.ratings?.safety || "N/A"}</span>
-                    <span style={styles.ratingItem}>Food: {pgData.ratings?.food || "N/A"}</span>
-                    <span style={styles.ratingItem}>Cleanliness: {pgData.ratings?.cleanliness || "N/A"}</span>
+                <div className="pg-post-location">
+                    ⚲ Location: {pgData.location || "Not specified"}
                 </div>
             </div>
         </div>
