@@ -147,10 +147,12 @@ a:hover {
   margin-left: 0;
   min-height: 100vh;
   transition: margin-left 0.3s ease;
+  padding-top: 2rem;
 }
 
 .main-content.sidebar-open {
   margin-left: 16rem;
+  padding-top: 0rem;
 }
 
 @media (max-width: 600px) {
@@ -158,8 +160,4 @@ a:hover {
     left: auto; 
     right: 1rem; 
   }
-}
-
-.page{
-  padding-top: 5rem;
 }

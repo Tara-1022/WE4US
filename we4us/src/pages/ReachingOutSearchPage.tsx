@@ -112,7 +112,7 @@ const ReachingOutSearchPage: React.FC = () => {
   );
 
   return (
-    <div className='page'>
+    <>
       <SearchIcon />
       <LemmySearchBar handleSearch={handleSearch} />
 
@@ -134,7 +134,7 @@ const ReachingOutSearchPage: React.FC = () => {
 
       {searchDone && !isResultPresent && <h3>No Results Found</h3>}
 
-    </div>
+    </>
   );
 };
 

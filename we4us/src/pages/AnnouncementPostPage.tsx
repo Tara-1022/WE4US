@@ -40,7 +40,7 @@ export default function AnnouncementPostPage() {
     if (!postView) return <Loader />;
 
     return (
-        <div className='page'>
+        <>
             {isEditing ?
                 <AnnouncementEditor
                     onClose={() => setIsEditing(false)}
@@ -75,6 +75,6 @@ export default function AnnouncementPostPage() {
                 </>
             }
             <CommentsSection postId={postView.post.id} />
-        </div>
+        </>
     );
 }

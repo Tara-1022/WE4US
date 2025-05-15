@@ -16,7 +16,7 @@ export default function MeetUpPage() {
     if (!postViews) return <Loader />;
 
     return (
-        <div className="page">
+        <>
             <h1>Meet Up</h1>
             <Link to="/meetup/search"><Search /></Link>
             <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...(postViews || [])])} />
@@ -25,6 +25,6 @@ export default function MeetUpPage() {
             ) : (
                 <MeetUpPostList postViews={postViews} />
             )}
-        </div>
+        </>
     );
 }

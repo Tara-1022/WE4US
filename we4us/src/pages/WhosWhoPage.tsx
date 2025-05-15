@@ -68,7 +68,7 @@ const WhosWhoPage: React.FC = () => {
     .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
 
     return (
-      <div className='page'>
+      <>
         <div className='whoswho-container'>
           <h1>Who's Who</h1>
   
@@ -100,7 +100,7 @@ const WhosWhoPage: React.FC = () => {
             <p>No profiles found.</p>
           )}
         </div>
-      </div>
+      </>
     );
   };  
 
