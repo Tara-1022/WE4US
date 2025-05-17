@@ -5,6 +5,8 @@ import logging
 import sys
 from typing import Dict, List, Optional
 
+from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -50,7 +52,24 @@ class UserManagement:
                     logger.info(f"User {username} found via user endpoint")
                     return user_data.get("person_view")
 
-            # If we couldn't find the user directly, try searching
+
+            # If not found, try the site's users list
+            users_list_response = self.session.get(
+                f"{self.base_url}/api/v3/user/list",
+                params={"limit": 50, "sort": "New"}
+            )
+
+            if users_list_response.status_code == 200:
+                users_data = users_list_response.json()
+                users = users_data.get("users", [])
+
+                for user in users:
+                    user_name = user.get("person", {}).get("name", "").lower()
+                    if user_name == username.lower():
+                        logger.info(f"Found user {username} in site users list")
+                        return user
+
+            # If still not found, try searching
             search_response = self.session.get(
                 f"{self.base_url}/api/v3/search",
                 params={
@@ -72,22 +91,6 @@ class UserManagement:
                     user_info = user.get("person", {}).get("name", "").lower()
                     if user_info == username.lower():
                         logger.info(f"Found user {username} through search")
-                        return user
-
-            # If still not found, try the site's users list
-            users_list_response = self.session.get(
-                f"{self.base_url}/api/v3/user/list",
-                params={"limit": 50, "sort": "New"}
-            )
-
-            if users_list_response.status_code == 200:
-                users_data = users_list_response.json()
-                users = users_data.get("users", [])
-
-                for user in users:
-                    user_name = user.get("person", {}).get("name", "").lower()
-                    if user_name == username.lower():
-                        logger.info(f"Found user {username} in site users list")
                         return user
 
             logger.info(f"User {username} does not exist")
@@ -366,10 +369,6 @@ class UserManagement:
             return False
 
 def main():
-    LEMMY_URL = "http://localhost:10633"
-    ADMIN_USERNAME = "" # left blank intentionally
-    ADMIN_PASSWORD = ""
-    CSV_FILE = "sample_users.csv"  # Path to your users CSV
 
     logger.info("Starting user management process...")
 

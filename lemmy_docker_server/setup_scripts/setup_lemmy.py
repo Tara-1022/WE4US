@@ -4,6 +4,8 @@ import sys
 import logging
 from typing import Dict, List
 
+from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, SITE_CONFIG, COMMUNITIES, COMMUNITY_NSFW
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -25,24 +27,8 @@ class LemmySetup:
             "User-Agent": "WE4US-Setup-Script/1.0"
         })
 
-        self.communities = [
-            {"name": "job_board", "title": "Job Board", "description": "List job and internship openings"},
-            {"name": "announcements", "title": "Announcements", "description": "Important announcements and updates"},
-            {"name": "pg_finder", "title": "PG Finder", "description": "PG recommendations with reviews"},
-            {"name": "meet_up", "title": "Meet Up", "description": "Upcoming meet-up events and activities"}
-        ]
-
-        self.site_config = {
-            "name": "WE4US",
-            "description": "A platform for students to connect, share, and grow.",
-            "enable_downvotes": True,
-            "enable_nsfw": True,
-            "community_creation_admin_only": True,
-            "require_email_verification": False,
-            "application_question": "",
-            "private_instance": True,
-            "federation_enabled": False
-        }
+        self.communities = COMMUNITIES
+        self.site_config = SITE_CONFIG
 
     def verify_site(self) -> dict:
         try:
@@ -95,24 +81,11 @@ class LemmySetup:
 
         try:
             logger.info("Configuring site settings...")
-
-            site_config = {
-                "name": self.site_config["name"],
-                "description": self.site_config["description"],
-                "enable_downvotes": self.site_config["enable_downvotes"],
-                "enable_nsfw": self.site_config["enable_nsfw"],
-                "community_creation_admin_only": self.site_config["community_creation_admin_only"],
-                "require_email_verification": self.site_config["require_email_verification"],
-                "application_question": "Why would you like to join the WE4US community?",
-                "private_instance": self.site_config["private_instance"],
-                "federation_enabled": self.site_config["federation_enabled"]
-            }
-
-            logger.info(f"Applying site configuration: {site_config}")
+            logger.info(f"Applying site configuration: {self.site_config}")
 
             response = self.session.put(
                 f"{self.base_url}/api/v3/site",
-                json=site_config
+                json=self.site_config
             )
 
             response.raise_for_status()
@@ -160,7 +133,7 @@ class LemmySetup:
                         "name": community["name"],
                         "title": community["title"],
                         "description": community["description"],
-                        "nsfw": False,
+                        "nsfw": COMMUNITY_NSFW,
                         "visibility": "Public"
                     }
                 )
@@ -181,12 +154,11 @@ class LemmySetup:
         return created_communities
 
 def main():
-    # Hardcoded values
-    LEMMY_URL = "http://localhost:10633"
-    ADMIN_USERNAME = "" # left blank intentionally
-    ADMIN_PASSWORD = ""
-
     logger.info("Starting Lemmy setup process...")
+
+    if not ADMIN_USERNAME or not ADMIN_PASSWORD:
+        logger.error("ADMIN_USERNAME and ADMIN_PASSWORD must be set in constants.py before running the script.")
+        return
 
     # Initialize the setup
     setup = LemmySetup(LEMMY_URL)
