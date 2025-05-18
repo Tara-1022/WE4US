@@ -131,7 +131,7 @@ function CommunityCreationButton({ handleCommunityCreated }:
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Plus size={16} color="#fff" /> Create Community
+      Create Community
       </button>
       <CommunityCreationModal
         isOpen={showModal}
