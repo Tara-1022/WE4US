@@ -20,7 +20,7 @@ SITE_CONFIG = {
     "application_question": "Why would you like to join the WE4US community?",
     "private_instance": True,
     "federation_enabled": False,
-    "setup_site": True
+    "registration_mode": "RequireApplication"
 }
 
 COMMUNITIES = [
