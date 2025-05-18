@@ -17,7 +17,8 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
         onClose: () => void, defaultContent?: ReviewContent
     }) {
 
-    const [isValid, setIsValid] = useState(defaultContent?.content? true : false);
+    const [isValid, setIsValid] = useState(
+        defaultContent?.content ? isReviewContentValid(defaultContent?.content) : false);
 
     async function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
         setIsValid(isReviewContentValid(e.currentTarget.value));
