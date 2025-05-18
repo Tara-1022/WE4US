@@ -34,6 +34,23 @@ class UserManagement:
 
         if self.auth_token:
             self.session.headers.update({"Authorization": f"Bearer {self.auth_token}"})
+            logger.info("Setting registration open...")
+            self.session.put(
+                f"{self.base_url}/api/v3/site",
+                json={
+                    "registration_mode": "Open"
+                }
+            )
+
+    def __del__(self):
+        logger.info("Destroying object...")
+        logger.info("Setting registration to Requires Application...")
+        self.session.put(
+                f"{self.base_url}/api/v3/site",
+                json={"registration_mode": "RequireApplication"}
+        )
+        logger.info("Logging admin out...")
+        self.session.post(f"{self.base_url}/api/v3/user/logout")
 
     def set_auth_token(self, auth_token: str):
         self.auth_token = auth_token
@@ -386,6 +403,8 @@ def main():
         logger.info(f"Registration process completed. Registered {len(registered_users)} users.")
     else:
         logger.error("Admin login failed. User registration cannot proceed.")
+    
+    del user_manager
 
 if __name__ == "__main__":
     main()
