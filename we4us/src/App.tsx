@@ -19,6 +19,7 @@ import ReachingOutSearchPage from './pages/ReachingOutSearchPage';
 import SpecialisedSearchPage from './pages/SpecialisedSearchPage';
 import AppContextProvider from './AppContextProvider';
 import Chat from './pages/Chat';
+
 import Modal from "react-modal";
 import PgPostPage from './pages/PgPostPage';
 import JobPostPage from './pages/JobPostPage';

@@ -6,7 +6,7 @@ export enum JobType {
 }
 
 export type JobPostData = {
-    url: string,
+    url?: string,
     name: string,
     body: JobPostBody
 }
@@ -18,5 +18,5 @@ export type JobPostBody = {
     open: boolean,
     deadline?: string,
     job_type: JobType; 
-    description: string
+    description: string;
 }

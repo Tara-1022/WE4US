@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, CommunityView, PostView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
-import { Loader, Search as SearchIcon } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import PostSnippet from '../components/PostSnippet';
 import CommentSnippet from '../components/CommentSnippet';
 import CommunitySnippet from '../components/CommunitySnippet';
@@ -45,7 +45,8 @@ const ReachingOutSearchPage: React.FC = () => {
       switch (view.type_) {
         case "comment":
           const comment = view.data as CommentView;
-          return !comment.post.deleted && !comment.comment.deleted && comment.post.nsfw != true;
+          return !comment.post.deleted && !comment.comment.deleted
+            && comment.post.nsfw != true && comment.community.nsfw != true;
         case "community":
           const community = view.data as CommunityView;
           return community.community.nsfw != true;
@@ -113,7 +114,6 @@ const ReachingOutSearchPage: React.FC = () => {
 
   return (
     <>
-      <SearchIcon />
       <LemmySearchBar handleSearch={handleSearch} />
 
       {isResultPresent &&
