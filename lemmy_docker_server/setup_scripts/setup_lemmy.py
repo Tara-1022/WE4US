@@ -6,6 +6,8 @@ from typing import Dict, List
 
 from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, SITE_CONFIG, COMMUNITIES, COMMUNITY_NSFW
 
+# ADMIN MUST FIRST BE SETUP WITH THE OFFICIAL UI/COMMAND LINE
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
