@@ -27,7 +27,7 @@ export default function StarRatingInput({
         </span>
       ))}
       {
-        (rating < 5 && rating > 0) ?
+        (rating <= 5 && rating > 0) ?
           <input type="hidden" name={name} value={rating} required />
           : <input type="text" name={name} value={undefined} required
             style={{ position: "absolute", width: 10, height: 10, opacity: 0 }}
