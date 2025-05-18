@@ -11,7 +11,6 @@ import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 import PaginationControls from "../components/PaginationControls";
 import { CSSProperties } from 'react';
 
-// Styles object for consistent theme
 const styles: {
   container: CSSProperties;
   header: CSSProperties;
@@ -23,7 +22,7 @@ const styles: {
   noPostsMessage: CSSProperties;
   paginationContainer: CSSProperties;
   postListContainer: CSSProperties;
-  postItem: CSSProperties; // Added missing postItem style property
+  postItem: CSSProperties;
 } = {
   container: {
     maxWidth: '1200px',
@@ -46,7 +45,8 @@ const styles: {
     alignItems: 'center',
     marginBottom: '30px',
     borderBottom: '2px solid #ff6600',
-    paddingBottom: '15px'
+    paddingBottom: '15px',
+    marginTop: '40px', 
   },
   actionsContainer: {
     display: 'flex',
@@ -108,7 +108,10 @@ const styles: {
     border: '1px solid #333',
     margin: '0 0 15px 0',
     padding: '15px',
-    transition: 'all 0.2s ease'
+    transition: 'all 0.2s ease',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+    display: 'block',
+    position: 'relative',
   }
 };
 
@@ -138,15 +141,6 @@ function CommunityCreationButton({ handleCommunityCreated }:
     </>
   );
 }
-
-// Update PostList.tsx to accept customStyles prop
-// Add this interface in your PostList component file:
-// interface PostListProps {
-//   postViews: PostView[];
-//   customStyles?: {
-//     postItem?: CSSProperties;
-//   };
-// }
 
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[]>([]);
@@ -178,11 +172,25 @@ function ReachingOut() {
     );
   }
   
-  // Apply the paginationStyles to style element or inline styles if needed
-  // For example, you can add a style element in the component:
   useEffect(() => {
     const styleElement = document.createElement('style');
-    styleElement.innerHTML = paginationStyles;
+    styleElement.innerHTML = `
+      .post-item {
+        background-color: #1a1a1a;
+        border-radius: 6px;
+        border: 1px solid #333;
+        margin-bottom: 15px;
+        padding: 15px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      
+      .post-item:hover {
+        border-color: #ff6600;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      }
+    `;
     document.head.appendChild(styleElement);
     return () => {
       document.head.removeChild(styleElement);
@@ -226,11 +234,7 @@ function ReachingOut() {
         </div>
       ) : (
         <div style={styles.postListContainer}>
-          {/* Option 1: Remove customStyles prop if PostList doesn't support it */}
           <PostList postViews={postViews} />
-          
-          {/* Option 2: If you want to keep customStyles, update your PostList component 
-          to accept this prop - see comment above about PostListProps interface */}
         </div>
       )}
       
@@ -240,34 +244,5 @@ function ReachingOut() {
     </div>
   );
 }
-
-// Define paginationStyles for use in the component
-const paginationStyles = `
-  .pagination-button {
-    background-color: #222;
-    color: #fff;
-    border: 1px solid #ff6600;
-    border-radius: 4px;
-    padding: 8px 15px;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .pagination-button:hover {
-    background-color: #333;
-  }
-  
-  .pagination-button.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .pagination-page {
-    color: #ff6600;
-    font-weight: bold;
-    margin: 0 10px;
-  }
-`;
 
 export default ReachingOut;
