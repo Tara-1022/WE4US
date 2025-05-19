@@ -87,7 +87,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="profile-container page">
+    <div className="profile-container">
       {isEditing && (profileInfo?.username == profile.username)
         ? (
           <ProfileEditForm

@@ -1,5 +1,6 @@
 
 .job-post-form {
+    color: var(--color-primary-dark-purple);
     font-family: sans-serif;
     max-width: 500px;
     margin: 0 auto;
@@ -12,7 +13,6 @@
 .job-post-form textarea {
     font-weight: bold;
     background-color: var(--color-card-hover);
-    color: var(--color-white);
     border: "none";
     padding: 10px;
     border-radius: 5px;
@@ -30,13 +30,12 @@
 }
 
 .job-post-form button {
-    margin-left: 5px;
-    padding: 4px 13px;
+    margin-left: 15px;
+    padding: 8px 13px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     justify-content: center;
-    flex-wrap: wrap;
 
 }
 

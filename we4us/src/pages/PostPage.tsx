@@ -68,7 +68,7 @@ export default function PostPage() {
     const postBody: PostBodyType = getPostBody(postView);
 
     return (
-        <div className="post-container page">
+        <div className="post-container">
             {isEditing ? (
                 <PostEditor
                     postView={postView}
