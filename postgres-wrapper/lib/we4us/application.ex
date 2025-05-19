@@ -8,20 +8,9 @@ defmodule We4us.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      We4usWeb.Telemetry,
-      We4us.Repo,
-      {DNSCluster, query: Application.get_env(:we4us, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: We4us.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: We4us.Finch},
-      # Start a worker by calling: We4us.Worker.start_link(arg)
-      # {We4us.Worker, arg},
-      # Start to serve requests, typically the last entry
       We4usWeb.Endpoint
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: We4us.Supervisor]
     Supervisor.start_link(children, opts)
   end

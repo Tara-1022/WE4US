@@ -1,5 +1,3 @@
-version: '3.8'
-
 x-logging: &default-logging
   driver: "json-file"
   options:
@@ -16,7 +14,7 @@ networks:
     driver: bridge
 
 services:
-  react-app:
+  we4us:
     image: yashaswinisharma/we4us-react:latest
     ports:
       - "5173:5173"
@@ -28,15 +26,14 @@ services:
       - REACT_APP_PHOENIX_URL=http://localhost:4000
       - REACT_APP_LEMMY_URL=http://localhost:10633
     depends_on:
-      - phoenix-api
+      - postgres-wrapper
     networks:
       - we4us-network
     restart: unless-stopped
     logging: *default-logging
 
-  # PHOENIX API
-  phoenix-api:
-    image: yashaswinisharma/we4us-phoenix:latest
+  postgres-wrapper:
+    image: yashaswinisharma/postgres-wrapper:latest
     ports:
       - "4000:4000"
     environment:
@@ -52,7 +49,6 @@ services:
     logging: *default-logging
     mem_limit: 2g
 
-  # PHOENIX DB
   postgres-wrapper-db:
     image: postgres:14-alpine
     environment:
@@ -156,3 +152,4 @@ services:
     logging: *default-logging
     networks:
       - we4us-network
+
