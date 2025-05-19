@@ -6,8 +6,8 @@ interface StarRatingInputProps {
   defaultValue?: number;
 }
 
-export default function StarRatingInput({ 
-  name, 
+export default function StarRatingInput({
+  name,
   defaultValue = 0
 }: StarRatingInputProps) {
   const [rating, setRating] = useState<number>(defaultValue);
@@ -26,7 +26,13 @@ export default function StarRatingInput({
           {star <= (hover || rating) ? "★" : "☆"}
         </span>
       ))}
-      <input type="hidden" name={name} value={rating} required />
+      {
+        (rating <= 5 && rating > 0) ?
+          <input type="hidden" name={name} value={rating} required />
+          : <input type="text" name={name} value={undefined} required
+            style={{ position: "absolute", width: 10, height: 10, opacity: 0 }}
+          />
+      }
     </div>
   );
 }

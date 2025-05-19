@@ -1,16 +1,28 @@
 import { CommentView } from "lemmy-js-client";
 import { ReviewContent, Ratings } from "./Types";
-import Collapsible from "../Collapsible";
 import { createComment, editComment } from "../../library/LemmyApi";
 import { getReviewContent } from "./Types";
 import { useCommentsContext } from "../CommentsContext";
 import StarRatingInput from "./StarRatingInput";
+import { useState } from "react";
+
+function isReviewContentValid(content: string) {
+    const reviewRegex = /^(.*\S.*)$/;
+    return reviewRegex.test(content);
+};
 
 export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
     {
         task: string, handleTask: (newContent: ReviewContent) => void,
         onClose: () => void, defaultContent?: ReviewContent
     }) {
+
+    const [isValid, setIsValid] = useState(
+        defaultContent?.content ? isReviewContentValid(defaultContent?.content) : false);
+
+    async function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        setIsValid(isReviewContentValid(e.currentTarget.value));
+    }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -63,9 +75,12 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
             </div>
 
             <label htmlFor="content" className="large-label">Review: </label>
-            <textarea name="content" defaultValue={defaultContent?.content || undefined} />
+            <textarea name="content"
+                defaultValue={defaultContent?.content || undefined}
+                onChange={handleContentChange}
+                required />
             <br />
-            <button type="submit">{task}</button>
+            <button type="submit" disabled={!isValid}>{task}</button>
             <button type="reset">Reset</button>
             <button onClick={onClose} className="cancel-button">Cancel</button>
         </form>
@@ -74,6 +89,8 @@ export function ReviewFormHandler({ task, handleTask, onClose, defaultContent }:
 
 export function ReviewCreator({ postId }: { postId: number }) {
     const { setComments } = useCommentsContext();
+
+    const [isOpen, setIsOpen] = useState(false);
 
     function handleCreate(newContent: ReviewContent) {
         createComment({
@@ -89,12 +106,11 @@ export function ReviewCreator({ postId }: { postId: number }) {
             })
     }
 
-    return <Collapsible
-        CollapsedIcon={() => <b>Add Review</b>}
-        OpenIcon={() => <b>Cancel</b>}
-        initiallyExpanded={false}>
-        <ReviewFormHandler task="Add Review" handleTask={handleCreate} onClose={() => { }} />
-    </Collapsible>
+    return isOpen ?
+        <ReviewFormHandler task="Add Review"
+            handleTask={handleCreate} onClose={() => { setIsOpen(false) }} />
+        : <b onClick={() => { setIsOpen(true) }}>Add Review</b>
+
 }
 
 export function ReviewEditor({ initialReview, onClose }:
