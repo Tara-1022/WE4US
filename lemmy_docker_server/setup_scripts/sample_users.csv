@@ -1,8 +1,8 @@
 name,cohort,username,username2,email,is_admin
 Jane Smith,1,janesmith,jsmith456,jane.smith@example.com,true
 Maria Garcia,2,mgarcia,maria_g,maria.garcia@example.com,false
-Priya Patel,2,ppatel,priya.p,priya.patel@example.com,true
-Fatima Khan,3,fkhan,fatima.k,fatima.khan@example.com,true
-Emily Brown,4,ebrown,emily.b,emily.brown@example.com,false
+Priya Patel,2,ppatel,priyap,priya.patel@example.com,true
+Fatima Khan,3,fkhan,fatimak,fatima.khan@example.com,true
+Emily Brown,4,ebrown,emilyb,emily.brown@example.com,false
 Sarah Johnson,5,sjohnson,sarah.j,sarah.johnson@example.com,false
-Aisha Patel,6,apatel,aisha.p,aisha.patel@example.com,true
+Aisha Patel,6,apatel,aishap,aisha.patel@example.com,true
