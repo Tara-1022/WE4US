@@ -5,9 +5,11 @@ LEMMY_URL = "http://localhost:10633"
 ADMIN_USERNAME = ""
 ADMIN_PASSWORD = ""
 
+# For User Generation
 CSV_FILE = "sample_users.csv"
+DEFAULT_PASSWORD="ChangeMe123!"
 
-# Community configuration
+# Community configuration - DO NOT CHANGE
 COMMUNITY_NSFW = True
 
 SITE_CONFIG = {
