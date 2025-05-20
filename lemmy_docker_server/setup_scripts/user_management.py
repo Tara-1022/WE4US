@@ -32,16 +32,6 @@ class UserManagement:
                 "User-Agent": "WE4US-Setup-Script/1.0"
             })
 
-        if self.auth_token:
-            self.session.headers.update({"Authorization": f"Bearer {self.auth_token}"})
-            logger.info("Setting registration open...")
-            self.session.put(
-                f"{self.base_url}/api/v3/site",
-                json={
-                    "registration_mode": "Open"
-                }
-            )
-
     def __del__(self):
         logger.info("Destroying object...")
         logger.info("Setting registration to Requires Application...")
@@ -51,10 +41,7 @@ class UserManagement:
         )
         logger.info("Logging admin out...")
         self.session.post(f"{self.base_url}/api/v3/user/logout")
-
-    def set_auth_token(self, auth_token: str):
-        self.auth_token = auth_token
-        self.session.headers.update({"Authorization": f"Bearer {self.auth_token}"})
+       
 
     def check_user_exists(self, username: str) -> Optional[Dict]:
         try:
@@ -263,6 +250,13 @@ class UserManagement:
             return None
 
     def bulk_register_users_from_csv(self, csv_file: str) -> List[Dict]:
+        logger.info("Setting registration open...")
+        self.session.put(
+                f"{self.base_url}/api/v3/site",
+                json={
+                    "registration_mode": "Open"
+                }
+            )
         try:
             df = pd.read_csv(csv_file)
             required_columns = ["name", "cohort", "username", "username2", "email", "is_admin"]
