@@ -87,10 +87,10 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
                     marginRight: "-50%",
                     transform: "translate(-50%, -50%)",
                     padding: "20px",
-                    background: "white",
+                    background: "black",
                     borderRadius: "8px",
                     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                    color: 'black'
+                    color: 'var(--color-white)'
                 },
             }}
         >
@@ -100,16 +100,16 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
 
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="name">Community Name (must be unique): </label>
-                    <input type="text" name="name" required />
+                    <input type="text" name="name" required style={{backgroundColor: "var(--color-card-bg)", padding: "7px"}}/> 
                     <br />
                     <label htmlFor="title">Community Title (treat as description):  </label>
-                    <textarea name="title" required />
+                    <textarea name="title" required style={{backgroundColor: "var(--color-card-bg)", padding: "7px"}}/>
                     <br />
-                    <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer" }}>
+                    <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", marginRight: "10px", backgroundColor: "var(--primary-dark-orange)", color: "white"}}>
                         {loading ? "Creating..." : "Create"}
                     </button>
 
-                    <button onClick={onClose} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", background: "#ccc", color: "black" }}>
+                    <button onClick={onClose} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", background: "var(--color-card-bg)", color: "white", border: "2px solid var(--primary-dark-orange)" }}>
                         Cancel
                     </button>
                 </form>

@@ -19,11 +19,6 @@ const styles: {
   input: CSSProperties;
   textarea: CSSProperties;
   buttonGroup: CSSProperties;
-  submitButton: CSSProperties;
-  submitButtonHover: CSSProperties;
-  submitButtonDisabled: CSSProperties;
-  cancelButton: CSSProperties;
-  cancelButtonHover: CSSProperties;
   createPostButton: CSSProperties;
 } = {
   modal: {
@@ -33,7 +28,7 @@ const styles: {
     content: {
       backgroundColor: '#000',
       color: '#fff',
-      border: '2px solid #ff6600',
+      border: '2px solidvar(--primary-dark-orange)',
       borderRadius: '8px',
       padding: '20px',
       maxWidth: '800px',
@@ -58,7 +53,7 @@ const styles: {
   input: {
     padding: '10px',
     backgroundColor: '#222',
-    border: '1px solid #ff6600',
+    border: '1px solidvar(--primary-dark-orange)',
     borderRadius: '4px',
     color: '#fff',
     width: '100%'
@@ -66,7 +61,7 @@ const styles: {
   textarea: {
     padding: '10px',
     backgroundColor: '#222',
-    border: '1px solid #ff6600',
+    border: '1px solidvar(--primary-dark-orange)',
     borderRadius: '4px',
     color: '#fff',
     minHeight: '120px',
@@ -77,34 +72,6 @@ const styles: {
     display: 'flex',
     gap: '10px',
     marginTop: '15px'
-  },
-  submitButton: {
-    backgroundColor: '#ff6600',
-    color: '#fff',
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontWeight: '500'
-  },
-  submitButtonHover: {
-    backgroundColor: '#ff8533'
-  },
-  submitButtonDisabled: {
-    backgroundColor: '#666',
-    cursor: 'not-allowed'
-  },
-  cancelButton: {
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: '10px 20px',
-    border: '1px solid #ff6600',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontWeight: '500'
-  },
-  cancelButtonHover: {
-    backgroundColor: '#444'
   },
   createPostButton: {
     backgroundColor: '#ff6600',
@@ -167,8 +134,7 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated, communityId }) => {
   const [loading, setLoading] = useState(false);
   const [uploadedImageCopies, setUploadedImageCopies] = useState<ImageDetailsType[] | undefined>(undefined);
-  const [hoverSubmit, setHoverSubmit] = useState(false);
-  const [hoverCancel, setHoverCancel] = useState(false);
+  
 
   function handleCancel() {
     // Clean up any pending image copies
@@ -250,7 +216,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
   };
   const customStyles = `
     .community-selector .control {
-      border: 1px solid #ff6600 !important;
+      border: 1px solid var(--primary-dark-orange) !important;
       background-color: #222 !important;
     }
     
@@ -261,7 +227,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     
     .community-selector .options {
       background-color: #222 !important;
-      border: 1px solid #ff6600 !important;
+      border: 1px solid var(--primary-dark-orange) !important;
     }
     
     .community-selector .option {
@@ -270,19 +236,17 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     
     .community-selector .option:hover,
     .community-selector .option.selected {
-      background-color: #ff6600 !important;
+      background-color:var(--primary-dark-orange) !important;
     }
     
     .image-uploader {
-      border: 1px solid #ff6600 !important;
       padding: 10px !important;
-      border-radius: 4px !important;
       background-color: #222 !important;
       margin-bottom: 15px !important;
     }
     
     .image-controls button {
-      background-color: #ff6600 !important;
+      background-color:var(--primary-dark-orange) !important;
       color: white !important;
       border: none !important;
       padding: 5px 10px !important;
@@ -290,7 +254,71 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
       cursor: pointer !important;
       margin-right: 5px !important;
     }
-  `;
+  .submit-button {
+    background-color:var(--primary-dark-orange);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .submit-button:hover:not(:disabled) {
+    background-color: var(--primary-light-orange);
+  }
+
+  .submit-button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+  }
+
+  .cancel-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: 1px solid var(--primary-dark-orange);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .cancel-button:hover {
+    background-color: #444;
+  }
+  .submit-button {
+    background-color:var(--primary-dark-orange);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .submit-button:hover:not(:disabled) {
+    background-color: var(--primary-light-orange);
+  }
+
+  .submit-button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+  }
+
+  .cancel-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: 1px solid var(--primary-dark-orange);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .cancel-button:hover {
+    background-color: #444;
+  }
+`;
 
   return (
     <>
@@ -355,7 +383,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
           </div>
           
           <div style={styles.formGroup}>
-            <label htmlFor="secondCommunityId" style={styles.label}>Create a copy of this post in: </label>
+            <label htmlFor="secondCommunityId" style={styles.label}>Optionally, create a copy of this post in: </label>
             <CommunitySelector name="secondCommunityId" />
           </div>
           
@@ -363,25 +391,14 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
             <button 
               type="submit" 
               disabled={loading}
-              style={{
-                ...styles.submitButton,
-                ...(loading ? styles.submitButtonDisabled : {}),
-                ...(hoverSubmit && !loading ? styles.submitButtonHover : {})
-              }}
-              onMouseEnter={() => setHoverSubmit(true)}
-              onMouseLeave={() => setHoverSubmit(false)}
+              className="submit-button"
             >
               {loading ? "Posting..." : "Post"}
             </button>
             <button 
               type="reset" 
               onClick={handleCancel}
-              style={{
-                ...styles.cancelButton,
-                ...(hoverCancel ? styles.cancelButtonHover : {})
-              }}
-              onMouseEnter={() => setHoverCancel(true)}
-              onMouseLeave={() => setHoverCancel(false)}
+              className="cancel-button"
             >
               Cancel
             </button>

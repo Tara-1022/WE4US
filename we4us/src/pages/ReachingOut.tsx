@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { CommunityView, PostView } from 'lemmy-js-client';
 import { getPostList } from '../library/LemmyApi';
 import PostList from '../components/PostList';
-import { Loader, Search, Plus } from 'lucide-react';
+import { Loader, Search } from 'lucide-react';
 import PostCreationButton from '../components/PostCreationButton';
 import CommunityCreationModal from '../components/CommunityCreationModal';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,9 +16,7 @@ const styles: {
   header: CSSProperties;
   headerContainer: CSSProperties;
   actionsContainer: CSSProperties;
-  searchLink: CSSProperties;
   searchIcon: CSSProperties;
-  createCommunityButton: CSSProperties;
   noPostsMessage: CSSProperties;
   paginationContainer: CSSProperties;
   postListContainer: CSSProperties;
@@ -36,7 +34,7 @@ const styles: {
     fontSize: '2rem',
     fontWeight: '700',
     margin: '0 0 20px 0',
-    color: '#ff6600',
+    color: 'var(--primary-dark-orange)',
     textAlign: 'left'
   },
   headerContainer: {
@@ -44,7 +42,7 @@ const styles: {
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: '30px',
-    borderBottom: '2px solid #ff6600',
+    borderBottom: '2px solid var(--primary-dark-orange)',
     paddingBottom: '15px',
     marginTop: '40px', 
   },
@@ -53,33 +51,8 @@ const styles: {
     gap: '15px',
     alignItems: 'center'
   },
-  searchLink: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '40px',
-    height: '40px',
-    backgroundColor: '#ff6600',
-    borderRadius: '50%',
-    color: '#fff',
-    border: 'none',
-    transition: 'all 0.2s ease'
-  },
   searchIcon: {
     color: '#fff'
-  },
-  createCommunityButton: {
-    backgroundColor: '#ff6600',
-    color: '#fff',
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontWeight: '500',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '5px',
-    transition: 'all 0.2s ease'
   },
   noPostsMessage: {
     textAlign: 'center',
@@ -115,21 +88,17 @@ const styles: {
   }
 };
 
+
+
 function CommunityCreationButton({ handleCommunityCreated }: 
    { handleCommunityCreated: (newCommunity: CommunityView) => void }) {
   const [showModal, setShowModal] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   
   return (
     <>
       <button 
         onClick={() => setShowModal(true)}
-        style={{
-          ...styles.createCommunityButton,
-          backgroundColor: isHovered ? '#ff8533' : '#ff6600'
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        className='create-community-button'
       >
       Create Community
       </button>
@@ -145,7 +114,6 @@ function CommunityCreationButton({ handleCommunityCreated }:
 function ReachingOut() {
   const [postViews, setPostViews] = useState<PostView[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [isSearchHovered, setIsSearchHovered] = useState(false);
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
   const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
@@ -166,7 +134,7 @@ function ReachingOut() {
     return (
       <div style={styles.container}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-          <Loader size={48} color="#ff6600" />
+          <Loader size={48} color="var(--primary-dark-orange)" />
         </div>
       </div>
     );
@@ -186,10 +154,46 @@ function ReachingOut() {
       }
       
       .post-item:hover {
-        border-color: #ff6600;
+        border-color: var(--primary-dark-orange);
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
       }
+      
+      .create-community-button{
+      background-color: var(--primary-dark-orange);
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+  }
+
+      .create-community-button:hover{
+      background-color: var(--primary-light-orange);
+  }
+  
+      .search-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary-dark-orange);
+      border-radius: 50%;
+      color: #fff;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .search-link:hover {
+    background-color: var(--primary-light-orange) 
+    }
     `;
     document.head.appendChild(styleElement);
     return () => {
@@ -205,12 +209,7 @@ function ReachingOut() {
         <div style={styles.actionsContainer}>
           <Link 
             to="/search" 
-            style={{
-              ...styles.searchLink, 
-              backgroundColor: isSearchHovered ? '#ff8533' : '#ff6600'
-            }}
-            onMouseEnter={() => setIsSearchHovered(true)}
-            onMouseLeave={() => setIsSearchHovered(false)}
+            className='search-link'
           >
             <Search style={styles.searchIcon} size={20} />
           </Link>
