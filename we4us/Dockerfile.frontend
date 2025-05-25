@@ -1,0 +1,25 @@
+FROM node:18-bullseye
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json* ./
+
+# Install dependencies for builds
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+# Clean install dependencies
+RUN npm ci --legacy-peer-deps
+
+# Only install the GNU version for Debian/Ubuntu
+RUN npm i -D @rollup/rollup-linux-x64-gnu @esbuild/linux-x64 --build-from-source=false
+
+# Copy application code
+COPY . .
+
+EXPOSE 5173
+
+# Start the app
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
