@@ -65,6 +65,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
   
 
   function handleCancel() {
+    // Clean up any pending image copies
     if (!uploadedImageCopies) {
       onClose();
       return;
@@ -219,14 +220,14 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
             <button 
               type="submit" 
               disabled={loading}
-              className="submit-button"
+              className="post-creation-submit-button"
             >
               {loading ? "Posting..." : "Post"}
             </button>
             <button 
               type="reset" 
               onClick={handleCancel}
-              className="cancel-button"
+              className="post-creation-cancel-button"
             >
               Cancel
             </button>

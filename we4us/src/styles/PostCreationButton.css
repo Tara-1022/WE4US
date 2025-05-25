@@ -73,27 +73,27 @@
   opacity: 0.9;
 }
 
-.community-selector .control {
+.post-creation-form-group .community-selector .control {
   border: 1px solid var(--color-primary-orange) !important;
   background-color: var(--color-card-bg) !important;
 }
 
-.community-selector .search-value {
+.post-creation-form-group .community-selector .search-value {
   color:var(--color-white) !important;
   background-color: var(--color-card-bg) !important;
 }
 
-.community-selector .options {
+.post-creation-form-group .community-selector .options {
   background-color: var(--color-card-bg) !important;
   border: 1px solid var(--color-primary-orange) !important;
 }
 
-.community-selector .option {
+.post-creation-form-group .community-selector .option {
   color:var(--color-white) !important;
 }
 
-.community-selector .option:hover,
-.community-selector .option.selected {
+.post-creation-form-group .community-selector .option:hover,
+.post-creation-form-group .community-selector .option.selected {
   background-color: var(--color-primary-orange) !important;
 }
 
@@ -113,7 +113,7 @@
   margin-right: 5px !important;
 }
 
-.submit-button {
+.post-creation-submit-button {
   background-color: var(--color-primary-orange);
   color:var(--color-white);
   padding: 10px 20px;
@@ -123,16 +123,16 @@
   font-weight: 500;
 }
 
-.submit-button:hover:not(:disabled) {
+.post-creation-submit-button:hover:not(:disabled) {
   opacity: 0.9;
 }
 
-.submit-button:disabled {
+.post-creation-submit-button:disabled {
   background-color: #666;
   cursor: not-allowed;
 }
 
-.cancel-button {
+.post-creation-cancel-button {
   background-color: #333;
   color:var(--color-white);
   padding: 10px 20px;
@@ -142,6 +142,6 @@
   font-weight: 500;
 }
 
-.cancel-button:hover {
+.post-creation-cancel-button:hover {
   background-color: #444;
 }
