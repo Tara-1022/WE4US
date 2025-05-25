@@ -5,7 +5,7 @@ import logging
 import sys
 from typing import Dict, List, Optional
 
-from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE
+from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE, DEFAULT_PASSWORD
 
 # Configure logging
 logging.basicConfig(
