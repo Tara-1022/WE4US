@@ -11,6 +11,7 @@
   }
 
   ## IMPORTANT SECTION
+  # useful reference: https://github.com/ubergeek77/Lemmy-Easy-Deploy/tree/9722d9f7c312ee46c3d68feab0361b2f2fefec4b/templates
   # TO DEVS: Update this to "localhost:5173" for development tests; and "we4us.co.in" in prod
   hostname: "localhost:5173"
   # TO DEVS: Update this to false for development tests (to disable https); true in prod
