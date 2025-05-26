@@ -1,6 +1,5 @@
 import { CommentView } from "lemmy-js-client";
 import CommentSnippet from "./CommentSnippet";
-import { Link } from "react-router-dom";
 
 let styles = {
     list: {
