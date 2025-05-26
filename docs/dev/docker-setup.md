@@ -63,7 +63,7 @@ docker-compose logs -f [service_name]
 
 ## Rebuilding and Pushing Docker Images
 
-If you need to rebuild the frontend image:
+If you need to rebuild the frontend image ([see](https://docs.docker.com/get-started/introduction/build-and-push-first-image/)):
 
 ```bash
 cd we4us
