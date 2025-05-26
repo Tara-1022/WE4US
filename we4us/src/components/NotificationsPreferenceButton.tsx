@@ -35,6 +35,6 @@ export default function NotificationsPreferenceButton() {
         onClick={handleUpdatePreference}
         className="notifs-preference"
     >
-        {profileInfo?.is_email_notifications_on || "Don't "} Send Me Emails!
+        {profileInfo?.is_email_notifications_on ? "Don't ": ""} Send Me Emails!
     </button>
 }
