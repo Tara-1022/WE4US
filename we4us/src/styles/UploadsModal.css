@@ -1,0 +1,96 @@
+uploads-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.uploads-modal-content {
+    background-color: var(--color-white);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    inset: auto ;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.uploads-modal-content .header {
+    position: sticky;
+    background-color: white;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+}
+
+.uploads-modal-content .header h3 {
+    color: black;
+}
+
+.uploads-modal-content .close-modal {
+    cursor: pointer;
+    border-style: none;
+    color: var(--color-white);
+    background-color: #4CAF50;
+    position: absolute;
+    top: 3%;
+    right: 1%;
+    border-radius: 15%;
+}
+
+.uploads-modal-content .uploads-container {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.uploads-modal-content .uploads-container ul {
+    width: 100%;
+    list-style-type: "none";
+    margin: 0;
+    padding: 0;
+}
+
+.uploads-modal-content .image-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploads-modal-content .image-container {
+    width: 70%;
+    min-width: 25px;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploads-modal-content .image-container img {
+    width: 100%;
+    vertical-align: middle;
+    object-fit: scale-down;
+}
+
+.uploads-modal-content .image-deletor {
+    background-color: red;
+    border-style: none;
+    color: white;
+    width: 55px;
+    height: 30px;
+    border-radius: 15%;
+    margin-left: 5%;
+    vertical-align: middle;
+    cursor: pointer;
+}

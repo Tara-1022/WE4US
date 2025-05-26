@@ -1,0 +1,92 @@
+
+.job-status-change-modal-content {
+    width: 50%;
+    background-color: var(--color-dark-bg);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.job-status-change-modal-header {
+    color: var(--color-white);
+    font-size: 17px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    text-align: center;
+    
+}
+
+.job-status-change-modal-label {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: var(--color-white);
+    font-size: 14px;
+    margin-left: 94px;
+    
+
+}
+
+.job-status-change-modal-input {
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    width: 67.5%;
+    margin-left: 93px;
+    background-color: var(--color-fade-out-grey);
+    color: var(--color-white);
+    font-weight: 600;
+    
+}
+
+.job-status-change-modal-button-group {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    justify-content: center;
+}
+
+.job-status-change-modal-button {
+    padding: 5px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.job-status-change-modal-button-new-date {
+    background-color: var(--color-primary-dark-purple);
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.job-status-change-modal-button-update-status {
+    background-color: var(--color-primary-blue);
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.job-status-change-modal-button-cancel {
+    background-color: var(--color-error);
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.job-status-change-modal-button-new-date:hover {
+    background-color: var(--color-primary-light-purple);
+    color: var(--color-white);
+}
+
+.job-status-change-modal-button-update-status:hover {
+    background-color:  var(--color-blue);
+    color: var(--color-white);
+}
+
+.job-status-change-modal-button-cancel:hover {
+    background-color: var(--color-error-hover);
+    color: var(--color-white);
+}
+
+

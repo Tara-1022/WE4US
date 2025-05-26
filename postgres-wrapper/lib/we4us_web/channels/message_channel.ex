@@ -52,7 +52,6 @@ end
     from_user = socket.assigns.username
     users = [from_user, to_user] |> Enum.sort()
 
-
     message_params = %{
       "from_user" => from_user,
       "to_user" => to_user,

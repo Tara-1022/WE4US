@@ -3,27 +3,12 @@ import { CommunityView, PostView } from 'lemmy-js-client';
 import { getPostList } from '../library/LemmyApi';
 import PostList from '../components/PostList';
 import { Loader, Search } from 'lucide-react';
-import PostCreationModal from '../components/PostCreationModal';
+import PostCreationButton from '../components/PostCreationButton';
 import CommunityCreationModal from '../components/CommunityCreationModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProfileContext } from '../components/ProfileContext';
 import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 import PaginationControls from "../components/PaginationControls";
-
-function PostCreationButton({ handlePostCreated }:
-   { handlePostCreated: (newPost: PostView) => void }) {
-  const [showModal, setShowModal] = useState(false);
-  return (
-    <>
-      <button onClick={() => setShowModal(true)}>Create Post</button>
-      <PostCreationModal
-       isOpen={showModal}
-        onClose={() => setShowModal(false)}
-         onPostCreated={handlePostCreated}
-          />
-    </>
-  )
-}
 
 function CommunityCreationButton({ handleCommunityCreated }:
    { handleCommunityCreated: (newCommunity: CommunityView) => void }) {
