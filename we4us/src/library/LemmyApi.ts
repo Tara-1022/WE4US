@@ -384,6 +384,15 @@ export async function updateDisplayName(displayName: string) {
   return response.success
 }
 
+export async function updateNotificationsPreference(send_notifications_to_email: boolean) {
+  const response = await getClient().saveUserSettings(
+    {
+      send_notifications_to_email: send_notifications_to_email
+    }
+  );
+  return response.success
+}
+
 export async function changeUserPassword(
   oldPassword: string,
   newPassword: string,
