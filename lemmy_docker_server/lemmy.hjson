@@ -15,8 +15,10 @@
     api_key: "lemmy_pwd"
   }
   email: {
-    smtp_server: "postfix:25"
-    smtp_from_address: "noreply@localhost:8765"
-    tls_type: "none"
+    smtp_server: "smtp.gmail.com:587"
+    smtp_login: "YOUR_EMAIL@gmail.com"
+    smtp_password: "APP_PASSWORD"
+    smtp_from_address: "YOUR_EMAIL@gmail.com"
+    tls_type: "starttls"
   }
 }
