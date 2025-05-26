@@ -9,11 +9,18 @@
     # Alternative way:
     #uri: "postgresql://lemmy:lemmy_pwd@postgres/lemmy"
   }
-  hostname: "localhost:8765"
+
+  ## IMPORTANT SECTION
+  # TO DEVS: Update this to "localhost:10633" for development tests; and "we4us.co.in" in prod
+  hostname: "localhost:10633"
+  # TO DEVS: Update this to false for development tests (to disable https); true in prod
+  tls_enabled: false
+
   pictrs: {
     url: "http://pictrs:8080/"
     api_key: "lemmy_pwd"
   }
+
   email: {
     smtp_server: "smtp.gmail.com:587"
     smtp_login: "YOUR_EMAIL@gmail.com"
