@@ -1,6 +1,10 @@
 # Docker Setup for WE4US Project
 
-This guide provides instructions for setting up and running the WE4US project using Docker.
+This guide provides instructions for setting up and running the WE4US project using Docker. 
+
+**Note: The guide has been written on a machine with `docker-compose`. The standard is to use `docker compose`. Strictly follow this unless your machine has restrictions.** 
+
+**Replace `docker-compose` with `docker compose` in all commands below.**
 
 ## Prerequisites
 
