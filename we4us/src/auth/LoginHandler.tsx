@@ -31,7 +31,7 @@ export function LoginModal({ isOpen, handleClose }: { isOpen: boolean, handleClo
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
@@ -51,9 +51,11 @@ export function LoginModal({ isOpen, handleClose }: { isOpen: boolean, handleClo
     setLoading(true);
     requestPasswordReset(email).then((success) => {
       if (success) {
-        setStatus("If this email exists, a reset link has been sent.");
+        window.alert("If this email exists, a reset link has been sent.");
+        handleClose();
+        
       } else {
-        setStatus("Password reset failed. Please try again.");
+        setError("Password reset failed. Please try again.");
       }
     })
       .finally(() => setLoading(false));
@@ -129,7 +131,7 @@ export function LoginModal({ isOpen, handleClose }: { isOpen: boolean, handleClo
               </div>
               <button type="submit" className="send-reset-btn" disabled={loading}>
                 {loading? "Processing..." : "Send Reset Link"}</button>
-              {status && <p className="status-message">{status}</p>}
+              {error && <p className="status-message">{error}</p>}
             </form>
           )}
       </div>
