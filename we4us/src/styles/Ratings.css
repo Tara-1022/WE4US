@@ -1,0 +1,50 @@
+.ratings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.rating-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-label {
+    min-width: 90px;
+    font-weight: 500;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.full-star {
+    color: var(--color-primary-orange);
+    text-shadow: 0px 0px 1px var(--color-card-bg);
+}
+
+.half-star {
+    position: relative;
+    color: var(--color-primary-orange);
+    text-shadow: 0px 0px 1px var(--color-card-bg);
+    opacity: 0.5;
+}
+
+.empty-star {
+    color: var(--color-white);
+}
+
+.rating-number {
+    margin-left: 8px;
+    font-size: 0.85rem;
+    color: var(--color-white);
+}

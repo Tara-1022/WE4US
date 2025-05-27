@@ -40,16 +40,16 @@ export default function PostForm({
   }
 
   return (
-    <form onSubmit={handleClick} className="meet-up-form">
-      <h2 className="meet-up-title">{task} Meet Up Post</h2>
+    <form onSubmit={handleClick} className="meet-up-form-container">
+      <h2>{task} Meet Up Post</h2>
 
-      {errorMessage && <p className="error-message meet-up-error">{errorMessage}</p>}
+      {errorMessage && <p className="meet-up-error-message">{errorMessage}</p>}
 
       <label htmlFor="title" className="meet-up-label">Title</label>
       <input
         name="title"
         required
-        className="input meet-up-input"
+        className="meet-up-input"
         defaultValue={initialData?.title || ""}
       />
 
@@ -57,7 +57,7 @@ export default function PostForm({
       <input
         name="location"
         required
-        className="input meet-up-input"
+        className="meet-up-input"
         defaultValue={initialData?.body.location || ""}
       />
 
@@ -65,7 +65,7 @@ export default function PostForm({
       <input
         name="url"
         type="url"
-        className="input meet-up-input"
+        className="meet-up-input"
         defaultValue={initialData?.url || ""}
       />
 
@@ -74,28 +74,28 @@ export default function PostForm({
         name="datetime"
         type="datetime-local"
         required
-        className="input meet-up-input"
+        className="meet-up-input"
         defaultValue={initialData?.body.datetime || ""}
       />
 
       <label htmlFor="open_to" className="meet-up-label">Open To</label>
       <input
         name="open_to"
-        className="input meet-up-input"
+        className="meet-up-input"
         defaultValue={initialData?.body.open_to || "All"}
       />
 
       <label htmlFor="additional_details" className="meet-up-label">Additional Details (Optional)</label>
       <textarea
         name="additional_details"
-        rows={3}
-        className="input textarea meet-up-input"
+        rows={5}
+        className="meet-up-additional-textarea"  
         defaultValue={initialData?.body.additional_details || ""}
       />
-
-      <button type="submit" className="primary-button meet-up-button">{task}</button>
-      <button type="reset" className="secondary-button meet-up-button">Reset</button>
-      <button type="button" className="secondary-button meet-up-button" onClick={onClose}>Cancel</button>
+    
+      <button type="submit" className="meet-up-button">{task}</button>
+      <button type="reset" className="meet-up-button">Reset</button>
+      <button type="button" className="meet-up-button" onClick={onClose}>Cancel</button>
     </form>
   );
 }

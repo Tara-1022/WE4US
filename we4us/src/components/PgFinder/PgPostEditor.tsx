@@ -2,6 +2,8 @@ import { PostView } from "lemmy-js-client";
 import { editPost } from "../../library/LemmyApi";
 import { PgPostBody, PgPostData } from "./Types";
 import PgPostForm from "./PgPostForm";
+import "../../styles/PgFinderPage.css";
+import "../../styles/PgPostPage.css";
 
 export default function PgPostEditor({ postView, onPostUpdated, onClose }:
     { postView: PostView, onPostUpdated: (updatedPostView: PostView) => void, onClose: () => void }) {
@@ -27,15 +29,16 @@ export default function PgPostEditor({ postView, onPostUpdated, onClose }:
             )
     }
 
-    return <PgPostForm
-        initialData={{
-            name: postView.post.name,
-            url: postView.post.url,
-            body: JSON.parse(postView.post.body || "{}") as PgPostBody
-        } as PgPostData}
-        handleSubmit={handleEdit}
-        onClose={onClose}
-        task="Edit"
-    />
-
+    return (  
+            <PgPostForm
+                initialData={{
+                    name: postView.post.name,
+                    url: postView.post.url,
+                    body: JSON.parse(postView.post.body || "{}") as PgPostBody
+                } as PgPostData}
+                handleSubmit={handleEdit}
+                onClose={onClose}
+                task="Edit"
+            />
+    );
 }
