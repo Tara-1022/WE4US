@@ -158,6 +158,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
         }
         
       >
+      <div className="post-creation-container">
         <form onSubmit={handleSubmit} className="post-creation-form">
           <div className="post-creation-form-group">
             <label htmlFor="title" className="post-creation-label">Post Title: </label>
@@ -233,6 +234,7 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
             </button>
           </div>
         </form>
+        </div>
       </Modal>
     </>
   );
