@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import LemmySearchBar from '../components/LemmySearchBar';
 import { CommentView, Search } from 'lemmy-js-client';
 import { search } from '../library/LemmyApi';
-import { Loader, Search as SearchIcon } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { DEFAULT_POSTS_PER_PAGE, isSpecialCommunity } from '../constants';
 import { commentToGenericView, GenericView, GenericViewList, postToGenericView } from '../library/GenericView';
