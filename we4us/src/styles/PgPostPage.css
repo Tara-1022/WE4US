@@ -6,6 +6,7 @@
   color: var(--text-light);
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 2.5rem;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--box-shadow-md), var(--box-shadow-lg);
 }

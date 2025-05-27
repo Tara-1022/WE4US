@@ -67,12 +67,12 @@
   
 .job-controls > button {
     cursor: pointer;
-    margin-left: 0rem;
+    margin-left: 2px;
     margin-bottom: -10px;
     background-color:var(--color-primary-blue);
     font-weight: bold;
     color: var(--color-white);
-    padding: 7px 25px;
+    padding: 3px 25px;
     border-radius: 1rem;
     border-color:var(--color-primary-blue);
     transition: background-color 0.2s ease;

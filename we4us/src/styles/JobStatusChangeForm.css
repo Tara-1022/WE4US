@@ -47,9 +47,10 @@
 }
 
 .job-status-change-modal-button {
-    padding: 10px 20px;
+    padding: 5px 20px;
+    margin-top: 15px;
     border: none;
-    border-radius: 10px;
+    border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
