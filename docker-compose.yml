@@ -5,7 +5,7 @@ x-logging: &default-logging
     max-file: "4"
 
 volumes:
-  postgres-lemmy-data:
+  postgres-data:
   postgres-wrapper-data:
   pictrs-data:
 
@@ -18,13 +18,6 @@ services:
     image: yashaswinisharma/we4us-react:latest
     ports:
       - "5173:5173"
-    #volumes:
-    #  - ./we4us:/app
-    #  - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_PHOENIX_URL=http://localhost:4000
-      - REACT_APP_LEMMY_URL=http://localhost:10633
     depends_on:
       - postgres-wrapper
     networks:
@@ -39,8 +32,8 @@ services:
     environment:
       - MIX_ENV=dev
       - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
-      - SECRET_KEY_BASE=your_secret_key_here
-      - LEMMY_URL=http://lemmy:8536
+    depends_on:
+      - postgres
     networks:
       - we4us-network
     restart: unless-stopped
@@ -72,7 +65,7 @@ services:
     volumes:
       - ./lemmy_docker_server/lemmy.hjson:/config/config.hjson:Z
     depends_on:
-      - postgres-lemmy
+      - postgres
       - pictrs
     networks:
       - we4us-network
@@ -113,7 +106,7 @@ services:
     networks:
       - we4us-network
 
-  postgres-lemmy:
+  postgres:
     image: pgautoupgrade/pgautoupgrade:17-alpine
     hostname: postgres
     environment:
@@ -122,7 +115,7 @@ services:
       - POSTGRES_DB=lemmy
     shm_size: 1g
     volumes:
-      - postgres-lemmy-data:/var/lib/postgresql/data:Z
+      - postgres-data:/var/lib/postgresql/data:Z
       - ./lemmy_docker_server/customPostgresql.conf:/etc/postgresql.conf
     restart: always
     logging: *default-logging
