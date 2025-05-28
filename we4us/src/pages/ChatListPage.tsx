@@ -3,13 +3,14 @@ import { fetchLastMessages, Message } from "../library/PostgresAPI";
 import { Loader, MessageSquare } from 'lucide-react';
 import { useProfileContext } from "../components/ProfileContext";
 import { formatToN } from "../library/Utils";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import '../styles/ChatListPage.css'
 
 export default function ChatListPage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { profileInfo } = useProfileContext();
+    const navigate = useNavigate();
 
     const this_user = profileInfo?.username;
 
@@ -46,27 +47,26 @@ export default function ChatListPage() {
                             let other_user = message.from_user == this_user
                                 ? message.to_user
                                 : message.from_user;
-                            return <Link to={"/chat/" + other_user}>
-                                <li
-                                    className="message-snippet"
-                                    key={message.from_user + "#" + message.to_user}
-                                >
-                                    <MessageSquare className="message-icon" size={70}  strokeWidth={1}/>
-                                    <div className="content">
-                                        <h3>{other_user}</h3>
-                                        <span className="sender">
-                                            {(message.from_user == other_user ? other_user : "You")
-                                                + ": "}
-                                        </span>
-                                        <span className="message">
-                                            {formatToN(message.body, 50)}
-                                        </span>
-                                        <span className="date-time">
-                                            {(new Date(message.inserted_at)).toLocaleString()}
-                                        </span>
-                                    </div>
-                                </li>
-                            </Link>
+                            return <li
+                                className="message-snippet"
+                                key={message.from_user + "#" + message.to_user}
+                                onClick={() => navigate("/chat/" + other_user)}
+                            >
+                                <MessageSquare className="message-icon" size={70} strokeWidth={1} />
+                                <div className="content">
+                                    <h3>{other_user}</h3>
+                                    <span className="sender">
+                                        {(message.from_user == other_user ? other_user : "You")
+                                            + ": "}
+                                    </span>
+                                    <span className="message">
+                                        {formatToN(message.body, 50)}
+                                    </span>
+                                    <span className="date-time">
+                                        {(new Date(message.inserted_at)).toLocaleString()}
+                                    </span>
+                                </div>
+                            </li>
                         }
                     )
                 }
