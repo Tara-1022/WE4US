@@ -30,7 +30,7 @@ defmodule We4usWeb.Router do
     put "/profiles/:username", ProfileController, :update
     delete "/profiles/:username", ProfileController, :delete
     post "/messages", MessageController, :create
-    get "/messages/latest/:for_user", MessageController, :last_message_list
+    get "/messages/last/:for_user", MessageController, :last_message_list
 
   end
 

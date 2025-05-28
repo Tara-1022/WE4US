@@ -27,6 +27,7 @@ import JobPostPage from './pages/JobPostPage';
 import { Menu } from 'lucide-react';
 import { BackButton } from './components/NavButtons';
 import { ANNOUNCEMENTS_COMMUNITY_NAME, JOB_BOARD_COMMUNITY_NAME, MEET_UP_COMMUNITY_NAME, PG_FINDER_COMMUNITY_NAME } from './constants';
+import ChatListPage from './pages/ChatListPage';
 
 
 Modal.setAppElement('#root');
@@ -59,8 +60,8 @@ const App: React.FC = () => {
                 <Route path="/announcements/:announcementId" element={<AnnouncementPostPage />} />
                 <Route path="/announcements/search" element={<SpecialisedSearchPage community={ANNOUNCEMENTS_COMMUNITY_NAME} />} />
 
-                <Route path="/job-board" element={<JobBoardPage />} />   
-                <Route path="/job-board/:jobId" element={<JobPostPage/>}/>   
+                <Route path="/job-board" element={<JobBoardPage />} />
+                <Route path="/job-board/:jobId" element={<JobPostPage />} />
                 <Route path="/job-board/search" element={<SpecialisedSearchPage community={JOB_BOARD_COMMUNITY_NAME} />} />
 
                 <Route path="/meetup/" element={<MeetUpPage />} />
@@ -70,9 +71,10 @@ const App: React.FC = () => {
                 <Route path="/pg-finder" element={<PgFinderPage />} />
                 <Route path="/pg-finder/:pgId" element={<PgPostPage />} />
                 <Route path="/pg-finder/search" element={<SpecialisedSearchPage community={PG_FINDER_COMMUNITY_NAME} />} />
-                
+
                 <Route path="/reaching-out" element={<ReachingOutPage />} />
-                <Route path="/chat/:to_user" element={<Chat/>}/>
+                <Route path="/chats" element={<ChatListPage />} />
+                <Route path="/chat/:to_user" element={<Chat />} />
                 <Route path="/search" element={<ReachingOutSearchPage />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/community/:communityId" element={<CommunityPage />} />
