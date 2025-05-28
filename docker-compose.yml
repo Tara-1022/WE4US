@@ -34,7 +34,7 @@ services:
     logging: *default-logging
 
   postgres-wrapper:
-    image: yashaswinisharma/we4us-postgres-prod:latest
+    image: yashaswinisharma/prod-we4us-postgres-wrapper
     ports:
       - "4000:4000"
     environment:
@@ -42,7 +42,8 @@ services:
       - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
       - SECRET_KEY_BASE=your_secret_key_here
       - LEMMY_URL=http://lemmy:8536
-
+    depends_on:
+      - postgres-wrapper-db
     networks:
       - we4us-network
     restart: unless-stopped
