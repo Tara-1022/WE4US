@@ -42,33 +42,36 @@ export default function ChatListPage() {
             <h2>Private Messages</h2>
             <ul className="chat-list">
                 {
-                    messages.map(
-                        (message) => {
-                            let other_user = message.from_user == this_user
-                                ? message.to_user
-                                : message.from_user;
-                            return <li
-                                className="message-snippet"
-                                key={message.from_user + "#" + message.to_user}
-                                onClick={() => navigate("/chat/" + other_user)}
-                            >
-                                <MessageSquare className="message-icon" size={70} strokeWidth={1} />
-                                <div className="content">
-                                    <h3>{other_user}</h3>
-                                    <span className="sender">
-                                        {(message.from_user == other_user ? other_user : "You")
-                                            + ": "}
-                                    </span>
-                                    <span className="message">
-                                        {formatToN(message.body, 50)}
-                                    </span>
-                                    <span className="date-time">
-                                        {(new Date(message.inserted_at)).toLocaleString()}
-                                    </span>
-                                </div>
-                            </li>
-                        }
-                    )
+                    messages.length > 0
+                        ?
+                        messages.map(
+                            (message) => {
+                                let other_user = message.from_user == this_user
+                                    ? message.to_user
+                                    : message.from_user;
+                                return <li
+                                    className="message-snippet"
+                                    key={message.from_user + "#" + message.to_user}
+                                    onClick={() => navigate("/chat/" + other_user)}
+                                >
+                                    <MessageSquare className="message-icon" size={70} strokeWidth={1} />
+                                    <div className="content">
+                                        <h3>{other_user}</h3>
+                                        <span className="sender">
+                                            {(message.from_user == other_user ? other_user : "You")
+                                                + ": "}
+                                        </span>
+                                        <span className="message">
+                                            {formatToN(message.body, 50)}
+                                        </span>
+                                        <span className="date-time">
+                                            {(new Date(message.inserted_at)).toLocaleString()}
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                        )
+                        : <span>No Chats yet!</span>
                 }
             </ul>
         </div>
