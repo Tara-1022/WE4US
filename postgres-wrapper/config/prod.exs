@@ -7,7 +7,7 @@ import Config
 # before starting your production server.
 config :we4us, We4usWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 config :we4us, We4us.Repo,
-  url: System.get_env("DATABASE_URL") || "ecto://postgres:localhost@postgres-wrapper-db/we4us_dev"
+  url: "ecto://postgres:localhost@postgres-wrapper-db/we4us_dev"
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: We4us.Finch
 

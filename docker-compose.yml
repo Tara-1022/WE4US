@@ -18,14 +18,7 @@ services:
     image: yashaswinisharma/we4us-react:latest
     ports:
       - "5173:5173"
-    #volumes:
-    #  - ./we4us:/app
-    #  - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_PHOENIX_URL=http://localhost:4000
-      - REACT_APP_LEMMY_URL=http://localhost:10633
-      - VITE_PHOENIX_URL=http://localhost:4000
+   
     depends_on:
       - postgres-wrapper
     networks:
@@ -37,11 +30,7 @@ services:
     image: yashaswinisharma/prod-we4us-postgres-wrapper
     ports:
       - "4000:4000"
-    environment:
-      - MIX_ENV=dev
-      - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
-      - SECRET_KEY_BASE=your_secret_key_here
-      - LEMMY_URL=http://lemmy:8536
+  
     depends_on:
       - postgres-wrapper-db
     networks:
@@ -52,16 +41,13 @@ services:
 
   postgres-wrapper-db:
     image: postgres:16-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=we4us_dev
     volumes:
       - postgres-wrapper-data:/var/lib/postgresql/data
     networks:
       - we4us-network
     restart: unless-stopped
     logging: *default-logging
+    
   proxy:
     image: nginx:1-alpine
     ports:
