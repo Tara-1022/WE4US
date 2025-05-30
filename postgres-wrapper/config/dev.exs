@@ -4,8 +4,7 @@ import Config
 config :we4us, We4us.Repo,
   username: "postgres",
   password: "postgres",
-  # Use environment variable with fallback to localhost for local development
-  hostname: System.get_env("DB_HOST") || "localhost",
+  hostname: "localhost",
   database: "we4us_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
