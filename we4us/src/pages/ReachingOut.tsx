@@ -9,20 +9,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useProfileContext } from '../components/ProfileContext';
 import { DEFAULT_POSTS_PER_PAGE } from '../constants';
 import PaginationControls from "../components/PaginationControls";
+import "../styles/ReachingOut.css";
 
-function CommunityCreationButton({ handleCommunityCreated }:
+
+function CommunityCreationButton({ handleCommunityCreated }: 
    { handleCommunityCreated: (newCommunity: CommunityView) => void }) {
   const [showModal, setShowModal] = useState(false);
+  
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Create Community</button>
+      <button 
+        onClick={() => setShowModal(true)}
+        className='create-community-button'
+      >
+      Create Community
+      </button>
       <CommunityCreationModal
-       isOpen={showModal}
+        isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCommunityCreated={handleCommunityCreated}
-         />
+      />
     </>
-  )
+  );
 }
 
 function ReachingOut() {
@@ -31,42 +39,73 @@ function ReachingOut() {
   const { profileInfo } = useProfileContext();
   const navigate = useNavigate();
   const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
-  
+ 
   useEffect(() => {
     getPostList({ page, limit: DEFAULT_POSTS_PER_PAGE }).then(setPostViews);
   }, [page]);
-  
-  
-
+ 
   function handlePostCreated(newPost: PostView) {
     setPostViews((prevPosts) => (prevPosts ? [newPost, ...prevPosts] : [newPost]));
   }
-
+  
   function handleCommunityCreated(newCommunity: CommunityView) {
     navigate("/community/" + newCommunity.community.id);
   }
-
+  
   if (!postViews) {
-    return <Loader />;
+    return (
+       <div className='recent-posts-wrapper'>
+      <div className='recent-posts-container'>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <Loader size={48} color="var(--primary-dark-orange)" />
+        </div>
+      </div>
+      </div>
+    );
   }
-
+  
   return (
-    <>
-      <h1>Recent Posts</h1>
-      <Link to="/search"><Search /></Link>
-      <PostCreationButton handlePostCreated={handlePostCreated} />
-      {profileInfo?.isAdmin && <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />}
-
-      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-
+    <div className='recent-posts-wrapper'>
+    <div className='recent-posts-container'>
+      <div className='recent-posts-header-container'>
+        <h1 className='recent-posts-header'>Recent Posts</h1>
+        
+        <div className='actions-container'>
+          <Link 
+            to="/search" 
+            className='search-link'
+          >
+            <Search className='reaching-out-search-icon' size={20} />
+          </Link>
+          
+          <PostCreationButton handlePostCreated={handlePostCreated} />
+          
+          {profileInfo?.isAdmin && 
+            <CommunityCreationButton handleCommunityCreated={handleCommunityCreated} />
+          }
+        </div>
+      </div>
+      
+      <div className='pagination-container'>
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+      </div>
+      
       {postViews.length === 0 ? (
-        <h3>No posts to see!</h3>
-        ) : (
-        <PostList postViews={postViews} />
-        )}
-
-      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-    </>
+        <div className='no-posts-message'>
+          <h3>No posts to see!</h3>
+          <p>Be the first to create a post</p>
+        </div>
+      ) : (
+        <div className='post-list-container'>
+          <PostList postViews={postViews} />
+        </div>
+      )}
+      
+      <div className='pagination-container'>
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+      </div>
+    </div>
+    </div>
   );
 }
 
