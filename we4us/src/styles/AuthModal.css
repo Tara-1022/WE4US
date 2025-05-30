@@ -31,37 +31,6 @@
   margin-bottom: 1.5rem;
   text-align: center;
   color: white;
-  margin-bottom: 0;
-}
-
-.auth-modal-content .modal-container .forgot-password-link {
-  margin-top: 5px;
-  color: var(--color-primary-orange);
-  font-size: small;
-  cursor: pointer;
-}
-
-.auth-modal-content .modal-container .back-arrow {
-  cursor: pointer;
-  position: relative;
-  top: -25px;
-  padding: 0;
-  margin: 0;
-}
-
-.auth-modal-content .modal-container .send-reset-btn {
-  background-color: var(--color-primary-orange);
-  color: var(--color-white);
-  border-radius: 25px;
-  padding-left: 8px;
-  padding-right: 8px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-
-.auth-modal-content .modal-container .send-reset-btn:disabled {
-  background-color: var(--color-darker-gray);
-  cursor: default;
 }
 
 .auth-modal-content .modal-label {

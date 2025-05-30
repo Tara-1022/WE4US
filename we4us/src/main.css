@@ -55,7 +55,7 @@ Colours to display for actions such as hover.
   --color-fade-out-grey: #555; 
 
   /* Additional Colors */
-  --color-primary-dark-orange: #c15000;
+  --color-primary-dark-orange: rgb(217, 121, 4);
   --color-blue: #00aaff;
   --color-error: #f44336;
   --color-error-hover: #d32f2f;
