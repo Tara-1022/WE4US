@@ -9,6 +9,8 @@ import "../styles/PostImageUploader.css"
 // Temporary, can be removed any time
 import "../styles/UploadsModal.css"
 import { PostView } from "lemmy-js-client";
+import "../styles/PostCreationButton.css";
+
 
 interface PostCreationModalProps {
   isOpen: boolean;
@@ -25,7 +27,12 @@ export default function PostCreationButton({ handlePostCreated, communityId }:
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Create Post</button>
+      <button 
+        onClick={() => setShowModal(true)} 
+        className='create-rco-post-button'
+      >
+        Create Post
+      </button>
       <PostCreationModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
@@ -55,6 +62,7 @@ function updatePostWithLink(toUpdatePostId: number, previousBody: PostBodyType, 
 const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, onPostCreated, communityId }) => {
   const [loading, setLoading] = useState(false);
   const [uploadedImageCopies, setUploadedImageCopies] = useState<ImageDetailsType[] | undefined>(undefined);
+  
 
   function handleCancel() {
     // Clean up any pending image copies
@@ -135,52 +143,99 @@ const PostCreationModal: React.FC<PostCreationModalProps> = ({ isOpen, onClose, 
     }
   };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={handleCancel}
-      contentLabel="Create Post"
-    >
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Post Title: </label>
-        <input type="text" name="title" placeholder="Title" required />
-        <br />
-        <label htmlFor="body">Post Body: </label>
-        <textarea name="body" placeholder="Body" required />
-        <br />
-        <label htmlFor="url">URL</label>
-        <input type="url" name="url" placeholder="URL" />
-        <br />
-        {communityId ?
-          <input type="hidden" name="communityId" value={communityId} />
-          :
-          <>
-            <label htmlFor="communityId">Choose Community: </label>
-            <CommunitySelector name="communityId" isRequired={true} />
-            <br />
-          </>}
 
-        <label>Upload image: </label>
-        <ImageUploader
-          originalImage={undefined}
-          onUploadChange={handleImageChange}
-          copiesCount={2}
-          purpose="post"
-          loading={loading}
-          setLoading={setLoading}
-        />
-        <br />
-        <label htmlFor="secondCommunityId">Create a copy of this post in: </label>
-        <CommunitySelector name="secondCommunityId" />
-        <div>
-          <button type="submit" disabled={loading}>
-            {loading ? "Posting..." : "Post"}
-          </button>
-          <button type="reset" onClick={handleCancel}>
-            Cancel
-          </button>
+  return (
+    <>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={handleCancel}
+        contentLabel="Create Post"
+        className='post-creation-modal-content'
+        style={{
+          overlay: {
+            backgroundColor: " rgba(0, 0, 0, 0.75)"
+          }}
+        }
+        
+      >
+      <div className="post-creation-container">
+        <form onSubmit={handleSubmit} className="post-creation-form">
+          <div className="post-creation-form-group">
+            <label htmlFor="title" className="post-creation-label">Post Title: </label>
+            <input 
+              type="text" 
+              name="title" 
+              placeholder="Title" 
+              required 
+              className="post-creation-input" 
+            />
+          </div>
+          
+          <div className="post-creation-form-group">
+            <label htmlFor="body" className="post-creation-label">Post Body: </label>
+            <textarea 
+              name="body" 
+              placeholder="Body" 
+              required 
+              className="post-creation-textarea"
+            />
+          </div>
+          
+          <div className="post-creation-form-group">
+            <label htmlFor="url" className="post-creation-label">URL</label>
+            <input 
+              type="url" 
+              name="url" 
+              placeholder="URL" 
+              className="post-creation-input"
+            />
+          </div>
+          
+          {communityId ? (
+            <input type="hidden" name="communityId" value={communityId} />
+          ) : (
+            <div className="post-creation-form-group">
+              <label htmlFor="communityId" className="post-creation-label">Choose Community: </label>
+              <CommunitySelector name="communityId" isRequired={true} />
+            </div>
+          )}
+
+          <div className="post-creation-form-group">
+            <label className="post-creation-label">Upload image: </label>
+            <ImageUploader
+              originalImage={undefined}
+              onUploadChange={handleImageChange}
+              copiesCount={2}
+              purpose="post"
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </div>
+          
+          <div className="post-creation-form-group">
+            <label htmlFor="secondCommunityId" className="post-creation-label">Optionally, create a copy of this post in: </label>
+            <CommunitySelector name="secondCommunityId" />
+          </div>
+          
+          <div className="post-creation-button-group">
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="post-creation-submit-button"
+            >
+              {loading ? "Posting..." : "Post"}
+            </button>
+            <button 
+              type="reset" 
+              onClick={handleCancel}
+              className="post-creation-cancel-button"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
         </div>
-      </form>
-    </Modal>
+      </Modal>
+    </>
   );
 };
