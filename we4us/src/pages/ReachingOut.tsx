@@ -54,15 +54,18 @@ function ReachingOut() {
   
   if (!postViews) {
     return (
+       <div className='recent-posts-wrapper'>
       <div className='recent-posts-container'>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
           <Loader size={48} color="var(--primary-dark-orange)" />
         </div>
       </div>
+      </div>
     );
   }
   
   return (
+    <div className='recent-posts-wrapper'>
     <div className='recent-posts-container'>
       <div className='recent-posts-header-container'>
         <h1 className='recent-posts-header'>Recent Posts</h1>
@@ -101,6 +104,7 @@ function ReachingOut() {
       <div className='pagination-container'>
         <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
       </div>
+    </div>
     </div>
   );
 }

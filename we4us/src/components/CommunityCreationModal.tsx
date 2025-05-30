@@ -105,11 +105,11 @@ const CommunityCreationModal: React.FC<CommunityCreationModalProps> = ({ isOpen,
                     <label htmlFor="title">Community Title (treat as description):  </label>
                     <textarea name="title" required style={{backgroundColor: "var(--color-card-bg)", padding: "7px"}}/>
                     <br />
-                    <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", marginRight: "10px", backgroundColor: "var(--primary-orange)", color: "white"}}>
+                    <button type="submit" disabled={loading} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", marginRight: "10px", backgroundColor: "var(--color-primary-orange)", color: "white"}}>
                         {loading ? "Creating..." : "Create"}
                     </button>
 
-                    <button onClick={onClose} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", background: "var(--color-card-bg)", color: "white", border: "2px solid var(--primary-orange)" }}>
+                    <button onClick={onClose} style={{ marginTop: "10px", padding: "10px 15px", cursor: "pointer", background: "var(--color-card-bg)", color: "white", border: "2px solid var(--color-primary-orange)" }}>
                         Cancel
                     </button>
                 </form>

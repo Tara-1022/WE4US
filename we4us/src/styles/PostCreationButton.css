@@ -12,6 +12,7 @@
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
+  z-index: 100;
 }
 
 .post-creation-container .post-creation-form {
@@ -57,7 +58,7 @@
   margin-top: 15px;
 }
 
-.create-post-button {
+.create-rco-post-button {
   background-color: var(--color-primary-orange);
   color: var(--color-white);
   padding: 10px 20px;
@@ -67,7 +68,7 @@
   font-weight: bold;
 }
 
-.create-post-button:hover {
+.create-rco-post-button:hover {
   opacity: 0.9;
 }
 
@@ -143,3 +144,24 @@
 .post-creation-container .post-creation-cancel-button:hover {
   background-color: #444;
 }
+
+/* --- Responsive Enhancements --- */
+@media (max-width: 768px) {
+  .post-creation-modal-content {
+    width: 95%;
+    margin: 10px auto;
+    padding: 15px;
+  }
+
+  .post-creation-container .post-creation-button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .create-post-button,
+  .post-creation-container .post-creation-submit-button,
+  .post-creation-container .post-creation-cancel-button {
+    width: 100%;
+  }
+}
+

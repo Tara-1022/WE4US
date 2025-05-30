@@ -29,7 +29,7 @@ export default function PostCreationButton({ handlePostCreated, communityId }:
     <>
       <button 
         onClick={() => setShowModal(true)} 
-        className='create-post-button'
+        className='create-rco-post-button'
       >
         Create Post
       </button>
