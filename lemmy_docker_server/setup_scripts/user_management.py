@@ -5,7 +5,7 @@ import logging
 import sys
 from typing import Dict, List, Optional
 
-from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE
+from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE, DEFAULT_PASSWORD
 
 # Configure logging
 logging.basicConfig(
@@ -229,12 +229,11 @@ class UserManagement:
                 logger.info(f"Processing registration for {name} from Cohort {cohort}")
 
                 # Try first username, then fallback to second
-                user = self.register_user(username, "ChangeMe123!", email)
+                user = self.register_user(username, DEFAULT_PASSWORD, email)
 
                 if not user and username2:
                     logger.info(f"First username {username} unavailable, trying alternate username {username2}")
-                    user = self.register_user(username2, "ChangeMe123!", email)
-
+                    user = self.register_user(username2, DEFAULT_PASSWORD, email)
                 if user:
                     registered_users.append({
                         "username": username if user else username2,
