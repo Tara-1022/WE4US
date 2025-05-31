@@ -3,28 +3,19 @@ x-logging: &default-logging
   options:
     max-size: "50m"
     max-file: "4"
-
 volumes:
   postgres-lemmy-data:
   postgres-wrapper-data:
   pictrs-data:
-
 networks:
   we4us-network:
     driver: bridge
-
 services:
   we4us:
-    image: yashaswinisharma/we4us-react:latest
+    image: khushis29/we4us-react:latest
     ports:
       - "5173:5173"
-    #volumes:
-    #  - ./we4us:/app
-    #  - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_PHOENIX_URL=http://localhost:4000
-      - REACT_APP_LEMMY_URL=http://localhost:10633
+
     depends_on:
       - postgres-wrapper
     networks:
@@ -33,19 +24,26 @@ services:
     logging: *default-logging
 
   postgres-wrapper:
-    image: yashaswinisharma/postgres-wrapper:latest
+    image: yashaswinisharma/prod-we4us-postgres-wrapper
     ports:
       - "4000:4000"
-    environment:
-      - MIX_ENV=dev
-      - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
-      - SECRET_KEY_BASE=your_secret_key_here
-      - LEMMY_URL=http://lemmy:8536
+
+    depends_on:
+      - postgres-wrapper-db
     networks:
       - we4us-network
     restart: unless-stopped
     logging: *default-logging
     mem_limit: 2g
+
+  postgres-wrapper-db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres-wrapper-data:/var/lib/postgresql/data
+    networks:
+      - we4us-network
+    restart: unless-stopped
+    logging: *default-logging
 
   proxy:
     image: nginx:1-alpine
@@ -61,7 +59,6 @@ services:
       - lemmy-ui
     networks:
       - we4us-network
-
   lemmy:
     image: dessalines/lemmy:0.19.8
     hostname: lemmy
@@ -76,7 +73,6 @@ services:
       - pictrs
     networks:
       - we4us-network
-
   lemmy-ui:
     image: dessalines/lemmy-ui:0.19.8
     environment:
@@ -91,7 +87,6 @@ services:
     logging: *default-logging
     networks:
       - we4us-network
-
   pictrs:
     image: asonix/pictrs:0.5.16
     hostname: pictrs
@@ -112,7 +107,6 @@ services:
     logging: *default-logging
     networks:
       - we4us-network
-
   postgres-lemmy:
     image: pgautoupgrade/pgautoupgrade:17-alpine
     hostname: postgres
@@ -128,7 +122,6 @@ services:
     logging: *default-logging
     networks:
       - we4us-network
-
   postfix:
     image: mwader/postfix-relay
     environment:
@@ -137,4 +130,3 @@ services:
     logging: *default-logging
     networks:
       - we4us-network
-

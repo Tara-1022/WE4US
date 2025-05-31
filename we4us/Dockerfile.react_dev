@@ -19,6 +19,9 @@ RUN npm i -D @rollup/rollup-linux-x64-gnu @esbuild/linux-x64 --build-from-source
 # Copy application code
 COPY . .
 
+# Build the production assets
+RUN npm run build
+
 EXPOSE 5173
 
 # Start the app
