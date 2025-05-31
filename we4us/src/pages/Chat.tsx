@@ -1,17 +1,10 @@
 import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { useProfileContext } from '../components/ProfileContext';
 import { useParams } from 'react-router-dom';
+import { Message } from '../library/PostgresAPI';
 import { Socket, Channel } from "phoenix";
 import { Link } from 'react-router-dom';
 import RedirectPage from './RedirectPage';
-
-interface Message {
-  id: string;
-  from_user: string;
-  to_user: string;
-  body: string;
-  inserted_at: string;
-}
 
 let socket: Socket | null = null;
 let channel: Channel | null = null;

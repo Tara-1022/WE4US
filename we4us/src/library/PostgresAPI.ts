@@ -1,4 +1,4 @@
-import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT } from "../constants";
+import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT, POSTGRES_MESSAGES_ENDPOINT } from "../constants";
 
 export interface Profile {
   username: string;
@@ -11,6 +11,14 @@ export interface Profile {
   image_filename?: string | null;
   image_delete_token?: string | null;
   description?: string;
+}
+
+export interface Message {
+  id: string;
+  from_user: string;
+  to_user: string;
+  body: string;
+  inserted_at: string;
 }
 
 export const fetchProfiles = async () => {
@@ -87,5 +95,27 @@ export const updateProfile = async (username: string, profileData: Profile) => {
   } catch (error) {
     console.error("Error updating profile:", error);
     throw new Error(error instanceof Error ? error.message : "Unknown error occurred while updating profile.");
+  }
+};
+
+// Messages
+
+export const fetchLastMessages = async (username: string) => {
+  try {
+    const response = await fetch(
+      `${POSTGRES_API_BASE_URL}${POSTGRES_MESSAGES_ENDPOINT}/last/${username}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch messages");
+    }
+    const jsonData = await response.json();
+
+    return jsonData.messages.map((m: any) => (m as Message));
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Unknown error occurred.");
+    }
   }
 };

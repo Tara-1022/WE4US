@@ -35,4 +35,7 @@ curl -X PUT \
       "image_filename": null,
       "image_delete_token": null
     }
-  }'
+  }
+
+// MESSAGES
+curl -i -X GET http://localhost:4000/api/messages/last/<username>
