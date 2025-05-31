@@ -1,0 +1,167 @@
+.post-creation-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.post-creation-modal-content {
+  background-color: #000;
+  color: var(--color-white);
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  max-height: 150vh;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 100;
+}
+
+.post-creation-container .post-creation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.post-creation-container .post-creation-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+}
+
+.post-creation-container .post-creation-label {
+  color: var(--color-white);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.post-creation-container .post-creation-input {
+  padding: 10px;
+  background-color: var(--color-card-bg);
+  color: var(--color-white);
+  width: 100%;
+}
+
+.post-creation-container .post-creation-textarea {
+  padding: 10px;
+  background-color: var(--color-card-bg);
+  color: var(--color-white);
+  min-height: 120px;
+  width: 100%;
+  resize: vertical;
+}
+
+.post-creation-container .post-creation-button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.create-rco-post-button {
+  background-color: var(--color-primary-orange);
+  color: var(--color-white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.create-rco-post-button:hover {
+  opacity: 0.9;
+}
+
+.post-creation-container .post-creation-form-group .community-selector .control {
+  border: 1px solid var(--color-primary-orange) !important;
+  background-color: var(--color-card-bg) !important;
+}
+
+.post-creation-container .post-creation-form-group .community-selector .search-value {
+  color: var(--color-white) !important;
+  background-color: var(--color-card-bg) !important;
+}
+
+.post-creation-container .post-creation-form-group .community-selector .options {
+  background-color: var(--color-card-bg) !important;
+  border: 1px solid var(--color-primary-orange) !important;
+}
+
+.post-creation-container .post-creation-form-group .community-selector .option {
+  color: var(--color-white) !important;
+}
+
+.post-creation-container .post-creation-form-group .community-selector .option:hover,
+.post-creation-container .post-creation-form-group .community-selector .option.selected {
+  background-color: var(--color-primary-orange) !important;
+}
+
+.post-creation-container .image-uploader {
+  padding: 10px !important;
+  background-color: var(--color-card-bg) !important;
+  margin-bottom: 15px !important;
+}
+
+.post-creation-container .image-controls button {
+  background-color: var(--color-primary-orange) !important;
+  color: var(--color-white) !important;
+  border: none !important;
+  padding: 5px 10px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  margin-right: 5px !important;
+}
+
+.post-creation-container .post-creation-submit-button {
+  background-color: var(--color-primary-orange);
+  color: var(--color-white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.post-creation-container .post-creation-submit-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.post-creation-container .post-creation-submit-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+.post-creation-container .post-creation-cancel-button {
+  background-color: #333;
+  color: var(--color-white);
+  padding: 10px 20px;
+  border: 1px solid var(--color-primary-orange);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.post-creation-container .post-creation-cancel-button:hover {
+  background-color: #444;
+}
+
+/* --- Responsive Enhancements --- */
+@media (max-width: 768px) {
+  .post-creation-modal-content {
+    width: 95%;
+    margin: 10px auto;
+    padding: 15px;
+  }
+
+  .post-creation-container .post-creation-button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .create-post-button,
+  .post-creation-container .post-creation-submit-button,
+  .post-creation-container .post-creation-cancel-button {
+    width: 100%;
+  }
+}
+
