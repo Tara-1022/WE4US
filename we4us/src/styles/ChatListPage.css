@@ -1,0 +1,61 @@
+.chat-list-container {
+    padding-top: 20px;
+}
+
+.chat-list-container .h2 {
+    color: var(--color-white);
+}
+
+.chat-list-container .error-message {
+    color: var(--color-white);
+}
+
+.chat-list-container .chat-list {
+    padding: 10px;
+}
+
+.chat-list-container .message-snippet {
+    margin: 5px;
+    padding: 10px;
+    background-color: var(--color-card-hover);
+    border-radius: 5px;
+
+    color: var(--color-white);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    
+  text-decoration: none !important;
+}
+
+.chat-list-container .message-snippet:hover {
+    background-color: var(--color-black);
+}
+
+.chat-list-container .message-snippet .message-icon {
+    vertical-align: middle;
+}
+
+.chat-list-container .message-snippet .content {
+    margin-left: 5px;
+}
+
+.chat-list-container .message-snippet h3 {
+    color: var(--color-blue);
+}
+
+.chat-list-container .message-snippet .sender {
+    color: var(--color-primary-light-teal);
+}
+
+.chat-list-container .message-snippet .message {
+    color: var(--color-white);
+    font-style: italic;
+}
+
+.chat-list-container .message-snippet .date-time {
+    font-size: small;
+    position: absolute;
+    right: 15px;
+    color: var(--color-white);
+}

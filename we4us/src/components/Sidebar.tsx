@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Bell, Briefcase, Users, Building2, Heart, Award } from 'lucide-react';
+import { Home, Bell, Briefcase, Users, Building2, Heart, Award, MessagesSquare } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
 import { useProfileContext } from './ProfileContext';
 import { getProfileImageSource } from '../library/ImageHandling';
@@ -19,7 +19,8 @@ const navItems = [
   { to: '/whos-who', label: "Who's Who", icon: Award, highlightedPaths: ["/whos-who", "/profile"] },
   { to: '/job-board', label: 'Job Board', icon: Briefcase, highlightedPaths: ["/job-board"] },
   { to: '/meetup', label: 'Meet Up', icon: Users, highlightedPaths: ["/meetup"] },
-  { to: '/pg-finder', label: 'PG Finder', icon: Building2, highlightedPaths: ["/pg-finder"] }
+  { to: '/pg-finder', label: 'PG Finder', icon: Building2, highlightedPaths: ["/pg-finder"] },
+  { to: '/chats', label: 'Private Messaging', icon: MessagesSquare, highlightedPaths: ["/chats", "/chat"] }
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
