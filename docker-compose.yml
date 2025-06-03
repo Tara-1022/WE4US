@@ -15,7 +15,7 @@ networks:
 
 services:
   we4us:
-    image: khushis29/we4us-react:latest
+    image: khushis29/we4us-react-prod:latest
     ports:
       - "5173:5173"
     #volumes:
