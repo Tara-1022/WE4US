@@ -6,6 +6,8 @@ defmodule We4usWeb.ProfileController do
   alias We4usWeb.ChangesetJSON
   alias We4us.Repo
 
+  import We4us.LemmyAuthenticator, only: [get_username: 1]
+
   @doc "Fetch all profiles from the database and return them as JSON."
   def index(conn, _params) do
     profiles = Profiles.list_profiles()
@@ -52,32 +54,41 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Update a profile by username."
   def update(conn, %{"username" => username, "profile" => profile_params}) do
-    case Profiles.get_profile(username) do
-      nil ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Profile with username '#{username}' not found"})
+    {:ok, logged_in_username} = get_username(conn)
 
-      profile ->
-        # Convert string values to appropriate types and handle image fields
-        processed_params =
-          profile_params
-          |> Map.update("areas_of_interest", profile.areas_of_interest, fn
-            areas when is_list(areas) -> areas
-            _ -> profile.areas_of_interest
-          end)
+    if logged_in_username != username do
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "Unauthorised to edit for this user."})
+      |> halt()
+    else
+      case Profiles.get_profile(username) do
+        nil ->
+          conn
+          |> put_status(:not_found)
+          |> json(%{error: "Profile with username '#{username}' not found"})
 
-        case Profiles.update_profile(username, processed_params) do
-          {:ok, updated_profile} ->
-            conn
-            |> put_status(:ok)
-            |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+        profile ->
+          # Convert string values to appropriate types and handle image fields
+          processed_params =
+            profile_params
+            |> Map.update("areas_of_interest", profile.areas_of_interest, fn
+              areas when is_list(areas) -> areas
+              _ -> profile.areas_of_interest
+            end)
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{errors: ChangesetJSON.errors(changeset)})
-        end
+          case Profiles.update_profile(username, processed_params) do
+            {:ok, updated_profile} ->
+              conn
+              |> put_status(:ok)
+              |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+
+            {:error, %Ecto.Changeset{} = changeset} ->
+              conn
+              |> put_status(:unprocessable_entity)
+              |> json(%{errors: ChangesetJSON.errors(changeset)})
+          end
+      end
     end
   end
 
