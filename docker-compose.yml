@@ -30,7 +30,9 @@ services:
     image: yashaswinisharma/prod-we4us-postgres-wrapper
     ports:
       - "4000:4000"
-  
+    environment:
+      - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
+      - SECRET_KEY_BASE=Temp_Value
     depends_on:
       - postgres-wrapper-db
     networks:
