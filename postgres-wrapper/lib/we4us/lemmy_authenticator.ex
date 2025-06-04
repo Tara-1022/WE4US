@@ -84,4 +84,40 @@ defmodule We4us.LemmyAuthenticator do
         |> halt()
     end
   end
+
+  @doc """
+  checks if logged in user is an admin
+  """
+  def is_user_admin(conn) do
+    with ["Bearer " <> jwt] <- Plug.Conn.get_req_header(conn, "authorization"),
+         {:ok,
+          %{body: %{"my_user" => %{"local_user_view" => %{"local_user" => %{"admin" => isAdmin}}}}}} <-
+           Req.get(get_base_req(), url: "/site", auth: {:bearer, jwt}) do
+      {:ok, isAdmin}
+    else
+      [] ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Authorization header missing"})
+        |> halt()
+
+      {:error, message} ->
+        conn
+        |> put_status(500)
+        |> json(%{error: "Received error: #{inspect(message)}"})
+        |> halt()
+
+      {:ok, _} ->
+        conn
+        |> put_status(500)
+        |> json(%{error: "No 'my_user' field in response"})
+        |> halt()
+
+      _ ->
+        conn
+        |> put_status(500)
+        |> json(%{error: "Unexpected error"})
+        |> halt()
+    end
+  end
 end

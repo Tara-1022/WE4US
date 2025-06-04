@@ -6,7 +6,7 @@ defmodule We4usWeb.ProfileController do
   alias We4usWeb.ChangesetJSON
   alias We4us.Repo
 
-  import We4us.LemmyAuthenticator, only: [get_username: 1]
+  import We4us.LemmyAuthenticator, only: [get_username: 1, is_user_admin: 1]
 
   @doc "Fetch all profiles from the database and return them as JSON."
   def index(conn, _params) do
@@ -29,26 +29,35 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Create a new profile."
   def create(conn, %{"profile" => profile_params}) do
-    case Profiles.create_profile(profile_params) do
-      {:ok, profile} ->
-        conn
-        |> put_status(:created)
-        |> json(%{profile: profile_json(profile)})
+    {:ok, isAdmin} = is_user_admin(conn)
 
-      {:error, :missing_username} ->
-        conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Username is required to create a profile"})
+    if !isAdmin do
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "Only admins may create new user profiles."})
+      |> halt()
+    else
+      case Profiles.create_profile(profile_params) do
+        {:ok, profile} ->
+          conn
+          |> put_status(:created)
+          |> json(%{profile: profile_json(profile)})
 
-      {:error, :username_taken} ->
-        conn
-        |> put_status(:conflict)
-        |> json(%{error: "Username already exists."})
+        {:error, :missing_username} ->
+          conn
+          |> put_status(:bad_request)
+          |> json(%{error: "Username is required to create a profile"})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{errors: ChangesetJSON.errors(changeset)})
+        {:error, :username_taken} ->
+          conn
+          |> put_status(:conflict)
+          |> json(%{error: "Username already exists."})
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> json(%{errors: ChangesetJSON.errors(changeset)})
+      end
     end
   end
 
@@ -94,21 +103,30 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Delete a profile by username."
   def delete(conn, %{"username" => username}) do
-    case Profiles.delete_profile(username) do
-      {:ok, :deleted} ->
-        conn
-        |> put_status(:no_content)
-        |> json(%{message: "Profile deleted successfully"})
+    {:ok, isAdmin} = is_user_admin(conn)
 
-      {:error, :profile_not_found} ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Profile with username '#{username}' not found"})
+    if !isAdmin do
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "Only admins may delete user profiles."})
+      |> halt()
+    else
+      case Profiles.delete_profile(username) do
+        {:ok, :deleted} ->
+          conn
+          |> put_status(:no_content)
+          |> json(%{message: "Profile deleted successfully"})
 
-      {:error, reason} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
+        {:error, :profile_not_found} ->
+          conn
+          |> put_status(:not_found)
+          |> json(%{error: "Profile with username '#{username}' not found"})
+
+        {:error, reason} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
+      end
     end
   end
 
