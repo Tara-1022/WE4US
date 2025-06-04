@@ -20,13 +20,13 @@
 .chat-list-container .message-snippet {
     margin: 0.75rem 0;
     padding: 1rem;
-    background-color: var(--color-card-hover);
+    background-color: var(--color-card-bg);
     border-radius: 1rem;
     color: var(--color-white);
     cursor: pointer;
     position: relative;
     display: flex;
-    border: 1px solid var(--color-card-hover);
+    border: 1px solid var(--color-black);
     transition: all 0.2s ease;
     animation: fadeInUp 0.3s ease-out;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -44,16 +44,17 @@
 }
 
 .chat-list-container .message-snippet:hover {
-    background-color: var( --color-card-bg);
+    background-color: var( --color-black);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-color: var(--color-gray);
 }
 
 .chat-list-container .message-snippet .message-icon {
-    color: var(--color-primary-teal);
+    color: var(--color-white);
     vertical-align: middle;
     opacity: 0.9;
+    
 }
 
 .chat-list-container .message-snippet .content {
@@ -62,7 +63,7 @@
 }
 
 .chat-list-container .message-snippet h3 {
-    color: var(--color-success);
+    color: var(--color-blue);
     font-weight: bold;
     margin-bottom: 0.25rem;
 }
@@ -86,9 +87,10 @@
     position: absolute;
     right: 1rem;
     top: 1rem;
-    color: var(--color-white);
+    color: var(--color-success);
     opacity: 0.7;
     transition: opacity 0.2s ease;
+    font-weight: bold;
 }
 
 .chat-list-container .message-snippet:hover .date-time {

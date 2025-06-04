@@ -39,7 +39,7 @@ export default function ChatListPage() {
 
     return (
         <div className="chat-list-container">
-            <h2>PRIVATE MESSAGES</h2>
+            <h2>Private Messages</h2>
             <ul className="chat-list">
                 {
                     messages.length > 0
