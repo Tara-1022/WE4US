@@ -18,6 +18,8 @@ let client: LemmyHttp = new LemmyHttp(
   }
 });
 
+let token: string | null;
+
 export function setClientToken(jwt: string | null) {
   client = new LemmyHttp(
     LEMMY_INSTANCE_URL, {
@@ -26,6 +28,11 @@ export function setClientToken(jwt: string | null) {
       ...(jwt && { Authorization: `Bearer ${jwt}` })
     }
   });
+  token = jwt;
+}
+
+export function getLemmyToken() {
+  return token;
 }
 
 export function getClient(): LemmyHttp {
@@ -428,13 +435,13 @@ export async function requestPasswordReset(email: string): Promise<boolean> {
     });
 
     if (response.success) {
-      return true; 
+      return true;
     } else {
       console.error("Password reset failed");
-      return false; 
+      return false;
     }
   } catch (error) {
     console.error("Error requesting password reset:", error);
-    return false; 
+    return false;
   }
 }

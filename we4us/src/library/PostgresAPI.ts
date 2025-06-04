@@ -1,4 +1,5 @@
 import { POSTGRES_API_BASE_URL, POSTGRES_PROFILES_ENDPOINT, POSTGRES_MESSAGES_ENDPOINT } from "../constants";
+import { getLemmyToken } from "./LemmyApi"
 
 export interface Profile {
   username: string;
@@ -74,11 +75,13 @@ export const updateProfile = async (username: string, profileData: Profile) => {
   try {
     const url = `${POSTGRES_API_BASE_URL}${POSTGRES_PROFILES_ENDPOINT}/${username}`;
 
+    const jwt = getLemmyToken();
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        ...(jwt && { Authorization: `Bearer ${jwt}` })
       },
       body: JSON.stringify({ profile: profileData }),
     });
@@ -102,8 +105,15 @@ export const updateProfile = async (username: string, profileData: Profile) => {
 
 export const fetchLastMessages = async (username: string) => {
   try {
+
+    const jwt = getLemmyToken();
     const response = await fetch(
-      `${POSTGRES_API_BASE_URL}${POSTGRES_MESSAGES_ENDPOINT}/last/${username}`
+      `${POSTGRES_API_BASE_URL}${POSTGRES_MESSAGES_ENDPOINT}/last/${username}`,
+      {
+        headers: {
+          ...(jwt && { Authorization: `Bearer ${jwt}` })
+        }
+      }
     );
     if (!response.ok) {
       throw new Error("Failed to fetch messages");

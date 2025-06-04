@@ -31,7 +31,7 @@ defmodule We4us.LemmyAuthenticator do
           %{body: %{"error" => "not_logged_in"}} ->
           conn
           |> put_status(:bad_request)
-          |> json(%{error: "Invalid authorisation header"})
+          |> json(%{error: "Invalid authorisation header. Looks like you're not logged in."})
           |> halt()
 
       end
