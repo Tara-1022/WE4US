@@ -8,6 +8,10 @@ defmodule We4us.LemmyAuthenticator do
   @doc """
   Helper function to get base request
   """
+
+  # reference: https://hexdocs.pm/req/Req.html#new/1
+  # https://github.com/wojtekmach/req
+  # https://hexdocs.pm/req/readme.html
   defp get_base_req do
     Req.new(base_url: System.fetch_env!("LEMMY_API_URL"))
   end
