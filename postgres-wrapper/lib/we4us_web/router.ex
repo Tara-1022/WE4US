@@ -15,11 +15,6 @@ defmodule We4usWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  pipeline :api_with_lemmy_auth do
-    plug(:accepts, ["json"])
-    plug(:ensure_lemmy_token_valid)
-  end
-
   scope "/", We4usWeb do
     pipe_through(:browser)
 
@@ -32,11 +27,6 @@ defmodule We4usWeb.Router do
 
     get("/profiles", ProfileController, :index)
     get("/profiles/:username", ProfileController, :show)
-  end
-
-  scope "/api", We4usWeb do
-    pipe_through(:api_with_lemmy_auth)
-
     post("/profiles", ProfileController, :create)
     put("/profiles/:username", ProfileController, :update)
     delete("/profiles/:username", ProfileController, :delete)

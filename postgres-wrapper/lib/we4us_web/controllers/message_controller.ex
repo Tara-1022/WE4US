@@ -1,14 +1,14 @@
 defmodule We4usWeb.MessageController do
   use We4usWeb, :controller
 
-  import We4us.LemmyAuthenticator, only: [get_username: 1]
+  import We4us.LemmyAuthenticator, only: [get_lemmy_username: 1]
 
   alias We4us.Messages
   # This is for API and is distinct from what happens live
   # - for that logic, see message_channel.ex
 
   def create(conn, %{"body" => body, "from_user" => from_user, "to_user" => to_user}) do
-    {:ok, logged_in_username} = get_username(conn)
+    {:ok, logged_in_username} = get_lemmy_username(conn)
 
     if logged_in_username != from_user do
       conn
@@ -35,7 +35,7 @@ defmodule We4usWeb.MessageController do
   def last_message_list(conn, %{"for_user" => for_user}) do
     # fetch the latest message per channel involving the user
     # either from or to
-    {:ok, logged_in_username} = get_username(conn)
+    {:ok, logged_in_username} = get_lemmy_username(conn)
 
     if logged_in_username != for_user do
       conn

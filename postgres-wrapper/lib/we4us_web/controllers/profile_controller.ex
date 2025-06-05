@@ -6,7 +6,7 @@ defmodule We4usWeb.ProfileController do
   alias We4usWeb.ChangesetJSON
   alias We4us.Repo
 
-  import We4us.LemmyAuthenticator, only: [get_username: 1, is_user_admin: 1]
+  import We4us.LemmyAuthenticator, only: [get_lemmy_username: 1, is_user_admin_in_lemmy: 1]
 
   @doc "Fetch all profiles from the database and return them as JSON."
   def index(conn, _params) do
@@ -29,7 +29,7 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Create a new profile."
   def create(conn, %{"profile" => profile_params}) do
-    {:ok, isAdmin} = is_user_admin(conn)
+    {:ok, isAdmin} = is_user_admin_in_lemmy(conn)
 
     if !isAdmin do
       conn
@@ -63,7 +63,7 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Update a profile by username."
   def update(conn, %{"username" => username, "profile" => profile_params}) do
-    {:ok, logged_in_username} = get_username(conn)
+    {:ok, logged_in_username} = get_lemmy_username(conn)
 
     if logged_in_username != username do
       conn
@@ -103,7 +103,7 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Delete a profile by username."
   def delete(conn, %{"username" => username}) do
-    {:ok, isAdmin} = is_user_admin(conn)
+    {:ok, isAdmin} = is_user_admin_in_lemmy(conn)
 
     if !isAdmin do
       conn
