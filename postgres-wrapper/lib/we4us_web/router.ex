@@ -1,37 +1,37 @@
 defmodule We4usWeb.Router do
   use We4usWeb, :router
-  import We4us.LemmyAuthenticator, only: [ensure_lemmy_token_valid: 2]
 
   pipeline :browser do
-    plug(:accepts, ["html"])
-    plug(:fetch_session)
-    plug(:fetch_live_flash)
-    plug(:put_root_layout, html: {We4usWeb.Layouts, :root})
-    plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers)
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {We4usWeb.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
   pipeline :api do
-    plug(:accepts, ["json"])
+    plug :accepts, ["json"]
   end
 
   scope "/", We4usWeb do
-    pipe_through(:browser)
+    pipe_through :browser
 
-    get("/", PageController, :home)
+    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
   scope "/api", We4usWeb do
-    pipe_through(:api)
+    pipe_through :api
 
-    get("/profiles", ProfileController, :index)
-    get("/profiles/:username", ProfileController, :show)
-    post("/profiles", ProfileController, :create)
-    put("/profiles/:username", ProfileController, :update)
-    delete("/profiles/:username", ProfileController, :delete)
-    post("/messages", MessageController, :create)
-    get("/messages/last/:for_user", MessageController, :last_message_list)
+    get "/profiles", ProfileController, :index
+    get "/profiles/:username", ProfileController, :show
+    post "/profiles", ProfileController, :create
+    put "/profiles/:username", ProfileController, :update
+    delete "/profiles/:username", ProfileController, :delete
+    post "/messages", MessageController, :create
+    get "/messages/last/:for_user", MessageController, :last_message_list
+
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -44,10 +44,10 @@ defmodule We4usWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through(:browser)
+      pipe_through :browser
 
-      live_dashboard("/dashboard", metrics: We4usWeb.Telemetry)
-      forward("/mailbox", Plug.Swoosh.MailboxPreview)
+      live_dashboard "/dashboard", metrics: We4usWeb.Telemetry
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
 end
