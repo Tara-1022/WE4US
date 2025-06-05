@@ -5,6 +5,7 @@ import { Message } from '../library/PostgresAPI';
 import { Socket, Channel } from "phoenix";
 import { Link } from 'react-router-dom';
 import RedirectPage from './RedirectPage';
+import "../styles/ChatPage.css";
 
 let socket: Socket | null = null;
 let channel: Channel | null = null;
@@ -210,12 +211,12 @@ const handleSendMessage = async (): Promise<void> => {
   if (redirect) return <RedirectPage />
 
     return (
-      <div className="flex flex-col">
-        <div className="flex justify-center sticky top-3.5 z-10">
-          <h2 className="text-xl font-bold text-white">Chat with {to_user}</h2>
+      <div className="chat-container">
+        <div className="chat-header">
+          <h1 className="chat-title">Chat with {to_user}</h1>
         </div>
         
-        <div className="flex-1 p-4 overflow-y-auto">
+        <div className="chat-messages-container">
 
       {(() => {
         let currentDate = '';
@@ -230,8 +231,8 @@ const handleSendMessage = async (): Promise<void> => {
           if (dateString !== currentDate) {
             currentDate = dateString;
             messageGroups.push(
-              <div key={`date-${dateString}-${index}`} className="flex justify-center my-4">
-                <div className="text-white text-xl">
+              <div key={`date-${dateString}-${index}`} className="chat-date-separator">
+                <div className="chat-date-text">
                   {dateString}
                 </div>
               </div>
@@ -242,21 +243,21 @@ const handleSendMessage = async (): Promise<void> => {
           messageGroups.push(
             <div 
               key={msg.id || index} 
-              className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-3`}
+              className={`chat-message-wrapper ${isOwnMessage ? 'own-message' : 'other-message'} `}
             >
-              <div className="flex flex-col max-w-[70%]">
-                <div className={`text-sm font-bold mb-1 ${isOwnMessage ? 'text-cyan-500 text-right' : 'text-green-500'}`}>
+              <div className="chat-message-content">
+                <div className={`chat-username ${isOwnMessage ? 'own' : 'other'}`}>
                   {isOwnMessage ? 'You' : <Link 
           to={`/profile/${msg.from_user}`}
-          className="hover:underline cursor-pointer"
+          className="chat-username-link"
         >
           {msg.from_user}
         </Link>}
                 </div>
                 
-                <div className="rounded-2xl bg-black min-h-[40px]" style={{ padding: '12px 16px' }}>
-                  <p className="text-white">{msg.body}</p>
-                  <small className="block text-right text-gray-400 text-xs mt-2">
+                <div className={`chat-message-bubble ${isOwnMessage ? 'own' : 'other'}`} >
+                  <p className="chat-message-text">{msg.body}</p>
+                  <small className="chat-message-time">
                     {messageDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </small>
                 </div>
@@ -270,19 +271,19 @@ const handleSendMessage = async (): Promise<void> => {
       <div ref={messagesEndRef} />
         </div>
         
-        <div className="p-4 border-gray-200 flex gap-2 sticky bottom-5   ">
+        <div className="chat-input-container ">
           <input
             type="text"
             value={message}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
-            className="flex-1 bg-black border border-gray-300 rounded-full ml-4 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-custom-orange"
+            className="chat-message-input"
           />
           <button 
             onClick={handleSendMessage} 
             disabled={!message.trim()}
-            className={`rounded-full w-[100px] px-5 py-2 font-medium ${!message.trim() ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+            className="chat-send-button"
           >
             Send
           </button>
