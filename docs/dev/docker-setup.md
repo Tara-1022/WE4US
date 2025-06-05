@@ -2,7 +2,7 @@
 
 This guide provides instructions for setting up and running the WE4US project using Docker.
 
-**Note: The guide has been written on a machine with `docker-compose`. The standard is to use `docker compose`. Strictly follow this unless your machine has restrictions.** 
+**Note: The guide has been written on a machine with `docker-compose`. The standard is to use `docker compose`. Strictly follow this unless your machine has restrictions.**
 
 **Replace `docker-compose` with `docker compose` in all commands below.**
 
@@ -71,12 +71,36 @@ docker build -f ./Dockerfile.frontend -t yashaswinisharma/we4us-react:latest .
 docker push yashaswinisharma/we4us-react:latest
 ```
 
+To build image of phoenix in dev version
+
+```bash
+cd postgres-wrapper
+docker build -f ./Dockerfile.phx_prod -t <your_username on dockerhub>/<Name of image>:latest .
+docker push <your_username on dockerhub>/<Name of image>:latest
+```
+
+Replace in WE4US docker compose
+bash
+
+```
+postgres-wrapper:
+    image: <your_username on dockerhub>/<Name of image>
+```
+
 After pushing the updated image, you may need to restart your containers to use the new image:
 
 ```bash
-docker-compose down
-docker-compose pull
-docker-compose up -d
+docker compose down
+docker compose pull
+docker compose up -d
+```
+
+Run Migrations for prod mode using
+
+```bash
+docker compose exec postgres-wrapper bash
+bin/we4us eval "We4us.Release.migrate"
+exit
 ```
 
 ## Stopping the Application
@@ -84,6 +108,6 @@ docker-compose up -d
 To stop all running services:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
