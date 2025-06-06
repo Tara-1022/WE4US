@@ -64,16 +64,31 @@ const WhosWhoPage: React.FC = () => {
   });
 
   const sortedCohorts = Object.keys(groupedProfiles)
-    .map((cohort) => (cohort === "Unassigned" ? Infinity : Number(cohort)))
+    .map(
+      (cohort) => {
+        try {
+          if (cohort.toLowerCase() === "unassigned") return Infinity
+          else if (cohort.toLowerCase() === "staff/mentor") return 10
+          else return Number(cohort)
+        }
+        catch {
+          // Anything unexpected will be treated as "Unassigned"
+          return Infinity
+        }
+      })
     .sort((a, b) => a - b)
-    .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
+    .map((cohort) => {
+      if (cohort === Infinity) return "Unassigned"
+      else if (cohort === 10) return "Staff/Mentor"
+      else return String(cohort)
+    });
 
   return (
     <div className='whoswho-container'>
       <h1>Who's Who?</h1>
 
       {/* Search Box */}
-      <Search className='search-icon'/>
+      <Search className='search-icon' />
       <input
         type="text"
         placeholder="Search by name, company..."
@@ -86,17 +101,17 @@ const WhosWhoPage: React.FC = () => {
       {sortedCohorts.length > 0 ? (
         sortedCohorts.map((cohort) => (
           <div key={cohort} className='cohort-section'>
-            <h2>Cohort {cohort}</h2>
-              <Carousel
-                items={groupedProfiles[cohort].map((profile) => (
-                  <ProfileSnippet
-                    key={profile.username}
-                    profile={profile}
-                  />
-                ))}
-                scrollBy={300}
-                classPrefix={"C" + cohort}
-              />
+            <h2>{cohort == "Staff/Mentor" ? "Staff/Mentor" : "Cohort " + cohort}</h2>
+            <Carousel
+              items={groupedProfiles[cohort].map((profile) => (
+                <ProfileSnippet
+                  key={profile.username}
+                  profile={profile}
+                />
+              ))}
+              scrollBy={300}
+              classPrefix={"C" + cohort}
+            />
           </div>
         ))
       ) : (
