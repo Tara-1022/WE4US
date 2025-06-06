@@ -234,7 +234,6 @@ class UserManagement:
                 if not user and username2:
                     logger.info(f"First username {username} unavailable, trying alternate username {username2}")
                     user = self.register_user(username2, DEFAULT_PASSWORD, email)
-
                 if user:
                     registered_users.append({
                         "username": username if user else username2,
