@@ -2,25 +2,26 @@ defmodule We4usWeb.MessageChannel do
   use We4usWeb, :channel
   alias We4us.Profiles
 
-  import We4us.LemmyAuthenticator, only: [get_lemmy_username_from_token: 1]
-
   require Logger
   @impl true
   def join("message:" <> channelName, payload, socket) do
-    case authorized?(socket) do
-      {:ok, socket} ->
-        sender_id = payload["username"]
+    if authorized?(socket) do
+      sender_id = payload["username"]
 
-        if sender_id != socket.assigns.lemmy_username do
-          {:error,
-           %{
-             reason:
-               "User #{socket.assigns.lemmy_username} is not authorised to join channel as #{sender_id}",
-             status: 404
-           }}
-        else
-          if String.contains?(channelName, "#") do
-            [user1, user2] = String.split(channelName, "#")
+      if sender_id != socket.assigns.lemmy_username do
+        {:error,
+         %{
+           reason:
+             "User #{socket.assigns.lemmy_username} is not authorised to join channel as #{sender_id}",
+           status: 404
+         }}
+      else
+        if String.contains?(channelName, "#") do
+          [user1, user2] = String.split(channelName, "#")
+
+          if user1 != sender_id and user2 != sender_id do
+            {:error, %{reason: "Sender is not part of this topic"}}
+          else
             other_user = if sender_id == user1, do: user2, else: user1
 
             case Profiles.get_profile(other_user) do
@@ -50,13 +51,13 @@ defmodule We4usWeb.MessageChannel do
 
                 {:ok, %{messages: format_messages(messages)}, socket}
             end
-          else
-            {:error, %{reason: "Invalid channel name for messages", status: 422}}
           end
+        else
+          {:error, %{reason: "Invalid channel name for messages", status: 422}}
         end
-
-      {:error, :unauthorized} ->
-        {:error, %{reason: "Authorisation failed", status: 401}}
+      end
+    else
+      {:error, %{reason: "Authorisation failed", status: 401}}
     end
   end
 
@@ -107,13 +108,12 @@ defmodule We4usWeb.MessageChannel do
 
   # Add authorization logic here as required.
   defp authorized?(socket) do
-    case get_lemmy_username_from_token(socket.assigns.user_token) do
-      {:ok, username} ->
-        {:ok, assign(socket, :lemmy_username, username)}
-
-      {:error, message} ->
-        Logger.error("Authorisation failure: #{message}")
-        {:error, :unauthorized}
+    # If there is a token and we have fetched the username,
+    # we can consider the user authorised
+    if Map.has_key?(socket.assigns, :user_token) do
+      Map.has_key?(socket.assigns, :lemmy_username)
+    else
+      false
     end
   end
 end

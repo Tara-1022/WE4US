@@ -1,6 +1,8 @@
 defmodule We4usWeb.UserSocket do
   use Phoenix.Socket
 
+  import We4us.LemmyAuthenticator, only: [get_lemmy_username_from_token: 1]
+
   # A Socket handler
   #
   # It's possible to control the websocket connection and
@@ -8,7 +10,7 @@ defmodule We4usWeb.UserSocket do
 
   ## Channels
 
-  channel "message:*", We4usWeb.MessageChannel
+  channel("message:*", We4usWeb.MessageChannel)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -25,15 +27,25 @@ defmodule We4usWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(params, socket, _connect_info) do
-    case params do
-      %{"token" => token} ->
-        {:ok, assign(socket, :user_token, token)}
-      _ ->
-        :error
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case get_lemmy_username_from_token(token) do
+      {:ok, username} ->
+        socket =
+          socket
+          |> assign(:user_token, token)
+          |> assign(:lemmy_username, username)
+
+        {:ok, socket}
+
+      {:error, message} ->
+        Logger.error("Authorization failure: #{message}")
+        {:error, :unauthorized}
     end
   end
 
+  def connect(_params, _socket, _connect_info) do
+    {:error, :unauthorized}
+  end
 
   # Socket IDs are topics that allow you to identify all sockets for a given user:
   #
@@ -46,5 +58,5 @@ defmodule We4usWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(socket), do: "user_socket:#{socket.assigns.user_token}"
+  def id(socket), do: "user_socket:#{socket.assigns.lemmy_username}"
 end
