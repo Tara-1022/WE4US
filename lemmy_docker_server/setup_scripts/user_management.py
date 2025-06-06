@@ -314,7 +314,6 @@ class UserManagement:
                     logger.info(f"First username {username} unavailable, trying alternate username {username2}")
                     user = self.register_user_lemmy(username2, DEFAULT_PASSWORD, email)
                     username_tried = username2
-
                 if user:
                     registered_users.append({
                         "username": username_tried,

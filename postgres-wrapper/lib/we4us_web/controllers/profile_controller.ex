@@ -6,6 +6,8 @@ defmodule We4usWeb.ProfileController do
   alias We4usWeb.ChangesetJSON
   alias We4us.Repo
 
+  import We4us.LemmyAuthenticator, only: [get_lemmy_username: 1, is_user_admin_in_lemmy: 1]
+
   @doc "Fetch all profiles from the database and return them as JSON."
   def index(conn, _params) do
     profiles = Profiles.list_profiles()
@@ -27,77 +29,104 @@ defmodule We4usWeb.ProfileController do
 
   @doc "Create a new profile."
   def create(conn, %{"profile" => profile_params}) do
-    case Profiles.create_profile(profile_params) do
-      {:ok, profile} ->
-        conn
-        |> put_status(:created)
-        |> json(%{profile: profile_json(profile)})
+    {:ok, isAdmin} = is_user_admin_in_lemmy(conn)
 
-      {:error, :missing_username} ->
-        conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Username is required to create a profile"})
+    if !isAdmin do
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "Only admins may create new user profiles."})
+      |> halt()
+    else
+      case Profiles.create_profile(profile_params) do
+        {:ok, profile} ->
+          conn
+          |> put_status(:created)
+          |> json(%{profile: profile_json(profile)})
 
-      {:error, :username_taken} ->
-        conn
-        |> put_status(:conflict)
-        |> json(%{error: "Username already exists."})
+        {:error, :missing_username} ->
+          conn
+          |> put_status(:bad_request)
+          |> json(%{error: "Username is required to create a profile"})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{errors: ChangesetJSON.errors(changeset)})
+        {:error, :username_taken} ->
+          conn
+          |> put_status(:conflict)
+          |> json(%{error: "Username already exists."})
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> json(%{errors: ChangesetJSON.errors(changeset)})
+      end
     end
   end
 
   @doc "Update a profile by username."
   def update(conn, %{"username" => username, "profile" => profile_params}) do
-    case Profiles.get_profile(username) do
-      nil ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Profile with username '#{username}' not found"})
+    {:ok, logged_in_username} = get_lemmy_username(conn)
 
-      profile ->
-        # Convert string values to appropriate types and handle image fields
-        processed_params =
-          profile_params
-          |> Map.update("areas_of_interest", profile.areas_of_interest, fn
-            areas when is_list(areas) -> areas
-            _ -> profile.areas_of_interest
-          end)
+    if logged_in_username != username do
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "Unauthorised to edit for this user."})
+      |> halt()
+    else
+      case Profiles.get_profile(username) do
+        nil ->
+          conn
+          |> put_status(:not_found)
+          |> json(%{error: "Profile with username '#{username}' not found"})
 
-        case Profiles.update_profile(username, processed_params) do
-          {:ok, updated_profile} ->
-            conn
-            |> put_status(:ok)
-            |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+        profile ->
+          # Convert string values to appropriate types and handle image fields
+          processed_params =
+            profile_params
+            |> Map.update("areas_of_interest", profile.areas_of_interest, fn
+              areas when is_list(areas) -> areas
+              _ -> profile.areas_of_interest
+            end)
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{errors: ChangesetJSON.errors(changeset)})
-        end
+          case Profiles.update_profile(username, processed_params) do
+            {:ok, updated_profile} ->
+              conn
+              |> put_status(:ok)
+              |> json(%{message: "Profile updated", profile: profile_json(updated_profile)})
+
+            {:error, %Ecto.Changeset{} = changeset} ->
+              conn
+              |> put_status(:unprocessable_entity)
+              |> json(%{errors: ChangesetJSON.errors(changeset)})
+          end
+      end
     end
   end
 
   @doc "Delete a profile by username."
   def delete(conn, %{"username" => username}) do
-    case Profiles.delete_profile(username) do
-      {:ok, :deleted} ->
-        conn
-        |> put_status(:no_content)
-        |> json(%{message: "Profile deleted successfully"})
+    {:ok, isAdmin} = is_user_admin_in_lemmy(conn)
 
-      {:error, :profile_not_found} ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Profile with username '#{username}' not found"})
+    if !isAdmin do
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "Only admins may delete user profiles."})
+      |> halt()
+    else
+      case Profiles.delete_profile(username) do
+        {:ok, :deleted} ->
+          conn
+          |> put_status(:no_content)
+          |> json(%{message: "Profile deleted successfully"})
 
-      {:error, reason} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
+        {:error, :profile_not_found} ->
+          conn
+          |> put_status(:not_found)
+          |> json(%{error: "Profile with username '#{username}' not found"})
+
+        {:error, reason} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> json(%{error: "Profile deletion failed: #{inspect(reason)}"})
+      end
     end
   end
 
