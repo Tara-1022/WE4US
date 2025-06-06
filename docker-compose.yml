@@ -21,6 +21,7 @@ services:
    
     depends_on:
       - postgres-wrapper
+      - lemmy
     networks:
       - we4us-network
     restart: unless-stopped
