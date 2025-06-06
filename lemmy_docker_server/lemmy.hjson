@@ -1,3 +1,6 @@
+# reference: https://github.com/LemmyNet/lemmy/blob/65ffadc457ebc262135ccc93d88b7d9533a7917d/config/defaults.hjson#L107
+# replace everthing within curly braces ({{TEXT_TO_REPLACE}}) BEFORE running docker compose up
+
 {
   # for more info about the config, check out the documentation
   # https://join-lemmy.org/docs/en/administration/configuration.html
@@ -24,9 +27,20 @@
 
   email: {
     smtp_server: "smtp.gmail.com:587"
-    smtp_login: "YOUR_EMAIL@gmail.com"
-    smtp_password: "APP_PASSWORD"
-    smtp_from_address: "YOUR_EMAIL@gmail.com"
+    smtp_login: "{{SERVER_EMAIL@gmail.com}}"
+    smtp_password: "{{APP_PASSWORD}}"
+    smtp_from_address: "{{SERVER_EMAIL@gmail.com}}"
     tls_type: "starttls"
+  }
+
+  setup: {
+    # Username for the admin user
+    admin_username: "admin"
+    # Password for the admin user. It must be between 10 and 60 characters.
+    admin_password: "{{CHANGE_THIS}}"
+    # Name of the site, can be changed later. Maximum 20 characters.
+    site_name: "WE4US"
+    # Email for the admin user (optional, can be omitted and set later through the website)
+    admin_email: "{{ADMIN_EMAIL@example.com}}"
   }
 }
