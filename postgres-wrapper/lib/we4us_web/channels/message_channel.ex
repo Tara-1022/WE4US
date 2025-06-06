@@ -2,45 +2,61 @@ defmodule We4usWeb.MessageChannel do
   use We4usWeb, :channel
   alias We4us.Profiles
 
+  import We4us.LemmyAuthenticator, only: [get_lemmy_username_from_token: 1]
+
   require Logger
   @impl true
   def join("message:" <> channelName, payload, socket) do
-    if authorized?(payload) do
-      sender_id = payload["username"]
+    case authorized?(socket) do
+      {:ok, socket} ->
+        sender_id = payload["username"]
 
-      if String.contains?(channelName, "#") do
-        [user1, user2] = String.split(channelName, "#")
-        other_user = if sender_id == user1, do: user2, else: user1
+        if sender_id != socket.assigns.lemmy_username do
+          {:error,
+           %{
+             reason:
+               "User #{socket.assigns.lemmy_username} is not authorised to join channel as #{sender_id}",
+             status: 404
+           }}
+        else
+          if String.contains?(channelName, "#") do
+            [user1, user2] = String.split(channelName, "#")
+            other_user = if sender_id == user1, do: user2, else: user1
 
-        case Profiles.get_profile(other_user) do
-          nil ->
-            {:error, %{reason: "Profile does not exist", status: 404}}
+            case Profiles.get_profile(other_user) do
+              nil ->
+                {:error, %{reason: "Profile does not exist", status: 404}}
 
-          _profile ->
-            socket = assign(socket, :username, sender_id)
+              _profile ->
+                socket = assign(socket, :username, sender_id)
 
-            # Log the join attempt for debugging
-            Logger.debug("User #{sender_id} joining channel for #{channelName}")
+                # Log the join attempt for debugging
+                Logger.debug("User #{sender_id} joining channel for #{channelName}")
 
-            # Get conversation
-            messages =
-              case We4us.Messages.get_conversation(sender_id, other_user) do
-                {:ok, msgs} ->
-                  Logger.debug("Found #{length(msgs)} messages for combined channel")
-                  msgs
+                # Get conversation
+                messages =
+                  case We4us.Messages.get_conversation(sender_id, other_user) do
+                    {:ok, msgs} ->
+                      Logger.debug("Found #{length(msgs)} messages for combined channel")
+                      msgs
 
-                {:error, err} ->
-                  Logger.error("Error fetching messages for combined channel: #{inspect(err)}")
-                  []
-              end
+                    {:error, err} ->
+                      Logger.error(
+                        "Error fetching messages for combined channel: #{inspect(err)}"
+                      )
 
-            {:ok, %{messages: format_messages(messages)}, socket}
+                      []
+                  end
+
+                {:ok, %{messages: format_messages(messages)}, socket}
+            end
+          else
+            {:error, %{reason: "Invalid channel name for messages", status: 422}}
+          end
         end
-      else
-        {:error, %{reason: "Invalid channel name for messages", status: 422}}
-      end
-    else
-      {:error, %{reason: "unauthorized", status: 401}}
+
+      {:error, :unauthorized} ->
+        {:error, %{reason: "Authorisation failed", status: 401}}
     end
   end
 
@@ -90,7 +106,14 @@ defmodule We4usWeb.MessageChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_payload) do
-    true
+  defp authorized?(socket) do
+    case get_lemmy_username_from_token(socket.assigns.user_token) do
+      {:ok, username} ->
+        {:ok, assign(socket, :lemmy_username, username)}
+
+      {:error, message} ->
+        Logger.error("Authorisation failure: #{message}")
+        {:error, :unauthorized}
+    end
   end
 end

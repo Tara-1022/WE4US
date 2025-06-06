@@ -16,6 +16,22 @@ defmodule We4us.LemmyAuthenticator do
     Req.new(base_url: System.fetch_env!("LEMMY_API_URL"))
   end
 
+  def get_lemmy_username_from_token(jwt) do
+    case Req.get(get_base_req(), url: "/site", auth: {:bearer, jwt}) do
+      {:ok, %{body: %{"my_user" => %{"local_user_view" => %{"person" => %{"name" => username}}}}}} ->
+        {:ok, username}
+
+      {:error, message} ->
+        {:error, "Received error: #{inspect(message)}"}
+
+      {:ok, _} ->
+        {:error, "No 'my_user' field in response"}
+
+      _ ->
+        {:error, "Unexpected error"}
+    end
+  end
+
   @doc """
   gets username of the logged in user
   """
@@ -58,7 +74,9 @@ defmodule We4us.LemmyAuthenticator do
   def is_user_admin_in_lemmy(conn) do
     with ["Bearer " <> jwt] <- Plug.Conn.get_req_header(conn, "authorization"),
          {:ok,
-          %{body: %{"my_user" => %{"local_user_view" => %{"local_user" => %{"admin" => isAdmin}}}}}} <-
+          %{
+            body: %{"my_user" => %{"local_user_view" => %{"local_user" => %{"admin" => isAdmin}}}}
+          }} <-
            Req.get(get_base_req(), url: "/site", auth: {:bearer, jwt}) do
       {:ok, isAdmin}
     else

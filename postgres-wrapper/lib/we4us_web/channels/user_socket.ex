@@ -28,7 +28,7 @@ defmodule We4usWeb.UserSocket do
   def connect(params, socket, _connect_info) do
     case params do
       %{"token" => token} ->
-        {:ok, assign(socket, :user_id, token)}
+        {:ok, assign(socket, :user_token, token)}
       _ ->
         :error
     end
@@ -46,5 +46,5 @@ defmodule We4usWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(socket), do: "user_socket:#{socket.assigns.user_id}"
+  def id(socket), do: "user_socket:#{socket.assigns.user_token}"
 end
