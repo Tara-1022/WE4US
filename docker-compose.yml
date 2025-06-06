@@ -21,6 +21,7 @@ services:
    
     depends_on:
       - postgres-wrapper
+      - lemmy
     networks:
       - we4us-network
     restart: unless-stopped
@@ -33,6 +34,7 @@ services:
     environment:
       - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
       - SECRET_KEY_BASE=Temp_Value
+      - LEMMY_API_URL=http://lemmy:8536/api/v3
     depends_on:
       - postgres-wrapper-db
     networks:
