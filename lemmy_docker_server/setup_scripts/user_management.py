@@ -5,7 +5,12 @@ import logging
 import sys
 from typing import Dict, List, Optional
 
-from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE, DEFAULT_PASSWORD
+from constants import LEMMY_API_URL, PHOENIX_API_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE, DEFAULT_PASSWORD
+
+# Use something like https://www.convertsimple.com/convert-tsv-to-csv/ to copy the newer rows from form responses
+# and replace sample_users.csv (or the csv file in use)
+
+CSV_REQUIRED_COLUMNS = ["cohort", "email","username_1", "username_2", "display_name"]
 
 # Configure logging
 logging.basicConfig(
@@ -19,8 +24,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class UserManagement:
-    def __init__(self, base_url: str, session: requests.Session = None, auth_token: str = None):
-        self.base_url = base_url
+    def __init__(self, session: requests.Session = None, auth_token: str = None):
         self.auth_token = auth_token
 
         if session:
@@ -36,17 +40,17 @@ class UserManagement:
         logger.info("Destroying object...")
         logger.info("Setting registration to Requires Application...")
         self.session.put(
-                f"{self.base_url}/api/v3/site",
+                f"{LEMMY_API_URL}/site",
                 json={"registration_mode": "RequireApplication"}
         )
         logger.info("Logging admin out...")
-        self.session.post(f"{self.base_url}/api/v3/user/logout")
+        self.session.post(f"{LEMMY_API_URL}/user/logout")
        
     def login(self, username: str, password: str) -> bool:
         try:
             logger.info(f"Attempting to login as {username}")
             response = self.session.post(
-                f"{self.base_url}/api/v3/user/login",
+                f"{LEMMY_API_URL}/user/login",
                 json={"username_or_email": username, "password": password}
             )
             response.raise_for_status()
@@ -67,11 +71,11 @@ class UserManagement:
                 logger.error(f"Response: {e.response.text}")
             return False
 
-    def check_user_exists(self, username: str) -> Optional[Dict]:
+    def check_user_exists_lemmy(self, username: str) -> Optional[Dict]:
         try:
             # Try to get user info directly
             response = self.session.get(
-                f"{self.base_url}/api/v3/user?username={username}"
+                f"{LEMMY_API_URL}/user?username={username}"
             )
 
             if response.status_code == 200:
@@ -83,7 +87,7 @@ class UserManagement:
 
             # If not found, try the site's users list
             users_list_response = self.session.get(
-                f"{self.base_url}/api/v3/user/list",
+                f"{LEMMY_API_URL}/user/list",
                 params={"limit": 50, "sort": "New"}
             )
 
@@ -92,14 +96,14 @@ class UserManagement:
                 users = users_data.get("users", [])
 
                 for user in users:
-                    user_name = user.get("person", {}).get("name", "").lower()
-                    if user_name == username.lower():
+                    user_name = user.get("person", {}).get("name", "")
+                    if user_name == username:
                         logger.info(f"Found user {username} in site users list")
                         return user
 
             # If still not found, try searching
             search_response = self.session.get(
-                f"{self.base_url}/api/v3/search",
+                f"{LEMMY_API_URL}/search",
                 params={
                     "q": username,
                     "type_": "Users",
@@ -116,8 +120,8 @@ class UserManagement:
 
                 # Look for our user in the search results
                 for user in users:
-                    user_info = user.get("person", {}).get("name", "").lower()
-                    if user_info == username.lower():
+                    user_info = user.get("person", {}).get("name", "")
+                    if user_info == username:
                         logger.info(f"Found user {username} through search")
                         return user
 
@@ -129,11 +133,36 @@ class UserManagement:
             if hasattr(e, 'response') and hasattr(e.response, 'text'):
                 logger.error(f"Response: {e.response.text}")
             return None
+        
+    def check_user_exists_phoenix(self, username: str) -> Optional[Dict]:
+        try:
+            # Try to get user info directly
+            response = self.session.get(
+                f"{PHOENIX_API_URL}/profiles/{username}"
+            )
 
-    def register_user(self, username: str, password: str, email: str) -> Optional[Dict]:
+            if response.status_code == 200:
+                user_data = response.json()
+                profiles = user_data.get("profiles", [])
+
+                for profile in profiles:
+                    if profile.get("username") == username:
+                        logger.info(f"User {username} has a profile")
+                        return profile
+
+            logger.info(f"User {username} does not have a profile")
+            return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error checking if user exists: {str(e)}")
+            if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                logger.error(f"Response: {e.response.text}")
+            return None
+
+    def register_user_lemmy(self, username: str, password: str, email: str) -> Optional[Dict]:
         try:
             logger.info(f"Registering user {username}")
-            user_info = self.check_user_exists(username)
+            user_info = self.check_user_exists_lemmy(username)
 
             if user_info:
                 logger.info(f"User {username} already exists")
@@ -152,12 +181,13 @@ class UserManagement:
 
             logger.info(f"Sending registration request for {username}")
             response = self.session.post(
-                f"{self.base_url}/api/v3/user/register",
+                f"{LEMMY_API_URL}/user/register",
                 json=register_data
             )
 
             if response.status_code == 400 and "email_already_exists" in response.text:
                 logger.error(f"Email already exists for user {username}")
+                logger.warning("PLEASE CREATE PROFILE IN PHOENIX IF IT DOES NOT EXIST")
                 return None
 
             response.raise_for_status()
@@ -169,7 +199,7 @@ class UserManagement:
             time.sleep(5)
 
             # After waiting, try to get user info
-            user_info = self.check_user_exists(username)
+            user_info = self.check_user_exists_lemmy(username)
 
             if not user_info:
                 logger.warning(f"Could not retrieve user info for {username}")
@@ -190,21 +220,59 @@ class UserManagement:
             if hasattr(e, 'response') and hasattr(e.response, 'text'):
                 logger.error(f"Response: {e.response.text}")
             return None
+        
+    def register_user_phoenix(self, username: str, display_name: str, cohort: str) -> Optional[Dict]:
+        try:
+            logger.info(f"Creating profile for {username}")
+            user_info = self.check_user_exists_phoenix(username)
+
+            if user_info:
+                logger.info(f"User {username} already has a profile")
+                return
+
+            # Register the new user
+            profile_data = { "profile": {
+                "username": username,
+                "display_name": display_name,
+                "cohort": cohort
+            }
+            }
+
+            logger.info(f"Sending profile creation request for {username}")
+            response = self.session.post(
+                f"{PHOENIX_API_URL}/profiles",
+                json=profile_data
+            )
+
+            if response.status_code != 201:
+                logger.error(f"ERROR: {response.text}")
+                return None
+
+            response.raise_for_status()
+            new_profile = response.json()
+            logger.info(f"Successfully created profile for {username}")
+
+            return new_profile
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to create profile for {username}: {str(e)}")
+            if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                logger.error(f"Response: {e.response.text}")
+            return None
 
     def bulk_register_users_from_csv(self, csv_file: str) -> List[Dict]:
         logger.info("Setting registration open...")
         self.session.put(
-                f"{self.base_url}/api/v3/site",
+                f"{LEMMY_API_URL}/site",
                 json={
                     "registration_mode": "Open"
                 }
             )
         try:
             df = pd.read_csv(csv_file)
-            required_columns = ["name", "cohort", "username", "username2", "email"]
 
             # Check that all required columns are present
-            for col in required_columns:
+            for col in CSV_REQUIRED_COLUMNS:
                 if col not in df.columns:
                     logger.error(f"CSV file missing required column: {col}")
                     return []
@@ -213,40 +281,43 @@ class UserManagement:
             used_emails = set()  # Track emails we've already tried to use
 
             for _, row in df.iterrows():
-                name = str(row["name"])
                 cohort = str(row["cohort"])
-                username = str(row["username"]).lower()
-                username2 = str(row.get("username2", "")).lower()
                 email = str(row.get("email", ""))
+                username = str(row["username_1"]).lower()
+                username2 = str(row.get("username_2", "")).lower()
+                display_name = str(row.get("display_name"))
 
                 # Skip if email is empty or already used
                 if not email or email in used_emails:
-                    logger.warning(f"Skipping registration for {name}: Empty email or email already used")
+                    logger.warning(f"Skipping registration for {display_name}: Empty email or email already used")
                     continue
 
                 used_emails.add(email)
 
-                logger.info(f"Processing registration for {name} from Cohort {cohort}")
+                logger.info(f"Processing registration for {display_name} from Cohort {cohort}")
 
+                username_tried = username
                 # Try first username, then fallback to second
-                user = self.register_user(username, DEFAULT_PASSWORD, email)
-
+                user = self.register_user_lemmy(username, DEFAULT_PASSWORD, email)
+                
                 if not user and username2:
                     logger.info(f"First username {username} unavailable, trying alternate username {username2}")
-                    user = self.register_user(username2, DEFAULT_PASSWORD, email)
+                    user = self.register_user_lemmy(username2, DEFAULT_PASSWORD, email)
+                    username_tried = username2
 
                 if user:
                     registered_users.append({
-                        "username": username if user else username2,
-                        "name": name,
+                        "username": username_tried,
+                        "name": display_name,
                         "email": email,
                         "response": user
                     })
+                    self.register_user_phoenix(username_tried, display_name, cohort)
 
-                    logger.info(f"Successfully registered {name} with username: {username if user else username2}")
+                    logger.info(f"Successfully registered {display_name} with username: {username_tried}")
                     time.sleep(3)
                 else:
-                    logger.error(f"Failed to register user {name} with either username")
+                    logger.error(f"Failed to register user {display_name} with either username")
 
             logger.info(f"Successfully registered {len(registered_users)} users out of {len(df)} entries")
             return registered_users
@@ -263,7 +334,7 @@ def main():
     logger.info("Starting user management process...")
 
     # Initialize the user manager
-    user_manager = UserManagement(LEMMY_URL)
+    user_manager = UserManagement()
 
     # Login as admin
     if user_manager.login(ADMIN_USERNAME, ADMIN_PASSWORD):

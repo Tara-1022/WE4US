@@ -4,7 +4,7 @@ import sys
 import logging
 from typing import Dict, List
 
-from constants import LEMMY_URL, ADMIN_USERNAME, ADMIN_PASSWORD, SITE_CONFIG, COMMUNITIES, COMMUNITY_NSFW
+from constants import LEMMY_API_URL, ADMIN_USERNAME, ADMIN_PASSWORD, SITE_CONFIG, COMMUNITIES, COMMUNITY_NSFW
 
 # ADMIN MUST FIRST BE SETUP WITH THE OFFICIAL UI/COMMAND LINE
 
@@ -20,8 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class LemmySetup:
-    def __init__(self, base_url: str):
-        self.base_url = base_url
+    def __init__(self):
         self.auth_token = None
         self.session = requests.Session()
         self.session.headers.update({
@@ -35,7 +34,7 @@ class LemmySetup:
     def verify_site(self) -> dict:
         try:
             logger.info("Verifying site configuration...")
-            response = self.session.get(f"{self.base_url}/api/v3/site")
+            response = self.session.get(f"{LEMMY_API_URL}/site")
 
             if response.status_code == 200:
                 site_data = response.json()
@@ -55,7 +54,7 @@ class LemmySetup:
         try:
             logger.info(f"Attempting to login as {username}")
             response = self.session.post(
-                f"{self.base_url}/api/v3/user/login",
+                f"{LEMMY_API_URL}/user/login",
                 json={"username_or_email": username, "password": password}
             )
             response.raise_for_status()
@@ -86,7 +85,7 @@ class LemmySetup:
             logger.info(f"Applying site configuration: {self.site_config}")
 
             response = self.session.put(
-                f"{self.base_url}/api/v3/site",
+                f"{LEMMY_API_URL}/site",
                 json=self.site_config
             )
 
@@ -119,7 +118,7 @@ class LemmySetup:
 
                 # Check if community already exists
                 search_response = self.session.get(
-                    f"{self.base_url}/api/v3/community",
+                    f"{LEMMY_API_URL}/community",
                     params={"name": community["name"]}
                 )
 
@@ -130,7 +129,7 @@ class LemmySetup:
 
                 # Create the community
                 response = self.session.post(
-                    f"{self.base_url}/api/v3/community",
+                    f"{LEMMY_API_URL}/community",
                     json={
                         "name": community["name"],
                         "title": community["title"],
@@ -163,7 +162,7 @@ def main():
         return
 
     # Initialize the setup
-    setup = LemmySetup(LEMMY_URL)
+    setup = LemmySetup()
 
     # Login as admin
     if not setup.login(ADMIN_USERNAME, ADMIN_PASSWORD):
