@@ -4,6 +4,7 @@ import time
 import logging
 import sys
 from typing import Dict, List, Optional
+import re
 
 from constants import LEMMY_API_URL, PHOENIX_API_URL, ADMIN_USERNAME, ADMIN_PASSWORD, CSV_FILE, DEFAULT_PASSWORD
 
@@ -11,6 +12,9 @@ from constants import LEMMY_API_URL, PHOENIX_API_URL, ADMIN_USERNAME, ADMIN_PASS
 # and replace sample_users.csv (or the csv file in use)
 
 CSV_REQUIRED_COLUMNS = ["cohort", "email","username_1", "username_2", "display_name"]
+
+# regex from profile.ex (https://github.com/Tara-1022/WE4US/blob/main/postgres-wrapper/lib/we4us/profiles/profile.ex)
+USERNAME_REGEX = r"^[a-z0-9_]+$"
 
 # Configure logging
 logging.basicConfig(
@@ -176,6 +180,12 @@ class UserManagement:
                 "show_nsfw": True
             }
 
+            # avoid a situation where lemmy profile is created but phoenix cannot be
+            # which is a headache to fix and wastes stora
+            if (not re.fullmatch(USERNAME_REGEX, username)):
+                logger.error("Invalid username. Abandoning")
+                return None
+
             if email:
                 register_data["email"] = email
 
@@ -283,8 +293,8 @@ class UserManagement:
             for _, row in df.iterrows():
                 cohort = str(row["cohort"])
                 email = str(row.get("email", ""))
-                username = str(row["username_1"]).lower()
-                username2 = str(row.get("username_2", "")).lower()
+                username = str(row["username_1"])
+                username2 = str(row.get("username_2", ""))
                 display_name = str(row.get("display_name"))
 
                 # Skip if email is empty or already used
