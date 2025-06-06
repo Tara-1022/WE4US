@@ -67,8 +67,7 @@ const WhosWhoPage: React.FC = () => {
     .map(
       (cohort) => {
         try {
-          if (cohort.toLowerCase() === "unassigned") return Infinity
-          else if (cohort.toLowerCase() === "staff/mentor") return 10
+          if (cohort.toLowerCase() === "staff/mentor") return 10
           else return Number(cohort)
         }
         catch {
