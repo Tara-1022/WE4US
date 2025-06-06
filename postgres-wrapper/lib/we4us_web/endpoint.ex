@@ -14,12 +14,15 @@ defmodule We4usWeb.Endpoint do
   socket "/live", Phoenix.LiveView.Socket,
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
+
+  # Add check_origin: false or specify allowed origins
   socket "/socket", We4usWeb.UserSocket,
-      websocket: true,
+      websocket: [
+        check_origin: ["http://localhost:5173"]
+      ],
       longpoll: false
 
-  # Serve at "/" the static files from "priv/static" directory.
-  #
+
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
   plug Plug.Static,
@@ -52,6 +55,9 @@ defmodule We4usWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug CORSPlug, origin: ["http://localhost:5173"]
+  plug CORSPlug, origin: ["http://localhost:5173"],
+    allow_headers: ["content-type"],
+    allow_credentials: true,
+    max_age: 86400
   plug We4usWeb.Router
 end
