@@ -1,13 +1,14 @@
 # Server configuration
-LEMMY_URL = "http://localhost:10633"
+LEMMY_API_URL = "http://localhost:10633/api/v3"
+PHOENIX_API_URL = "http://localhost:4000/api"
 
 # Admin credentials - MUST BE SET BEFORE RUNNING THE SCRIPT
-ADMIN_USERNAME = ""
-ADMIN_PASSWORD = ""
+ADMIN_USERNAME = "admin"
+ADMIN_PASSWORD = "{{ADMIN_PASSWORD_AS_PER_LEMMY_HJSON}}"
 
 # For User Generation
 CSV_FILE = "sample_users.csv"
-DEFAULT_PASSWORD="ChangeMe123!"
+DEFAULT_PASSWORD="{{CHANGE_THIS_PASSWORD_FOR_EVERY_BATCH}}"
 
 # Community configuration - DO NOT CHANGE
 COMMUNITY_NSFW = True
