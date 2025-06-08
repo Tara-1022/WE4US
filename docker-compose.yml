@@ -15,10 +15,10 @@ networks:
 
 services:
   we4us:
-    image: khushis29/we4us-react-prod:latest
+    image: yashaswinisharma/we4us-react-v1.0:latest
     ports:
       - "5173:5173"
-   
+
     depends_on:
       - postgres-wrapper
       - lemmy
@@ -28,7 +28,7 @@ services:
     logging: *default-logging
 
   postgres-wrapper:
-    image: yashaswinisharma/prod-we4us-postgres-wrapper
+    image: yashaswinisharma/we4us-phx-v1.0:latest
     ports:
       - "4000:4000"
     environment:
@@ -47,11 +47,15 @@ services:
     image: postgres:16-alpine
     volumes:
       - postgres-wrapper-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=we4us_dev
     networks:
       - we4us-network
     restart: unless-stopped
     logging: *default-logging
-    
+
   proxy:
     image: nginx:1-alpine
     ports:
@@ -142,3 +146,4 @@ services:
     logging: *default-logging
     networks:
       - we4us-network
+
