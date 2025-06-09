@@ -1,4 +1,4 @@
-uploads-modal-overlay {
+.uploads-modal-overlay {
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     inset: 0;
