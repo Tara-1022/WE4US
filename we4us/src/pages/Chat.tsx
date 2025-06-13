@@ -42,7 +42,7 @@ export async function initializeSocket(sender: string, recipient: string): Promi
   try {
     console.log("Using username as auth token:", sender);
 
-    socket = new Socket("ws://localhost:4000/socket", { params: { token: getLemmyToken() } });
+    socket = new Socket("wss://we4us.co.in/socket", { params: { token: getLemmyToken() } });
     socket.connect();
     console.log("Socket connection attempted");
     const users = [sender, recipient].sort();

@@ -13,7 +13,7 @@ config :we4us,
 
 # Configures the endpoint
 config :we4us, We4usWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "we4us.co.in", scheme: "https", port: 443],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: We4usWeb.ErrorHTML, json: We4usWeb.ErrorJSON],

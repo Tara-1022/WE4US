@@ -18,13 +18,17 @@ services:
     image: yashaswinisharma/we4us-react:v1.0
     ports:
       - "5173:5173"
+    environment:
+      - VITE_LEMMY_API_URL=https://we4us.co.in/api/v3
+      - VITE_PHOENIX_URL=https://we4us.co.in
+      - VITE_WEBSOCKET_URL=wss://we4us.co.in/socket
 
     depends_on:
       - postgres-wrapper
       - lemmy
     networks:
       - we4us-network
-    restart: unless-stopped
+    restart: always
     logging: *default-logging
 
   postgres-wrapper:
@@ -39,7 +43,7 @@ services:
       - postgres-wrapper-db
     networks:
       - we4us-network
-    restart: unless-stopped
+    restart: always
     logging: *default-logging
     mem_limit: 2g
 
@@ -59,7 +63,7 @@ services:
   proxy:
     image: nginx:1-alpine
     ports:
-      - "10633:8536"
+      - "80:1236"
     volumes:
       - ./lemmy_docker_server/nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
       - ./lemmy_docker_server/proxy_params:/etc/nginx/proxy_params:ro,Z
@@ -67,7 +71,8 @@ services:
     logging: *default-logging
     depends_on:
       - pictrs
-      - lemmy-ui
+      #- lemmy-ui
+      - we4us
     networks:
       - we4us-network
 
@@ -86,20 +91,20 @@ services:
     networks:
       - we4us-network
 
-  lemmy-ui:
-    image: dessalines/lemmy-ui:0.19.8
-    environment:
-      - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
-      - LEMMY_UI_LEMMY_EXTERNAL_HOST=localhost:10633
-      - LEMMY_UI_HTTPS=false
-    volumes:
-      - ./lemmy_docker_server/volumes/lemmy-ui/extra_themes:/app/extra_themes
-    depends_on:
-      - lemmy
-    restart: always
-    logging: *default-logging
-    networks:
-      - we4us-network
+  # lemmy-ui:
+  #   image: dessalines/lemmy-ui:0.19.8
+  #   environment:
+  #     - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
+  #     - LEMMY_UI_LEMMY_EXTERNAL_HOST=we4us.co.in/lemmy
+  #     - LEMMY_UI_HTTPS=false
+  #   volumes:
+  #     - ./lemmy_docker_server/volumes/lemmy-ui/extra_themes:/app/extra_themes
+  #   depends_on:
+  #     - lemmy
+  #   restart: always
+  #   logging: *default-logging
+  #   networks:
+  #     - we4us-network
 
   pictrs:
     image: asonix/pictrs:0.5.16

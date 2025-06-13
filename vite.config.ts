@@ -2,7 +2,7 @@ export default {
     server: {
       proxy: {
         '/socket': {
-          target: 'http://localhost:4000',
+          target: 'https://we4us.co.in/socket',
           ws: true,
         },
       },

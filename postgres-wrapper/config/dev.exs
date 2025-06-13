@@ -4,7 +4,7 @@ import Config
 config :we4us, We4us.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "we4us.co.in",
   database: "we4us_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,

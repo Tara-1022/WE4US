@@ -8,7 +8,7 @@ import Config
 config :we4us, We4us.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "we4us.co.in",
   database: "we4us_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2

@@ -6,8 +6,7 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :we4us, We4usWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
-config :we4us, We4us.Repo,
-  url: "ecto://postgres:localhost@postgres-wrapper-db/we4us_dev"
+config :we4us, We4us.Repo, url: "ecto://postgres:postgres@postgres-wrapper-db/we4us_dev"
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: We4us.Finch
 

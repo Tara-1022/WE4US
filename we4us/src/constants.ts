@@ -1,7 +1,7 @@
-export const LEMMY_INSTANCE_URL = "http://localhost:10633";
-export const LEMMY_IMAGE_URL = LEMMY_INSTANCE_URL + "/pictrs/image/"
+export const LEMMY_INSTANCE_URL = import.meta.env.VITE_LEMMY_API_URL || "https://we4us.co.in/";
+export const LEMMY_IMAGE_URL = LEMMY_INSTANCE_URL + "/pictrs/image/";
 
-export const POSTGRES_API_BASE_URL = "http://localhost:4000/api/";
+export const POSTGRES_API_BASE_URL = "https://we4us.co.in/phoenix/";
 export const POSTGRES_PROFILES_ENDPOINT = "profiles/";
 export const POSTGRES_MESSAGES_ENDPOINT = "messages/";
 
