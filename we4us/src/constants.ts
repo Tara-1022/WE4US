@@ -1,5 +1,7 @@
-export const LEMMY_INSTANCE_URL = import.meta.env.VITE_LEMMY_API_URL || "https://we4us.co.in/";
-export const LEMMY_IMAGE_URL = LEMMY_INSTANCE_URL + "/pictrs/image/";
+export const LEMMY_INSTANCE_URL = import.meta.env.VITE_LEMMY_API_URL || "https://we4us.co.in";
+export const LEMMY_IMAGE_URL = (LEMMY_INSTANCE_URL.endsWith('/')
+  ? LEMMY_INSTANCE_URL.slice(0, -1)
+  : LEMMY_INSTANCE_URL) + "/pictrs/image/";
 
 export const POSTGRES_API_BASE_URL = "https://we4us.co.in/phoenix/";
 export const POSTGRES_PROFILES_ENDPOINT = "profiles/";

@@ -16,11 +16,11 @@ defmodule We4usWeb.Endpoint do
     longpoll: [connect_info: [session: @session_options]]
   )
 
-  # Add check_origin: false or specify allowed origins
+  # Get WebSocket origins from environment variables or use defaults
   socket("/socket", We4usWeb.UserSocket,
     websocket: [
       timeout: 45_000,
-      check_origin: ["https://we4us.co.in"]
+      check_origin: get_allowed_origins()
     ],
     longpoll: false
   )
@@ -61,12 +61,21 @@ defmodule We4usWeb.Endpoint do
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
 
+  # Use the same allowed origins for CORS
   plug(CORSPlug,
-    origin: ["https://we4us.co.in", "http://localhost:5173"],
+    origin: get_allowed_origins(),
     allow_headers: ["content-type"],
     allow_credentials: true,
     max_age: 86400
   )
 
   plug(We4usWeb.Router)
+
+  # Helper function to get allowed origins from environment variable
+  defp get_allowed_origins do
+    case System.get_env("ALLOWED_ORIGINS") do
+      nil -> ["https://we4us.co.in", "http://localhost:5173"]  # Default fallback
+      origins -> String.split(origins, ",") |> Enum.map(&String.trim/1)
+    end
+  end
 end
