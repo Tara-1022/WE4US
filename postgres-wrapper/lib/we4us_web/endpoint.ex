@@ -74,7 +74,8 @@ defmodule We4usWeb.Endpoint do
   # Helper function to get allowed origins from environment variable
   defp get_allowed_origins do
     case System.get_env("ALLOWED_ORIGINS") do
-      nil -> ["https://we4us.co.in", "http://localhost:5173"]  # Default fallback
+      # Default fallback
+      nil -> ["https://we4us.co.in", "http://localhost:5173"]
       origins -> String.split(origins, ",") |> Enum.map(&String.trim/1)
     end
   end
