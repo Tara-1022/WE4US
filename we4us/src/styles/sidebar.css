@@ -12,6 +12,17 @@
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100vw;
+    max-width: 100%;
+  }
+
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
 .sidebar.closed {
   transform: translateX(-100%);
 }
