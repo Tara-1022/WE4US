@@ -3,10 +3,6 @@ import { useSafeContext } from "../library/useSafeContext";
 import { updateDisplayName } from "../library/LemmyApi";
 import { Profile } from "../library/PostgresAPI";
 
-// TODO: Add necessary details to connect to Who's who
-// Make all properties in Profile optional except for username, display name
-// So that a fail to fetch extra postgres info doesn't
-// result in a failure across the app
 export type profileInfoType =
     Omit<Profile, "username" | "display_name">
     & Partial<Profile>
@@ -15,6 +11,7 @@ export type profileInfoType =
         isAdmin: boolean;
         display_name: string;
         username: string;
+        is_email_notifications_on: boolean;
     };
 
 export type profileContextType = {
