@@ -15,12 +15,12 @@ networks:
 
 services:
   we4us:
-    image: yashaswinisharma/we4us-react:v1.0
+    image: yashaswinisharma/we4us-we4us-deploy:latest
     ports:
       - "5173:5173"
     environment:
-      - VITE_LEMMY_API_URL=https://we4us.co.in/api/v3
-      - VITE_PHOENIX_URL=https://we4us.co.in
+      - VITE_LEMMY_API_URL=https://we4us.co.in
+      - VITE_PHOENIX_URL=https://we4us.co.in/phoenix
       - VITE_WEBSOCKET_URL=wss://we4us.co.in/socket
 
     depends_on:
@@ -32,18 +32,13 @@ services:
     logging: *default-logging
 
   postgres-wrapper:
-    image: yashaswinisharma/we4us-phx:v1.0
+    image: yashaswinisharma/we4us-phx-deploy:latest
     ports:
       - "4000:4000"
     environment:
       - DATABASE_URL=ecto://postgres:postgres@postgres-wrapper-db/we4us_dev
       - SECRET_KEY_BASE=Temp_Value
-      - PHX_HOST=we4us.co.in
-      - PHX_SCHEME=https
-      - PHX_PORT=443
-      - PORT=4000
       - LEMMY_API_URL=http://lemmy:8536/api/v3
-      - ALLOWED_ORIGINS=https://we4us.co.in,http://localhost:5173
     depends_on:
       - postgres-wrapper-db
     networks:
@@ -68,10 +63,12 @@ services:
   proxy:
     image: nginx:1-alpine
     ports:
-      - "80:1236"
+      - "80:80"
+      - "443:1236"
     volumes:
       - ./lemmy_docker_server/nginx_internal.conf:/etc/nginx/nginx.conf:ro,Z
       - ./lemmy_docker_server/proxy_params:/etc/nginx/proxy_params:ro,Z
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     restart: always
     logging: *default-logging
     depends_on:
@@ -122,7 +119,7 @@ services:
       - PICTRS__MEDIA__ANIMATION__MAX_HEIGHT=256
       - PICTRS__MEDIA__ANIMATION__MAX_FRAME_COUNT=400
     command: >
-      sh -c "mkdir -p /mnt/files /mnt/exports /mnt/sled-repo &&
+      sh -c "mkdir -p /mnt/pictrs/files /mnt/exports /mnt/sled-repo &&
        /usr/local/bin/pict-rs run"
     user: 991:991
     volumes:
