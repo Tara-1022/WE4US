@@ -95,6 +95,9 @@ body {
   color: var(--color-white);
   min-height: 100vh;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 /* Typography */
@@ -205,11 +208,12 @@ a:hover {
 
 /* Main content area */
 .main-content {
-  padding: 1rem;
-  margin-left: 0;
+    position: relative;
   min-height: 100vh;
+  padding-left: 1rem;
+  padding-right: 1rem;
   transition: margin-left 0.3s ease;
-  padding-top: 3rem;
+  overflow-y: auto;
 }
 
 .main-content.sidebar-open {
