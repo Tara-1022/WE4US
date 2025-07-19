@@ -27,6 +27,12 @@ curl --request POST \
 
 The response contains the jwt token. take note of it.
 
+**Validate login**
+```bash
+curl --request GET http://localhost:10633/api/v3/user/validate_auth \
+     --header "Authorization: Bearer <jwt>"
+```
+
 **List recent posts**
 ```bash
 curl --request GET \
