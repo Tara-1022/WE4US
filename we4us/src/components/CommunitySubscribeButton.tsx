@@ -13,7 +13,7 @@ export default function CommunitySubscribeButton({ communityId, isSubscribed }:
             return;
         }
 
-        updateSubscriptionStatus(communityId, isSubscribed).then(
+        updateSubscriptionStatus(communityId, !isSubscribed).then(
             (sub_status) => {
                 if (sub_status != isSubscribed) {
                     window.alert("Updated successfully!");
