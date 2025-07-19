@@ -5,42 +5,59 @@ defmodule We4usWeb.MessageChannel do
   require Logger
   @impl true
   def join("message:" <> channelName, payload, socket) do
-    if authorized?(payload) do
+    if authorized?(socket) do
       sender_id = payload["username"]
 
-      if String.contains?(channelName, "#") do
-        [user1, user2] = String.split(channelName, "#")
-        other_user = if sender_id == user1, do: user2, else: user1
-
-        case Profiles.get_profile(other_user) do
-          nil ->
-            {:error, %{reason: "Profile does not exist", status: 404}}
-
-          _profile ->
-            socket = assign(socket, :username, sender_id)
-
-            # Log the join attempt for debugging
-            Logger.debug("User #{sender_id} joining channel for #{channelName}")
-
-            # Get conversation
-            messages =
-              case We4us.Messages.get_conversation(sender_id, other_user) do
-                {:ok, msgs} ->
-                  Logger.debug("Found #{length(msgs)} messages for combined channel")
-                  msgs
-
-                {:error, err} ->
-                  Logger.error("Error fetching messages for combined channel: #{inspect(err)}")
-                  []
-              end
-
-            {:ok, %{messages: format_messages(messages)}, socket}
-        end
+      if sender_id != socket.assigns.lemmy_username do
+        {:error,
+         %{
+           reason:
+             "User #{socket.assigns.lemmy_username} is not authorised to join channel as #{sender_id}",
+           status: 404
+         }}
       else
-        {:error, %{reason: "Invalid channel name for messages", status: 422}}
+        if String.contains?(channelName, "#") do
+          [user1, user2] = String.split(channelName, "#")
+
+          if user1 != sender_id and user2 != sender_id do
+            {:error, %{reason: "Sender is not part of this topic"}}
+          else
+            other_user = if sender_id == user1, do: user2, else: user1
+
+            case Profiles.get_profile(other_user) do
+              nil ->
+                {:error, %{reason: "Profile does not exist", status: 404}}
+
+              _profile ->
+                socket = assign(socket, :username, sender_id)
+
+                # Log the join attempt for debugging
+                Logger.debug("User #{sender_id} joining channel for #{channelName}")
+
+                # Get conversation
+                messages =
+                  case We4us.Messages.get_conversation(sender_id, other_user) do
+                    {:ok, msgs} ->
+                      Logger.debug("Found #{length(msgs)} messages for combined channel")
+                      msgs
+
+                    {:error, err} ->
+                      Logger.error(
+                        "Error fetching messages for combined channel: #{inspect(err)}"
+                      )
+
+                      []
+                  end
+
+                {:ok, %{messages: format_messages(messages)}, socket}
+            end
+          end
+        else
+          {:error, %{reason: "Invalid channel name for messages", status: 422}}
+        end
       end
     else
-      {:error, %{reason: "unauthorized", status: 401}}
+      {:error, %{reason: "Authorisation failed", status: 401}}
     end
   end
 
@@ -90,7 +107,13 @@ defmodule We4usWeb.MessageChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_payload) do
-    true
+  defp authorized?(socket) do
+    # If there is a token and we have fetched the username,
+    # we can consider the user authorised
+    if Map.has_key?(socket.assigns, :user_token) do
+      Map.has_key?(socket.assigns, :lemmy_username)
+    else
+      false
+    end
   end
 end

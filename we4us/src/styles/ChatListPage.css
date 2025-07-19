@@ -1,0 +1,98 @@
+.chat-list-container {
+    padding: 1rem;
+    padding-top: 1.25rem;
+}
+
+.chat-list-container .h2 {
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.chat-list-container .error-message {
+    color: var(--color-white);
+    opacity: 0.9;
+}
+
+.chat-list-container .chat-list {
+    padding: 0.75rem;
+}
+
+.chat-list-container .message-snippet {
+    margin: 0.75rem 0;
+    padding: 1rem;
+    background-color: var(--color-card-bg);
+    border-radius: 1rem;
+    color: var(--color-white);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    border: 1px solid var(--color-black);
+    transition: all 0.2s ease;
+    animation: fadeInUp 0.3s ease-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-list-container .message-snippet:hover {
+    background-color: var( --color-black);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-gray);
+}
+
+.chat-list-container .message-snippet .message-icon {
+    color: var(--color-white);
+    vertical-align: middle;
+    opacity: 0.9;
+    
+}
+
+.chat-list-container .message-snippet .content {
+    margin-left: 0.75rem;
+    flex: 1;
+}
+
+.chat-list-container .message-snippet h3 {
+    color: var(--color-blue);
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.chat-list-container .message-snippet .sender {
+    color: var(--color-blue);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.chat-list-container .message-snippet .message {
+    color: var(--color-white);
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.chat-list-container .message-snippet .date-time {
+    font-size: 0.75rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    color: var(--color-success);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    font-weight: bold;
+}
+
+.chat-list-container .message-snippet:hover .date-time {
+    opacity: 1;
+}

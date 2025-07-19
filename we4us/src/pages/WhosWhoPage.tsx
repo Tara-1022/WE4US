@@ -5,6 +5,10 @@ import ProfileSnippet from "../components/ProfileSnippet";
 import Carousel from '../components/Carousel';
 import "../styles/WhosWhoPage.css"
 
+// magic number to get staff at the end of the list
+// but rank higher than potential unassigned profiles
+const STAFF_COHORT_NUMBER = 100
+
 const WhosWhoPage: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,16 +68,29 @@ const WhosWhoPage: React.FC = () => {
   });
 
   const sortedCohorts = Object.keys(groupedProfiles)
-    .map((cohort) => (cohort === "Unassigned" ? Infinity : Number(cohort)))
+    .map(
+      (cohort) => {
+        if (cohort.toLowerCase() === "staff/mentor") return STAFF_COHORT_NUMBER
+        else {
+          let numeric_value = Number(cohort)
+          if (isNaN(numeric_value)) return Infinity
+          else return numeric_value
+        }
+      })
     .sort((a, b) => a - b)
-    .map((cohort) => (cohort === Infinity ? "Unassigned" : String(cohort)));
+    .map((cohort) => {
+      console.log(cohort)
+      if (cohort == Infinity) return "Unassigned"
+      else if (cohort === STAFF_COHORT_NUMBER) return "Staff/Mentor"
+      else return String(cohort)
+    });
 
   return (
     <div className='whoswho-container'>
       <h1>Who's Who?</h1>
 
       {/* Search Box */}
-      <Search className='search-icon'/>
+      <Search className='search-icon' />
       <input
         type="text"
         placeholder="Search by name, company..."
@@ -86,17 +103,18 @@ const WhosWhoPage: React.FC = () => {
       {sortedCohorts.length > 0 ? (
         sortedCohorts.map((cohort) => (
           <div key={cohort} className='cohort-section'>
-            <h2>Cohort {cohort}</h2>
-              <Carousel
-                items={groupedProfiles[cohort].map((profile) => (
-                  <ProfileSnippet
-                    key={profile.username}
-                    profile={profile}
-                  />
-                ))}
-                scrollBy={300}
-                classPrefix={"C" + cohort}
-              />
+            <h2>{cohort == "Staff/Mentor" ? "Staff/Mentor" : "Cohort " + cohort}</h2>
+
+            <Carousel
+              items={groupedProfiles[cohort].map((profile) => (
+                <ProfileSnippet
+                  key={profile.username}
+                  profile={profile}
+                />
+              ))}
+              scrollBy={300}
+              classPrefix={"C" + cohort}
+            />
           </div>
         ))
       ) : (
