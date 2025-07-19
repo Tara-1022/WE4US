@@ -8,6 +8,8 @@ import { useProfileContext } from "../components/ProfileContext";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
 import PaginationControls from "../components/PaginationControls";
 import { Link } from "react-router-dom";
+import CommunitySubscribeButton from "../components/CommunitySubscribeButton";
+import { useLemmyInfo } from "../components/LemmyContextProvider";
 import "../styles/Announcement.css";
 
 function PostCreationButton({
@@ -37,6 +39,7 @@ export default function AnnouncementsPage() {
   const [postViews, setPostViews] = useState<PostView[] | null>(null);
   const [page, setPage] = useState<number>(1);
   const { profileInfo } = useProfileContext();
+  const { lemmyInfo } = useLemmyInfo();
   const hasMore = postViews?.length === DEFAULT_POSTS_PER_PAGE;
 
   useEffect(() => {
@@ -69,6 +72,12 @@ export default function AnnouncementsPage() {
             }
           />
         )}
+
+        {lemmyInfo &&
+          <CommunitySubscribeButton
+            communityId={lemmyInfo.announcements_details.community.id}
+            isSubscribed={lemmyInfo.announcements_details.subscribed == "Subscribed"} />
+        }
 
         <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
 
