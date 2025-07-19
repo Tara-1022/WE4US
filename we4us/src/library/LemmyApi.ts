@@ -393,6 +393,16 @@ export async function updateNotificationsPreference(send_notifications_to_email:
   return response.success
 }
 
+export async function updateSubscriptionStatus(community_id: number, follow: boolean) {
+  const response = await getClient().followCommunity(
+    {
+      community_id: community_id,
+      follow: follow
+    }
+  )
+  return response.community_view.subscribed == "Subscribed" // return bool 'is subscribed?'
+}
+
 export async function changeUserPassword(
   oldPassword: string,
   newPassword: string,

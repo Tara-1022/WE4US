@@ -8,6 +8,7 @@ import { getCommunityDetailsFromId, getPostList } from "../library/LemmyApi";
 import CommunitySnippet from "../components/CommunitySnippet";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
+import CommunitySubscribeButton from "../components/CommunitySubscribeButton";
 
 export default function CommunityPage() {
     const communityId = Number(useParams().communityId);
@@ -52,6 +53,7 @@ export default function CommunityPage() {
         return (
             <>
                 <CommunitySnippet communityView={communityView} />
+                <CommunitySubscribeButton communityId={communityId} isSubscribed={communityView.subscribed == "Subscribed"} />
                 <PostCreationButton
                     handlePostCreated={handlePostCreated}
                     communityId={communityId} />
