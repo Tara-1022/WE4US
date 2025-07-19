@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { updateSubscriptionStatus } from "../library/LemmyApi";
 
 export default function CommunitySubscribeButton({ communityId, isSubscribed }:
     { communityId: number, isSubscribed: boolean }) {
+    const [isSubscribedState, setSubscribedState] = useState<boolean>(isSubscribed);
 
     function handleUpdateStatus(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (!confirm(
-            isSubscribed ?
+            isSubscribedState ?
                 "You will no longer receive notifications for this community! Are you sure?"
                 :
                 "You will start receiving notifications for activity in this community.")) {
@@ -15,8 +17,9 @@ export default function CommunitySubscribeButton({ communityId, isSubscribed }:
 
         updateSubscriptionStatus(communityId, !isSubscribed).then(
             (sub_status) => {
-                if (sub_status != isSubscribed) {
+                if (sub_status != isSubscribedState) {
                     window.alert("Updated successfully!");
+                    setSubscribedState(sub_status);
                 }
                 else window.alert("Could not update.")
             }
@@ -27,6 +30,6 @@ export default function CommunitySubscribeButton({ communityId, isSubscribed }:
         onClick={handleUpdateStatus}
         className="subscription-status"
     >
-        {isSubscribed ? "Unsubscribe" : "Subscribe"}
+        {isSubscribedState ? "Unsubscribe" : "Subscribe"}
     </button>
 }
