@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { updateSubscriptionStatus } from "../library/LemmyApi";
+import {  IoIosNotifications, IoIosNotificationsOff } from "react-icons/io";
+import "../styles/CommunitySubscribeButton.css";
 
 export default function CommunitySubscribeButton({ communityId, isSubscribed }:
     { communityId: number, isSubscribed: boolean }) {
@@ -26,10 +28,15 @@ export default function CommunitySubscribeButton({ communityId, isSubscribed }:
         )
     }
 
-    return <button
-        onClick={handleUpdateStatus}
-        className="subscription-status"
-    >
-        {isSubscribedState ? "Unsubscribe" : "Subscribe"}
-    </button>
+    return (
+ <button
+            onClick={handleUpdateStatus}
+            className="unsubscribe-button"
+        >
+            {isSubscribedState
+                ? <IoIosNotificationsOff size={32} />
+                : <IoIosNotifications size={32} />
+            }
+        </button>
+)
 }
