@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Bell, Briefcase, Users, Building2, Heart, Award, MessagesSquare } from 'lucide-react';
 import LogoutButton from '../auth/LogoutButton';
@@ -10,6 +10,7 @@ import { useAuth } from '../auth/AuthProvider';
 
 interface SidebarProps {
   isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void; 
 }
 
 const navItems = [
@@ -23,13 +24,26 @@ const navItems = [
   { to: '/chats', label: 'Private Messaging', icon: MessagesSquare, highlightedPaths: ["/chats", "/chat"] }
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
   const { profileInfo } = useProfileContext();
   const { isLoggedIn } = useAuth();
   const profileImageUrl = getProfileImageSource(profileInfo)
   const [showModal, setShowModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIfMobile();
+    
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
   const user = {
     name: profileInfo?.display_name,
     username: profileInfo?.username,
@@ -42,11 +56,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       setShowModal(false);  // Close the modal
     }
   };
-
+    const handleNavClick = () => {
+    if (isMobile) {
+      setIsOpen(false);
+    }
+  };
   return (
     <>
       <div className={`sidebar ${!isOpen ? 'closed' : ''}`}>
-        <Link to="/profile" className="user-profile">
+        <Link to="/profile" className="user-profile" onClick={handleNavClick}>
           <img src={user.avatar} alt="Profile" className="user-avatar" />
           <div className="user-info">
             <div className="user-display-name">{user.name}</div>
@@ -58,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
             <div key={to}>
               <Link
                 to={to}
-                className={`nav-item ${(highlightedPaths.some((h) => location.pathname.startsWith(h))) ? 'active' : ''}`}
+                className={`nav-item ${(highlightedPaths.some((h) => location.pathname.startsWith(h))) ? 'active' : ''}`} onClick={handleNavClick}
               >
                 <Icon className="w-5 h-5" />
                 <span>{label}</span>

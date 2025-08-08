@@ -49,7 +49,7 @@ const App: React.FC = () => {
             <Menu className="w-6 h-6" />
           </button>
 
-          <Sidebar isOpen={isSidebarOpen} />
+          <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
           <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Routes>
