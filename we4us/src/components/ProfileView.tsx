@@ -7,6 +7,7 @@ import { constructImageUrl } from "../library/ImageHandling";
 import ReactMarkdown from "react-markdown";
 import profile_duck from "../assets/profile_duck.png";
 import UploadsModal from './UploadsModal';
+import NotificationsPreferenceButton from '../components/NotificationsPreferenceButton';
 import Modal from "react-modal";
 
 Modal.setAppElement('#root');
@@ -20,11 +21,13 @@ interface ProfileViewProps {
 const ProfileView = ({ profile, onEdit, isOfCurrentUser = false }: ProfileViewProps) => {
   return (
     <div className="profile-content">
-      {onEdit && isOfCurrentUser && <>
-        <button onClick={onEdit} className="edit-button">
+      {isOfCurrentUser && <>
+        {onEdit && <button onClick={onEdit} className="edit-button">
           <Pencil />
         </button>
+        }
         <UploadsModal />
+        <NotificationsPreferenceButton />
       </>}
       <div className="profile-image-container">
         <img

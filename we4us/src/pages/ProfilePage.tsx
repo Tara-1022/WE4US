@@ -56,7 +56,8 @@ const ProfilePage = () => {
             displayName: updatedProfile.display_name,
             userName: prevProfileInfo.username, // username never changes anyway
             lemmyId: prevProfileInfo.lemmyId,
-            isAdmin: prevProfileInfo.isAdmin
+            isAdmin: prevProfileInfo.isAdmin,
+            is_email_notifications_on: prevProfileInfo.is_email_notifications_on
           }
         else throw new Error("No profile to update")
       });

@@ -8,6 +8,7 @@ import { getCommunityDetailsFromId, getPostList } from "../library/LemmyApi";
 import CommunitySnippet from "../components/CommunitySnippet";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
+import CommunitySubscribeButton from "../components/CommunitySubscribeButton";
 
 export default function CommunityPage() {
     const communityId = Number(useParams().communityId);
@@ -41,23 +42,23 @@ export default function CommunityPage() {
 
     if (!postViews) return <Loader />;
     if (!communityView) return <h3>Looks like this community doesn't exist!</h3>
-    else if (postViews.length == 0) {
-        return (<>
-            <CommunitySnippet communityView={communityView} />
-            <h3>No posts to see!</h3></>
-        )
-            ;
-    }
     else {
         return (
             <>
                 <CommunitySnippet communityView={communityView} />
+                <CommunitySubscribeButton communityId={communityId} isSubscribed={communityView.subscribed == "Subscribed"} />
                 <PostCreationButton
                     handlePostCreated={handlePostCreated}
                     communityId={communityId} />
-                <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-                <PostList postViews={postViews} />
-                <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+                {(postViews.length > 0) ?
+                    <>
+                        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+                        <PostList postViews={postViews} />
+                        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+                    </>
+                    :
+                    <h3>No posts to see!</h3>
+                }
             </>
         )
     }
