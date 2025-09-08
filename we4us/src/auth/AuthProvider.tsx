@@ -75,8 +75,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setProfileInfo({
         ...lemmyProfileInfo,
         ...postgresProfile,
-      
-        is_email_notifications_on: postgresProfile.is_email_notifications_on ?? false
+      // This line is there to suppress type warnings
+        is_email_notifications_on: lemmyProfileInfo.is_email_notifications_on ?? false
       });
 
     } catch (error) {
