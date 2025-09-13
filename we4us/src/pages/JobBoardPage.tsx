@@ -7,48 +7,57 @@ import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/JobBoard/JobPostCreationHandler";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
+import CommunitySubscribeButton from "../components/CommunitySubscribeButton";
+import { useLemmyInfo } from "../components/LemmyContextProvider";
 import "../styles/JobBoardPage.css";
 
 export default function JobBoardPage() {
-    const [postViews, setPostViews] = useState<PostView[]>([]);
-    const [page, setPage] = useState<number>(1);
-    const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
+  const [postViews, setPostViews] = useState<PostView[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
+  const { lemmyInfo } = useLemmyInfo();
 
-    useEffect(() => {
-        getJobPostList(page).then(setPostViews);
-    }, [page]);
+  useEffect(() => {
+    getJobPostList(page).then(setPostViews);
+  }, [page]);
 
-    if (!postViews) {
-        return (
-            <div className="loader-container">
-                <Loader />
-            </div>
-        );
-    }
-    
+  if (!postViews) {
     return (
-        <div className="job-board-container"> 
-          <div className="job-board-header" style={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            marginBottom: '20px'
-          }}>
-            <h1 style={{ marginRight: '15px' }}>JOB BOARD</h1>
-            <PostCreationHandler 
-              handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} 
-            />
-          </div>
-          
-          <div className="search-pagination-container" style={{ marginBottom: '20px' }}>
-             <Link to="/job-board/search"><Search /></Link>
-             <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-          </div>
-          {postViews.length > 0 ? (
-            <JobPostList postViews={postViews} />
-          ) : (
-            <h3>No jobs right now!</h3>
-          )}
-            <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
-        </div>
-      );
+      <div className="loader-container">
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <div className="job-board-container">
+      <div className="job-board-header" style={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px'
+      }}>
+        <h1 style={{ marginRight: '15px' }}>JOB BOARD</h1>
+        <PostCreationHandler
+          handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])}
+        />
+      </div>
+
+      {lemmyInfo &&
+        <CommunitySubscribeButton
+          communityId={lemmyInfo.job_board_details.community.id}
+          isSubscribed={lemmyInfo.job_board_details.subscribed == "Subscribed"} />
+      }
+
+      <div className="search-pagination-container" style={{ marginBottom: '20px' }}>
+        <Link to="/job-board/search"><Search /></Link>
+        <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+      </div>
+      {postViews.length > 0 ? (
+        <JobPostList postViews={postViews} />
+      ) : (
+        <h3>No jobs right now!</h3>
+      )}
+      <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
+    </div>
+  );
 }

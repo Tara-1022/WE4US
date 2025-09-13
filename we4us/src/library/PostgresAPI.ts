@@ -12,6 +12,7 @@ export interface Profile {
   image_filename?: string | null;
   image_delete_token?: string | null;
   description?: string;
+  is_email_notifications_on?: boolean;
 }
 
 export interface Message {

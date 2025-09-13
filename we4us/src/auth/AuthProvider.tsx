@@ -63,7 +63,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         lemmyId: userDetails.local_user_view.person.id,
         display_name: userDetails.local_user_view.person.display_name || userDetails.local_user_view.person.name,
         username: userDetails.local_user_view.person.name,
-        isAdmin: userDetails.local_user_view.local_user.admin
+        isAdmin: userDetails.local_user_view.local_user.admin,
+        is_email_notifications_on: userDetails.local_user_view.local_user.send_notifications_to_email 
       };
       setProfileInfo(lemmyProfileInfo);
 
@@ -71,7 +72,12 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       const postgresProfile = await getPostgresProfile(lemmyProfileInfo.username);
       if (!postgresProfile) return;
 
-      setProfileInfo({ ...lemmyProfileInfo, ...postgresProfile });
+      setProfileInfo({
+        ...lemmyProfileInfo,
+        ...postgresProfile,
+      // This line is there to suppress type warnings
+        is_email_notifications_on: lemmyProfileInfo.is_email_notifications_on ?? false
+      });
 
     } catch (error) {
       console.error("Error fetching profile details:", error);

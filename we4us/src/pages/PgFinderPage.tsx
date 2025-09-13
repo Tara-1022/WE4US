@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import PostCreationHandler from "../components/PgFinder/PostCreationHandler";
 import PaginationControls from "../components/PaginationControls";
 import { DEFAULT_POSTS_PER_PAGE } from "../constants";
+import CommunitySubscribeButton from "../components/CommunitySubscribeButton";
+import { useLemmyInfo } from "../components/LemmyContextProvider";
 import "../styles/PgPostPage.css"
 import "../styles/PgFinderPage.css";
 
@@ -14,6 +16,7 @@ export default function PgFinderPage() {
     const [postViews, setPostViews] = useState<PostView[]>([]);
     const [page, setPage] = useState<number>(1);
     const hasMore = postViews.length >= DEFAULT_POSTS_PER_PAGE;
+    const { lemmyInfo } = useLemmyInfo();
 
     useEffect(
         () => {
@@ -33,6 +36,11 @@ export default function PgFinderPage() {
                     <PostCreationHandler handleCreatedPost={(newPost) => setPostViews([newPost, ...postViews])} />
                 </div>
 
+                {lemmyInfo &&
+                    <CommunitySubscribeButton
+                        communityId={lemmyInfo.pg_finder_details.community.id}
+                        isSubscribed={lemmyInfo.pg_finder_details.subscribed == "Subscribed"} />
+                }
 
                 <PaginationControls page={page} setPage={setPage} hasMore={hasMore} />
                 {postViews.length > 0 ?
