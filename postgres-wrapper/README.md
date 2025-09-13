@@ -38,14 +38,29 @@ config :we4us, We4Us.Repo,
 
 > ⚠️ If you get a database connection error, follow the PostgreSQL troubleshooting steps below.
 
-### 4. Set up the database
+### 4. Set the Lemmy API URL
+Your application requires an environment variable to connect to the Lemmy API. Set this variable in your terminal before starting the server.
+
+**For Linux/macOS (Bash):**
+```bash
+export LEMMY_API_URL="http://localhost:10633/api/v3"
+```
+
+**For Windows (Command Prompt):**
+```cmd
+set LEMMY_API_URL=http://localhost:10633/api/v3
+```
+
+> **Note:** These commands set the variable for the current terminal session only.
+
+### 5. Set up the database
 ```sh
 mix ecto.create
 mix ecto.migrate
 mix run priv/repo/seeds.exs
 ```
 
-### 5. Start the Phoenix server
+### 6. Start the Phoenix server
 ```sh
 mix phx.server
 ```
