@@ -42,13 +42,15 @@ config :we4us, We4Us.Repo,
 Your application requires an environment variable to connect to the Lemmy API. Set this variable in your terminal before starting the server.
 
 **For Linux/macOS (Bash):**
-```bash
+```sh
 export LEMMY_API_URL="http://localhost:10633/api/v3"
+echo $LEMMY_API_URL  # Verify
 ```
 
 **For Windows (Command Prompt):**
-```cmd
-set LEMMY_API_URL=http://localhost:10633/api/v3
+```sh
+$env:LEMMY_API_URL="http://localhost:10633/api/v3"
+$env:LEMMY_API_URL  # Verify
 ```
 
 > **Note:** These commands set the variable for the current terminal session only.
