@@ -5,7 +5,7 @@ Unofficial API docs: https://mv-gh.github.io/lemmy_openapi_spec/#tag/Site/paths/
 Official docs (less useful): https://join-lemmy.org/docs/contributors/04-api.html
 
 Since the instance is private, it denies almost all API actions unless you're logged in as a valid user. Once you're logged in, save the `jwt` token in the response and replace it wherever mentioned below.
-## Curl
+## Lemmy API Curl Commands
 Sample curl commands:
 
 **Get basic info**
@@ -62,6 +62,81 @@ curl --request POST \
         "body": "this post was made via api"
      }
      '
+```
+## PostgreSQL-backed API Curl Commands
+
+These commands interact with the API running on `http://localhost:4000`, which manages user profiles and messages in a PostgreSQL database.
+
+### Profiles
+
+**Get All Profiles**
+```bash
+curl -i -X GET http://localhost:4000/api/profiles
+```
+
+**Get a Single Profile**
+```bash
+curl -i -X GET http://localhost:4000/api/profiles/1
+curl -i -X GET http://localhost:4000/api/profiles/9999
+curl -i -X GET http://localhost:4000/api/profiles/abc
+```
+
+**Create a New Profile**
+```bash
+curl -X POST http://localhost:4000/api/profiles \
+           -H "Content-Type: application/json" \
+           -H "Authorization: Bearer <jwt>" \
+           -d '{
+                "profile": {
+                     "username": "newUser",
+                     "display_name": "New User",
+                     "cohort": "4",
+                     "current_role": "Data Scientist",
+                     "company_or_university": "Meta",
+                     "working_since": "1999",
+                     "areas_of_interest": ["AI", "Big Data"]
+                }
+           }'
+```
+
+**Update a Profile**
+```bash
+curl -X PUT "http://localhost:4000/api/profiles/<username>" \
+           -H "Content-Type: application/json" \
+           -H "Authorization: Bearer <jwt>" \
+           -d '{
+                "profile": {
+                     "display_name": "Updated User"
+                }
+           }'
+```
+
+**Delete a Profile**
+```bash
+curl -X DELETE "http://localhost:4000/api/profiles/<username>" \
+           -H "Authorization: Bearer <jwt>"
+```
+
+**Update Profile Image**
+```bash
+curl -X PUT http://localhost:4000/api/profiles/<username> \
+           -H "Content-Type: application/json" \
+           -H "Authorization: Bearer <jwt>" \
+           -d '{
+                "profile": {
+                     "image_filename": null,
+                     "image_delete_token": null
+                }
+           }'
+```
+
+### Messages
+
+**Get Last Message**
+```bash
+curl -i -X GET http://localhost:4000/api/messages/last/<username> \
+           -H "Content-Type: application/json" \
+           -H "Authorization: Bearer <jwt>"
 ```
 
 ## Python
